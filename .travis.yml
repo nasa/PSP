@@ -32,4 +32,10 @@ script:
   - git submodule update
   - rm -r psp
   - cp -r ../PSP psp
-  - ls
+  - cp cfe/cmake/Makefile.sample Makefile
+  - cp -r cfe/cmake/sample_defs sample_defs
+  - cppcheck --force .
+  - make prep
+  - make
+  - make install
+  - ls build/exe/cpu1/
