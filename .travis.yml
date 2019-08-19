@@ -31,5 +31,5 @@ script:
   - git submodule init
   - git submodule update
   - rm -r psp
-  - cp -r ../psp .
+  - cp -r ../PSP psp
   - ls
