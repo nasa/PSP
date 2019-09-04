@@ -23,19 +23,19 @@ script:
   # Check versions of gcc, g++ and cmake
   - gcc -v && g++ -v && cmake --version
   # Run your build commands next
-#  - cppcheck --force .
-  - pwd
+  - cppcheck --force .
+  - source buildvars.sh
+  - echo $CFE_BUILD
   - cd ..
   - git clone https://github.com/travis-r-wheatley/cFS.git
   - cd cFS
-  - git checkout task_3015
+  - git checkout $CFE_BUILD
   - git submodule init
   - git submodule update
   - rm -r psp
   - cp -r ../PSP psp
   - cp cfe/cmake/Makefile.sample Makefile
   - cp -r cfe/cmake/sample_defs sample_defs
-  - cppcheck --force .
   - make prep
   - make
   - make install
