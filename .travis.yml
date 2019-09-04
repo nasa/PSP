@@ -24,8 +24,9 @@ script:
   - gcc -v && g++ -v && cmake --version
   # Run your build commands next
   - cppcheck --force .
-  - source buildvars.sh
-  - echo $CFE_BUILD
+  - cat ./buildvars.sh
+  - source ./buildvars.sh
+  - if [-z "$CFE_BUILD"]
   - cd ..
   - git clone https://github.com/travis-r-wheatley/cFS.git
   - cd cFS
