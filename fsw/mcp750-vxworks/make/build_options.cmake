@@ -19,7 +19,8 @@ add_definitions("-D_VXWORKS_OS_")
 # This needs to be globally used, not just private to the PSP, because
 # some VxWorks headers reference files contained here.
 include_directories(
-    ${WIND_BASE}/target/config/mcp750
+    $ENV{WIND_BASE}/target/config/mcp750
+    $ENV{WIND_BASE}/target/h/wrn/coreip
 )
 
 # NOTE: the __PPC__ and MCP750 macros are referenced in some system headers.
