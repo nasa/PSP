@@ -29,7 +29,7 @@
 /*
  * Development Build Macro Definitions 
  */
-#define CFE_PSP_IMPL_BUILD_NUMBER 71
+#define CFE_PSP_IMPL_BUILD_NUMBER 76
 #define CFE_PSP_IMPL_BUILD_BASELINE "v1.4.0+dev"
 
 /*
@@ -57,7 +57,7 @@
  *  See @ref cfsversions for format differences between development and release versions. 
  */     
 #define CFE_PSP_IMPL_VERSION_STRING                                                                      \
-    " PSP Development Build\n " CFE_PSP_IMPL_VERSION " (Codename: Bootes)" /* Codename for current development */ \
-    "\n Last Official Release: psp v1.4.0"                        /* For full support please use this version */
+    " PSP DEVELOPMENT BUILD " CFE_PSP_IMPL_VERSION                                                       \
+    ", Last Official Release: psp v1.4.0"                        /* For full support please use this version */
 
 #endif  /* _psp_version_ */

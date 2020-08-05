@@ -8,6 +8,11 @@ This is a collection of APIs abstracting platform specific functionality to be l
 
 ## Version History
 
+### Development Build: 1.4.0+dev76
+
+- Provide a new framework and perform PSP coverage tests. New coverage test executable is built and several files within PSP are targeted.
+- See <https://github.com/nasa/PSP/pull/184>
+ 
 ### Development Build: 1.4.0+dev71
 
 - Restructure code to make more amicable for rebuilding in a unit test environment. No major changes, primarily just shifting code between locations/headers to support unit testing.
@@ -35,7 +40,7 @@ This is a collection of APIs abstracting platform specific functionality to be l
 - Exception handling is now implemented on POSIX. There is no longer a separate handler for SIGINT - it is now treated as an exception and goes through the normal process which ends up "restarting" CFE. On pc-linux causes the process to exit normally. There is now a mechanism to capture the CTRL+C exception code and use it during normal test cycles.
 - See <https://github.com/nasa/PSP/pull/160>
 
-#### Development Build: 1.4.10
+### Development Build: 1.4.10
 
 - Implements full-precision microsecond conversion
 - See <https://github.com/nasa/PSP/pull/155>
