@@ -28,6 +28,7 @@ add_library(psp-${CFE_PSP_TARGETNAME} STATIC
 )
     
 if (ENABLE_UNIT_TESTS)
-    add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/fsw/ut-stubs)
+    add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/ut-stubs)
+    add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/unit-test-coverage)
 endif (ENABLE_UNIT_TESTS)
 
