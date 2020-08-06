@@ -19,10 +19,12 @@
 #ifndef _psp_version_
 #define _psp_version_
 
-#define CFE_PSP_IMPL_MAJOR_VERSION          1
-#define CFE_PSP_IMPL_MINOR_VERSION          3
-#define CFE_PSP_IMPL_REVISION               90
+#define CFE_PSP_IMPL_MAJOR_VERSION          0
+#define CFE_PSP_IMPL_MINOR_VERSION          1
+#define CFE_PSP_IMPL_REVISION               0
 #define CFE_PSP_IMPL_MISSION_REV            0
+
+#define CFE_PSP_IMPL_VERSION "5020 testing"
 
 /*
 ** Macro Definitions
