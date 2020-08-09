@@ -147,6 +147,7 @@ void CFE_PSP_Start(void)
     int32 time_status;
     int32 taskSetStatus = OS_SUCCESS;
     uint32 sys_timebase_id;
+    uint32 fs_id;
 
     /* Initialize the OS API data structures */
     status = OS_API_Init();
@@ -203,6 +204,13 @@ void CFE_PSP_Start(void)
     }
     else {
         sys_timebase_id = 0;
+    }
+
+    status = OS_FileSysAddFixedMap(&fs_id, "host:/cf", "/cf");
+    if(status != OS_SUCCESS)
+    {
+        /* startup can continue, but loads may fail later depending on config */
+        OS_printf("CFE_PSP: OS_FileSysAddFixedMap() failure: %d\n", (int)status);
     }
 
     /*

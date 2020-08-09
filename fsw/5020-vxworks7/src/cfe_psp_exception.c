@@ -47,6 +47,7 @@
 #include "arch/ppc/vxPpcLib.h"
 #include "arch/ppc/esfPpc.h"
 #include <private/edrLibP.h>
+#include "cfe_psp_exceptionstorage_api.h"
 
 /*
 ** cFE includes
@@ -56,7 +57,6 @@
 
 #include "cfe_psp.h"
 #include "cfe_psp_config.h"
-#include "cfe_psp_exceptionstorage.h"
 #include "cfe_psp_memory.h"
 #include <target_config.h>
 
