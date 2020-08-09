@@ -66,7 +66,7 @@
  */
 int32 CFE_PSP_EepromWrite32( cpuaddr MemoryAddress, uint32 uint32Value )
 {
-   uint32 ret_value = CFE_PSP_SUCCESS;
+   int32 ret_value = CFE_PSP_SUCCESS;
     
    /* check 32 bit alignment  */
    if( MemoryAddress & 0x00000003)
@@ -105,7 +105,7 @@ int32 CFE_PSP_EepromWrite16( cpuaddr MemoryAddress, uint16 uint16Value )
 {
    uint32 write32;
    uint32 temp32;
-   uint32 aligned_address ;
+   cpuaddr aligned_address ;
     
    /* 
    ** check 16 bit alignment  , check the 1st lsb 
@@ -201,7 +201,7 @@ int32 CFE_PSP_EepromWrite16( cpuaddr MemoryAddress, uint16 uint16Value )
 
 int32 CFE_PSP_EepromWrite8( cpuaddr MemoryAddress, uint8 ByteValue )
 {
-   uint32 aligned_address ;
+   cpuaddr aligned_address ;
    uint16 write16 ,temp16;
      
    temp16 = ByteValue ;
@@ -248,7 +248,7 @@ int32 CFE_PSP_EepromWrite8( cpuaddr MemoryAddress, uint8 ByteValue )
       */
       aligned_address = MemoryAddress - 1;
       CFE_PSP_MemRead16 ( aligned_address  ,&write16)  ;
-      write16 = (write16 & 0xFF00) | ( temp16) ;
+      write16 = (uint16)((write16 & 0xFF00) | ( temp16)) ;
    }
    else
    {
@@ -257,7 +257,7 @@ int32 CFE_PSP_EepromWrite8( cpuaddr MemoryAddress, uint8 ByteValue )
       */
       aligned_address = MemoryAddress ;
       CFE_PSP_MemRead16 (  aligned_address, &write16 ) ;
-      write16 = (temp16 << 8 ) | (write16 & 0x00FF ) ;
+      write16 = (uint16)((temp16 << 8 ) | (write16 & 0x00FF )) ;
    }
 
 #endif

@@ -103,7 +103,7 @@ void CFE_PSP_ExceptionSigHandler (int signo, siginfo_t *si, void *ctxt)
         clock_gettime(CLOCK_MONOTONIC, &Buffer->context_info.event_time);
         memcpy(&Buffer->context_info.si, si, sizeof(Buffer->context_info.si));
         NumAddrs = backtrace(Buffer->context_info.bt_addrs, CFE_PSP_MAX_EXCEPTION_BACKTRACE_SIZE);
-        Buffer->context_size = offsetof(CFE_PSP_Exception_ContextDataEntry_t, bt_addrs[NumAddrs]);
+        Buffer->context_size = (uint32)offsetof(CFE_PSP_Exception_ContextDataEntry_t, bt_addrs[NumAddrs]);
         /* pthread_self() is signal-safe per POSIX.1-2013 */
         Buffer->sys_task_id = pthread_self();
         CFE_PSP_Exception_WriteComplete();

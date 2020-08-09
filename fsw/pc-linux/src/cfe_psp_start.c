@@ -176,7 +176,7 @@ void OS_Application_Startup(void)
    ** Process the arguments with getopt_long(), then 
    ** start the cFE
    */
-   argc = OS_BSP_GetArgC();
+   argc = (int)OS_BSP_GetArgC();
    argv = OS_BSP_GetArgV();
    opt = getopt_long( argc, argv, optString, longOpts, &longIndex );
    while( opt != -1 ) 
@@ -200,7 +200,7 @@ void OS_Application_Startup(void)
             break;
 				
          case 'S':
-            CommandData.SubType = strtol(optarg, NULL, 0 );
+            CommandData.SubType = (uint32)strtol(optarg, NULL, 0 );
             if ( CommandData.SubType < 1 || CommandData.SubType > 5 )
             {
                printf("\nERROR: Invalid Reset SubType: %s\n\n",optarg);
@@ -221,13 +221,13 @@ void OS_Application_Startup(void)
             break;
 
          case 'C':
-            CommandData.CpuId = strtol(optarg, NULL, 0 );
+            CommandData.CpuId = (uint32)strtol(optarg, NULL, 0 );
             printf("CFE_PSP: CPU ID: %d\n",(int)CommandData.CpuId);
             CommandData.GotCpuId = 1;
             break;
 
          case 'I':
-            CommandData.SpacecraftId = strtol(optarg, NULL, 0 );
+            CommandData.SpacecraftId = (uint32)strtol(optarg, NULL, 0 );
             printf("CFE_PSP: Spacecraft ID: %d\n",(int)CommandData.SpacecraftId);
             CommandData.GotSpacecraftId = 1;
             break;

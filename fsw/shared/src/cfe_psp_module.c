@@ -89,7 +89,7 @@ int32 CFE_PSP_Module_GetAPIEntry(uint32 PspModuleId, CFE_PSP_ModuleApi_t **API)
     uint32 LocalId;
 
     Result = CFE_PSP_INVALID_MODULE_ID;
-    if ((PspModuleId & ~CFE_PSP_MODULE_INDEX_MASK) == CFE_PSP_MODULE_BASE)
+    if ((PspModuleId & (uint32)~CFE_PSP_MODULE_INDEX_MASK) == CFE_PSP_MODULE_BASE)
     {
         LocalId = PspModuleId & CFE_PSP_MODULE_INDEX_MASK;
         if (LocalId < CFE_PSP_ModuleCount)
