@@ -213,6 +213,13 @@ void CFE_PSP_Start(void)
         OS_printf("CFE_PSP: OS_FileSysAddFixedMap() failure: %d\n", (int)status);
     }
 
+    status = OS_FileSysAddFixedMap(&fs_id, "/ram0", "/ram");
+    if(status != OS_SUCCESS)
+    {
+        /* startup can continue, but loads may fail later depending on config */
+        OS_printf("CFE_PSP: OS_FileSysAddFixedMap() failure: %d\n", (int)status);
+    }
+
     /*
     ** Adjust system task priorities so that tasks such as the shell are
     ** at a lower priority that the CFS apps
