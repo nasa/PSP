@@ -58,7 +58,7 @@ Target_ConfigData GLOBAL_CONFIGDATA =
         .User = "MissionBuildUser",
         .Default_CpuName = "UnitTestCpu",
         .Default_CpuId = 1,
-        .Default_SpacecraftId = 42,
+        .Default_SpacecraftId = 0x42,
         .CfeConfig = &GLOBAL_CFE_CONFIGDATA,
         .PspConfig = &GLOBAL_PSP_CONFIGDATA
 };
