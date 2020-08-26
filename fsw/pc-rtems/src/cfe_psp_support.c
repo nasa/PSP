@@ -179,3 +179,23 @@ uint32 CFE_PSP_GetSpacecraftId   (void)
    return(CFE_PSP_SPACECRAFT_ID);
 }
 
+/*
+** Name: CFE_PSP_GetProcessorName
+**
+** Purpose:
+**         return the processor name.
+**
+** Parameters:
+**
+** Global Inputs: None
+**
+** Global Outputs: None
+**
+**
+** Return Values: Processor name
+*/
+const char *CFE_PSP_GetProcessorName   (void)
+{
+   return(CFE_PSP_CPU_NAME);
+}
+
