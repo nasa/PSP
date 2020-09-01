@@ -216,6 +216,10 @@ extern uint32        CFE_PSP_GetSpacecraftId ( void );
 ** CFE_PSP_GetSpacecraftId retuns the Spacecraft ID (if any )
 */
 
+extern const char *  CFE_PSP_GetProcessorName(void);
+/*
+** CFE_PSP_GetProcessorName returns the processor name
+*/
 
 extern uint32 CFE_PSP_Get_Timer_Tick(void);
 /*

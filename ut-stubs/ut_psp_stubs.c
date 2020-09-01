@@ -145,6 +145,37 @@ uint32 CFE_PSP_GetSpacecraftId(void)
 
 /*****************************************************************************/
 /**
+** \brief CFE_PSP_GetProcessorName stub function
+**
+** \par Description
+**        This function is used as a placeholder for the PSP function
+**        CFE_PSP_GetProcessorName.  It is set to return a fixed value for the
+**        unit tests.
+**
+** \par Assumptions, External Events, and Notes:
+**        None
+**
+** \returns
+**        Returns Default_CpuName or passed in address from buffer
+**
+******************************************************************************/
+const char *CFE_PSP_GetProcessorName(void)
+{
+    int32      status;
+    const char *ptr = GLOBAL_CONFIGDATA.Default_CpuName;
+
+    status = UT_DEFAULT_IMPL(CFE_PSP_GetProcessorName);
+
+    if (status >= 0)
+    {
+        UT_Stub_CopyToLocal(UT_KEY(CFE_PSP_GetProcessorName), &ptr, sizeof(ptr));
+    }
+
+    return ptr;
+}
+
+/*****************************************************************************/
+/**
 v** \brief CFE_PSP_GetTime stub function
 **
 ** \par Description
