@@ -96,7 +96,7 @@ void OS_Application_Startup(void)
    int    TicksPerSecond;
    uint32 reset_type;
    uint32 reset_subtype;
-   uint32 fs_id;
+   osal_id_t fs_id;
    char   reset_register;
    int32  Status;
 

@@ -163,7 +163,7 @@ int CFE_PSP_Setup(void)
 
 void CFE_PSP_SetupSystemTimer(void)
 {
-    uint32 SystemTimebase;
+    osal_id_t SystemTimebase;
     int32  Status;
 
     Status = OS_TimeBaseCreate(&SystemTimebase, "cFS-Master", NULL);
@@ -235,7 +235,7 @@ void CFE_PSP_Main(void)
 {
    uint32            reset_type;
    uint32            reset_subtype;
-   uint32            fs_id;
+   osal_id_t         fs_id;
    int32 Status;
 
 
