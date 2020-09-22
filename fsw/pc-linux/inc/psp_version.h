@@ -29,8 +29,8 @@
 /*
  * Development Build Macro Definitions 
  */
-#define CFE_PSP_IMPL_BUILD_NUMBER 76
-#define CFE_PSP_IMPL_BUILD_BASELINE "v1.4.0+dev"
+#define CFE_PSP_IMPL_BUILD_NUMBER 14
+#define CFE_PSP_IMPL_BUILD_BASELINE "v1.5.0-rc1"
 
 /*
  * Version Macro Definitions

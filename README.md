@@ -8,6 +8,12 @@ This is a collection of APIs abstracting platform specific functionality to be l
 
 ## Version History
 
+### Development Build: 1.5.0-rc1+dev14
+
+- Sets the stub config data spacecraft id to historical value 0x42, was 42.
+- Installs unit test to target directories.
+- See <https://github.com/nasa/PSP/pull/196>
+
 ### Development Build: 1.5.0-rc1+dev6
 
 - Adds CFE_PSP_GetProcessorName
