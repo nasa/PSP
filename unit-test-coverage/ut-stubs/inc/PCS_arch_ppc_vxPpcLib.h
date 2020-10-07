@@ -4,6 +4,29 @@
 
 #include <PCS_basetypes.h>
 
+/*
+ * When building the coverage test on an actual VxWorks target,
+ * these symbols are indirectly provided via the system limits.h file.
+ * This results in a redefinition issue if the custom PCS definitions are used.
+ */
+#if defined(_VXWORKS_OS_) && defined(__PPC__)
+
+#define PCS_PPC_MSR_EE      _PPC_MSR_EE
+#define PCS_PPC_MSR_FP      _PPC_MSR_FP
+#define PCS_PPC_MSR_ME      _PPC_MSR_ME
+#define PCS_PPC_MSR_FE0     _PPC_MSR_FE0
+#define PCS_PPC_MSR_FE1     _PPC_MSR_FE1
+#define PCS_PPC_MSR_DR      _PPC_MSR_DR
+
+#define PCS_PPC_FPSCR_VE    _PPC_FPSCR_VE
+#define PCS_PPC_FPSCR_OE    _PPC_FPSCR_OE
+#define PCS_PPC_FPSCR_NI    _PPC_FPSCR_NI
+#define PCS_PPC_FPSCR_ZE    _PPC_FPSCR_ZE
+#define PCS_PPC_FPSCR_XE    _PPC_FPSCR_XE
+#define PCS_PPC_FPSCR_UE    _PPC_FPSCR_UE
+
+#else
+
 /* ----------------------------------------- */
 /* constants normally defined in vxPpcLib.h */
 /* ----------------------------------------- */
@@ -21,6 +44,8 @@
 #define PCS_PPC_FPSCR_ZE    0x2208
 #define PCS_PPC_FPSCR_XE    0x2210
 #define PCS_PPC_FPSCR_UE    0x2220
+
+#endif
 
 
 /* ----------------------------------------- */
