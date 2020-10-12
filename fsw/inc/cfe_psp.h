@@ -366,7 +366,7 @@ extern void CFE_PSP_SetDefaultExceptionEnvironment(void);
 
 
 extern uint32 CFE_PSP_Exception_GetCount(void);
-extern int32 CFE_PSP_Exception_GetSummary(uint32 *ContextLogId, uint32 *TaskId, char *ReasonBuf, uint32 ReasonSize);
+extern int32 CFE_PSP_Exception_GetSummary(uint32 *ContextLogId, osal_id_t *TaskId, char *ReasonBuf, uint32 ReasonSize);
 extern int32 CFE_PSP_Exception_CopyContext(uint32 ContextLogId, void *ContextBuf, uint32 ContextSize);
 
 /*

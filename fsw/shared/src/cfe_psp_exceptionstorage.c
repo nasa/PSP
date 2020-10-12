@@ -155,7 +155,7 @@ uint32 CFE_PSP_Exception_GetCount(void)
  * CFE_PSP_Exception_GetSummary
  * See description in PSP API
  *---------------------------------------------------------------------------*/
-int32 CFE_PSP_Exception_GetSummary(uint32 *ContextLogId, uint32 *TaskId, char *ReasonBuf, uint32 ReasonSize)
+int32 CFE_PSP_Exception_GetSummary(uint32 *ContextLogId, osal_id_t *TaskId, char *ReasonBuf, uint32 ReasonSize)
 {
     const CFE_PSP_Exception_LogData_t* Buffer;
     uint32 NumStored;
@@ -187,7 +187,7 @@ int32 CFE_PSP_Exception_GetSummary(uint32 *ContextLogId, uint32 *TaskId, char *R
         Status = OS_TaskFindIdBySystemData(TaskId, &Buffer->sys_task_id, sizeof(Buffer->sys_task_id));
         if (Status != OS_SUCCESS)
         {
-            *TaskId = 0; /* failed to find a corresponding OSAL ID, so set to zero. */
+            *TaskId = OS_OBJECT_ID_UNDEFINED; /* failed to find a corresponding OSAL ID, so set to zero. */
         }
     }
 
