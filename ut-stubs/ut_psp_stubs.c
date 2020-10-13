@@ -699,17 +699,17 @@ uint32 CFE_PSP_Exception_GetCount(void)
      return status;
 }
 
-int32 CFE_PSP_Exception_GetSummary(uint32 *ContextLogId, uint32 *TaskId, char *ReasonBuf, uint32 ReasonSize)
+int32 CFE_PSP_Exception_GetSummary(uint32 *ContextLogId, osal_id_t *TaskId, char *ReasonBuf, uint32 ReasonSize)
 {
     int32 status;
 
     *ContextLogId = 0;
-    *TaskId = 0;
+    *TaskId = OS_OBJECT_ID_UNDEFINED;
     *ReasonBuf = 0;
 
     /* allow the testcase to easily set the taskID output, anything more involved needs a hook */
     status = UT_DEFAULT_IMPL_ARGS(CFE_PSP_Exception_GetSummary, ContextLogId, TaskId, ReasonBuf, ReasonSize);
-    if (status == 0 && *TaskId == 0)
+    if (status == 0 && !OS_ObjectIdDefined(*TaskId))
     {
         UT_Stub_CopyToLocal(UT_KEY(CFE_PSP_Exception_GetSummary), TaskId, sizeof(*TaskId));
     }

@@ -90,8 +90,8 @@ void Test_CFE_PSP_Exception_GetSummary(void)
      */
     char ReasonBuf[128];
     uint32 LogId;
-    uint32 TaskId;
-    uint32 TestId;
+    osal_id_t TaskId;
+    osal_id_t TestId;
 
     /* Nominal - no exceptions pending should return CFE_PSP_NO_EXCEPTION_DATA */
     CFE_PSP_Exception_Reset();
@@ -99,13 +99,13 @@ void Test_CFE_PSP_Exception_GetSummary(void)
 
 
     /* Set up an entry and then run again */
-    TestId = 2857;
+    TestId = OS_ObjectIdFromInteger(2857);
     UT_SetDataBuffer(UT_KEY(OS_TaskFindIdBySystemData), &TestId, sizeof(TestId), false);
     UtAssert_NOT_NULL(CFE_PSP_Exception_GetNextContextBuffer());
     CFE_PSP_Exception_WriteComplete();
     UtAssert_INT32_EQ(CFE_PSP_Exception_GetSummary(&LogId, &TaskId, ReasonBuf, sizeof(ReasonBuf)), CFE_PSP_SUCCESS);
     UtAssert_NONZERO(LogId);
-    UtAssert_UINT32_EQ(TaskId, TestId);
+    UtAssert_UINT32_EQ(OS_ObjectIdToInteger(TaskId), OS_ObjectIdToInteger(TestId));
     UtAssert_ZERO(CFE_PSP_Exception_GetCount());
 
     /* Get an entry with failure to obtain task ID */
@@ -115,7 +115,7 @@ void Test_CFE_PSP_Exception_GetSummary(void)
     UtAssert_INT32_EQ(CFE_PSP_Exception_GetSummary(&LogId, &TaskId, ReasonBuf, sizeof(ReasonBuf)), CFE_PSP_SUCCESS);
     UT_ClearForceFail(UT_KEY(OS_TaskFindIdBySystemData));
     UtAssert_NONZERO(LogId);
-    UtAssert_ZERO(TaskId);
+    UtAssert_ZERO(OS_ObjectIdToInteger(TaskId));
 
     UtAssert_NOT_NULL(CFE_PSP_Exception_GetNextContextBuffer());
     CFE_PSP_Exception_WriteComplete();

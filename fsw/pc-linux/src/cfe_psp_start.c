@@ -159,8 +159,8 @@ void OS_Application_Startup(void)
    uint32             reset_type;
    uint32             reset_subtype;
    int32              time_status;
-   uint32             sys_timebase_id;
-   uint32             fs_id;
+   osal_id_t          sys_timebase_id;
+   osal_id_t          fs_id;
    int                opt = 0;
    int                longIndex = 0;
    int32              Status;
@@ -319,7 +319,7 @@ void OS_Application_Startup(void)
         *
         * See below for workaround.
         */
-       sys_timebase_id = 0;
+       sys_timebase_id = OS_OBJECT_ID_UNDEFINED;
    }
 
    /*
@@ -403,7 +403,7 @@ void OS_Application_Startup(void)
    /*
     * Backward compatibility for old OSAL.
     */
-   if (sys_timebase_id == 0 || time_status != OS_SUCCESS)
+   if (!OS_ObjectIdDefined(sys_timebase_id) || time_status != OS_SUCCESS)
    {
        OS_printf("CFE_PSP: WARNING - Compatibility mode - using local 1Hz Interrupt\n");
        CFE_PSP_SetupLocal1Hz();
