@@ -14,6 +14,13 @@
 
 #include <PCS_arch_ppc_vxPpcLib.h>
 
+/*
+ * When building the coverage test on an actual VxWorks target,
+ * these symbols are indirectly provided via the system limits.h file.
+ * This results in a redefinition issue if the custom PCS definitions are used.
+ */
+#if !defined(_VXWORKS_OS_) || !defined(__PPC__)
+
 /* ----------------------------------------- */
 /* mappings for declarations in vxPpcLib.h */
 /* ----------------------------------------- */
@@ -31,6 +38,7 @@
 #define _PPC_FPSCR_XE   PCS_PPC_FPSCR_XE
 #define _PPC_FPSCR_UE   PCS_PPC_FPSCR_UE
 
+#endif
 
 #define vxTimeBaseGet   PCS_vxTimeBaseGet
 
