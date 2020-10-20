@@ -59,14 +59,6 @@
 #include <target_config.h>
 
 /*
-** Define the cFE Core loadable module name
-*/
-#define CFE_MODULE_NAME_DEFAULT "cfe-core.o"
-
-static char CFE_MODULE_NAME[] = CFE_MODULE_NAME_DEFAULT;
-
-
-/*
 **  External Declarations
 */
 extern unsigned int GetWrsKernelTextStart(void);
@@ -505,14 +497,47 @@ int32 CFE_PSP_GetCFETextSegmentInfo(cpuaddr *PtrToCFESegment, uint32 *SizeOfCFES
    STATUS      status;
    MODULE_ID   cFEModuleId;
    MODULE_INFO cFEModuleInfo;
+   cpuaddr     GetModuleIdAddr;
+   MODULE_ID   (*GetModuldIdFunc)(void);
+
+
    
-   if ( SizeOfCFESegment == NULL )
+   if ( PtrToCFESegment == NULL || SizeOfCFESegment == NULL )
    {
       return_code = CFE_PSP_ERROR;
    }
    else
    {
-      cFEModuleId = moduleFindByName(CFE_MODULE_NAME);
+      /*
+       * First attempt to call a function called GetCfeCoreModuleID().
+       *
+       * If CFE core was started via the "startCfeCore" routine, this
+       * provides the actual module ID that was loaded by that routine,
+       * no matter what it is actually named.  This is provided by the
+       * support/integration code compiled directly into the VxWorks kernel
+       * image.
+       *
+       * The prototype should be:
+       *     MODULE_ID GetCfeCoreModuleID(void);
+       */
+      cFEModuleId = NULL;
+      GetModuleIdAddr = 0;
+      return_code = OS_SymbolLookup(&GetModuleIdAddr, "GetCfeCoreModuleID");
+      if ( return_code == OS_SUCCESS && GetModuleIdAddr != 0 )
+      {
+         GetModuldIdFunc = (MODULE_ID (*)(void))GetModuleIdAddr;
+         cFEModuleId = GetModuldIdFunc();
+      }
+
+      /*
+       * If the above did not yield a valid module ID,
+       * then attempt to find the module ID by name.
+       * This assumes the core executable name as built by CMake
+       */
+      if ( cFEModuleId == NULL )
+      {
+         cFEModuleId = moduleFindByName((char *)GLOBAL_CONFIGDATA.Default_CoreFilename);
+      }
       
       if ( cFEModuleId == NULL )
       {
