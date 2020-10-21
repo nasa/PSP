@@ -8,6 +8,11 @@ This is a collection of APIs abstracting platform specific functionality to be l
 
 ## Version History
 
+### Development Build: 1.5.0-rc1+dev24
+
+- Improves the module ID lookup when getting the CFE core text segment info. VxWorks PSP should use the real module name, not assume cfe-core.o when getting text segment info
+- See <https://github.com/nasa/PSP/pull/209>
+
 ### Development Build: 1.5.0-rc1+dev19
 
 - Use the osal_id_t typedef whenever dealing with an OSAL ID value.
