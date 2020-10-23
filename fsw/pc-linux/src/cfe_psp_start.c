@@ -141,6 +141,46 @@ static const struct option longOpts[] = {
    { NULL,        no_argument,       NULL,  0 }
 };
 
+/******************************************************************************
+**  Function:  CFE_PSP_OS_EventHandler()
+**
+**  Purpose:
+**    Linux Task creation event handler.
+**    Sets the kernel task name using a glibc-specific (non-posix) function.
+**
+*/
+int32 CFE_PSP_OS_EventHandler(OS_Event_t event, osal_id_t object_id, void *data)
+{
+    switch(event)
+    {
+    case OS_EVENT_RESOURCE_ALLOCATED:
+        /* resource/id is newly allocated but not yet created.  Invoked within locked region. */
+        break;
+    case OS_EVENT_RESOURCE_CREATED:
+        /* resource/id has been fully created/finalized.  Invoked outside locked region. */
+        break;
+    case OS_EVENT_RESOURCE_DELETED:
+        /* resource/id has been deleted.  Invoked outside locked region. */
+        break;
+    case OS_EVENT_TASK_STARTUP:
+    {
+        char taskname[OS_MAX_API_NAME];
+
+        /* New task is starting. Invoked from within the task context. */
+        /* Get the name from OSAL and propagate to the pthread/system layer */
+        if (OS_GetResourceName(object_id, taskname, sizeof(taskname)) == OS_SUCCESS)
+        {
+            pthread_setname_np(pthread_self(), taskname);
+        }
+        break;
+    }
+
+    default:
+        break;
+    }
+
+    return OS_SUCCESS;
+}
 
 /******************************************************************************
 **  Function:  main()
@@ -275,6 +315,8 @@ void OS_Application_Startup(void)
        printf("CFE_PSP: OS_API_Init() failure\n");
        CFE_PSP_Panic(Status);
    }
+
+   OS_RegisterEventHandler(CFE_PSP_OS_EventHandler);
 
    /*
     * Map the PSP shared memory segments
