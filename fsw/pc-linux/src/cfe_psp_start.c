@@ -79,6 +79,12 @@
 #define CFE_PSP_RESET_NAME_LENGTH 10
 
 /*
+ * Limits for task name length in kernel (fixed by Linux/glibc)
+ * For reference see manpage for "pthread_setname_np".
+ */
+#define CFE_PSP_KERNEL_NAME_LENGTH_MAX  16
+
+/*
 ** Typedefs for this module
 */
 
@@ -170,6 +176,16 @@ int32 CFE_PSP_OS_EventHandler(OS_Event_t event, osal_id_t object_id, void *data)
         /* Get the name from OSAL and propagate to the pthread/system layer */
         if (OS_GetResourceName(object_id, taskname, sizeof(taskname)) == OS_SUCCESS)
         {
+            /*
+             * glibc/kernel has an internal limit for this name.
+             * If the OSAL name is longer, just truncate it.
+             * Otherwise the name isn't set at all - this assumes the first
+             * chars of the name is better for debug than none of it.
+             */
+            if (strlen(taskname) >= CFE_PSP_KERNEL_NAME_LENGTH_MAX)
+            {
+                taskname[CFE_PSP_KERNEL_NAME_LENGTH_MAX-1] = 0;
+            }
             pthread_setname_np(pthread_self(), taskname);
         }
         break;
