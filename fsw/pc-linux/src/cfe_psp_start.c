@@ -157,6 +157,8 @@ static const struct option longOpts[] = {
 */
 int32 CFE_PSP_OS_EventHandler(OS_Event_t event, osal_id_t object_id, void *data)
 {
+    char taskname[OS_MAX_API_NAME];
+
     switch(event)
     {
     case OS_EVENT_RESOURCE_ALLOCATED:
@@ -170,8 +172,6 @@ int32 CFE_PSP_OS_EventHandler(OS_Event_t event, osal_id_t object_id, void *data)
         break;
     case OS_EVENT_TASK_STARTUP:
     {
-        char taskname[OS_MAX_API_NAME];
-
         /* New task is starting. Invoked from within the task context. */
         /* Get the name from OSAL and propagate to the pthread/system layer */
         if (OS_GetResourceName(object_id, taskname, sizeof(taskname)) == OS_SUCCESS)
