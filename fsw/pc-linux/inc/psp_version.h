@@ -29,7 +29,7 @@
 /*
  * Development Build Macro Definitions 
  */
-#define CFE_PSP_IMPL_BUILD_NUMBER 24
+#define CFE_PSP_IMPL_BUILD_NUMBER 30
 #define CFE_PSP_IMPL_BUILD_BASELINE "v1.5.0-rc1"
 
 /*
@@ -38,7 +38,7 @@
 #define CFE_PSP_IMPL_MAJOR_VERSION 1 /*!< @brief ONLY APPLY for OFFICIAL releases. Major version number. */
 #define CFE_PSP_IMPL_MINOR_VERSION 4 /*!< @brief ONLY APPLY for OFFICIAL releases. Minor version number. */
 #define CFE_PSP_IMPL_REVISION      0 /*!< @brief ONLY APPLY for OFFICIAL releases. Revision number. */
-#define CFE_PSP_IMPL_MISSION_REV   0 /*!< @brief ONLY USED by MISSION Implementations. Mission revision */
+#define CFE_PSP_IMPL_MISSION_REV   99 /*!< @brief ONLY APPLY for OFFICIAL releases. Revision version number. A value of "99" indicates an unreleased development version.  */
 
 /*
  * Tools to construct version string

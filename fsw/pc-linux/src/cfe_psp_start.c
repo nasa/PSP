@@ -79,6 +79,12 @@
 #define CFE_PSP_RESET_NAME_LENGTH 10
 
 /*
+ * Limits for task name length in kernel (fixed by Linux/glibc)
+ * For reference see manpage for "pthread_setname_np".
+ */
+#define CFE_PSP_KERNEL_NAME_LENGTH_MAX  16
+
+/*
 ** Typedefs for this module
 */
 
@@ -141,6 +147,56 @@ static const struct option longOpts[] = {
    { NULL,        no_argument,       NULL,  0 }
 };
 
+/******************************************************************************
+**  Function:  CFE_PSP_OS_EventHandler()
+**
+**  Purpose:
+**    Linux Task creation event handler.
+**    Sets the kernel task name using a glibc-specific (non-posix) function.
+**
+*/
+int32 CFE_PSP_OS_EventHandler(OS_Event_t event, osal_id_t object_id, void *data)
+{
+    char taskname[OS_MAX_API_NAME];
+
+    switch(event)
+    {
+    case OS_EVENT_RESOURCE_ALLOCATED:
+        /* resource/id is newly allocated but not yet created.  Invoked within locked region. */
+        break;
+    case OS_EVENT_RESOURCE_CREATED:
+        /* resource/id has been fully created/finalized.  Invoked outside locked region. */
+        break;
+    case OS_EVENT_RESOURCE_DELETED:
+        /* resource/id has been deleted.  Invoked outside locked region. */
+        break;
+    case OS_EVENT_TASK_STARTUP:
+    {
+        /* New task is starting. Invoked from within the task context. */
+        /* Get the name from OSAL and propagate to the pthread/system layer */
+        if (OS_GetResourceName(object_id, taskname, sizeof(taskname)) == OS_SUCCESS)
+        {
+            /*
+             * glibc/kernel has an internal limit for this name.
+             * If the OSAL name is longer, just truncate it.
+             * Otherwise the name isn't set at all - this assumes the first
+             * chars of the name is better for debug than none of it.
+             */
+            if (strlen(taskname) >= CFE_PSP_KERNEL_NAME_LENGTH_MAX)
+            {
+                taskname[CFE_PSP_KERNEL_NAME_LENGTH_MAX-1] = 0;
+            }
+            pthread_setname_np(pthread_self(), taskname);
+        }
+        break;
+    }
+
+    default:
+        break;
+    }
+
+    return OS_SUCCESS;
+}
 
 /******************************************************************************
 **  Function:  main()
@@ -275,6 +331,8 @@ void OS_Application_Startup(void)
        printf("CFE_PSP: OS_API_Init() failure\n");
        CFE_PSP_Panic(Status);
    }
+
+   OS_RegisterEventHandler(CFE_PSP_OS_EventHandler);
 
    /*
     * Map the PSP shared memory segments
