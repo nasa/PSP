@@ -111,7 +111,7 @@ void Test_CFE_PSP_Exception_GetSummary(void)
     /* Get an entry with failure to obtain task ID */
     UtAssert_NOT_NULL(CFE_PSP_Exception_GetNextContextBuffer());
     CFE_PSP_Exception_WriteComplete();
-    UT_SetForceFail(UT_KEY(OS_TaskFindIdBySystemData), OS_ERROR);
+    UT_SetDefaultReturnValue(UT_KEY(OS_TaskFindIdBySystemData), OS_ERROR);
     UtAssert_INT32_EQ(CFE_PSP_Exception_GetSummary(&LogId, &TaskId, ReasonBuf, sizeof(ReasonBuf)), CFE_PSP_SUCCESS);
     UT_ClearForceFail(UT_KEY(OS_TaskFindIdBySystemData));
     UtAssert_NONZERO(LogId);

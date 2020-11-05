@@ -76,13 +76,13 @@ void Test_OS_Application_Startup(void)
     UtAssert_INT32_EQ(StartType.StartSubtype, CFE_PSP_RST_SUBTYPE_UNDEFINED_RESET);
 
     /* failure of OS_API_Init */
-    UT_SetForceFail(UT_KEY(OS_API_Init), OS_ERROR);
+    UT_SetDefaultReturnValue(UT_KEY(OS_API_Init), OS_ERROR);
     UT_OS_Application_Startup();
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(PCS_exit)), 1);
     UT_ClearForceFail(UT_KEY(OS_API_Init));
 
     /* failure of OS_FileSysAddFixedMap - an extra OS_printf */
-    UT_SetForceFail(UT_KEY(OS_FileSysAddFixedMap), OS_ERROR);
+    UT_SetDefaultReturnValue(UT_KEY(OS_FileSysAddFixedMap), OS_ERROR);
     UT_OS_Application_Startup();
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(OS_printf)), 9);
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(PCS_SystemMain)), 2);
