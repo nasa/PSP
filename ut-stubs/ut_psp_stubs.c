@@ -232,8 +232,8 @@ int32 CFE_PSP_WriteToCDS(const void *PtrToDataToWrite,
                          uint32 NumBytes)
 {
     uint8 *BufPtr;
-    uint32 CdsSize;
-    uint32 Position;
+    size_t CdsSize;
+    size_t Position;
     int32 status;
 
     status = UT_DEFAULT_IMPL(CFE_PSP_WriteToCDS);
@@ -276,8 +276,8 @@ int32 CFE_PSP_ReadFromCDS(void *PtrToDataToRead,
                           uint32 NumBytes)
 {
     uint8 *BufPtr;
-    uint32 CdsSize;
-    uint32 Position;
+    size_t CdsSize;
+    size_t Position;
     int32 status;
 
     status = UT_DEFAULT_IMPL(CFE_PSP_ReadFromCDS);
@@ -313,14 +313,14 @@ int32 CFE_PSP_ReadFromCDS(void *PtrToDataToRead,
 int32 CFE_PSP_GetCDSSize(uint32 *SizeOfCDS)
 {
     int32 status;
-    void *BufPtr;
-    uint32 Position;
+    size_t TempSize;
 
     status = UT_DEFAULT_IMPL(CFE_PSP_GetCDSSize);
 
     if (status >= 0)
     {
-        UT_GetDataBuffer(UT_KEY(CFE_PSP_GetCDSSize), &BufPtr, SizeOfCDS, &Position);
+        UT_GetDataBuffer(UT_KEY(CFE_PSP_GetCDSSize), NULL, &TempSize, NULL);
+        *SizeOfCDS = TempSize;
     }
 
     return status;
@@ -345,13 +345,17 @@ int32 CFE_PSP_GetCDSSize(uint32 *SizeOfCDS)
 int32 CFE_PSP_GetVolatileDiskMem(cpuaddr *PtrToVolDisk, uint32 *SizeOfVolDisk)
 {
     int32 status;
-    uint32 Position;
+    size_t TempSize;
+    void *TempAddr;
 
     status = UT_DEFAULT_IMPL(CFE_PSP_GetVolatileDiskMem);
 
     if (status >= 0)
     {
-        UT_GetDataBuffer(UT_KEY(CFE_PSP_GetVolatileDiskMem), (void**)PtrToVolDisk, SizeOfVolDisk, &Position);
+        UT_GetDataBuffer(UT_KEY(CFE_PSP_GetVolatileDiskMem), &TempAddr, &TempSize, NULL);
+
+        *PtrToVolDisk = (cpuaddr)TempAddr;
+        *SizeOfVolDisk = TempSize;
     }
 
     return status;
@@ -426,13 +430,17 @@ void CFE_PSP_Get_Timebase(uint32 *Tbu, uint32* Tbl)
 int32 CFE_PSP_GetResetArea(cpuaddr *PtrToResetArea, uint32 *SizeOfResetArea)
 {
     int32 status;
-    uint32 Position;
+    size_t TempSize;
+    void *TempAddr;
 
     status = UT_DEFAULT_IMPL(CFE_PSP_GetResetArea);
 
     if (status >= 0)
     {
-        UT_GetDataBuffer(UT_KEY(CFE_PSP_GetResetArea), (void**)PtrToResetArea, SizeOfResetArea, &Position);
+        UT_GetDataBuffer(UT_KEY(CFE_PSP_GetResetArea), &TempAddr, &TempSize, NULL);
+
+        *PtrToResetArea = (cpuaddr)TempAddr;
+        *SizeOfResetArea = TempSize;
     }
 
     return status;
@@ -553,18 +561,24 @@ int32 CFE_PSP_GetCFETextSegmentInfo(cpuaddr *PtrToCFESegment,
 {
     static uint32 LocalTextSegment;
     int32 status;
-    uint32 Position;
+    void *TempAddr;
+    size_t TempSize;
 
     status = UT_DEFAULT_IMPL(CFE_PSP_GetCFETextSegmentInfo);
 
     if (status >= 0)
     {
-        UT_GetDataBuffer(UT_KEY(CFE_PSP_GetCFETextSegmentInfo), (void**)PtrToCFESegment, SizeOfCFESegment, &Position);
+        UT_GetDataBuffer(UT_KEY(CFE_PSP_GetCFETextSegmentInfo), &TempAddr, &TempSize, NULL);
         if (*PtrToCFESegment == 0)
         {
             /* Backup -- Set the pointer and size to anything */
             *PtrToCFESegment = (cpuaddr)&LocalTextSegment;
             *SizeOfCFESegment = sizeof(LocalTextSegment);
+        }
+        else
+        {
+            *PtrToCFESegment = (cpuaddr)TempAddr;
+            *SizeOfCFESegment = TempSize;
         }
     }
 

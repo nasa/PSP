@@ -8,6 +8,12 @@ This is a collection of APIs abstracting platform specific functionality to be l
 
 ## Version History
 
+### Development Build: 1.5.0-rc1+dev36
+
+- Rename `UT_SetForceFail` to `UT_SetDefaultReturnValue` since some functions that retain more than 1 value are not necessarily failing.
+- Use of the size_t type instead of uint32 in unit-tests to avoid a compiler type mismatch error on some platforms.
+- See <https://github.com/nasa/PSP/pull/221>
+
 ### Development Build: 1.5.0-rc1+dev30
 
 - PR #212 - Use event callback mechanism to invoke pthread_setname_np() such that the OS kernel is informed of the OSAL task name. `/proc` filesystem on Linux now has actual task name, instead of all being core-cpu1. The `pthread_setname_np` API requires `_GNU_SOURCE` to be defined when compiling - this can be local to PSP.
