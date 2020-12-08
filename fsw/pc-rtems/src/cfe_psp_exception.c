@@ -95,7 +95,6 @@ int32 CFE_PSP_ExceptionGetSummary_Impl(const CFE_PSP_Exception_LogData_t* Buffer
 **
 **   Notes: The exception environment is local to each task Therefore this must be
 **          called for each task that that wants to do floating point and catch exceptions
-**          Currently, this is automaticall called from OS_TaskRegister for every task
 */
 void CFE_PSP_SetDefaultExceptionEnvironment(void)
 {
