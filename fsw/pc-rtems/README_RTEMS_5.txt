@@ -1,6 +1,7 @@
-ABOUT THE PC-RTEMS CFE PSP
-==========================
-Note: These instructions are for RTEMS 4.11
+ABOUT THE PC-RTEMS CFE PSP for RTEMS 5
+========================================
+
+Note: These instructions are for RTEMS 5 
 
 The "pc-rtems" PSP layer is intended to be an easy way to prove out the basic functionality
 of CFE running on RTEMS without actually requiring a real hardware target with RTEMS support.  
@@ -9,15 +10,15 @@ It is based on:
     - RTEMS built using the "pc686" BSP (i.e. an ordinary off the shelf i686 PC)
     - Running the resulting binary in a QEMU virtual i686 PC
     
-The example instructions here are to set up RTEMS under your local home dir in ${HOME}/rtems-4.11.
-However any location can be used e.g. /opt/x-tools/rtems-4.11 might be good choice on a shared
+The example instructions here are to set up RTEMS under your local home dir in ${HOME}/rtems-5.
+However any location can be used e.g. /opt/x-tools/rtems-5 might be good choice on a shared
 build system.  The RTEMS_BSP_TOP directory must be set to the same location either by editing
 the example toolchain file or via -D options to the CMake build.
  
 
 I. Setting up and compiling RTEMS BSP
 
-1) install RTEMS toolchain for i386-rtems4.11 (or relevant target arch) into /opt/rtems-4.11
+1) install RTEMS toolchain for i386-rtems5 (or relevant target arch) into ${HOME}/rtems5
 
 The RTEMS official docs have instructions for this, which should supercede anything here.
 
@@ -25,25 +26,26 @@ Basic use of the the "rtems source builder" tool which works at the time of this
 OFFICIAL RTEMS SOURCE BUILDER CLONE URL: git://git.rtems.org/rtems-source-builder.git
 
 
-mkdir -p ${HOME}/rtems-4.11
-git clone -b 4.11 git://git.rtems.org/rtems-source-builder.git
+mkdir -p ${HOME}/rtems-5
+git clone -b 5 git://git.rtems.org/rtems-source-builder.git
 cd rtems-source-builder/rtems
-../source-builder/sb-set-builder --prefix=$HOME/rtems-4.11 4.11/rtems-i386
+../source-builder/sb-set-builder --prefix=$HOME/rtems-5 5/rtems-i386
 
 
 2) Clone/Bootstrap RTEMS source tree:
 
-Note - at the time of this writing 4.11.3 is the latest point release
-on the RTEMS 4.11 branch. We are using the rtems git repository 4.11 branch, which
-contains the latest point release (or fixes for the point release in progress)
-You may wish to download a specific release such as RTEMS 4.11.3.
+Note - at the time of this writing 5.1 is the current "stable" branch and
+5.1 represents the latest point release tag on that branch. We are going to
+use the "5" branch, which will eventually be released as 5.2. The latest
+5 branch has a bux fix for the RFS file system needed by the cFS for this target.
+If you use the 5.1 release tag (or tarball) you will most likely not be able
+to run the cFS without an error.
 
 OFFICIAL RTEMS CLONE URL: git://git.rtems.org/rtems.git
 
-$ git clone -b 4.11 git://git.rtems.org/rtems.git
-$ export PATH=$HOME/rtems-4.11/bin:$PATH
+$ git clone -b 5 git://git.rtems.org/rtems.git
+$ export PATH=$HOME/rtems-5/bin:$PATH
 $ (cd rtems && ./bootstrap)
-
 
 3) Build/Install RTEMS pc686 BSP
 
@@ -52,18 +54,14 @@ The "prefix" can be whatever location is preferable for installation.
 
 $ mkdir b-pc686
 $ cd b-pc686
-$ ../rtems/configure --target=i386-rtems4.11 \
+$ ../rtems/configure --target=i386-rtems5 \
     --enable-rtemsbsp=pc686 \
-    --prefix=${HOME}/rtems-4.11 \
+    --prefix=${HOME}/rtems-5 \
     --enable-networking \
     --enable-cxx \
     --disable-posix \
-    --disable-deprecated \
-    BSP_ENABLE_VGA=0 \
-    CLOCK_DRIVER_USE_TSC=1 \
-    USE_COM1_AS_CONSOLE=1 \
-    BSP_PRESS_KEY_FOR_RESET=0 \
-    BSP_RESET_BOARD_AT_EXIT=1    
+    --disable-deprecated
+
 $ make
 $ make install
 $ cd ..
@@ -92,7 +90,6 @@ Then in the "targets.cmake" file set the "TGT<N>_PLATFORM" variable to be the sa
 file will be picked up and used by the build system.
 
 ====== START OF EXAMPLE TOOLCHAIN FILE: CUT HERE ===========
-
 # This example toolchain file describes the cross compiler to use for
 # the target architecture indicated in the configuration file.
 
@@ -107,7 +104,7 @@ file will be picked up and used by the build system.
 # Basic cross system configuration
 set(CMAKE_SYSTEM_NAME       RTEMS)
 set(CMAKE_SYSTEM_PROCESSOR  i386)
-set(CMAKE_SYSTEM_VERSION    4.11)
+set(CMAKE_SYSTEM_VERSION    5)
 
 # The TOOLS and BSP are allowed to be installed in different locations.
 # If the README was followed they will both be installed under $HOME
@@ -127,6 +124,7 @@ set(TARGETPREFIX                "${CMAKE_SYSTEM_PROCESSOR}-rtems${CMAKE_SYSTEM_V
 set(RTEMS_BSP_C_FLAGS           "-march=i686 -mtune=i686 -fno-common")
 set(RTEMS_BSP_CXX_FLAGS         ${RTEMS_BSP_C_FLAGS})
 
+
 SET(CMAKE_C_COMPILER            "${RTEMS_TOOLS_PREFIX}/bin/${TARGETPREFIX}gcc")
 SET(CMAKE_CXX_COMPILER          "${RTEMS_TOOLS_PREFIX}/bin/${TARGETPREFIX}g++")
 SET(CMAKE_LINKER                "${RTEMS_TOOLS_PREFIX}/bin/${TARGETPREFIX}ld")
@@ -139,6 +137,10 @@ SET(CMAKE_OBJCOPY               "${RTEMS_TOOLS_PREFIX}/bin/${TARGETPREFIX}objcop
 
 # Exception handling is very iffy.  These two options disable eh_frame creation.
 set(CMAKE_C_COMPILE_OPTIONS_PIC -fno-exceptions -fno-asynchronous-unwind-tables)
+
+# Link libraries needed for an RTEMS 5.x executable
+#  This was handled by the bsp_specs file in 4.11
+set(LINK_LIBRARIES              "-lrtemsdefaultconfig -lrtemsbsp -lrtemscpu")
 
 # search for programs in the build host directories
 SET(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM   NEVER)
@@ -154,6 +156,9 @@ SET(CMAKE_PREFIX_PATH                   /)
 SET(CFE_SYSTEM_PSPNAME                  pc-rtems)
 SET(OSAL_SYSTEM_BSPTYPE                 pc-rtems)
 SET(OSAL_SYSTEM_OSTYPE                  rtems)
+
+# This is for RTEMS 5 specific ifdefs needed by the OSAL
+ADD_DEFINITIONS(-D_RTEMS_5_)
 
 # Info regarding the RELOCADDR:
 #+--------------------------------------------------------------------------+
@@ -216,7 +221,8 @@ qemu-system-i386 -m 128 \
     -kernel ${INSTALL_DIR}/cpu1/core-cpu1.exe \
     -drive file=fat:rw:${INSTALL_DIR}/cpu1,format=raw \
     -nographic \
-    -no-reboot
+    -no-reboot \
+    -append "--console=/dev/com1"
     
 where ${INSTALL_DIR} represents the filesystem location of the installed binaries from "make install"
 
@@ -241,10 +247,10 @@ qemu-system-i386 -m 128 -nographic -no-reboot \
     -drive file=fat:rw:${INSTALL_DIR}/cpu1,format=raw \
     -device i82557b,netdev=net0,mac=00:04:9F:00:27:61 \
     -netdev user,id=net0,hostfwd=udp:127.0.0.1:1235-:1235 \
+    -append "--console=/dev/com1"
     
 One can then use the "cmdutil" and "tlm_decode" applications to interact with the CFE.
 
-    
 4) Automated/scripted Unit-testing configuration using QEMU
  
 The Unit Test BSP (utbsp) by default will start an RTEMS shell and allow
@@ -261,13 +267,14 @@ qemu-system-i386 -m 128 \
    -kernel ${test-executable}.exe \
    -append '--batch-mode' \
    -nographic -no-reboot \
+   -append "--console=/dev/com1" \
        > log-${test-executable}.txt
 
 
 The entire suite of unit tests can be executed using a for loop:
 
 for i in *test.exe *UT.exe; do \
-   qemu-system-i386 -m 128 -kernel $i -append '--batch-mode' -nographic -no-reboot \
+   qemu-system-i386 -m 128 -kernel $i -append '--batch-mode' -nographic -no-reboot -append "--console=/dev/com1" \
        | tee log-${i%%.exe}.txt;  \
 done
 

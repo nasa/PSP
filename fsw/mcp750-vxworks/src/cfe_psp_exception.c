@@ -169,7 +169,6 @@ void CFE_PSP_ExceptionHook (TASK_ID task_id, int vector, void* vpEsf )
 **
 **   Notes: The exception environment is local to each task Therefore this must be
 **          called for each task that that wants to do floating point and catch exceptions
-**          Currently, this is automatically called from OS_TaskRegister for every task
 */
 void CFE_PSP_SetDefaultExceptionEnvironment(void)
 {
