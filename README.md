@@ -8,6 +8,13 @@ This is a collection of APIs abstracting platform specific functionality to be l
 
 ## Version History
 
+### Development Build: 1.5.0-rc1+dev42
+
+- Updates the Readme for RTEMS and adds `README_RTEMS_5.txt`. The changes include removing references to the CEXP module loader, and describing the development environment setup for RTEMS 5.  
+- Remove obsolete OS_TaskRegister comment.  
+- See <https://github.com/nasa/PSP/pull/226>
+
+
 ### Development Build: 1.5.0-rc1+dev36
 
 - Rename `UT_SetForceFail` to `UT_SetDefaultReturnValue` since some functions that retain more than 1 value are not necessarily failing.
