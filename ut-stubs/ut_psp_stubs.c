@@ -200,8 +200,7 @@ void CFE_PSP_GetTime(OS_time_t *LocalTime)
     {
         if (UT_Stub_CopyToLocal(UT_KEY(CFE_PSP_GetTime), (uint8*)LocalTime, sizeof(*LocalTime)) < sizeof(*LocalTime))
         {
-            LocalTime->seconds = 100;
-            LocalTime->microsecs = 200;
+            *LocalTime = OS_TimeAssembleFromNanoseconds(100,200000);
         }
     }
 }
