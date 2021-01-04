@@ -79,14 +79,14 @@ void Test_OS_Application_Startup(void)
     UT_SetDefaultReturnValue(UT_KEY(OS_API_Init), OS_ERROR);
     UT_OS_Application_Startup();
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(PCS_exit)), 1);
-    UT_ClearForceFail(UT_KEY(OS_API_Init));
+    UT_ClearDefaultReturnValue(UT_KEY(OS_API_Init));
 
     /* failure of OS_FileSysAddFixedMap - an extra OS_printf */
     UT_SetDefaultReturnValue(UT_KEY(OS_FileSysAddFixedMap), OS_ERROR);
     UT_OS_Application_Startup();
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(OS_printf)), 9);
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(PCS_SystemMain)), 2);
-    UT_ClearForceFail(UT_KEY(OS_FileSysAddFixedMap));
+    UT_ClearDefaultReturnValue(UT_KEY(OS_FileSysAddFixedMap));
 
     /* coverage for each of the reset types */
     *PCS_SYS_REG_BLRR = PCS_SYS_REG_BLRR_PWRON;
