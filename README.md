@@ -8,6 +8,12 @@ This is a collection of APIs abstracting platform specific functionality to be l
 
 ## Version History
 
+### Development Build: 1.5.0-rc1+dev46
+
+- Add cppcheck GitHub Actions workflow file
+- See <https://github.com/nasa/PSP/pull/234>
+
+
 ### Development Build: 1.5.0-rc1+dev42
 
 - Updates the Readme for RTEMS and adds `README_RTEMS_5.txt`. The changes include removing references to the CEXP module loader, and describing the development environment setup for RTEMS 5.  

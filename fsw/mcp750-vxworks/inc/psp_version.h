@@ -29,7 +29,7 @@
 /*
  * Development Build Macro Definitions 
  */
-#define CFE_PSP_IMPL_BUILD_NUMBER 42
+#define CFE_PSP_IMPL_BUILD_NUMBER 46
 #define CFE_PSP_IMPL_BUILD_BASELINE "v1.5.0-rc1"
 
 /*
