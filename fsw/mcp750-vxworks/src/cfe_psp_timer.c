@@ -92,13 +92,15 @@ IMPORT void   sysPciRead32 (UINT32, UINT32 *);
 void CFE_PSP_GetTime( OS_time_t *LocalTime)
 {
     uint32 DecCount;
+    uint32 Seconds;
 
     /* Reads the time from the hardware register, then converts it
-     * into usable seconds and microseconds */
+     * into an OS_time_t value */
     sysPciRead32(0xFC0011C0, (UINT32 *)(&DecCount));
     DecCount = DecCount & 0x7FFFFFFF;
     DecCount = ((uint32)  0x0D6937E5) - DecCount;
-    LocalTime->seconds = DecCount / 8333311;
+
+    Seconds = DecCount / 8333311;
 
     /* Get subseconds (discard seconds) */
     DecCount = DecCount % 8333311;
@@ -111,8 +113,15 @@ void CFE_PSP_GetTime( OS_time_t *LocalTime)
      * - Approximation: ((300 * DecCount) + (DecCount / 1244)) / 2500
      * At cost of up to 2us error (at max value):
      * - Approximation: (DecCount * 3) / 25
+     * 
+     * Same basic ratio but adjusted to produce units in nanoseconds  
+     * instead of microseconds:
+     * - ((480 * DecCount) + (DecCount / 777)) / 4
      */
-    LocalTime->microsecs = ((300 * DecCount) + (DecCount / 1244)) / 2500;
+    
+    DecCount = ((480 * DecCount) + (DecCount / 777)) / 4;
+
+    *LocalTime = OS_TimeAssembleFromNanoseconds(Seconds, DecCount);
 
 }/* end CFE_PSP_GetLocalTime */
 
