@@ -8,6 +8,11 @@ This is a collection of APIs abstracting platform specific functionality to be l
 
 ## Version History
 
+### Development Build: 1.5.0-rc1+dev50
+
+-  Instead of accessing `OS_time_t` member values directly, use the OSAL-provided conversion and access methods. This provides independence and abstraction from the specific `OS_time_t` definition and allows OSAL to transition to a 64 bit value.
+- See <https://github.com/nasa/psp/pull/240>
+
 ### Development Build: 1.5.0-rc1+dev46
 
 - Add cppcheck GitHub Actions workflow file
