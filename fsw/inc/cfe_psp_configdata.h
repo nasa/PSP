@@ -43,7 +43,7 @@ typedef const struct
     uint8 MinorVersion;
     uint8 Revision;
     uint8 MissionRev;
-    char  Version[16];
+    char  VersionString[32];
 } CFE_PSP_VersionInfo_t;
 
 /**

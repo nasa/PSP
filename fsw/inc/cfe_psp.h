@@ -151,7 +151,7 @@
 #define CFE_PSP_MINOR_VERSION (GLOBAL_PSP_CONFIGDATA.PSP_VersionInfo.MinorVersion)
 #define CFE_PSP_REVISION      (GLOBAL_PSP_CONFIGDATA.PSP_VersionInfo.Revision)
 #define CFE_PSP_MISSION_REV   (GLOBAL_PSP_CONFIGDATA.PSP_VersionInfo.MissionRev)
-#define CFE_PSP_VERSION       (GLOBAL_PSP_CONFIGDATA.PSP_VersionInfo.Version)
+#define CFE_PSP_VERSION       (GLOBAL_PSP_CONFIGDATA.PSP_VersionInfo.VersionString)
 
 /*
 ** Type Definitions
