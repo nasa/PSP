@@ -8,6 +8,13 @@ This is a collection of APIs abstracting platform specific functionality to be l
 
 ## Version History
 
+### Development Build: 1.5.0-rc1+dev58
+
+- Add `Security.md` with instructions on reporting vulnerabilities.
+- Rename `UT_ClearForceFail` as `UT_ClearDefaultValue` to reflect <https://github.com/nasa/osal/issues/724>
+- Remove unused elements in `CFE_PSP_ModuleType_t` enum to avoids irregular enum warning
+- See <https://github.com/nasa/PSP/pull/243>
+
 ### Development Build: 1.5.0-rc1+dev50
 
 -  Instead of accessing `OS_time_t` member values directly, use the OSAL-provided conversion and access methods. This provides independence and abstraction from the specific `OS_time_t` definition and allows OSAL to transition to a 64 bit value.

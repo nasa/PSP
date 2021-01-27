@@ -65,8 +65,7 @@ void CFE_PSP_ModuleInit(void)
         while(Entry->Name != NULL)
         {
             ApiPtr = (CFE_PSP_ModuleApi_t *)Entry->Api;
-            if ((uint32)ApiPtr->ModuleType > CFE_PSP_MODULE_TYPE_VALID_RANGE &&
-                    (uint32)ApiPtr->ModuleType < CFE_PSP_MODULE_TYPE_MAX &&
+            if ((uint32)ApiPtr->ModuleType == CFE_PSP_MODULE_TYPE_SIMPLE &&
                     ApiPtr->Init != NULL)
             {
                 (*ApiPtr->Init)(CFE_PSP_MODULE_BASE | CFE_PSP_ModuleCount);

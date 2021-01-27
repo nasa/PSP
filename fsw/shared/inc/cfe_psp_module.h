@@ -36,10 +36,8 @@
 typedef enum
 {
     CFE_PSP_MODULE_TYPE_INVALID = 0,
-    CFE_PSP_MODULE_TYPE_VALID_RANGE  = 1000,
-    CFE_PSP_MODULE_TYPE_SIMPLE,
+    CFE_PSP_MODULE_TYPE_SIMPLE
     /* May be extended in the future */
-    CFE_PSP_MODULE_TYPE_MAX
 } CFE_PSP_ModuleType_t;
 
 /**
