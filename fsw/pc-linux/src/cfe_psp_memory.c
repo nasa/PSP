@@ -365,7 +365,7 @@ void CFE_PSP_InitResetArea(void)
     * reside in this shared memory segment so it will be preserved on a processor
     * reset.
     */
-   align_mask = sysconf(_SC_PAGESIZE) - 1; /* align blocks to whole memory pages */
+   align_mask = (size_t)(sysconf(_SC_PAGESIZE) - 1); /* align blocks to whole memory pages */
    total_size = sizeof(CFE_PSP_LinuxReservedAreaFixedLayout_t);
    total_size = (total_size + align_mask) & ~align_mask;
    reset_offset = total_size;
@@ -462,7 +462,7 @@ int32 CFE_PSP_GetResetArea (cpuaddr *PtrToResetArea, uint32 *SizeOfResetArea)
    else
    {
       *PtrToResetArea = (cpuaddr)CFE_PSP_ReservedMemoryMap.ResetMemory.BlockPtr;
-      *SizeOfResetArea = CFE_PSP_ReservedMemoryMap.ResetMemory.BlockSize;
+      *SizeOfResetArea = (uint32)CFE_PSP_ReservedMemoryMap.ResetMemory.BlockSize;
       return_code = CFE_PSP_SUCCESS;
    }
    
@@ -578,7 +578,7 @@ int32 CFE_PSP_GetUserReservedArea(cpuaddr *PtrToUserArea, uint32 *SizeOfUserArea
    else
    {
       *PtrToUserArea = (cpuaddr)CFE_PSP_ReservedMemoryMap.UserReservedMemory.BlockPtr;
-      *SizeOfUserArea = CFE_PSP_ReservedMemoryMap.UserReservedMemory.BlockSize;
+      *SizeOfUserArea = (uint32)CFE_PSP_ReservedMemoryMap.UserReservedMemory.BlockSize;
       return_code = CFE_PSP_SUCCESS;
    }
    
@@ -637,7 +637,7 @@ int32 CFE_PSP_GetVolatileDiskMem(cpuaddr *PtrToVolDisk, uint32 *SizeOfVolDisk )
    else
    {
       *PtrToVolDisk = (cpuaddr)CFE_PSP_ReservedMemoryMap.VolatileDiskMemory.BlockPtr;
-      *SizeOfVolDisk = CFE_PSP_ReservedMemoryMap.VolatileDiskMemory.BlockSize;
+      *SizeOfVolDisk = (uint32)CFE_PSP_ReservedMemoryMap.VolatileDiskMemory.BlockSize;
       return_code = CFE_PSP_SUCCESS;
    }
    
