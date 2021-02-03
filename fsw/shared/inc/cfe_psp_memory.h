@@ -23,9 +23,9 @@
 **
 **  Author:  A. Cudmore
 **
-**  Purpose:  This file contains PSP support routine internal prototypes 
-**            and typedefs. The routines and typedefs are intended for 
-**            the local PSP routines only. 
+**  Purpose:  This file contains PSP support routine internal prototypes
+**            and typedefs. The routines and typedefs are intended for
+**            the local PSP routines only.
 **
 **  Modification History:
 **
@@ -44,16 +44,15 @@
 
 typedef struct
 {
-    void*  BlockPtr;
+    void * BlockPtr;
     size_t BlockSize;
 
 } CFE_PSP_MemoryBlock_t;
 
-
 typedef struct
 {
     CFE_PSP_ReservedMemoryBootRecord_t *BootPtr;
-    CFE_PSP_ExceptionStorage_t *ExceptionStoragePtr;
+    CFE_PSP_ExceptionStorage_t *        ExceptionStoragePtr;
 
     CFE_PSP_MemoryBlock_t ResetMemory;
     CFE_PSP_MemoryBlock_t VolatileDiskMemory;
@@ -61,15 +60,12 @@ typedef struct
     CFE_PSP_MemoryBlock_t UserReservedMemory;
 } CFE_PSP_ReservedMemoryMap_t;
 
-
-
 /**
  * \brief Initialize the CFE_PSP_ReservedMemoryMap global object
  *
  * This must be called by the startup code before the map is accessed.
  */
 extern void CFE_PSP_SetupReservedMemoryMap(void);
-
 
 /*
  * CFE_PSP_InitProcessorReservedMemory initializes all of the memory in the
@@ -81,8 +77,7 @@ extern void CFE_PSP_SetupReservedMemoryMap(void);
  * is preserved on a processor reset, and cleared/reinitialized on a power-on
  * reset.
  */
-extern int32 CFE_PSP_InitProcessorReservedMemory(uint32 RestartType );
-
+extern int32 CFE_PSP_InitProcessorReservedMemory(uint32 RestartType);
 
 /**
  * \brief Unlink the memory segments within the CFE_PSP_ReservedMemoryMap global object
@@ -92,7 +87,6 @@ extern int32 CFE_PSP_InitProcessorReservedMemory(uint32 RestartType );
  * but the local maps remain usable until the process ends.
  */
 extern void CFE_PSP_DeleteProcessorReservedMemory(void);
-
 
 /*
 ** External variables
@@ -104,4 +98,4 @@ extern void CFE_PSP_DeleteProcessorReservedMemory(void);
 */
 extern CFE_PSP_ReservedMemoryMap_t CFE_PSP_ReservedMemoryMap;
 
-#endif  /* _cfe_psp_memory_ */
+#endif /* _cfe_psp_memory_ */

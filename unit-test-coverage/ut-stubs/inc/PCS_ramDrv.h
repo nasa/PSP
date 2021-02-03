@@ -17,11 +17,6 @@
 /* ----------------------------------------- */
 /* prototypes normally declared in ramDrv.h */
 /* ----------------------------------------- */
-extern PCS_BLK_DEV *PCS_ramDevCreate (char *ramAddr, int bytesPerSec, int secPerTrack,
-                       int nSectors, int secOffset);
-
-
-
+extern PCS_BLK_DEV *PCS_ramDevCreate(char *ramAddr, int bytesPerSec, int secPerTrack, int nSectors, int secOffset);
 
 #endif /* _PSP_STUB_RAMDRV_H_ */
-

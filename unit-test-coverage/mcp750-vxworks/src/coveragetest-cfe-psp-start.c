@@ -1,15 +1,14 @@
 /*
- * 
+ *
  *    Copyright (c) 2020, United States government as represented by the
  *    administrator of the National Aeronautics Space Administration.
  *    All rights reserved. This software was created at NASA Goddard
  *    Space Flight Center pursuant to government contracts.
- * 
+ *
  *    This is governed by the NASA Open Source Agreement and may be used,
  *    distributed and modified only according to the terms of that agreement.
- * 
+ *
  */
-
 
 /**
  * \file     coveragetest-binsem.c
@@ -17,7 +16,6 @@
  * \author   joseph.p.hickey@nasa.gov
  *
  */
-
 
 #include "coveragetest-psp-mcp750-vxworks.h"
 #include "ut-adaptor-bootrec.h"
@@ -46,8 +44,8 @@ typedef struct
 static int32 Test_Hook_ResetSubType(void *UserObj, int32 StubRetcode, uint32 CallCount, const UT_StubContext_t *Context)
 {
     PSP_UT_StartType_t *UserBuffer = UserObj;
-    UserBuffer->StartType = UT_Hook_GetArgValueByName(Context, "StartType", uint32);
-    UserBuffer->StartSubtype = UT_Hook_GetArgValueByName(Context, "StartSubtype", uint32);
+    UserBuffer->StartType          = UT_Hook_GetArgValueByName(Context, "StartType", uint32);
+    UserBuffer->StartSubtype       = UT_Hook_GetArgValueByName(Context, "StartSubtype", uint32);
     return StubRetcode;
 }
 
@@ -131,7 +129,6 @@ void Test_OS_Application_Startup(void)
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(PCS_SystemMain)), 9);
     UtAssert_INT32_EQ(StartType.StartType, CFE_PSP_RST_TYPE_PROCESSOR);
     UtAssert_INT32_EQ(StartType.StartSubtype, CFE_PSP_RST_SUBTYPE_RESET_COMMAND);
-
 }
 
 void Test_OS_Application_Run(void)
@@ -147,4 +144,3 @@ void Test_OS_Application_Run(void)
 
     /* The function currently contains an infinite loop so cannot be tested now */
 }
-

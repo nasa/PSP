@@ -31,7 +31,6 @@
 **
 ******************************************************************************/
 
-
 /*
 **  Include Files
 */
@@ -50,7 +49,6 @@
 #include "cacheLib.h"
 #include "rebootLib.h"
 
-
 /*
 ** cFE includes
 */
@@ -65,16 +63,15 @@
 
 #include <target_config.h>
 
-#define CFE_PSP_CPU_ID               (GLOBAL_CONFIGDATA.Default_CpuId)
-#define CFE_PSP_CPU_NAME             (GLOBAL_CONFIGDATA.Default_CpuName)
-#define CFE_PSP_SPACECRAFT_ID        (GLOBAL_CONFIGDATA.Default_SpacecraftId)
+#define CFE_PSP_CPU_ID        (GLOBAL_CONFIGDATA.Default_CpuId)
+#define CFE_PSP_CPU_NAME      (GLOBAL_CONFIGDATA.Default_CpuName)
+#define CFE_PSP_SPACECRAFT_ID (GLOBAL_CONFIGDATA.Default_SpacecraftId)
 
 /*
  * Track the overall "reserved memory block" at the start of RAM.
  * This single large block is then subdivided into separate areas for CFE use.
  */
 extern CFE_PSP_MemoryBlock_t MCP750_ReservedMemBlock;
-
 
 /******************************************************************************
 **  Function:  CFE_PSP_Restart()
@@ -92,19 +89,18 @@ extern CFE_PSP_MemoryBlock_t MCP750_ReservedMemBlock;
 void CFE_PSP_Restart(uint32 reset_type)
 {
 
-   if ( reset_type == CFE_PSP_RST_TYPE_POWERON )
-   {
-      CFE_PSP_ReservedMemoryMap.BootPtr->bsp_reset_type = CFE_PSP_RST_TYPE_POWERON;
-      CFE_PSP_FlushCaches(1, MCP750_ReservedMemBlock.BlockPtr, MCP750_ReservedMemBlock.BlockSize);
-      reboot(BOOT_CLEAR);
-   }
-   else
-   {
-      CFE_PSP_ReservedMemoryMap.BootPtr->bsp_reset_type = CFE_PSP_RST_TYPE_PROCESSOR;
-      CFE_PSP_FlushCaches(1, MCP750_ReservedMemBlock.BlockPtr, MCP750_ReservedMemBlock.BlockSize);
-      reboot(BOOT_NORMAL);
-   }
-
+    if (reset_type == CFE_PSP_RST_TYPE_POWERON)
+    {
+        CFE_PSP_ReservedMemoryMap.BootPtr->bsp_reset_type = CFE_PSP_RST_TYPE_POWERON;
+        CFE_PSP_FlushCaches(1, MCP750_ReservedMemBlock.BlockPtr, MCP750_ReservedMemBlock.BlockSize);
+        reboot(BOOT_CLEAR);
+    }
+    else
+    {
+        CFE_PSP_ReservedMemoryMap.BootPtr->bsp_reset_type = CFE_PSP_RST_TYPE_PROCESSOR;
+        CFE_PSP_FlushCaches(1, MCP750_ReservedMemBlock.BlockPtr, MCP750_ReservedMemBlock.BlockSize);
+        reboot(BOOT_NORMAL);
+    }
 }
 
 /******************************************************************************
@@ -123,8 +119,8 @@ void CFE_PSP_Restart(uint32 reset_type)
 
 void CFE_PSP_Panic(int32 ErrorCode)
 {
-   printf("CFE_PSP_Panic Called with error code = 0x%08X. Exiting.\n",(unsigned int )ErrorCode);
-   exit(-1); /* Need to improve this */
+    printf("CFE_PSP_Panic Called with error code = 0x%08X. Exiting.\n", (unsigned int)ErrorCode);
+    exit(-1); /* Need to improve this */
 }
 
 /******************************************************************************
@@ -141,13 +137,12 @@ void CFE_PSP_Panic(int32 ErrorCode)
 **    (none)
 */
 
-void CFE_PSP_FlushCaches(uint32 type, void* address, uint32 size)
+void CFE_PSP_FlushCaches(uint32 type, void *address, uint32 size)
 {
-   if ( type == 1 )
-   {
-      cacheTextUpdate(address, size);
-   }
-
+    if (type == 1)
+    {
+        cacheTextUpdate(address, size);
+    }
 }
 
 /*
@@ -167,11 +162,10 @@ void CFE_PSP_FlushCaches(uint32 type, void* address, uint32 size)
 **
 ** Return Values: Processor ID
 */
-uint32 CFE_PSP_GetProcessorId    (void)
+uint32 CFE_PSP_GetProcessorId(void)
 {
     return CFE_PSP_CPU_ID;
 }
-
 
 /*
 ** Name: CFE_PSP_GetSpacecraftId
@@ -188,9 +182,9 @@ uint32 CFE_PSP_GetProcessorId    (void)
 **
 ** Return Values: Spacecraft ID
 */
-uint32 CFE_PSP_GetSpacecraftId   (void)
+uint32 CFE_PSP_GetSpacecraftId(void)
 {
-   return CFE_PSP_SPACECRAFT_ID;
+    return CFE_PSP_SPACECRAFT_ID;
 }
 
 /*
@@ -208,8 +202,7 @@ uint32 CFE_PSP_GetSpacecraftId   (void)
 **
 ** Return Values: Processor name
 */
-const char *CFE_PSP_GetProcessorName   (void)
+const char *CFE_PSP_GetProcessorName(void)
 {
-   return CFE_PSP_CPU_NAME;
+    return CFE_PSP_CPU_NAME;
 }
-

@@ -18,9 +18,6 @@
 /* ----------------------------------------- */
 /* prototypes normally declared in drv/hdisk/ataDrv.h */
 /* ----------------------------------------- */
-extern PCS_device_t PCS_ataXbdDevCreate (int ctrl, int drive, unsigned int nBlks, unsigned int offset, const char *);
-
-
+extern PCS_device_t PCS_ataXbdDevCreate(int ctrl, int drive, unsigned int nBlks, unsigned int offset, const char *);
 
 #endif /* _PSP_STUB_DRV_HDISK_ATADRV_H_ */
-

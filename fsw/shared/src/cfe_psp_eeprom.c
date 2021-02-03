@@ -64,20 +64,20 @@
  **	 CFE_PSP_ERROR_ADD_MISALIGNED The Address is not aligned to 16 bit addressing
  **   scheme.
  */
-int32 CFE_PSP_EepromWrite32( cpuaddr MemoryAddress, uint32 uint32Value )
+int32 CFE_PSP_EepromWrite32(cpuaddr MemoryAddress, uint32 uint32Value)
 {
-   uint32 ret_value = CFE_PSP_SUCCESS;
-    
-   /* check 32 bit alignment  */
-   if( MemoryAddress & 0x00000003)
-   {
-      return(CFE_PSP_ERROR_ADDRESS_MISALIGNED) ;
-   }
-   
-   /* make the Write */
-   *((uint32 *)MemoryAddress) = uint32Value;
-	
-   return(ret_value) ;
+    uint32 ret_value = CFE_PSP_SUCCESS;
+
+    /* check 32 bit alignment  */
+    if (MemoryAddress & 0x00000003)
+    {
+        return (CFE_PSP_ERROR_ADDRESS_MISALIGNED);
+    }
+
+    /* make the Write */
+    *((uint32 *)MemoryAddress) = uint32Value;
+
+    return (ret_value);
 }
 
 /*
@@ -101,83 +101,79 @@ int32 CFE_PSP_EepromWrite32( cpuaddr MemoryAddress, uint32 uint32Value )
  **   CFE_PSP_ERROR_ADD_MISALIGNED The Address is not aligned to 16 bit addressing
  **   scheme.
  */
-int32 CFE_PSP_EepromWrite16( cpuaddr MemoryAddress, uint16 uint16Value )
+int32 CFE_PSP_EepromWrite16(cpuaddr MemoryAddress, uint16 uint16Value)
 {
-   uint32 write32;
-   uint32 temp32;
-   uint32 aligned_address ;
-    
-   /* 
-   ** check 16 bit alignment  , check the 1st lsb 
-   */
-   if( MemoryAddress & 0x00000001)
-   {
-      return(CFE_PSP_ERROR_ADDRESS_MISALIGNED) ;
-   }
-    
-   temp32 = uint16Value ;
-	
-#ifdef SOFTWARE_LITTLE_BIT_ORDER   
-   /*
-   ** Implementation for Little Endian architectures ( x86 )
-   */
+    uint32 write32;
+    uint32 temp32;
+    uint32 aligned_address;
 
-   /* 
-   ** check the 2nd lsb to see if it's the 1st or 2nd 16 bit word
-   */
-   if( (MemoryAddress & 0x00000002) )
-   {
-      /* 
-      ** writing the 16 high bit order of 32 bit field 
-      */
-      aligned_address = MemoryAddress - 2 ;
-      CFE_PSP_MemRead32 ( aligned_address  ,&write32)  ;     
-      write32 = (write32 & 0x0000FFFF) | (temp32 << 16 ) ;
-   } 
-   else
-   {
-      /* 
-      ** writing the 16 low bit order of 32 bit field 
-      */
-      aligned_address = MemoryAddress;
-      CFE_PSP_MemRead32 (  aligned_address, &write32 ) ;
-      write32 = ( write32 & 0xFFFF0000 ) | ( temp32 );  
-     
-   }   
+    /*
+    ** check 16 bit alignment  , check the 1st lsb
+    */
+    if (MemoryAddress & 0x00000001)
+    {
+        return (CFE_PSP_ERROR_ADDRESS_MISALIGNED);
+    }
+
+    temp32 = uint16Value;
+
+#ifdef SOFTWARE_LITTLE_BIT_ORDER
+    /*
+    ** Implementation for Little Endian architectures ( x86 )
+    */
+
+    /*
+    ** check the 2nd lsb to see if it's the 1st or 2nd 16 bit word
+    */
+    if ((MemoryAddress & 0x00000002))
+    {
+        /*
+        ** writing the 16 high bit order of 32 bit field
+        */
+        aligned_address = MemoryAddress - 2;
+        CFE_PSP_MemRead32(aligned_address, &write32);
+        write32 = (write32 & 0x0000FFFF) | (temp32 << 16);
+    }
+    else
+    {
+        /*
+        ** writing the 16 low bit order of 32 bit field
+        */
+        aligned_address = MemoryAddress;
+        CFE_PSP_MemRead32(aligned_address, &write32);
+        write32 = (write32 & 0xFFFF0000) | (temp32);
+    }
 
 #else
 
-   /*
-   ** Implementation for Big Endian architectures (PPC, Coldfire )
-   */
-   /* 
-   ** check the 2nd lsb to see if it's the 1st or 2nd 16 bit word
-   */
-   if( (MemoryAddress & 0x00000002) )
-   {
-      /* 
-      ** writing the 16 high bit order of 32 bit field 
-      */
-      aligned_address = MemoryAddress - 2 ;
-      CFE_PSP_MemRead32 ( aligned_address  ,&write32)  ;     
-      write32 = (write32 & 0xFFFF0000) | (temp32) ;
-   }
-   else
-   {
-      /* 
-      ** writing the 16 low bit order of 32 bit field 
-      */
-      aligned_address = MemoryAddress;
-      CFE_PSP_MemRead32 (  aligned_address, &write32 ) ;
-      write32 = ( write32 & 0x0000FFFF ) | ( temp32 << 16 );  
-     
-   }   
-#endif	
-	
-   return(CFE_PSP_EepromWrite32(aligned_address,write32)) ;
-    
-}
+    /*
+    ** Implementation for Big Endian architectures (PPC, Coldfire )
+    */
+    /*
+    ** check the 2nd lsb to see if it's the 1st or 2nd 16 bit word
+    */
+    if ((MemoryAddress & 0x00000002))
+    {
+        /*
+        ** writing the 16 high bit order of 32 bit field
+        */
+        aligned_address = MemoryAddress - 2;
+        CFE_PSP_MemRead32(aligned_address, &write32);
+        write32 = (write32 & 0xFFFF0000) | (temp32);
+    }
+    else
+    {
+        /*
+        ** writing the 16 low bit order of 32 bit field
+        */
+        aligned_address = MemoryAddress;
+        CFE_PSP_MemRead32(aligned_address, &write32);
+        write32 = (write32 & 0x0000FFFF) | (temp32 << 16);
+    }
+#endif
 
+    return (CFE_PSP_EepromWrite32(aligned_address, write32));
+}
 
 /*
  ** Name: CFE_PSP_EepromWrite8
@@ -199,71 +195,69 @@ int32 CFE_PSP_EepromWrite16( cpuaddr MemoryAddress, uint16 uint16Value )
  **   timeout.
  */
 
-int32 CFE_PSP_EepromWrite8( cpuaddr MemoryAddress, uint8 ByteValue )
+int32 CFE_PSP_EepromWrite8(cpuaddr MemoryAddress, uint8 ByteValue)
 {
-   uint32 aligned_address ;
-   uint16 write16 ,temp16;
-     
-   temp16 = ByteValue ;
- 
- 
-#ifdef SOFTWARE_LITTLE_BIT_ORDER  
-   /*
-   ** Implementation for Little Endian architectures ( x86 )
-   */
-   /* 
-   ** check the 1st lsb 
-   */
-   if( MemoryAddress & 0x00000001)
-   {
-      /* 
-      ** writing the 8 high bit order of 16 bit field 
-      */
-      aligned_address = MemoryAddress - 1;
-      CFE_PSP_MemRead16 ( aligned_address  ,&write16)  ;
-      write16 = (write16 & 0x00FF) | ( temp16 << 8) ;
-   }
-   else
-   {
-      /* 
-      ** writing the 8 low bit order of 16 bit field 
-      */
-      aligned_address = MemoryAddress ;
-      CFE_PSP_MemRead16 (  aligned_address, &write16 ) ;
-      write16 = (temp16 ) | (write16 & 0xFF00 ) ;
-   }
-#else
-    
-   /*
-   ** Implementation for Big Endian architectures (PPC, Coldfire )
-   */
+    uint32 aligned_address;
+    uint16 write16, temp16;
 
-   /* 
-   ** check the 1st lsb 
-   */
-   if( MemoryAddress & 0x00000001)
-   {
-      /* 
-      ** writing the 8 high bit order of 16 bit field 
-      */
-      aligned_address = MemoryAddress - 1;
-      CFE_PSP_MemRead16 ( aligned_address  ,&write16)  ;
-      write16 = (write16 & 0xFF00) | ( temp16) ;
-   }
-   else
-   {
-      /* 
-      ** writing the 8 low bit order of 16 bit field 
-      */
-      aligned_address = MemoryAddress ;
-      CFE_PSP_MemRead16 (  aligned_address, &write16 ) ;
-      write16 = (temp16 << 8 ) | (write16 & 0x00FF ) ;
-   }
+    temp16 = ByteValue;
+
+#ifdef SOFTWARE_LITTLE_BIT_ORDER
+    /*
+    ** Implementation for Little Endian architectures ( x86 )
+    */
+    /*
+    ** check the 1st lsb
+    */
+    if (MemoryAddress & 0x00000001)
+    {
+        /*
+        ** writing the 8 high bit order of 16 bit field
+        */
+        aligned_address = MemoryAddress - 1;
+        CFE_PSP_MemRead16(aligned_address, &write16);
+        write16 = (write16 & 0x00FF) | (temp16 << 8);
+    }
+    else
+    {
+        /*
+        ** writing the 8 low bit order of 16 bit field
+        */
+        aligned_address = MemoryAddress;
+        CFE_PSP_MemRead16(aligned_address, &write16);
+        write16 = (temp16) | (write16 & 0xFF00);
+    }
+#else
+
+    /*
+    ** Implementation for Big Endian architectures (PPC, Coldfire )
+    */
+
+    /*
+    ** check the 1st lsb
+    */
+    if (MemoryAddress & 0x00000001)
+    {
+        /*
+        ** writing the 8 high bit order of 16 bit field
+        */
+        aligned_address = MemoryAddress - 1;
+        CFE_PSP_MemRead16(aligned_address, &write16);
+        write16 = (write16 & 0xFF00) | (temp16);
+    }
+    else
+    {
+        /*
+        ** writing the 8 low bit order of 16 bit field
+        */
+        aligned_address = MemoryAddress;
+        CFE_PSP_MemRead16(aligned_address, &write16);
+        write16 = (temp16 << 8) | (write16 & 0x00FF);
+    }
 
 #endif
 
-   return(CFE_PSP_EepromWrite16(aligned_address,write16)) ;
-    
+    return (CFE_PSP_EepromWrite16(aligned_address, write16));
 }
 
 /*
@@ -275,7 +269,7 @@ int32 CFE_PSP_EepromWrite8( cpuaddr MemoryAddress, uint8 ByteValue )
 ** Assumptions and Notes:
 **
 ** Parameters:
-**   Bank: Which bank of EEPROM 
+**   Bank: Which bank of EEPROM
 **
 ** Global Inputs: None
 **
@@ -287,7 +281,7 @@ int32 CFE_PSP_EepromWrite8( cpuaddr MemoryAddress, uint8 ByteValue )
 */
 int32 CFE_PSP_EepromWriteEnable(uint32 Bank)
 {
-   return(CFE_PSP_SUCCESS) ;
+    return (CFE_PSP_SUCCESS);
 }
 
 /*
@@ -299,7 +293,7 @@ int32 CFE_PSP_EepromWriteEnable(uint32 Bank)
 ** Assumptions and Notes:
 **
 ** Parameters:
-**   Bank: Which bank of EEPROM 
+**   Bank: Which bank of EEPROM
 **
 ** Global Inputs: None
 **
@@ -311,9 +305,8 @@ int32 CFE_PSP_EepromWriteEnable(uint32 Bank)
 */
 int32 CFE_PSP_EepromWriteDisable(uint32 Bank)
 {
-   return(CFE_PSP_SUCCESS) ;
+    return (CFE_PSP_SUCCESS);
 }
-
 
 /*
 ** Name: CFE_PSP_EepromPowerUp
@@ -323,7 +316,7 @@ int32 CFE_PSP_EepromWriteDisable(uint32 Bank)
 ** Assumptions and Notes:
 **
 ** Parameters:
-**   Bank: Which bank of EEPROM 
+**   Bank: Which bank of EEPROM
 **
 ** Global Inputs: None
 **
@@ -335,10 +328,8 @@ int32 CFE_PSP_EepromWriteDisable(uint32 Bank)
 */
 int32 CFE_PSP_EepromPowerUp(uint32 Bank)
 {
-   return(CFE_PSP_SUCCESS) ;
+    return (CFE_PSP_SUCCESS);
 }
-
-
 
 /*
 ** Name: CFE_PSP_EepromPowerDown
@@ -348,7 +339,7 @@ int32 CFE_PSP_EepromPowerUp(uint32 Bank)
 ** Assumptions and Notes:
 **
 ** Parameters:
-**   Bank: Which bank of EEPROM 
+**   Bank: Which bank of EEPROM
 **
 ** Global Inputs: None
 **
@@ -360,6 +351,5 @@ int32 CFE_PSP_EepromPowerUp(uint32 Bank)
 */
 int32 CFE_PSP_EepromPowerDown(uint32 Bank)
 {
-   return(CFE_PSP_SUCCESS) ;
+    return (CFE_PSP_SUCCESS);
 }
-

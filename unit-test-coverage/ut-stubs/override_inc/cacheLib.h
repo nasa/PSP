@@ -17,7 +17,6 @@
 /* ----------------------------------------- */
 /* mappings for declarations in cacheLib.h */
 /* ----------------------------------------- */
-#define cacheTextUpdate     PCS_cacheTextUpdate
-
+#define cacheTextUpdate PCS_cacheTextUpdate
 
 #endif /* _PSP_OVERRIDE_CACHELIB_H_ */

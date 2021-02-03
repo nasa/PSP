@@ -35,7 +35,6 @@
 **  Include Files
 */
 
-
 /*
 ** cFE includes
 */
@@ -53,18 +52,24 @@
 */
 #include "cfe_psp.h"
 
-
 /******************* Macro Definitions ***********************/
 
-#define CFE_PSP_TIMER_TICKS_PER_SECOND       1000000     /* Resolution of the least significant 32 bits of the 64 bit
-                                                           time stamp returned by OS_BSPGet_Timebase in timer ticks per second.
-                                                           The timer resolution for accuracy should not be any slower than 1000000
-                                                           ticks per second or 1 us per tick */
-#define CFE_PSP_TIMER_LOW32_ROLLOVER         1000000     /* The number that the least significant 32 bits of the 64 bit
-                                                           time stamp returned by OS_BSPGet_Timebase rolls over.  If the lower 32
-                                                           bits rolls at 1 second, then the OS_BSP_TIMER_LOW32_ROLLOVER will be 1000000.
-                                                           if the lower 32 bits rolls at its maximum value (2^32) then
-                                                           OS_BSP_TIMER_LOW32_ROLLOVER will be 0. */
+/**
+ * \brief Resolution of the least significant 32 bits of the 64 bit
+ *        time stamp returned by OS_BSPGet_Timebase in timer ticks per second.
+ *        The timer resolution for accuracy should not be any slower than 1000000
+ *        ticks per second or 1 us per tick
+ */
+#define CFE_PSP_TIMER_TICKS_PER_SECOND 1000000
+
+/**
+ * \brief The number that the least significant 32 bits of the 64 bit
+ *        time stamp returned by OS_BSPGet_Timebase rolls over.  If the lower 32
+ *        bits rolls at 1 second, then the OS_BSP_TIMER_LOW32_ROLLOVER will be 1000000.
+ *        if the lower 32 bits rolls at its maximum value (2^32) then
+ *        OS_BSP_TIMER_LOW32_ROLLOVER will be 0.
+ */
+#define CFE_PSP_TIMER_LOW32_ROLLOVER 1000000
 
 /******************************************************************************
 **  Function:  CFE_PSP_GetTime()
@@ -74,7 +79,7 @@
 **  Arguments: LocalTime - where the time is returned through
 ******************************************************************************/
 
-void CFE_PSP_GetTime( OS_time_t *LocalTime)
+void CFE_PSP_GetTime(OS_time_t *LocalTime)
 {
 
     /* since we don't have a hardware register to access like the mcp750,
@@ -82,9 +87,7 @@ void CFE_PSP_GetTime( OS_time_t *LocalTime)
 
     OS_GetLocalTime(LocalTime);
 
-}/* end CFE_PSP_GetLocalTime */
-
-
+} /* end CFE_PSP_GetLocalTime */
 
 /******************************************************************************
 **  Function:  CFE_PSP_Get_Timer_Tick()
@@ -101,8 +104,8 @@ void CFE_PSP_GetTime( OS_time_t *LocalTime)
 */
 uint32 CFE_PSP_Get_Timer_Tick(void)
 {
-   /* SUB -add function call code*/
-   return (0);
+    /* SUB -add function call code*/
+    return (0);
 }
 
 /******************************************************************************
@@ -122,7 +125,7 @@ uint32 CFE_PSP_Get_Timer_Tick(void)
 */
 uint32 CFE_PSP_GetTimerTicksPerSecond(void)
 {
-    return(CFE_PSP_TIMER_TICKS_PER_SECOND);
+    return (CFE_PSP_TIMER_TICKS_PER_SECOND);
 }
 
 /******************************************************************************
@@ -143,7 +146,7 @@ uint32 CFE_PSP_GetTimerTicksPerSecond(void)
 */
 uint32 CFE_PSP_GetTimerLow32Rollover(void)
 {
-    return(CFE_PSP_TIMER_LOW32_ROLLOVER);
+    return (CFE_PSP_TIMER_LOW32_ROLLOVER);
 }
 
 /******************************************************************************
@@ -159,13 +162,13 @@ uint32 CFE_PSP_GetTimerLow32Rollover(void)
 **  Return:
 **  Timebase register value
 */
-void CFE_PSP_Get_Timebase(uint32 *Tbu, uint32* Tbl)
+void CFE_PSP_Get_Timebase(uint32 *Tbu, uint32 *Tbl)
 {
-   OS_time_t        time;
+    OS_time_t time;
 
-   OS_GetLocalTime(&time);
-   *Tbu = OS_TimeGetTotalSeconds(time);
-   *Tbl = OS_TimeGetMicrosecondsPart(time);
+    OS_GetLocalTime(&time);
+    *Tbu = OS_TimeGetTotalSeconds(time);
+    *Tbl = OS_TimeGetMicrosecondsPart(time);
 }
 
 /******************************************************************************
@@ -184,7 +187,6 @@ void CFE_PSP_Get_Timebase(uint32 *Tbu, uint32* Tbl)
 
 uint32 CFE_PSP_Get_Dec(void)
 {
-   /* SUB -add function call code*/
-   return(0);
+    /* SUB -add function call code*/
+    return (0);
 }
-

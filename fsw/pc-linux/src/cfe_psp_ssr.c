@@ -63,13 +63,11 @@
 **    (none)
 */
 
-int32 CFE_PSP_InitSSR(uint32 bus, uint32 device, char *DeviceName )
+int32 CFE_PSP_InitSSR(uint32 bus, uint32 device, char *DeviceName)
 {
-   int32 Status;
+    int32 Status;
 
-   Status = CFE_PSP_ERROR;
-   
-   return(Status);
+    Status = CFE_PSP_ERROR;
 
+    return (Status);
 }
-

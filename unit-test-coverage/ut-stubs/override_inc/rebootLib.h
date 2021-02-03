@@ -17,10 +17,9 @@
 /* ----------------------------------------- */
 /* mappings for declarations in rebootLib.h */
 /* ----------------------------------------- */
-#define BOOT_CLEAR      PCS_BOOT_CLEAR
-#define BOOT_NORMAL     PCS_BOOT_NORMAL
+#define BOOT_CLEAR  PCS_BOOT_CLEAR
+#define BOOT_NORMAL PCS_BOOT_NORMAL
 
-#define reboot          PCS_reboot
-
+#define reboot PCS_reboot
 
 #endif /* _PSP_OVERRIDE_REBOOTLIB_H_ */

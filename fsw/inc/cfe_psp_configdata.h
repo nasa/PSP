@@ -39,14 +39,12 @@
 */
 typedef const struct
 {
-   uint8 MajorVersion;
-   uint8 MinorVersion;
-   uint8 Revision;
-   uint8 MissionRev;
-   char  Version[16];
+    uint8 MajorVersion;
+    uint8 MinorVersion;
+    uint8 Revision;
+    uint8 MissionRev;
+    char  Version[16];
 } CFE_PSP_VersionInfo_t;
-
-
 
 /**
  * PSP/Hardware configuration parameters
@@ -56,18 +54,18 @@ typedef const struct
  */
 typedef const struct
 {
-   uint32 PSP_WatchdogMin;                /**< PSP Minimum watchdog in milliseconds */
-   uint32 PSP_WatchdogMax;                /**< PSP Maximum watchdog in milliseconds */
-   uint32 PSP_MemTableSize;               /**< Size of PSP memory table */
-   uint32 PSP_ExceptionLogSize;           /**< Size of PSP exception log */
-   CFE_PSP_MemTable_t *PSP_MemoryTable;   /**< Pointer to PSP memory table (forward reference) */
+    uint32              PSP_WatchdogMin;      /**< PSP Minimum watchdog in milliseconds */
+    uint32              PSP_WatchdogMax;      /**< PSP Maximum watchdog in milliseconds */
+    uint32              PSP_MemTableSize;     /**< Size of PSP memory table */
+    uint32              PSP_ExceptionLogSize; /**< Size of PSP exception log */
+    CFE_PSP_MemTable_t *PSP_MemoryTable;      /**< Pointer to PSP memory table (forward reference) */
 
-   /**
-    * Number of EEPROM banks on this platform
-    */
-   uint32 HW_NumEepromBanks;
+    /**
+     * Number of EEPROM banks on this platform
+     */
+    uint32 HW_NumEepromBanks;
 
-   CFE_PSP_VersionInfo_t   PSP_VersionInfo;
+    CFE_PSP_VersionInfo_t PSP_VersionInfo;
 
 } Target_PspConfigData;
 
@@ -82,6 +80,5 @@ extern Target_PspConfigData GLOBAL_PSP_CONFIGDATA;
  * Allows the actual instantiation to be done outside this module
  */
 extern CFE_PSP_MemTable_t CFE_PSP_MemoryTable[];
-
 
 #endif /* CFE_PSP_CONFIG_H_ */

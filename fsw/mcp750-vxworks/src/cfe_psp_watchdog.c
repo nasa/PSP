@@ -35,7 +35,6 @@
 **  Include Files
 */
 
-
 /*
 ** cFE includes
 */
@@ -87,15 +86,13 @@ uint32 CFE_PSP_WatchdogValue = CFE_PSP_WATCHDOG_MAX;
 void CFE_PSP_WatchdogInit(void)
 {
 
-   /*
-   ** Just set it to a value right now
-   ** The pc-linux desktop platform does not actually implement a watchdog
-   ** timeout ( but could with a signal )
-   */
-   CFE_PSP_WatchdogValue = CFE_PSP_WATCHDOG_MAX;
-
+    /*
+    ** Just set it to a value right now
+    ** The pc-linux desktop platform does not actually implement a watchdog
+    ** timeout ( but could with a signal )
+    */
+    CFE_PSP_WatchdogValue = CFE_PSP_WATCHDOG_MAX;
 }
-
 
 /******************************************************************************
 **  Function:  CFE_PSP_WatchdogEnable()
@@ -109,14 +106,12 @@ void CFE_PSP_WatchdogInit(void)
 */
 void CFE_PSP_WatchdogEnable(void)
 {
-  /* Arm the WDT2 control register */
-  PCI_OUT_BYTE(0xFEFF0068, 0x55);
+    /* Arm the WDT2 control register */
+    PCI_OUT_BYTE(0xFEFF0068, 0x55);
 
-  /* The enable/disable bit is bit 15, a setting of 1 enables the timer.*/
-  PCI_OUT_LONG(0xFEFF0068,0xFFFFFFAA);
-
+    /* The enable/disable bit is bit 15, a setting of 1 enables the timer.*/
+    PCI_OUT_LONG(0xFEFF0068, 0xFFFFFFAA);
 }
-
 
 /******************************************************************************
 **  Function:  CFE_PSP_WatchdogDisable()
@@ -130,12 +125,11 @@ void CFE_PSP_WatchdogEnable(void)
 */
 void CFE_PSP_WatchdogDisable(void)
 {
-  /* Arm the WDT2 control register */
-  PCI_OUT_BYTE(0xFEFF0068, 0x55);
+    /* Arm the WDT2 control register */
+    PCI_OUT_BYTE(0xFEFF0068, 0x55);
 
-  /* The enable/disable bit is bit 15, a setting of 0 disables the timer.*/
-  PCI_OUT_LONG(0xFEFF0068,0xFFFF7FAA);
-
+    /* The enable/disable bit is bit 15, a setting of 0 disables the timer.*/
+    PCI_OUT_LONG(0xFEFF0068, 0xFFFF7FAA);
 }
 
 /******************************************************************************
@@ -158,63 +152,61 @@ void CFE_PSP_WatchdogDisable(void)
 */
 void CFE_PSP_WatchdogService(void)
 {
-  /* Arm the WDT2 control register */
-  PCI_OUT_BYTE(0xFEFF0068, 0x55);
+    /* Arm the WDT2 control register */
+    PCI_OUT_BYTE(0xFEFF0068, 0x55);
 
-  /*
-  ** The mcp750 watchdog register is settable to time values between 0 to 1.024
-  ** seconds in increments of 16us. The resolution can be set to less than 16us, but
-  ** the result is a max time of less than 1 second.
-  ** This setting is always added to the fixed delay of 4.5 seconds internal to the
-  ** board. So essentially the watchdog timer on this board can be programmed to
-  ** expire between 4.5 seconds and 5.5 seconds.
-  ** The actual watchdog timer counter is the upper 16 bits of the data word.
-  ** The enable/disable bit is bit 15, a setting of 1 enables the timer.
-  ** The 32 bit word shown below may get byte swapped and/or word swapped before it
-  ** gets to the actual register on the board.
-  */
-  if( CFE_PSP_WatchdogValue == CFE_PSP_WATCHDOG_MIN)
-  {
-    PCI_OUT_LONG(0xFEFF0068,0x0000FFAA);
-  }
-  else
-  {
-    PCI_OUT_LONG(0xFEFF0068,0xFFFFFFAA);
-  }
-
+    /*
+    ** The mcp750 watchdog register is settable to time values between 0 to 1.024
+    ** seconds in increments of 16us. The resolution can be set to less than 16us, but
+    ** the result is a max time of less than 1 second.
+    ** This setting is always added to the fixed delay of 4.5 seconds internal to the
+    ** board. So essentially the watchdog timer on this board can be programmed to
+    ** expire between 4.5 seconds and 5.5 seconds.
+    ** The actual watchdog timer counter is the upper 16 bits of the data word.
+    ** The enable/disable bit is bit 15, a setting of 1 enables the timer.
+    ** The 32 bit word shown below may get byte swapped and/or word swapped before it
+    ** gets to the actual register on the board.
+    */
+    if (CFE_PSP_WatchdogValue == CFE_PSP_WATCHDOG_MIN)
+    {
+        PCI_OUT_LONG(0xFEFF0068, 0x0000FFAA);
+    }
+    else
+    {
+        PCI_OUT_LONG(0xFEFF0068, 0xFFFFFFAA);
+    }
 }
 /******************************************************************************
 **  Function:  CFE_PSP_WatchdogGet
 **
 **  Purpose:
-**    Get the current watchdog value. 
+**    Get the current watchdog value.
 **
 **  Arguments:
-**    none 
+**    none
 **
 **  Return:
-**    the current watchdog value 
+**    the current watchdog value
 **
 **  Notes:
 **
 */
 uint32 CFE_PSP_WatchdogGet(void)
 {
-   return(CFE_PSP_WatchdogValue);
+    return (CFE_PSP_WatchdogValue);
 }
-
 
 /******************************************************************************
 **  Function:  CFE_PSP_WatchdogSet
 **
 **  Purpose:
-**    Get the current watchdog value. 
+**    Get the current watchdog value.
 **
 **  Arguments:
-**    The new watchdog value 
+**    The new watchdog value
 **
 **  Return:
-**    nothing 
+**    nothing
 **
 **  Notes:
 **
@@ -223,4 +215,3 @@ void CFE_PSP_WatchdogSet(uint32 WatchdogValue)
 {
     CFE_PSP_WatchdogValue = WatchdogValue;
 }
-

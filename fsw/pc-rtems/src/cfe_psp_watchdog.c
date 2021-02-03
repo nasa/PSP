@@ -35,7 +35,6 @@
 **  Include Files
 */
 
-
 /*
 ** cFE includes
 */
@@ -75,15 +74,13 @@ uint32 CFE_PSP_WatchdogValue = 0;
 void CFE_PSP_WatchdogInit(void)
 {
 
-   /*
-   ** Just set it to a value right now
-   ** The pc-linux desktop platform does not actually implement a watchdog
-   ** timeout ( but could with a signal )
-   */
-   CFE_PSP_WatchdogValue = CFE_PSP_WATCHDOG_MAX;
-
+    /*
+    ** Just set it to a value right now
+    ** The pc-linux desktop platform does not actually implement a watchdog
+    ** timeout ( but could with a signal )
+    */
+    CFE_PSP_WatchdogValue = CFE_PSP_WATCHDOG_MAX;
 }
-
 
 /******************************************************************************
 **  Function:  CFE_PSP_WatchdogEnable()
@@ -95,11 +92,7 @@ void CFE_PSP_WatchdogInit(void)
 **
 **  Return:
 */
-void CFE_PSP_WatchdogEnable(void)
-{
-
-}
-
+void CFE_PSP_WatchdogEnable(void) {}
 
 /******************************************************************************
 **  Function:  CFE_PSP_WatchdogDisable()
@@ -111,10 +104,7 @@ void CFE_PSP_WatchdogEnable(void)
 **
 **  Return:
 */
-void CFE_PSP_WatchdogDisable(void)
-{
-
-}
+void CFE_PSP_WatchdogDisable(void) {}
 
 /******************************************************************************
 **  Function:  CFE_PSP_WatchdogService()
@@ -132,44 +122,39 @@ void CFE_PSP_WatchdogDisable(void)
 **  Notes:
 **
 */
-void CFE_PSP_WatchdogService(void)
-{
-
-
-}
+void CFE_PSP_WatchdogService(void) {}
 
 /******************************************************************************
 **  Function:  CFE_PSP_WatchdogGet
 **
 **  Purpose:
-**    Get the current watchdog value. 
+**    Get the current watchdog value.
 **
 **  Arguments:
-**    none 
+**    none
 **
 **  Return:
-**    the current watchdog value 
+**    the current watchdog value
 **
 **  Notes:
 **
 */
 uint32 CFE_PSP_WatchdogGet(void)
 {
-   return(CFE_PSP_WatchdogValue);
+    return (CFE_PSP_WatchdogValue);
 }
-
 
 /******************************************************************************
 **  Function:  CFE_PSP_WatchdogSet
 **
 **  Purpose:
-**    Get the current watchdog value. 
+**    Get the current watchdog value.
 **
 **  Arguments:
-**    The new watchdog value 
+**    The new watchdog value
 **
 **  Return:
-**    nothing 
+**    nothing
 **
 **  Notes:
 **
@@ -178,6 +163,4 @@ void CFE_PSP_WatchdogSet(uint32 WatchdogValue)
 {
 
     CFE_PSP_WatchdogValue = WatchdogValue;
-
 }
-

@@ -19,6 +19,4 @@
 /* mappings for declarations in usrLib.h */
 /* ----------------------------------------- */
 
-
-
 #endif /* _PSP_OVERRIDE_USRLIB_H_ */

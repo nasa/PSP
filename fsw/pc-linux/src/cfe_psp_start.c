@@ -25,7 +25,7 @@
 **   cFE BSP main entry point.
 **
 ** History:
-**   2005/07/26  A. Cudmore      | Initial version for OS X/Linux 
+**   2005/07/26  A. Cudmore      | Initial version for OS X/Linux
 **
 ******************************************************************************/
 
@@ -48,7 +48,7 @@
 #include <errno.h>
 
 /*
-** cFE includes 
+** cFE includes
 */
 #include "common_types.h"
 #include "osapi.h"
@@ -64,25 +64,25 @@
 #include <target_config.h>
 #include "cfe_psp_module.h"
 
-#define CFE_PSP_MAIN_FUNCTION        (*GLOBAL_CONFIGDATA.CfeConfig->SystemMain)
-#define CFE_PSP_1HZ_FUNCTION         (*GLOBAL_CONFIGDATA.CfeConfig->System1HzISR)
-#define CFE_PSP_NONVOL_STARTUP_FILE  (GLOBAL_CONFIGDATA.CfeConfig->NonvolStartupFile)
-#define CFE_PSP_CPU_ID               (GLOBAL_CONFIGDATA.Default_CpuId)
-#define CFE_PSP_CPU_NAME             (GLOBAL_CONFIGDATA.Default_CpuName)
-#define CFE_PSP_SPACECRAFT_ID        (GLOBAL_CONFIGDATA.Default_SpacecraftId)
+#define CFE_PSP_MAIN_FUNCTION       (*GLOBAL_CONFIGDATA.CfeConfig->SystemMain)
+#define CFE_PSP_1HZ_FUNCTION        (*GLOBAL_CONFIGDATA.CfeConfig->System1HzISR)
+#define CFE_PSP_NONVOL_STARTUP_FILE (GLOBAL_CONFIGDATA.CfeConfig->NonvolStartupFile)
+#define CFE_PSP_CPU_ID              (GLOBAL_CONFIGDATA.Default_CpuId)
+#define CFE_PSP_CPU_NAME            (GLOBAL_CONFIGDATA.Default_CpuName)
+#define CFE_PSP_SPACECRAFT_ID       (GLOBAL_CONFIGDATA.Default_SpacecraftId)
 
 /*
 ** Defines
 */
 
-#define CFE_PSP_CPU_NAME_LENGTH  32
+#define CFE_PSP_CPU_NAME_LENGTH   32
 #define CFE_PSP_RESET_NAME_LENGTH 10
 
 /*
  * Limits for task name length in kernel (fixed by Linux/glibc)
  * For reference see manpage for "pthread_setname_np".
  */
-#define CFE_PSP_KERNEL_NAME_LENGTH_MAX  16
+#define CFE_PSP_KERNEL_NAME_LENGTH_MAX 16
 
 /*
 ** Typedefs for this module
@@ -92,42 +92,42 @@
 ** Structure for the Command line parameters
 */
 typedef struct
-{   
-   char     ResetType[CFE_PSP_RESET_NAME_LENGTH];   /* Reset type can be "PO" for Power on or "PR" for Processor Reset */
-   uint32   GotResetType;    /* did we get the ResetType parameter ? */
+{
+    char   ResetType[CFE_PSP_RESET_NAME_LENGTH]; /* Reset type can be "PO" for Power on or "PR" for Processor Reset */
+    uint32 GotResetType;                         /* did we get the ResetType parameter ? */
 
-   uint32   SubType;         /* Reset Sub Type ( 1 - 5 )  */
-   uint32   GotSubType;      /* did we get the ResetSubType parameter ? */
-   
-   char     CpuName[CFE_PSP_CPU_NAME_LENGTH];     /* CPU Name */
-   uint32   GotCpuName;      /* Did we get a CPU Name ? */
+    uint32 SubType;    /* Reset Sub Type ( 1 - 5 )  */
+    uint32 GotSubType; /* did we get the ResetSubType parameter ? */
 
-   uint32   CpuId;            /* CPU ID */
-   uint32   GotCpuId;         /* Did we get a CPU Id ?*/
+    char   CpuName[CFE_PSP_CPU_NAME_LENGTH]; /* CPU Name */
+    uint32 GotCpuName;                       /* Did we get a CPU Name ? */
 
-   uint32   SpacecraftId;     /* Spacecraft ID */ 
-   uint32   GotSpacecraftId;  /* Did we get a Spacecraft ID */
-   
+    uint32 CpuId;    /* CPU ID */
+    uint32 GotCpuId; /* Did we get a CPU Id ?*/
+
+    uint32 SpacecraftId;    /* Spacecraft ID */
+    uint32 GotSpacecraftId; /* Did we get a Spacecraft ID */
+
 } CFE_PSP_CommandData_t;
 
 /*
 ** Prototypes for this module
 */
-void CFE_PSP_TimerHandler (int signum);
-void CFE_PSP_DisplayUsage(char *Name );
+void CFE_PSP_TimerHandler(int signum);
+void CFE_PSP_DisplayUsage(char *Name);
 void CFE_PSP_ProcessArgumentDefaults(CFE_PSP_CommandData_t *CommandDataDefault);
 void CFE_PSP_SetupLocal1Hz(void);
 
 /*
 ** Global variables
 */
-uint32              TimerCounter;
+uint32                TimerCounter;
 CFE_PSP_CommandData_t CommandData;
-uint32              CFE_PSP_SpacecraftId;
-uint32              CFE_PSP_CpuId;
-char                CFE_PSP_CpuName[CFE_PSP_CPU_NAME_LENGTH];
+uint32                CFE_PSP_SpacecraftId;
+uint32                CFE_PSP_CpuId;
+char                  CFE_PSP_CpuName[CFE_PSP_CPU_NAME_LENGTH];
 
-CFE_PSP_IdleTaskState_t  CFE_PSP_IdleTaskState;
+CFE_PSP_IdleTaskState_t CFE_PSP_IdleTaskState;
 
 /*
 ** getopts parameter passing options string
@@ -137,15 +137,13 @@ static const char *optString = "R:S:C:I:N:h";
 /*
 ** getopts_long long form argument table
 */
-static const struct option longOpts[] = {
-   { "reset",     required_argument, NULL, 'R' },
-   { "subtype",   required_argument, NULL, 'S' },
-   { "cpuid",     required_argument, NULL, 'C' },
-   { "scid",      required_argument, NULL, 'I'},
-   { "cpuname",   required_argument, NULL, 'N'},
-   { "help",      no_argument,       NULL, 'h' },
-   { NULL,        no_argument,       NULL,  0 }
-};
+static const struct option longOpts[] = {{"reset", required_argument, NULL, 'R'},
+                                         {"subtype", required_argument, NULL, 'S'},
+                                         {"cpuid", required_argument, NULL, 'C'},
+                                         {"scid", required_argument, NULL, 'I'},
+                                         {"cpuname", required_argument, NULL, 'N'},
+                                         {"help", no_argument, NULL, 'h'},
+                                         {NULL, no_argument, NULL, 0}};
 
 /******************************************************************************
 **  Function:  CFE_PSP_OS_EventHandler()
@@ -159,40 +157,40 @@ int32 CFE_PSP_OS_EventHandler(OS_Event_t event, osal_id_t object_id, void *data)
 {
     char taskname[OS_MAX_API_NAME];
 
-    switch(event)
+    switch (event)
     {
-    case OS_EVENT_RESOURCE_ALLOCATED:
-        /* resource/id is newly allocated but not yet created.  Invoked within locked region. */
-        break;
-    case OS_EVENT_RESOURCE_CREATED:
-        /* resource/id has been fully created/finalized.  Invoked outside locked region. */
-        break;
-    case OS_EVENT_RESOURCE_DELETED:
-        /* resource/id has been deleted.  Invoked outside locked region. */
-        break;
-    case OS_EVENT_TASK_STARTUP:
-    {
-        /* New task is starting. Invoked from within the task context. */
-        /* Get the name from OSAL and propagate to the pthread/system layer */
-        if (OS_GetResourceName(object_id, taskname, sizeof(taskname)) == OS_SUCCESS)
+        case OS_EVENT_RESOURCE_ALLOCATED:
+            /* resource/id is newly allocated but not yet created.  Invoked within locked region. */
+            break;
+        case OS_EVENT_RESOURCE_CREATED:
+            /* resource/id has been fully created/finalized.  Invoked outside locked region. */
+            break;
+        case OS_EVENT_RESOURCE_DELETED:
+            /* resource/id has been deleted.  Invoked outside locked region. */
+            break;
+        case OS_EVENT_TASK_STARTUP:
         {
-            /*
-             * glibc/kernel has an internal limit for this name.
-             * If the OSAL name is longer, just truncate it.
-             * Otherwise the name isn't set at all - this assumes the first
-             * chars of the name is better for debug than none of it.
-             */
-            if (strlen(taskname) >= CFE_PSP_KERNEL_NAME_LENGTH_MAX)
+            /* New task is starting. Invoked from within the task context. */
+            /* Get the name from OSAL and propagate to the pthread/system layer */
+            if (OS_GetResourceName(object_id, taskname, sizeof(taskname)) == OS_SUCCESS)
             {
-                taskname[CFE_PSP_KERNEL_NAME_LENGTH_MAX-1] = 0;
+                /*
+                 * glibc/kernel has an internal limit for this name.
+                 * If the OSAL name is longer, just truncate it.
+                 * Otherwise the name isn't set at all - this assumes the first
+                 * chars of the name is better for debug than none of it.
+                 */
+                if (strlen(taskname) >= CFE_PSP_KERNEL_NAME_LENGTH_MAX)
+                {
+                    taskname[CFE_PSP_KERNEL_NAME_LENGTH_MAX - 1] = 0;
+                }
+                pthread_setname_np(pthread_self(), taskname);
             }
-            pthread_setname_np(pthread_self(), taskname);
+            break;
         }
-        break;
-    }
 
-    default:
-        break;
+        default:
+            break;
     }
 
     return OS_SUCCESS;
@@ -212,269 +210,265 @@ int32 CFE_PSP_OS_EventHandler(OS_Event_t event, osal_id_t object_id, void *data)
 */
 void OS_Application_Startup(void)
 {
-   uint32             reset_type;
-   uint32             reset_subtype;
-   int32              time_status;
-   osal_id_t          sys_timebase_id;
-   osal_id_t          fs_id;
-   int                opt = 0;
-   int                longIndex = 0;
-   int32              Status;
-   char * const *     argv;
-   int                argc;
+    uint32       reset_type;
+    uint32       reset_subtype;
+    int32        time_status;
+    osal_id_t    sys_timebase_id;
+    osal_id_t    fs_id;
+    int          opt       = 0;
+    int          longIndex = 0;
+    int32        Status;
+    char *const *argv;
+    int          argc;
 
-   /*
-   ** Initialize the CommandData struct 
-   */
-   memset(&(CommandData), 0, sizeof(CFE_PSP_CommandData_t));
-
-   /* 
-   ** Process the arguments with getopt_long(), then 
-   ** start the cFE
-   */
-   argc = OS_BSP_GetArgC();
-   argv = OS_BSP_GetArgV();
-   opt = getopt_long( argc, argv, optString, longOpts, &longIndex );
-   while( opt != -1 ) 
-   {
-      switch( opt ) 
-      {
-         case 'R':
-            strncpy(CommandData.ResetType, optarg, CFE_PSP_RESET_NAME_LENGTH-1);
-            CommandData.ResetType[CFE_PSP_RESET_NAME_LENGTH-1] = 0;
-
-            if ((strncmp(CommandData.ResetType, "PO", CFE_PSP_RESET_NAME_LENGTH ) != 0 ) &&
-                (strncmp(CommandData.ResetType, "PR", CFE_PSP_RESET_NAME_LENGTH ) != 0 ))
-            {
-               printf("\nERROR: Invalid Reset Type: %s\n\n",CommandData.ResetType);
-               CommandData.GotResetType = 0;
-               CFE_PSP_DisplayUsage(argv[0]);
-               break;
-            }
-            printf("CFE_PSP: Reset Type: %s\n",(char *)optarg);
-            CommandData.GotResetType = 1;
-            break;
-				
-         case 'S':
-            CommandData.SubType = strtol(optarg, NULL, 0 );
-            if ( CommandData.SubType < 1 || CommandData.SubType > 5 )
-            {
-               printf("\nERROR: Invalid Reset SubType: %s\n\n",optarg);
-               CommandData.SubType = 0;
-               CommandData.GotSubType = 0;
-               CFE_PSP_DisplayUsage(argv[0]);
-               break;
-            }
-            printf("CFE_PSP: Reset SubType: %d\n",(int)CommandData.SubType);
-            CommandData.GotSubType = 1;
-            break;
-
-         case 'N':
-            strncpy(CommandData.CpuName, optarg, CFE_PSP_CPU_NAME_LENGTH-1 );
-            CommandData.CpuName[CFE_PSP_CPU_NAME_LENGTH-1] = 0;
-            printf("CFE_PSP: CPU Name: %s\n",CommandData.CpuName);
-            CommandData.GotCpuName = 1;
-            break;
-
-         case 'C':
-            CommandData.CpuId = strtol(optarg, NULL, 0 );
-            printf("CFE_PSP: CPU ID: %d\n",(int)CommandData.CpuId);
-            CommandData.GotCpuId = 1;
-            break;
-
-         case 'I':
-            CommandData.SpacecraftId = strtol(optarg, NULL, 0 );
-            printf("CFE_PSP: Spacecraft ID: %d\n",(int)CommandData.SpacecraftId);
-            CommandData.GotSpacecraftId = 1;
-            break;
-
-         case 'h':
-            CFE_PSP_DisplayUsage(argv[0]);
-            break;
-	
-         default:
-            CFE_PSP_DisplayUsage(argv[0]);
-            break;
-       }
-		
-       opt = getopt_long( argc, argv, optString, longOpts, &longIndex );
-   } /* end while */
-   
-   /*
-   ** Set the defaults for values that were not given for the 
-   ** optional arguments, and check for arguments that are required.
-   */
-   CFE_PSP_ProcessArgumentDefaults(&CommandData);
-
-   /*
-   ** Assign the Spacecraft ID, CPU ID, and CPU Name
-   */
-   CFE_PSP_SpacecraftId = CommandData.SpacecraftId;
-   CFE_PSP_CpuId = CommandData.CpuId;
-   strncpy(CFE_PSP_CpuName, CommandData.CpuName, sizeof(CFE_PSP_CpuName)-1);
-   CFE_PSP_CpuName[sizeof(CFE_PSP_CpuName)-1] = 0;
-
-   /*
-   ** Set the reset subtype
-   */
-   reset_subtype = CommandData.SubType;
-
-
-   /*
-   ** Initialize the OS API data structures
-   */
-   Status = OS_API_Init();
-   if (Status != OS_SUCCESS)
-   {
-       /* irrecoverable error if OS_API_Init() fails. */
-       /* note: use printf here, as OS_printf may not work */
-       printf("CFE_PSP: OS_API_Init() failure\n");
-       CFE_PSP_Panic(Status);
-   }
-
-   OS_RegisterEventHandler(CFE_PSP_OS_EventHandler);
-
-   /*
-    * Map the PSP shared memory segments
+    /*
+    ** Initialize the CommandData struct
     */
-   CFE_PSP_SetupReservedMemoryMap();
+    memset(&(CommandData), 0, sizeof(CFE_PSP_CommandData_t));
 
-   /*
-    * Prepare for exception handling in the idle task
+    /*
+    ** Process the arguments with getopt_long(), then
+    ** start the cFE
     */
-   memset(&CFE_PSP_IdleTaskState, 0, sizeof(CFE_PSP_IdleTaskState));
-   CFE_PSP_IdleTaskState.ThreadID = pthread_self();
+    argc = OS_BSP_GetArgC();
+    argv = OS_BSP_GetArgV();
+    opt  = getopt_long(argc, argv, optString, longOpts, &longIndex);
+    while (opt != -1)
+    {
+        switch (opt)
+        {
+            case 'R':
+                strncpy(CommandData.ResetType, optarg, CFE_PSP_RESET_NAME_LENGTH - 1);
+                CommandData.ResetType[CFE_PSP_RESET_NAME_LENGTH - 1] = 0;
 
-   /*
-   ** Set up the timebase, if OSAL supports it
-   ** Done here so that the modules can also use it, if desired
-   **
-   ** This is a clock named "cFS-Master" that will serve to drive
-   ** all time-related CFE functions including the 1Hz signal.
-   **
-   ** Note the timebase is only prepared here; the application is
-   ** not ready to receive a callback yet, as it hasn't been started.
-   ** CFE TIME registers its own callback when it is ready to do so.
-   */
-   time_status = OS_TimeBaseCreate(&sys_timebase_id, "cFS-Master", NULL);
-   if (time_status == OS_SUCCESS)
-   {
-       /*
-        * Set the clock to trigger with 50ms resolution - slow enough that
-        * it will not hog CPU resources but fast enough to have sufficient resolution
-        * for most general timing purposes.
-        * (It may be better to move this to the mission config file)
-        */
-       time_status = OS_TimeBaseSet(sys_timebase_id, 50000, 50000);
-   }
-   else
-   {
-       /*
-        * Cannot create a timebase in OSAL.
-        *
-        * Note: Most likely this is due to building with
-        * the old/classic POSIX OSAL which does not support this.
-        *
-        * See below for workaround.
-        */
-       sys_timebase_id = OS_OBJECT_ID_UNDEFINED;
-   }
+                if ((strncmp(CommandData.ResetType, "PO", CFE_PSP_RESET_NAME_LENGTH) != 0) &&
+                    (strncmp(CommandData.ResetType, "PR", CFE_PSP_RESET_NAME_LENGTH) != 0))
+                {
+                    printf("\nERROR: Invalid Reset Type: %s\n\n", CommandData.ResetType);
+                    CommandData.GotResetType = 0;
+                    CFE_PSP_DisplayUsage(argv[0]);
+                    break;
+                }
+                printf("CFE_PSP: Reset Type: %s\n", (char *)optarg);
+                CommandData.GotResetType = 1;
+                break;
 
-   /*
-   ** Set up the virtual FS mapping for the "/cf" directory
-   ** On this platform it is just a local/relative dir of the same name.
-   */
-   Status = OS_FileSysAddFixedMap(&fs_id, "./cf", "/cf");
-   if (Status != OS_SUCCESS)
-   {
-       /* Print for informational purposes --
-        * startup can continue, but loads may fail later, depending on config. */
-       OS_printf("CFE_PSP: OS_FileSysAddFixedMap() failure: %d\n", (int)Status);
-   }
+            case 'S':
+                CommandData.SubType = strtol(optarg, NULL, 0);
+                if (CommandData.SubType < 1 || CommandData.SubType > 5)
+                {
+                    printf("\nERROR: Invalid Reset SubType: %s\n\n", optarg);
+                    CommandData.SubType    = 0;
+                    CommandData.GotSubType = 0;
+                    CFE_PSP_DisplayUsage(argv[0]);
+                    break;
+                }
+                printf("CFE_PSP: Reset SubType: %d\n", (int)CommandData.SubType);
+                CommandData.GotSubType = 1;
+                break;
 
-   /*
-   ** Initialize the statically linked modules (if any)
-   ** This is only applicable to CMake build - classic build
-   ** does not have the logic to selectively include/exclude modules
-   */
-   CFE_PSP_ModuleInit();
-     
-   sleep(1);
+            case 'N':
+                strncpy(CommandData.CpuName, optarg, CFE_PSP_CPU_NAME_LENGTH - 1);
+                CommandData.CpuName[CFE_PSP_CPU_NAME_LENGTH - 1] = 0;
+                printf("CFE_PSP: CPU Name: %s\n", CommandData.CpuName);
+                CommandData.GotCpuName = 1;
+                break;
 
-   /*
-    * For informational purposes, show the state of the last exit
+            case 'C':
+                CommandData.CpuId = strtol(optarg, NULL, 0);
+                printf("CFE_PSP: CPU ID: %d\n", (int)CommandData.CpuId);
+                CommandData.GotCpuId = 1;
+                break;
+
+            case 'I':
+                CommandData.SpacecraftId = strtol(optarg, NULL, 0);
+                printf("CFE_PSP: Spacecraft ID: %d\n", (int)CommandData.SpacecraftId);
+                CommandData.GotSpacecraftId = 1;
+                break;
+
+            case 'h':
+                CFE_PSP_DisplayUsage(argv[0]);
+                break;
+
+            default:
+                CFE_PSP_DisplayUsage(argv[0]);
+                break;
+        }
+
+        opt = getopt_long(argc, argv, optString, longOpts, &longIndex);
+    } /* end while */
+
+    /*
+    ** Set the defaults for values that were not given for the
+    ** optional arguments, and check for arguments that are required.
     */
-   if (CFE_PSP_ReservedMemoryMap.BootPtr->ValidityFlag == CFE_PSP_BOOTRECORD_VALID)
-   {
-       OS_printf("CFE_PSP: Normal exit from previous cFE instance\n");
-   }
-   else if (CFE_PSP_ReservedMemoryMap.BootPtr->ValidityFlag == CFE_PSP_BOOTRECORD_INVALID)
-   {
-       OS_printf("CFE_PSP: Abnormal exit from previous cFE instance\n");
-   }
+    CFE_PSP_ProcessArgumentDefaults(&CommandData);
 
-   /*
-    * determine reset type...
-    * If not specified at the command line, then check the "boot record"
+    /*
+    ** Assign the Spacecraft ID, CPU ID, and CPU Name
     */
-   reset_type = 0;
-   if (!CommandData.GotResetType)
-   {
-       if (CFE_PSP_ReservedMemoryMap.BootPtr->ValidityFlag == CFE_PSP_BOOTRECORD_VALID ||
-               CFE_PSP_ReservedMemoryMap.BootPtr->ValidityFlag == CFE_PSP_BOOTRECORD_INVALID)
-       {
-           reset_type = CFE_PSP_ReservedMemoryMap.BootPtr->NextResetType;
-       }
-   }
-   else if (strncmp("PR", CommandData.ResetType, 2 ) == 0 )
-   {
-       reset_type = CFE_PSP_RST_TYPE_PROCESSOR;
-   }
+    CFE_PSP_SpacecraftId = CommandData.SpacecraftId;
+    CFE_PSP_CpuId        = CommandData.CpuId;
+    strncpy(CFE_PSP_CpuName, CommandData.CpuName, sizeof(CFE_PSP_CpuName) - 1);
+    CFE_PSP_CpuName[sizeof(CFE_PSP_CpuName) - 1] = 0;
 
-   if (reset_type == CFE_PSP_RST_TYPE_PROCESSOR)
-   {
-       OS_printf("CFE_PSP: Starting the cFE with a PROCESSOR reset.\n");
-   }
-   else
-   {
-       /* catch-all for anything else */
-       reset_type = CFE_PSP_RST_TYPE_POWERON;
-       OS_printf("CFE_PSP: Starting the cFE with a POWER ON reset.\n");
-   }
-
-
-   /*
-   ** Initialize the reserved memory 
-   */
-   Status = CFE_PSP_InitProcessorReservedMemory(reset_type);
-   if (Status != CFE_PSP_SUCCESS)
-   {
-       OS_printf("CFE_PSP: CFE_PSP_InitProcessorReservedMemory() Failure");
-       CFE_PSP_Panic(Status);
-   }
-
-   /*
-   ** Call cFE entry point.
-   */
-   CFE_PSP_MAIN_FUNCTION(reset_type, reset_subtype, 1, CFE_PSP_NONVOL_STARTUP_FILE);
-
-   /*
-    * Backward compatibility for old OSAL.
+    /*
+    ** Set the reset subtype
     */
-   if (!OS_ObjectIdDefined(sys_timebase_id) || time_status != OS_SUCCESS)
-   {
-       OS_printf("CFE_PSP: WARNING - Compatibility mode - using local 1Hz Interrupt\n");
-       CFE_PSP_SetupLocal1Hz();
-   }
+    reset_subtype = CommandData.SubType;
 
+    /*
+    ** Initialize the OS API data structures
+    */
+    Status = OS_API_Init();
+    if (Status != OS_SUCCESS)
+    {
+        /* irrecoverable error if OS_API_Init() fails. */
+        /* note: use printf here, as OS_printf may not work */
+        printf("CFE_PSP: OS_API_Init() failure\n");
+        CFE_PSP_Panic(Status);
+    }
+
+    OS_RegisterEventHandler(CFE_PSP_OS_EventHandler);
+
+    /*
+     * Map the PSP shared memory segments
+     */
+    CFE_PSP_SetupReservedMemoryMap();
+
+    /*
+     * Prepare for exception handling in the idle task
+     */
+    memset(&CFE_PSP_IdleTaskState, 0, sizeof(CFE_PSP_IdleTaskState));
+    CFE_PSP_IdleTaskState.ThreadID = pthread_self();
+
+    /*
+    ** Set up the timebase, if OSAL supports it
+    ** Done here so that the modules can also use it, if desired
+    **
+    ** This is a clock named "cFS-Master" that will serve to drive
+    ** all time-related CFE functions including the 1Hz signal.
+    **
+    ** Note the timebase is only prepared here; the application is
+    ** not ready to receive a callback yet, as it hasn't been started.
+    ** CFE TIME registers its own callback when it is ready to do so.
+    */
+    time_status = OS_TimeBaseCreate(&sys_timebase_id, "cFS-Master", NULL);
+    if (time_status == OS_SUCCESS)
+    {
+        /*
+         * Set the clock to trigger with 50ms resolution - slow enough that
+         * it will not hog CPU resources but fast enough to have sufficient resolution
+         * for most general timing purposes.
+         * (It may be better to move this to the mission config file)
+         */
+        time_status = OS_TimeBaseSet(sys_timebase_id, 50000, 50000);
+    }
+    else
+    {
+        /*
+         * Cannot create a timebase in OSAL.
+         *
+         * Note: Most likely this is due to building with
+         * the old/classic POSIX OSAL which does not support this.
+         *
+         * See below for workaround.
+         */
+        sys_timebase_id = OS_OBJECT_ID_UNDEFINED;
+    }
+
+    /*
+    ** Set up the virtual FS mapping for the "/cf" directory
+    ** On this platform it is just a local/relative dir of the same name.
+    */
+    Status = OS_FileSysAddFixedMap(&fs_id, "./cf", "/cf");
+    if (Status != OS_SUCCESS)
+    {
+        /* Print for informational purposes --
+         * startup can continue, but loads may fail later, depending on config. */
+        OS_printf("CFE_PSP: OS_FileSysAddFixedMap() failure: %d\n", (int)Status);
+    }
+
+    /*
+    ** Initialize the statically linked modules (if any)
+    ** This is only applicable to CMake build - classic build
+    ** does not have the logic to selectively include/exclude modules
+    */
+    CFE_PSP_ModuleInit();
+
+    sleep(1);
+
+    /*
+     * For informational purposes, show the state of the last exit
+     */
+    if (CFE_PSP_ReservedMemoryMap.BootPtr->ValidityFlag == CFE_PSP_BOOTRECORD_VALID)
+    {
+        OS_printf("CFE_PSP: Normal exit from previous cFE instance\n");
+    }
+    else if (CFE_PSP_ReservedMemoryMap.BootPtr->ValidityFlag == CFE_PSP_BOOTRECORD_INVALID)
+    {
+        OS_printf("CFE_PSP: Abnormal exit from previous cFE instance\n");
+    }
+
+    /*
+     * determine reset type...
+     * If not specified at the command line, then check the "boot record"
+     */
+    reset_type = 0;
+    if (!CommandData.GotResetType)
+    {
+        if (CFE_PSP_ReservedMemoryMap.BootPtr->ValidityFlag == CFE_PSP_BOOTRECORD_VALID ||
+            CFE_PSP_ReservedMemoryMap.BootPtr->ValidityFlag == CFE_PSP_BOOTRECORD_INVALID)
+        {
+            reset_type = CFE_PSP_ReservedMemoryMap.BootPtr->NextResetType;
+        }
+    }
+    else if (strncmp("PR", CommandData.ResetType, 2) == 0)
+    {
+        reset_type = CFE_PSP_RST_TYPE_PROCESSOR;
+    }
+
+    if (reset_type == CFE_PSP_RST_TYPE_PROCESSOR)
+    {
+        OS_printf("CFE_PSP: Starting the cFE with a PROCESSOR reset.\n");
+    }
+    else
+    {
+        /* catch-all for anything else */
+        reset_type = CFE_PSP_RST_TYPE_POWERON;
+        OS_printf("CFE_PSP: Starting the cFE with a POWER ON reset.\n");
+    }
+
+    /*
+    ** Initialize the reserved memory
+    */
+    Status = CFE_PSP_InitProcessorReservedMemory(reset_type);
+    if (Status != CFE_PSP_SUCCESS)
+    {
+        OS_printf("CFE_PSP: CFE_PSP_InitProcessorReservedMemory() Failure");
+        CFE_PSP_Panic(Status);
+    }
+
+    /*
+    ** Call cFE entry point.
+    */
+    CFE_PSP_MAIN_FUNCTION(reset_type, reset_subtype, 1, CFE_PSP_NONVOL_STARTUP_FILE);
+
+    /*
+     * Backward compatibility for old OSAL.
+     */
+    if (!OS_ObjectIdDefined(sys_timebase_id) || time_status != OS_SUCCESS)
+    {
+        OS_printf("CFE_PSP: WARNING - Compatibility mode - using local 1Hz Interrupt\n");
+        CFE_PSP_SetupLocal1Hz();
+    }
 }
 
 void OS_Application_Run(void)
 {
-    int sig;
-    int ret;
+    int      sig;
+    int      ret;
     sigset_t sigset;
-
 
     /*
      * Now that all main tasks are created,
@@ -511,22 +505,21 @@ void OS_Application_Run(void)
         /* go idle and wait for an event */
         ret = sigwait(&sigset, &sig);
 
-        if (ret == 0 && !CFE_PSP_IdleTaskState.ShutdownReq &&
-                sig == CFE_PSP_EXCEPTION_EVENT_SIGNAL &&
-                GLOBAL_CFE_CONFIGDATA.SystemNotify != NULL)
+        if (ret == 0 && !CFE_PSP_IdleTaskState.ShutdownReq && sig == CFE_PSP_EXCEPTION_EVENT_SIGNAL &&
+            GLOBAL_CFE_CONFIGDATA.SystemNotify != NULL)
         {
             /* notify the CFE of the event */
             GLOBAL_CFE_CONFIGDATA.SystemNotify();
         }
     }
 
-   /*
-    * This happens if an unhandled exception occurs, or if the user presses CTRL+C
-    */
-   OS_printf("\nCFE_PSP: Shutdown initiated - Exiting cFE\n");
-   OS_TaskDelay(100);
+    /*
+     * This happens if an unhandled exception occurs, or if the user presses CTRL+C
+     */
+    OS_printf("\nCFE_PSP: Shutdown initiated - Exiting cFE\n");
+    OS_TaskDelay(100);
 
-   OS_DeleteAllObjects();
+    OS_DeleteAllObjects();
 }
 
 /******************************************************************************
@@ -542,15 +535,16 @@ void OS_Application_Run(void)
 **  Return:
 **    (none)
 */
-void CFE_PSP_TimerHandler (int signum)
+void CFE_PSP_TimerHandler(int signum)
 {
-      /*
-      ** call the CFE_TIME 1hz ISR
-      */
-      if((TimerCounter % 4) == 0) CFE_PSP_1HZ_FUNCTION();
+    /*
+    ** call the CFE_TIME 1hz ISR
+    */
+    if ((TimerCounter % 4) == 0)
+        CFE_PSP_1HZ_FUNCTION();
 
-	  /* update timer counter */
-	  TimerCounter++;
+    /* update timer counter */
+    TimerCounter++;
 }
 
 /******************************************************************************
@@ -565,47 +559,48 @@ void CFE_PSP_TimerHandler (int signum)
 **  Return:
 **    (none)
 */
-void CFE_PSP_DisplayUsage(char *Name )
+void CFE_PSP_DisplayUsage(char *Name)
 {
 
-   printf("usage : %s [-R <value>] [-S <value>] [-C <value] [-N <value] [-I <value] [-h] \n", Name);
-   printf("\n");
-   printf("        All parameters are optional and can be used in any order\n");
-   printf("\n");
-   printf("        Parameters include:\n");
-   printf("        -R [ --reset ] Reset Type is one of:\n");
-   printf("             PO   for Power On reset ( default )\n");
-   printf("             PR   for Processor Reset\n");
-   printf("        -S [ --subtype ] Reset Sub Type is one of\n");
-   printf("             1   for  Power on ( default )\n");
-   printf("             2   for  Push Button Reset\n");
-   printf("             3   for  Hardware Special Command Reset\n");
-   printf("             4   for  Watchdog Reset\n");
-   printf("             5   for  Reset Command\n");
-   printf("        -C [ --cpuid ]   CPU ID is an integer CPU identifier.\n");
-   printf("             The default  CPU ID is from the platform configuration file: %d\n",CFE_PSP_CPU_ID);
-   printf("        -N [ --cpuname ] CPU Name is a string to identify the CPU.\n");
-   printf("             The default  CPU Name is from the platform configuration file: %s\n",CFE_PSP_CPU_NAME);
-   printf("        -I [ --scid ]    Spacecraft ID is an integer Spacecraft identifier.\n");
-   printf("             The default Spacecraft ID is from the mission configuration file: %d\n",CFE_PSP_SPACECRAFT_ID);
-   printf("        -h [ --help ]    This message.\n");
-   printf("\n");
-   printf("       Example invocation:\n");
-   printf(" \n");
-   printf("       Short form:\n");
-   printf("       %s -R PO -S 1 -C 1 -N CPU1 -I 32\n",Name);
-   printf("       Long form:\n");
-   printf("       %s --reset PO --subtype 1 --cpuid 1 --cpuname CPU1 --scid 32\n",Name);
-   printf(" \n");
+    printf("usage : %s [-R <value>] [-S <value>] [-C <value] [-N <value] [-I <value] [-h] \n", Name);
+    printf("\n");
+    printf("        All parameters are optional and can be used in any order\n");
+    printf("\n");
+    printf("        Parameters include:\n");
+    printf("        -R [ --reset ] Reset Type is one of:\n");
+    printf("             PO   for Power On reset ( default )\n");
+    printf("             PR   for Processor Reset\n");
+    printf("        -S [ --subtype ] Reset Sub Type is one of\n");
+    printf("             1   for  Power on ( default )\n");
+    printf("             2   for  Push Button Reset\n");
+    printf("             3   for  Hardware Special Command Reset\n");
+    printf("             4   for  Watchdog Reset\n");
+    printf("             5   for  Reset Command\n");
+    printf("        -C [ --cpuid ]   CPU ID is an integer CPU identifier.\n");
+    printf("             The default  CPU ID is from the platform configuration file: %d\n", CFE_PSP_CPU_ID);
+    printf("        -N [ --cpuname ] CPU Name is a string to identify the CPU.\n");
+    printf("             The default  CPU Name is from the platform configuration file: %s\n", CFE_PSP_CPU_NAME);
+    printf("        -I [ --scid ]    Spacecraft ID is an integer Spacecraft identifier.\n");
+    printf("             The default Spacecraft ID is from the mission configuration file: %d\n",
+           CFE_PSP_SPACECRAFT_ID);
+    printf("        -h [ --help ]    This message.\n");
+    printf("\n");
+    printf("       Example invocation:\n");
+    printf(" \n");
+    printf("       Short form:\n");
+    printf("       %s -R PO -S 1 -C 1 -N CPU1 -I 32\n", Name);
+    printf("       Long form:\n");
+    printf("       %s --reset PO --subtype 1 --cpuid 1 --cpuname CPU1 --scid 32\n", Name);
+    printf(" \n");
 
-   exit( 1 );
+    exit(1);
 }
 /******************************************************************************
 **  Function: CFE_PSP_ProcessArgumentDefaults
 **
 **  Purpose:
 **    This function assigns defaults to parameters and checks to make sure
-**    the user entered required parameters 
+**    the user entered required parameters
 **
 **  Arguments:
 **    CFE_PSP_CommandData_t *CommandDataDefault -- A pointer to the command parameters.
@@ -615,35 +610,34 @@ void CFE_PSP_DisplayUsage(char *Name )
 */
 void CFE_PSP_ProcessArgumentDefaults(CFE_PSP_CommandData_t *CommandDataDefault)
 {
-   if ( CommandDataDefault->GotSubType == 0 )
-   {
-      CommandDataDefault->SubType = 1;
-      printf("CFE_PSP: Default Reset SubType = 1\n");
-      CommandDataDefault->GotSubType = 1;
-   }
-   
-   if ( CommandDataDefault->GotCpuId == 0 )
-   {
-      CommandDataDefault->CpuId = CFE_PSP_CPU_ID;
-      printf("CFE_PSP: Default CPU ID = %d\n",CFE_PSP_CPU_ID);
-      CommandDataDefault->GotCpuId = 1;
-   }
-   
-   if ( CommandDataDefault->GotSpacecraftId == 0 )
-   {
-      CommandDataDefault->SpacecraftId = CFE_PSP_SPACECRAFT_ID;
-      printf("CFE_PSP: Default Spacecraft ID = %d\n",CFE_PSP_SPACECRAFT_ID);
-      CommandDataDefault->GotSpacecraftId = 1;
-   }
-   
-   if ( CommandDataDefault->GotCpuName == 0 )
-   {
-      strncpy(CommandDataDefault->CpuName, CFE_PSP_CPU_NAME, CFE_PSP_CPU_NAME_LENGTH-1 );
-      CommandDataDefault->CpuName[CFE_PSP_CPU_NAME_LENGTH-1] = 0;
-      printf("CFE_PSP: Default CPU Name: %s\n",CFE_PSP_CPU_NAME);
-      CommandDataDefault->GotCpuName = 1;
-   }
+    if (CommandDataDefault->GotSubType == 0)
+    {
+        CommandDataDefault->SubType = 1;
+        printf("CFE_PSP: Default Reset SubType = 1\n");
+        CommandDataDefault->GotSubType = 1;
+    }
 
+    if (CommandDataDefault->GotCpuId == 0)
+    {
+        CommandDataDefault->CpuId = CFE_PSP_CPU_ID;
+        printf("CFE_PSP: Default CPU ID = %d\n", CFE_PSP_CPU_ID);
+        CommandDataDefault->GotCpuId = 1;
+    }
+
+    if (CommandDataDefault->GotSpacecraftId == 0)
+    {
+        CommandDataDefault->SpacecraftId = CFE_PSP_SPACECRAFT_ID;
+        printf("CFE_PSP: Default Spacecraft ID = %d\n", CFE_PSP_SPACECRAFT_ID);
+        CommandDataDefault->GotSpacecraftId = 1;
+    }
+
+    if (CommandDataDefault->GotCpuName == 0)
+    {
+        strncpy(CommandDataDefault->CpuName, CFE_PSP_CPU_NAME, CFE_PSP_CPU_NAME_LENGTH - 1);
+        CommandDataDefault->CpuName[CFE_PSP_CPU_NAME_LENGTH - 1] = 0;
+        printf("CFE_PSP: Default CPU Name: %s\n", CFE_PSP_CPU_NAME);
+        CommandDataDefault->GotCpuName = 1;
+    }
 }
 
 /******************************************************************************
@@ -672,9 +666,9 @@ void CFE_PSP_ProcessArgumentDefaults(CFE_PSP_CommandData_t *CommandDataDefault)
 
 void CFE_PSP_SetupLocal1Hz(void)
 {
-    struct sigaction    sa;
-    struct itimerval    timer;
-    int ret;
+    struct sigaction sa;
+    struct itimerval timer;
+    int              ret;
 
     /*
     ** Init timer counter
@@ -684,7 +678,7 @@ void CFE_PSP_SetupLocal1Hz(void)
     /*
     ** Install timer_handler as the signal handler for SIGALRM.
     */
-    memset (&sa, 0, sizeof (sa));
+    memset(&sa, 0, sizeof(sa));
     sa.sa_handler = &CFE_PSP_TimerHandler;
 
     /*
@@ -694,12 +688,12 @@ void CFE_PSP_SetupLocal1Hz(void)
     ** only on every 4th timer tick.  previous versions of the
     ** PSP did it this way, so this is preserved here).
     */
-    timer.it_value.tv_sec  = 0;
-    timer.it_value.tv_usec = 250000;
+    timer.it_value.tv_sec     = 0;
+    timer.it_value.tv_usec    = 250000;
     timer.it_interval.tv_sec  = 0;
     timer.it_interval.tv_usec = 250000;
 
-    ret = sigaction (SIGALRM, &sa, NULL);
+    ret = sigaction(SIGALRM, &sa, NULL);
 
     if (ret < 0)
     {
@@ -707,11 +701,10 @@ void CFE_PSP_SetupLocal1Hz(void)
     }
     else
     {
-        ret = setitimer (ITIMER_REAL, &timer, NULL);
+        ret = setitimer(ITIMER_REAL, &timer, NULL);
         if (ret < 0)
         {
             OS_printf("CFE_PSP: setitimer() error %d: %s \n", ret, strerror(errno));
         }
     }
 }
-

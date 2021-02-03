@@ -12,8 +12,11 @@
 /* ----------------------------------------- */
 /* types normally defined in moduleLib.h */
 /* ----------------------------------------- */
-typedef struct PCS_MODULE { int m; }    PCS_MODULE;
-typedef PCS_MODULE*                     PCS_MODULE_ID;
+typedef struct PCS_MODULE
+{
+    int m;
+} PCS_MODULE;
+typedef PCS_MODULE *PCS_MODULE_ID;
 
 typedef struct PCS_MODULE_INFO
 {
@@ -33,9 +36,7 @@ typedef struct PCS_MODULE_INFO
 /* prototypes normally declared in moduleLib.h */
 /* ----------------------------------------- */
 
-extern PCS_STATUS PCS_moduleInfoGet(PCS_MODULE_ID moduleId, PCS_MODULE_INFO * pModuleInfo);
-extern PCS_MODULE_ID PCS_moduleFindByName (const char *moduleName);
-
+extern PCS_STATUS    PCS_moduleInfoGet(PCS_MODULE_ID moduleId, PCS_MODULE_INFO *pModuleInfo);
+extern PCS_MODULE_ID PCS_moduleFindByName(const char *moduleName);
 
 #endif /* _PSP_STUB_MODULELIB_H_ */
-

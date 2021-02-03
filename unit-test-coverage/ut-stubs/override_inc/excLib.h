@@ -15,10 +15,9 @@
 #include <vxWorks.h>
 #include <PCS_excLib.h>
 
-
 /* -----------------------------------------  */
 /* mappings for declarations in excLib.h */
 /* -----------------------------------------  */
-#define excHookAdd     PCS_excHookAdd
+#define excHookAdd PCS_excHookAdd
 
 #endif /* _PSP_OVERRIDE_EXCLIB_H_ */

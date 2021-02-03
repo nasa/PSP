@@ -69,13 +69,11 @@
 **
 ** Return Values: CFE_PSP_SUCCESS
 */
-int32 CFE_PSP_MemCpy ( void *dst, const void *src, uint32 size)
+int32 CFE_PSP_MemCpy(void *dst, const void *src, uint32 size)
 {
-	memcpy( dst, src, size);
-	return(CFE_PSP_SUCCESS) ;
-} 
-
-
+    memcpy(dst, src, size);
+    return (CFE_PSP_SUCCESS);
+}
 
 /*
 ** Name: CFE_PSP_MemSet
@@ -101,9 +99,8 @@ int32 CFE_PSP_MemCpy ( void *dst, const void *src, uint32 size)
 /*
 ** CFE_PSP_MemSet
 */
-int32 CFE_PSP_MemSet ( void *dst, uint8 value , uint32 size)
+int32 CFE_PSP_MemSet(void *dst, uint8 value, uint32 size)
 {
-    memset( dst, (int)value, (size_t)size);
-	 return(CFE_PSP_SUCCESS) ;
-} 
-
+    memset(dst, (int)value, (size_t)size);
+    return (CFE_PSP_SUCCESS);
+}
