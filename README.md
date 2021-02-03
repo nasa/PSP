@@ -1,4 +1,5 @@
-Travis-CI: [![Build Status](https://travis-ci.com/nasa/PSP.svg)](https://travis-ci.com/nasa/PSP)
+![Static Analysis](https://github.com/nasa/psp/workflows/Static%20Analysis/badge.svg)
+![Format Check](https://github.com/nasa/psp/workflows/Format%20Check/badge.svg)
 
 # Core Flight System : Framework : Platform Support Package
 
