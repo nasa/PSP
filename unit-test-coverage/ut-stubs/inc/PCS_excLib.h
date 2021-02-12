@@ -17,8 +17,6 @@
 /* prototypes normally declared in excLib.h */
 /* ----------------------------------------- */
 
-extern void   PCS_excHookAdd  (void (*Hook)(PCS_TASK_ID, int, void *));
-
+extern void PCS_excHookAdd(void (*Hook)(PCS_TASK_ID, int, void *));
 
 #endif /* _PSP_STUB_EXCLIB_H_ */
-

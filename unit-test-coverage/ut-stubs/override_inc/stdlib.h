@@ -18,13 +18,12 @@
 /* mappings for declarations in stdlib.h */
 /* ----------------------------------------- */
 
-#define EXIT_SUCCESS   PCS_EXIT_SUCCESS
-#define EXIT_FAILURE   PCS_EXIT_FAILURE
-#define exit           PCS_exit
-#define strtoul        PCS_strtoul
-#define system         PCS_system
-#define malloc         PCS_malloc
-#define free           PCS_free
-
+#define EXIT_SUCCESS PCS_EXIT_SUCCESS
+#define EXIT_FAILURE PCS_EXIT_FAILURE
+#define exit         PCS_exit
+#define strtoul      PCS_strtoul
+#define system       PCS_system
+#define malloc       PCS_malloc
+#define free         PCS_free
 
 #endif /* _PSP_OVERRIDE_STDLIB_H_ */

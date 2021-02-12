@@ -26,7 +26,6 @@
 #ifndef _cfe_psp_config_
 #define _cfe_psp_config_
 
-
 #include "common_types.h"
 
 #include <stdio.h>
@@ -50,7 +49,7 @@
  *
  * It must always be a power of two.
  */
-#define CFE_PSP_MAX_EXCEPTION_ENTRIES       4
+#define CFE_PSP_MAX_EXCEPTION_ENTRIES 4
 
 /*
 ** Typedef for the layout of the vxWorks boot record structure
@@ -60,13 +59,12 @@
 */
 typedef struct
 {
-   uint32 bsp_reset_type;
-   uint32 spare1;
-   uint32 spare2;
-   uint32 spare3;
+    uint32 bsp_reset_type;
+    uint32 spare1;
+    uint32 spare2;
+    uint32 spare3;
 
 } CFE_PSP_ReservedMemoryBootRecord_t;
-
 
 /**
  * \brief The data type used by the underlying OS to represent a thread ID.
@@ -78,11 +76,11 @@ typedef TASK_ID CFE_PSP_Exception_SysTaskId_t;
 */
 typedef struct
 {
-    UINT32      timebase_upper; /* Upper 32 bits of timebase as sampled by hook */
-    UINT32      timebase_lower; /* Lower 32 bits of timebase as sampled by hook */
-    int         vector;         /* vector number */
-    ESFPPC      esf;            /* Exception stack frame */
-    FP_CONTEXT  fp;             /* floating point registers */
+    UINT32     timebase_upper; /* Upper 32 bits of timebase as sampled by hook */
+    UINT32     timebase_lower; /* Lower 32 bits of timebase as sampled by hook */
+    int        vector;         /* vector number */
+    ESFPPC     esf;            /* Exception stack frame */
+    FP_CONTEXT fp;             /* floating point registers */
 
 } CFE_PSP_Exception_ContextDataEntry_t;
 
@@ -90,7 +88,7 @@ typedef struct
 ** Watchdog minimum and maximum values ( in milliseconds )
 */
 #define CFE_PSP_WATCHDOG_MIN (0)
-#define CFE_PSP_WATCHDOG_MAX (0xFFFFFFFF) 
+#define CFE_PSP_WATCHDOG_MAX (0xFFFFFFFF)
 
 /*
 ** Number of EEPROM banks on this platform
@@ -105,8 +103,6 @@ typedef struct
  * Chosen as the cache line size of the MPC750 processor (32 bytes)
  * such that the blocks will be cached more efficiently.
  */
-#define CFE_PSP_MEMALIGN_MASK  ((cpuaddr)0x1F)
-
+#define CFE_PSP_MEMALIGN_MASK ((cpuaddr)0x1F)
 
 #endif
-

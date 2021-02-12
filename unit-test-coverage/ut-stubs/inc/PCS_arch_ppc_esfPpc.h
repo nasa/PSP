@@ -21,6 +21,4 @@ typedef struct
     uint32_t pad[32];
 } PCS_ESFPPC;
 
-
 #endif /* _PSP_STUB_ESFPPC_H_ */
-

@@ -38,13 +38,9 @@
 
 #include "cfe_psp.h"
 
-
 /*
 ** global memory
 */
-
-
-
 
 /*
 ** Name: CFE_PSP_PortRead8
@@ -66,12 +62,12 @@
 **
 ** Return Values: CFE_PSP_SUCCESS
 */
-int32 CFE_PSP_PortRead8( cpuaddr PortAddress, uint8 *ByteValue )
+int32 CFE_PSP_PortRead8(cpuaddr PortAddress, uint8 *ByteValue)
 {
 
-	(*ByteValue) = (uint8)*((uint8 *)PortAddress) ;
+    (*ByteValue) = (uint8) * ((uint8 *)PortAddress);
 
-	return(CFE_PSP_SUCCESS) ;
+    return (CFE_PSP_SUCCESS);
 }
 
 /*
@@ -95,11 +91,10 @@ int32 CFE_PSP_PortRead8( cpuaddr PortAddress, uint8 *ByteValue )
 ** Return Values:
 **		CFE_PSP_SUCCESS
 */
-int32 CFE_PSP_PortWrite8 ( cpuaddr PortAddress, uint8 ByteValue )
+int32 CFE_PSP_PortWrite8(cpuaddr PortAddress, uint8 ByteValue)
 {
-   *((uint8 *)PortAddress) = ByteValue;
-	return(CFE_PSP_SUCCESS) ;
-
+    *((uint8 *)PortAddress) = ByteValue;
+    return (CFE_PSP_SUCCESS);
 }
 
 /*
@@ -125,18 +120,16 @@ int32 CFE_PSP_PortWrite8 ( cpuaddr PortAddress, uint8 ByteValue )
 **		CFE_PSP_ERROR_ADD_MISALIGNED The Address is not aligned to 16 bit
 **      addressing scheme.
 */
-int32 CFE_PSP_PortRead16( cpuaddr PortAddress, uint16 *uint16Value )
+int32 CFE_PSP_PortRead16(cpuaddr PortAddress, uint16 *uint16Value)
 {
-	/* check 16 bit alignment  , check the 1st lsb */
-	if( PortAddress & 0x00000001)
-	{
-		return(CFE_PSP_ERROR_ADDRESS_MISALIGNED) ;
-	}
-	(*uint16Value) = *((uint16 *)PortAddress) ;
-	return(CFE_PSP_SUCCESS) ;
-
+    /* check 16 bit alignment  , check the 1st lsb */
+    if (PortAddress & 0x00000001)
+    {
+        return (CFE_PSP_ERROR_ADDRESS_MISALIGNED);
+    }
+    (*uint16Value) = *((uint16 *)PortAddress);
+    return (CFE_PSP_SUCCESS);
 }
-
 
 /*
 ** Name: CFE_PSP_PortWrite16
@@ -161,15 +154,15 @@ int32 CFE_PSP_PortRead16( cpuaddr PortAddress, uint16 *uint16Value )
 **		CFE_PSP_ERROR_ADD_MISALIGNED The Address is not aligned to 16 bit
 **      addressing scheme.
 */
-int32 CFE_PSP_PortWrite16 ( cpuaddr PortAddress, uint16 uint16Value )
+int32 CFE_PSP_PortWrite16(cpuaddr PortAddress, uint16 uint16Value)
 {
-	/* check 16 bit alignment  , check the 1st lsb */
-	if( PortAddress & 0x00000001)
-	{
-		return(CFE_PSP_ERROR_ADDRESS_MISALIGNED) ;
-	}
-   *((uint16 *)PortAddress) = uint16Value;
-	return(CFE_PSP_SUCCESS) ;
+    /* check 16 bit alignment  , check the 1st lsb */
+    if (PortAddress & 0x00000001)
+    {
+        return (CFE_PSP_ERROR_ADDRESS_MISALIGNED);
+    }
+    *((uint16 *)PortAddress) = uint16Value;
+    return (CFE_PSP_SUCCESS);
 }
 
 /*
@@ -195,16 +188,15 @@ int32 CFE_PSP_PortWrite16 ( cpuaddr PortAddress, uint16 uint16Value )
 **		CFE_PSP_ERROR_ADD_MISALIGNED The Address is not aligned to 16 bit
 **      addressing scheme.
 */
-int32 CFE_PSP_PortRead32( cpuaddr PortAddress, uint32 *uint32Value )
+int32 CFE_PSP_PortRead32(cpuaddr PortAddress, uint32 *uint32Value)
 {
-	/* check 32 bit alignment  */
-	if( PortAddress & 0x00000003)
-	{
-		return(CFE_PSP_ERROR_ADDRESS_MISALIGNED) ;
-	}
-	(*uint32Value) = *((uint32 *)PortAddress) ;
-	return(CFE_PSP_SUCCESS) ;
-
+    /* check 32 bit alignment  */
+    if (PortAddress & 0x00000003)
+    {
+        return (CFE_PSP_ERROR_ADDRESS_MISALIGNED);
+    }
+    (*uint32Value) = *((uint32 *)PortAddress);
+    return (CFE_PSP_SUCCESS);
 }
 
 /*
@@ -230,15 +222,13 @@ int32 CFE_PSP_PortRead32( cpuaddr PortAddress, uint32 *uint32Value )
 **		CFE_PSP_ERROR_ADD_MISALIGNED The Address is not aligned to 16 bit
 **      addressing scheme.
 */
-int32 CFE_PSP_PortWrite32 ( cpuaddr PortAddress, uint32 uint32Value )
+int32 CFE_PSP_PortWrite32(cpuaddr PortAddress, uint32 uint32Value)
 {
-	/* check 32 bit alignment  */
-	if( PortAddress & 0x00000003)
-	{
-		return(CFE_PSP_ERROR_ADDRESS_MISALIGNED) ;
-	}
-   *((uint32 *)PortAddress) = uint32Value;
-	return(CFE_PSP_SUCCESS) ;
-
+    /* check 32 bit alignment  */
+    if (PortAddress & 0x00000003)
+    {
+        return (CFE_PSP_ERROR_ADDRESS_MISALIGNED);
+    }
+    *((uint32 *)PortAddress) = uint32Value;
+    return (CFE_PSP_SUCCESS);
 }
-

@@ -16,12 +16,12 @@
 #include <PCS_taskLib.h>
 #include <PCS_errnoLib.h>
 
-static PCS_WIND_TCB PCS_LOCAL_TASK = { 0 };
+static PCS_WIND_TCB PCS_LOCAL_TASK = {0};
 
 const char *PCS_taskName(PCS_TASK_ID task_id)
 {
     const char *retval;
-    int32 Status;
+    int32       Status;
 
     retval = NULL;
     Status = UT_DEFAULT_IMPL(PCS_taskName);
@@ -31,7 +31,6 @@ const char *PCS_taskName(PCS_TASK_ID task_id)
     }
 
     return retval;
-
 }
 void PCS_taskExit(int code)
 {
@@ -86,43 +85,15 @@ PCS_STATUS PCS_taskPrioritySet(PCS_TASK_ID tid, int newPriority)
     return (UT_DEFAULT_IMPL(PCS_taskPrioritySet));
 }
 
-PCS_STATUS PCS_taskInit(PCS_WIND_TCB *pTcb,
-        char *name,
-        int priority,
-        int options,
-        char * pStackBase,
-        int stackSize,
-        PCS_FUNCPTR entryPt,
-        int arg1,
-        int arg2,
-        int arg3,
-        int arg4,
-        int arg5,
-        int arg6,
-        int arg7,
-        int arg8,
-        int arg9,
-        int arg10
-)
+PCS_STATUS PCS_taskInit(PCS_WIND_TCB *pTcb, char *name, int priority, int options, char *pStackBase, int stackSize,
+                        PCS_FUNCPTR entryPt, int arg1, int arg2, int arg3, int arg4, int arg5, int arg6, int arg7,
+                        int arg8, int arg9, int arg10)
 {
     return (UT_DEFAULT_IMPL(PCS_taskInit));
 }
 
-PCS_TASK_ID PCS_taskSpawn(char *  name,
-              int     priority,
-              int     options,
-              int     stackSize,
-              PCS_FUNCPTR entryPt,
-              int     arg1,
-              int     arg2,
-              int     arg3,
-              int     arg4,
-              int     arg5,
-              int     arg6,
-              int     arg7,
-              int     arg8,
-              int     arg9,
-              int     arg10)
+PCS_TASK_ID PCS_taskSpawn(char *name, int priority, int options, int stackSize, PCS_FUNCPTR entryPt, int arg1, int arg2,
+                          int arg3, int arg4, int arg5, int arg6, int arg7, int arg8, int arg9, int arg10)
 
 {
     int32 Status;
@@ -147,7 +118,7 @@ PCS_STATUS PCS_taskActivate(PCS_TASK_ID tid)
 
 PCS_WIND_TCB *PCS_taskTcb(PCS_TASK_ID tid)
 {
-    int32 Status;
+    int32         Status;
     PCS_WIND_TCB *LocalTcb;
 
     Status = UT_DEFAULT_IMPL(PCS_taskTcb);
@@ -169,4 +140,3 @@ PCS_WIND_TCB *PCS_taskTcb(PCS_TASK_ID tid)
 
     return LocalTcb;
 }
-

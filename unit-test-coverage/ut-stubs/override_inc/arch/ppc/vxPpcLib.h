@@ -24,28 +24,28 @@
 /* ----------------------------------------- */
 /* mappings for declarations in vxPpcLib.h */
 /* ----------------------------------------- */
-#define _PPC_MSR_EE     PCS_PPC_MSR_EE
-#define _PPC_MSR_FP     PCS_PPC_MSR_FP
-#define _PPC_MSR_ME     PCS_PPC_MSR_ME
-#define _PPC_MSR_FE0    PCS_PPC_MSR_FE0
-#define _PPC_MSR_FE1    PCS_PPC_MSR_FE1
-#define _PPC_MSR_DR     PCS_PPC_MSR_DR
+#define _PPC_MSR_EE  PCS_PPC_MSR_EE
+#define _PPC_MSR_FP  PCS_PPC_MSR_FP
+#define _PPC_MSR_ME  PCS_PPC_MSR_ME
+#define _PPC_MSR_FE0 PCS_PPC_MSR_FE0
+#define _PPC_MSR_FE1 PCS_PPC_MSR_FE1
+#define _PPC_MSR_DR  PCS_PPC_MSR_DR
 
-#define _PPC_FPSCR_VE   PCS_PPC_FPSCR_VE
-#define _PPC_FPSCR_OE   PCS_PPC_FPSCR_OE
-#define _PPC_FPSCR_NI   PCS_PPC_FPSCR_NI
-#define _PPC_FPSCR_ZE   PCS_PPC_FPSCR_ZE
-#define _PPC_FPSCR_XE   PCS_PPC_FPSCR_XE
-#define _PPC_FPSCR_UE   PCS_PPC_FPSCR_UE
+#define _PPC_FPSCR_VE PCS_PPC_FPSCR_VE
+#define _PPC_FPSCR_OE PCS_PPC_FPSCR_OE
+#define _PPC_FPSCR_NI PCS_PPC_FPSCR_NI
+#define _PPC_FPSCR_ZE PCS_PPC_FPSCR_ZE
+#define _PPC_FPSCR_XE PCS_PPC_FPSCR_XE
+#define _PPC_FPSCR_UE PCS_PPC_FPSCR_UE
 
 #endif
 
-#define vxTimeBaseGet   PCS_vxTimeBaseGet
+#define vxTimeBaseGet PCS_vxTimeBaseGet
 
-#define vxMsrSet        PCS_vxMsrSet
-#define vxMsrGet        PCS_vxMsrGet
-#define vxFpscrSet      PCS_vxFpscrSet
-#define vxFpscrGet      PCS_vxFpscrGet
-#define vxDecGet        PCS_vxDecGet
+#define vxMsrSet   PCS_vxMsrSet
+#define vxMsrGet   PCS_vxMsrGet
+#define vxFpscrSet PCS_vxFpscrSet
+#define vxFpscrGet PCS_vxFpscrGet
+#define vxDecGet   PCS_vxDecGet
 
 #endif /* _PSP_OVERRIDE_VXPPCLIB_H_ */

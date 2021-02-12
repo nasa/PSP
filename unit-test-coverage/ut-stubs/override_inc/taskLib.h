@@ -18,30 +18,29 @@
 /* ----------------------------------------- */
 /* mappings for declarations in taskLib.h */
 /* ----------------------------------------- */
-#define VX_FP_TASK       PCS_VX_FP_TASK
-#define TASK_ID          PCS_TASK_ID
-#define WIND_TCB         PCS_WIND_TCB
-#define TASK_DESC        PCS_TASK_DESC
+#define VX_FP_TASK PCS_VX_FP_TASK
+#define TASK_ID    PCS_TASK_ID
+#define WIND_TCB   PCS_WIND_TCB
+#define TASK_DESC  PCS_TASK_DESC
 
-#define taskName         PCS_taskName
-#define taskNameToId     PCS_taskNameToId
-#define taskIdDefault    PCS_taskIdDefault
-#define taskIsReady      PCS_taskIsReady
-#define taskIsSuspended  PCS_taskIsSuspended
-#define taskGetInfo      PCS_taskGetInfo
+#define taskName        PCS_taskName
+#define taskNameToId    PCS_taskNameToId
+#define taskIdDefault   PCS_taskIdDefault
+#define taskIsReady     PCS_taskIsReady
+#define taskIsSuspended PCS_taskIsSuspended
+#define taskGetInfo     PCS_taskGetInfo
 
-#define taskActivate     PCS_taskActivate
-#define taskExit         PCS_taskExit
-#define taskIdSelf       PCS_taskIdSelf
-#define taskDelay        PCS_taskDelay
-#define taskDelete       PCS_taskDelete
-#define taskDeleteForce  PCS_taskDeleteForce
-#define taskSuspend      PCS_taskSuspend
-#define taskResume       PCS_taskResume
-#define taskPrioritySet  PCS_taskPrioritySet
-#define taskSpawn        PCS_taskSpawn
-#define taskInit         PCS_taskInit
-#define taskTcb          PCS_taskTcb
-
+#define taskActivate    PCS_taskActivate
+#define taskExit        PCS_taskExit
+#define taskIdSelf      PCS_taskIdSelf
+#define taskDelay       PCS_taskDelay
+#define taskDelete      PCS_taskDelete
+#define taskDeleteForce PCS_taskDeleteForce
+#define taskSuspend     PCS_taskSuspend
+#define taskResume      PCS_taskResume
+#define taskPrioritySet PCS_taskPrioritySet
+#define taskSpawn       PCS_taskSpawn
+#define taskInit        PCS_taskInit
+#define taskTcb         PCS_taskTcb
 
 #endif /* _PSP_OVERRIDE_TASKLIB_H_ */

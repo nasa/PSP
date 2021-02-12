@@ -20,7 +20,6 @@
 /* mappings for declarations in ramDrv.h */
 /* ----------------------------------------- */
 
-#define ramDevCreate     PCS_ramDevCreate
-
+#define ramDevCreate PCS_ramDevCreate
 
 #endif /* _PSP_OVERRIDE_RAMDRV_H_ */

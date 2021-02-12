@@ -15,10 +15,10 @@
 
 #include <PCS_moduleLib.h>
 
-PCS_MODULE_ID PCS_moduleFindByName (const char *moduleName)
+PCS_MODULE_ID PCS_moduleFindByName(const char *moduleName)
 {
     PCS_MODULE_ID retval;
-    int32 Status;
+    int32         Status;
 
     retval = NULL;
     Status = UT_DEFAULT_IMPL(PCS_moduleFindByName);
@@ -30,14 +30,14 @@ PCS_MODULE_ID PCS_moduleFindByName (const char *moduleName)
     return retval;
 }
 
-PCS_STATUS PCS_moduleInfoGet(PCS_MODULE_ID moduleId, PCS_MODULE_INFO * pModuleInfo)
+PCS_STATUS PCS_moduleInfoGet(PCS_MODULE_ID moduleId, PCS_MODULE_INFO *pModuleInfo)
 {
     int32 Status;
 
     Status = UT_DEFAULT_IMPL(PCS_moduleInfoGet);
 
     if (Status == 0 &&
-            UT_Stub_CopyToLocal(UT_KEY(PCS_moduleInfoGet), pModuleInfo, sizeof(*pModuleInfo)) < sizeof(*pModuleInfo))
+        UT_Stub_CopyToLocal(UT_KEY(PCS_moduleInfoGet), pModuleInfo, sizeof(*pModuleInfo)) < sizeof(*pModuleInfo))
     {
         memset(pModuleInfo, 0, sizeof(*pModuleInfo));
     }

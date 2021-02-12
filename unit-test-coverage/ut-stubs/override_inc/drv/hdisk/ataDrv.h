@@ -19,8 +19,7 @@
 /* ----------------------------------------- */
 /* mappings for declarations in drv/hdisk/ataDrv.h */
 /* ----------------------------------------- */
-#define ataDevCreate       PCS_ataDevCreate
-#define ataXbdDevCreate    PCS_ataXbdDevCreate
-
+#define ataDevCreate    PCS_ataDevCreate
+#define ataXbdDevCreate PCS_ataXbdDevCreate
 
 #endif /* _PSP_OVERRIDE_DRV_HDISK_ATADRV_H_ */

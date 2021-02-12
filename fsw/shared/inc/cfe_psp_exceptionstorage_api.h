@@ -35,8 +35,6 @@
  */
 struct CFE_PSP_Exception_LogData;
 
-
-
 /* -------------------------------------------------------------
  * Functions implemented in shared layer, invoked by impl layer.
  * ------------------------------------------------------------- */
@@ -51,7 +49,7 @@ struct CFE_PSP_Exception_LogData;
  * \param   seq     Sequence number
  * \returns pointer to buffer.
  */
-extern struct CFE_PSP_Exception_LogData* CFE_PSP_Exception_GetBuffer(uint32 seq);
+extern struct CFE_PSP_Exception_LogData *CFE_PSP_Exception_GetBuffer(uint32 seq);
 
 /**
  * \brief Get the next buffer for exception context storage
@@ -62,7 +60,7 @@ extern struct CFE_PSP_Exception_LogData* CFE_PSP_Exception_GetBuffer(uint32 seq)
  *
  * \returns pointer to buffer, or NULL if storage is full.
  */
-extern struct CFE_PSP_Exception_LogData* CFE_PSP_Exception_GetNextContextBuffer(void);
+extern struct CFE_PSP_Exception_LogData *CFE_PSP_Exception_GetNextContextBuffer(void);
 
 /**
  * \brief Finish storage of exception data
@@ -95,6 +93,7 @@ extern void CFE_PSP_Exception_Reset(void);
  *
  * \returns CFE_PSP_SUCCESS on success
  */
-extern int32 CFE_PSP_ExceptionGetSummary_Impl(const struct CFE_PSP_Exception_LogData* Buffer, char *ReasonBuf, uint32 ReasonSize);
+extern int32 CFE_PSP_ExceptionGetSummary_Impl(const struct CFE_PSP_Exception_LogData *Buffer, char *ReasonBuf,
+                                              uint32 ReasonSize);
 
 #endif /* CFE_PSP_EXCEPTIONSTORAGE_API_H_ */

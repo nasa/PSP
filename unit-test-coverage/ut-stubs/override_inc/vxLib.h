@@ -19,5 +19,4 @@
 /* mappings for declarations in vxLib.h */
 /* ----------------------------------------- */
 
-
 #endif /* _PSP_OVERRIDE_VXLIB_H_ */

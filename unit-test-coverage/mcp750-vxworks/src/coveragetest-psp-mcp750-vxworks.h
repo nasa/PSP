@@ -1,15 +1,14 @@
 /*
- * 
+ *
  *    Copyright (c) 2020, United States government as represented by the
  *    administrator of the National Aeronautics Space Administration.
  *    All rights reserved. This software was created at NASA Goddard
  *    Space Flight Center pursuant to government contracts.
- * 
+ *
  *    This is governed by the NASA Open Source Agreement and may be used,
  *    distributed and modified only according to the terms of that agreement.
- * 
+ *
  */
-
 
 /**
  * \file     psp-mcp750-vxworks-coveragetest.h
@@ -27,7 +26,7 @@
 
 #include <coveragetest-psp-shared.h>
 
-#define ADD_TEST(test) UtTest_Add((Test_ ## test), Psp_Test_Setup, Psp_Test_Teardown, #test)
+#define ADD_TEST(test) UtTest_Add((Test_##test), Psp_Test_Setup, Psp_Test_Teardown, #test)
 
 /* Psp_Test_Setup
  *
@@ -36,7 +35,6 @@
  */
 void Psp_Test_Setup(void);
 void Psp_Test_Teardown(void);
-
 
 /*
  * Test routine dedicated to coverage of each of the PSP implementation functions
@@ -50,6 +48,4 @@ void Test_CFE_PSP_GetSpacecraftId(void);
 void Test_OS_Application_Startup(void);
 void Test_OS_Application_Run(void);
 
-
-#endif  /* INCLUDE_PSP_MCP750_VXWORKS_COVERAGETEST_H_ */
-
+#endif /* INCLUDE_PSP_MCP750_VXWORKS_COVERAGETEST_H_ */

@@ -16,7 +16,4 @@
 /* prototypes normally declared in vxLib.h */
 /* ----------------------------------------- */
 
-
-
 #endif /* _PSP_STUB_VXLIB_H_ */
-
