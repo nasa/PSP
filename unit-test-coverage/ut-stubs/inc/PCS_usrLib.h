@@ -17,7 +17,4 @@
 /* prototypes normally declared in usrLib.h */
 /* ----------------------------------------- */
 
-
-
 #endif /* _PSP_STUB_USRLIB_H_ */
-

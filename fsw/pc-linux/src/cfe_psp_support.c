@@ -46,14 +46,12 @@
 #include "cfe_psp_config.h"
 #include "cfe_psp_memory.h"
 
-
 /*
 ** External Variables
 */
-extern uint32  CFE_PSP_SpacecraftId;
-extern uint32  CFE_PSP_CpuId;
-extern char    CFE_PSP_CpuName[];
-
+extern uint32 CFE_PSP_SpacecraftId;
+extern uint32 CFE_PSP_CpuId;
+extern char   CFE_PSP_CpuName[];
 
 /******************************************************************************
 **  Function:  CFE_PSP_Restart()
@@ -70,53 +68,52 @@ extern char    CFE_PSP_CpuName[];
 
 void CFE_PSP_Restart(uint32 reset_type)
 {
-   if ( reset_type == CFE_PSP_RST_TYPE_POWERON )
-   {
-       OS_printf("CFE_PSP: Exiting cFE with POWERON Reset status.\n");
+    if (reset_type == CFE_PSP_RST_TYPE_POWERON)
+    {
+        OS_printf("CFE_PSP: Exiting cFE with POWERON Reset status.\n");
 
-       /* Also delete the SHM segments, so they will be recreated on next boot */
-       /* Deleting these memories will unlink them, but active references should still work */
-       CFE_PSP_DeleteProcessorReservedMemory();
-   }
-   else
-   {
-       OS_printf("CFE_PSP: Exiting cFE with PROCESSOR Reset status.\n");
-   }
+        /* Also delete the SHM segments, so they will be recreated on next boot */
+        /* Deleting these memories will unlink them, but active references should still work */
+        CFE_PSP_DeleteProcessorReservedMemory();
+    }
+    else
+    {
+        OS_printf("CFE_PSP: Exiting cFE with PROCESSOR Reset status.\n");
+    }
 
-   /*
-    * Record the reset type for the next boot.
-    */
-   CFE_PSP_ReservedMemoryMap.BootPtr->NextResetType = reset_type;
-   CFE_PSP_ReservedMemoryMap.BootPtr->ValidityFlag = CFE_PSP_BOOTRECORD_VALID;
+    /*
+     * Record the reset type for the next boot.
+     */
+    CFE_PSP_ReservedMemoryMap.BootPtr->NextResetType = reset_type;
+    CFE_PSP_ReservedMemoryMap.BootPtr->ValidityFlag  = CFE_PSP_BOOTRECORD_VALID;
 
-   /*
-    * Begin process of orderly shutdown.
-    *
-    * This should cause the original thread (main task) to wake up
-    * and start the shutdown procedure.
-    */
-   CFE_PSP_IdleTaskState.ShutdownReq = true;
-   pthread_kill(CFE_PSP_IdleTaskState.ThreadID, CFE_PSP_EXCEPTION_EVENT_SIGNAL);
+    /*
+     * Begin process of orderly shutdown.
+     *
+     * This should cause the original thread (main task) to wake up
+     * and start the shutdown procedure.
+     */
+    CFE_PSP_IdleTaskState.ShutdownReq = true;
+    pthread_kill(CFE_PSP_IdleTaskState.ThreadID, CFE_PSP_EXCEPTION_EVENT_SIGNAL);
 
-   /*
-    * Give time for the orderly shutdown to occur.
-    *
-    * Normally during shutdown this task will be deleted, and therefore
-    * this does not return.
-    *
-    * However, if problems occur (e.g. deadlock) eventually this timeout
-    * will expire and return.
-    */
-   OS_TaskDelay(CFE_PSP_RESTART_DELAY);
+    /*
+     * Give time for the orderly shutdown to occur.
+     *
+     * Normally during shutdown this task will be deleted, and therefore
+     * this does not return.
+     *
+     * However, if problems occur (e.g. deadlock) eventually this timeout
+     * will expire and return.
+     */
+    OS_TaskDelay(CFE_PSP_RESTART_DELAY);
 
-   /*
-    * Timeout expired without this task being deleted, so abort().
-    *
-    * This should generate a core file to reveal what went wrong
-    * with normal shutdown.
-    */
-   abort();
-
+    /*
+     * Timeout expired without this task being deleted, so abort().
+     *
+     * This should generate a core file to reveal what went wrong
+     * with normal shutdown.
+     */
+    abort();
 }
 
 /******************************************************************************
@@ -135,11 +132,10 @@ void CFE_PSP_Restart(uint32 reset_type)
 
 void CFE_PSP_Panic(int32 ErrorCode)
 {
-   OS_printf("CFE_PSP_Panic Called with error code = 0x%08X. Exiting.\n",(unsigned int)ErrorCode);
-   OS_printf("The cFE could not start.\n");
-   abort(); /* abort() is preferable to exit(-1), as it may create a core file for debug */
+    OS_printf("CFE_PSP_Panic Called with error code = 0x%08X. Exiting.\n", (unsigned int)ErrorCode);
+    OS_printf("The cFE could not start.\n");
+    abort(); /* abort() is preferable to exit(-1), as it may create a core file for debug */
 }
-
 
 /******************************************************************************
 **  Function:  CFE_PSP_FlushCaches)
@@ -154,9 +150,9 @@ void CFE_PSP_Panic(int32 ErrorCode)
 **  Return:
 **    (none)
 */
-void CFE_PSP_FlushCaches(uint32 type, void* address, uint32 size)
+void CFE_PSP_FlushCaches(uint32 type, void *address, uint32 size)
 {
-   printf("CFE_PSP_FlushCaches called -- Currently no Linux/OSX/Cygwin implementation\n");
+    printf("CFE_PSP_FlushCaches called -- Currently no Linux/OSX/Cygwin implementation\n");
 }
 
 /*
@@ -176,11 +172,10 @@ void CFE_PSP_FlushCaches(uint32 type, void* address, uint32 size)
 **
 ** Return Values: Processor ID
 */
-uint32 CFE_PSP_GetProcessorId    (void)
+uint32 CFE_PSP_GetProcessorId(void)
 {
-    return(CFE_PSP_CpuId);
+    return (CFE_PSP_CpuId);
 }
-
 
 /*
 ** Name: CFE_PSP_GetSpacecraftId
@@ -197,9 +192,9 @@ uint32 CFE_PSP_GetProcessorId    (void)
 **
 ** Return Values: Spacecraft ID
 */
-uint32 CFE_PSP_GetSpacecraftId   (void)
+uint32 CFE_PSP_GetSpacecraftId(void)
 {
-   return(CFE_PSP_SpacecraftId);
+    return (CFE_PSP_SpacecraftId);
 }
 
 /*
@@ -217,8 +212,7 @@ uint32 CFE_PSP_GetSpacecraftId   (void)
 **
 ** Return Values: Processor name
 */
-const char *CFE_PSP_GetProcessorName   (void)
+const char *CFE_PSP_GetProcessorName(void)
 {
-   return(CFE_PSP_CpuName);
+    return (CFE_PSP_CpuName);
 }
-

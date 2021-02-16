@@ -17,7 +17,6 @@
 /* ----------------------------------------- */
 /* mappings for declarations in fenv.h */
 /* ----------------------------------------- */
-#define ESFPPC  PCS_ESFPPC
-
+#define ESFPPC PCS_ESFPPC
 
 #endif /* _PSP_OVERRIDE_ESFPPC_H_ */

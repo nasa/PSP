@@ -31,14 +31,12 @@
 **
 ******************************************************************************/
 
-
 /*
 **  Include Files
 */
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-
 
 /*
 ** cFE includes
@@ -59,17 +57,15 @@
  */
 #include <target_config.h>
 
-#define CFE_PSP_CPU_ID                  (GLOBAL_CONFIGDATA.Default_CpuId)
-#define CFE_PSP_CPU_NAME                (GLOBAL_CONFIGDATA.Default_CpuName)
-#define CFE_PSP_SPACECRAFT_ID           (GLOBAL_CONFIGDATA.Default_SpacecraftId)
-
+#define CFE_PSP_CPU_ID        (GLOBAL_CONFIGDATA.Default_CpuId)
+#define CFE_PSP_CPU_NAME      (GLOBAL_CONFIGDATA.Default_CpuName)
+#define CFE_PSP_SPACECRAFT_ID (GLOBAL_CONFIGDATA.Default_SpacecraftId)
 
 /*
  * Track the overall "reserved memory block" at the start of RAM.
  * This single large block is then subdivided into separate areas for CFE use.
  */
 extern CFE_PSP_MemoryBlock_t PcRtems_ReservedMemBlock;
-
 
 /******************************************************************************
 **  Function:  CFE_PSP_Restart()
@@ -87,10 +83,9 @@ extern CFE_PSP_MemoryBlock_t PcRtems_ReservedMemBlock;
 void CFE_PSP_Restart(uint32 reset_type)
 {
 
-   CFE_PSP_FlushCaches(1, PcRtems_ReservedMemBlock.BlockPtr, PcRtems_ReservedMemBlock.BlockSize);
-   OS_printf("CFE_PSP_Restart is not implemented on this platform ( yet ! )\n");
-   exit(-1);
-
+    CFE_PSP_FlushCaches(1, PcRtems_ReservedMemBlock.BlockPtr, PcRtems_ReservedMemBlock.BlockSize);
+    OS_printf("CFE_PSP_Restart is not implemented on this platform ( yet ! )\n");
+    exit(-1);
 }
 
 /******************************************************************************
@@ -109,8 +104,8 @@ void CFE_PSP_Restart(uint32 reset_type)
 
 void CFE_PSP_Panic(int32 ErrorCode)
 {
-   printf("CFE_PSP_Panic Called with error code = 0x%08X. Exiting.\n",(unsigned int )ErrorCode);
-   OS_ApplicationExit(ErrorCode);
+    printf("CFE_PSP_Panic Called with error code = 0x%08X. Exiting.\n", (unsigned int)ErrorCode);
+    OS_ApplicationExit(ErrorCode);
 }
 
 /******************************************************************************
@@ -127,13 +122,12 @@ void CFE_PSP_Panic(int32 ErrorCode)
 **    (none)
 */
 
-void CFE_PSP_FlushCaches(uint32 type, void* address, uint32 size)
+void CFE_PSP_FlushCaches(uint32 type, void *address, uint32 size)
 {
-   if ( type == 1 )
-   {
-      /* cacheTextUpdate((void *)address, size); */
-   }
-
+    if (type == 1)
+    {
+        /* cacheTextUpdate((void *)address, size); */
+    }
 }
 
 /*
@@ -153,11 +147,10 @@ void CFE_PSP_FlushCaches(uint32 type, void* address, uint32 size)
 **
 ** Return Values: Processor ID
 */
-uint32 CFE_PSP_GetProcessorId    (void)
+uint32 CFE_PSP_GetProcessorId(void)
 {
-    return(CFE_PSP_CPU_ID);
+    return (CFE_PSP_CPU_ID);
 }
-
 
 /*
 ** Name: CFE_PSP_GetSpacecraftId
@@ -174,9 +167,9 @@ uint32 CFE_PSP_GetProcessorId    (void)
 **
 ** Return Values: Spacecraft ID
 */
-uint32 CFE_PSP_GetSpacecraftId   (void)
+uint32 CFE_PSP_GetSpacecraftId(void)
 {
-   return(CFE_PSP_SPACECRAFT_ID);
+    return (CFE_PSP_SPACECRAFT_ID);
 }
 
 /*
@@ -194,8 +187,7 @@ uint32 CFE_PSP_GetSpacecraftId   (void)
 **
 ** Return Values: Processor name
 */
-const char *CFE_PSP_GetProcessorName   (void)
+const char *CFE_PSP_GetProcessorName(void)
 {
-   return(CFE_PSP_CPU_NAME);
+    return (CFE_PSP_CPU_NAME);
 }
-

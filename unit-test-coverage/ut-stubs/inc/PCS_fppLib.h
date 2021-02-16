@@ -20,7 +20,6 @@ typedef struct
 /* ----------------------------------------- */
 /* prototypes normally declared in fppLib.h */
 /* ----------------------------------------- */
-extern void PCS_fppSave (PCS_FP_CONTEXT *fpc);
+extern void PCS_fppSave(PCS_FP_CONTEXT *fpc);
 
 #endif /* _PSP_STUB_FPPLIB_H_ */
-

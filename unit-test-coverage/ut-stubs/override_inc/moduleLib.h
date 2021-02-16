@@ -19,12 +19,10 @@
 /* mappings for declarations in moduleLib.h */
 /* ----------------------------------------- */
 
-#define MODULE_ID      PCS_MODULE_ID
-#define MODULE_INFO    PCS_MODULE_INFO
+#define MODULE_ID   PCS_MODULE_ID
+#define MODULE_INFO PCS_MODULE_INFO
 
 #define moduleInfoGet    PCS_moduleInfoGet
 #define moduleFindByName PCS_moduleFindByName
 
-
 #endif /* _PSP_OVERRIDE_MODULELIB_H_ */
-

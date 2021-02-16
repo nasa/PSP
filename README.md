@@ -1,4 +1,5 @@
-Travis-CI: [![Build Status](https://travis-ci.com/nasa/PSP.svg)](https://travis-ci.com/nasa/PSP)
+![Static Analysis](https://github.com/nasa/psp/workflows/Static%20Analysis/badge.svg)
+![Format Check](https://github.com/nasa/psp/workflows/Format%20Check/badge.svg)
 
 # Core Flight System : Framework : Platform Support Package
 
@@ -7,6 +8,14 @@ This repository contains NASA's Platform Support Package (PSP), which is a frame
 This is a collection of APIs abstracting platform specific functionality to be located in the `psp` subdirectory of a cFS Mission Tree. The Core Flight System is bundled at <https://github.com/nasa/cFS>, which includes build and execution instructions.
 
 ## Version History
+
+### Development Build: 1.5.0-rc1+dev68
+
+- Updates continuous integration workfow by adding static analysis with timeout and code format check. Adds status badges to ReadMe and removes old TravisCI artifacts.
+- Adds CodeQL analysis to continuous integration
+- Apply standard formatting to psp codebase. Only changes whitespace.
+- Adds missing "+dev" to development version output
+- See <https://github.com/nasa/PSP/pull/250>
 
 ### Development Build: 1.5.0-rc1+dev58
 
@@ -41,7 +50,7 @@ This is a collection of APIs abstracting platform specific functionality to be l
 
 ### Development Build: 1.5.0-rc1+dev30
 
-- PR #212 - Use event callback mechanism to invoke pthread_setname_np() such that the OS kernel is informed of the OSAL task name. `/proc` filesystem on Linux now has actual task name, instead of all being core-cpu1. The `pthread_setname_np` API requires `_GNU_SOURCE` to be defined when compiling - this can be local to PSP.
+- - Use event callback mechanism to invoke pthread_setname_np() such that the OS kernel is informed of the OSAL task name. `/proc` filesystem on Linux now has actual task name, instead of all being core-cpu1. The `pthread_setname_np` API requires `_GNU_SOURCE` to be defined when compiling - this can be local to PSP.
 - Set REVISION to "99" to indicate development version
 - See <https://github.com/nasa/PSP/pull/213>
 

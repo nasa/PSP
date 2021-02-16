@@ -20,12 +20,9 @@
 /* mappings for declarations in xbdBlkDev.h */
 /* ----------------------------------------- */
 
-#define NULLDEV                   PCS_NULLDEV
-#define device_t                  PCS_device_t
-#define xbdBlkDevCreateSync       PCS_xbdBlkDevCreateSync
-#define xbdBlkDevDelete           PCS_xbdBlkDevDelete
-
-
+#define NULLDEV             PCS_NULLDEV
+#define device_t            PCS_device_t
+#define xbdBlkDevCreateSync PCS_xbdBlkDevCreateSync
+#define xbdBlkDevDelete     PCS_xbdBlkDevDelete
 
 #endif /* _PSP_OVERRIDE_XBDBLKDEV_H_ */
-

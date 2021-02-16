@@ -12,7 +12,7 @@
 #define PCS_DOS_CHK_REPAIR      0x00000002
 #define PCS_DOS_CHK_VERB_0      0x0000ff00 /* verbosity level/flags */
 #define PCS_DOS_CHK_VERB_SILENT PCS_DOS_CHK_VERB_0
-#define PCS_DOS_OPT_BLANK       0x0002  /* create a clean boot block */
+#define PCS_DOS_OPT_BLANK       0x0002 /* create a clean boot block */
 
 /* ----------------------------------------- */
 /* types normally defined in dosFsLib.h */
@@ -23,7 +23,4 @@
 /* ----------------------------------------- */
 extern PCS_STATUS PCS_dosFsVolFormat(char *path, int opt, PCS_FUNCPTR pPromptFunc);
 
-
-
 #endif /* _PSP_STUB_DOSFSLIB_H_ */
-

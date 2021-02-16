@@ -56,9 +56,8 @@
 /*
 **  Constants
 */
-#define CFE_PSP_MAX_EXCEPTION_ENTRY_MASK    (CFE_PSP_MAX_EXCEPTION_ENTRIES-1)
-#define CFE_PSP_EXCEPTION_ID_BASE           ((OS_OBJECT_TYPE_USER + 0x101) << OS_OBJECT_TYPE_SHIFT)
-
+#define CFE_PSP_MAX_EXCEPTION_ENTRY_MASK (CFE_PSP_MAX_EXCEPTION_ENTRIES - 1)
+#define CFE_PSP_EXCEPTION_ID_BASE        ((OS_OBJECT_TYPE_USER + 0x101) << OS_OBJECT_TYPE_SHIFT)
 
 /***************************************************************************
  **                    INTERNAL FUNCTION DEFINITIONS
@@ -72,15 +71,14 @@
 void CFE_PSP_Exception_Reset(void)
 {
     /* just reset the counter */
-    CFE_PSP_ReservedMemoryMap.ExceptionStoragePtr->NumRead =
-            CFE_PSP_ReservedMemoryMap.ExceptionStoragePtr->NumWritten;
+    CFE_PSP_ReservedMemoryMap.ExceptionStoragePtr->NumRead = CFE_PSP_ReservedMemoryMap.ExceptionStoragePtr->NumWritten;
 }
 
 /*---------------------------------------------------------------------------
  * CFE_PSP_Exception_GetBuffer
  * Internal function - see description in prototype
  *---------------------------------------------------------------------------*/
-CFE_PSP_Exception_LogData_t* CFE_PSP_Exception_GetBuffer(uint32 seq)
+CFE_PSP_Exception_LogData_t *CFE_PSP_Exception_GetBuffer(uint32 seq)
 {
     return &CFE_PSP_ReservedMemoryMap.ExceptionStoragePtr->Entries[seq & CFE_PSP_MAX_EXCEPTION_ENTRY_MASK];
 }
@@ -89,10 +87,10 @@ CFE_PSP_Exception_LogData_t* CFE_PSP_Exception_GetBuffer(uint32 seq)
  * CFE_PSP_Exception_GetNextContextBuffer
  * Internal function - see description in prototype
  *---------------------------------------------------------------------------*/
-CFE_PSP_Exception_LogData_t* CFE_PSP_Exception_GetNextContextBuffer(void)
+CFE_PSP_Exception_LogData_t *CFE_PSP_Exception_GetNextContextBuffer(void)
 {
-    CFE_PSP_Exception_LogData_t* Buffer;
-    uint32 NextWrite;
+    CFE_PSP_Exception_LogData_t *Buffer;
+    uint32                       NextWrite;
 
     NextWrite = CFE_PSP_ReservedMemoryMap.ExceptionStoragePtr->NumWritten;
     if ((NextWrite - CFE_PSP_ReservedMemoryMap.ExceptionStoragePtr->NumRead) >= CFE_PSP_MAX_EXCEPTION_ENTRIES)
@@ -115,7 +113,7 @@ CFE_PSP_Exception_LogData_t* CFE_PSP_Exception_GetNextContextBuffer(void)
  *---------------------------------------------------------------------------*/
 void CFE_PSP_Exception_WriteComplete(void)
 {
-    CFE_PSP_Exception_LogData_t* Buffer;
+    CFE_PSP_Exception_LogData_t *Buffer;
 
     /*
      * Incrementing the "NumWritten" field allows the application to receive this data
@@ -132,10 +130,9 @@ void CFE_PSP_Exception_WriteComplete(void)
      * is not possible to "lock out" exceptions, they can occur at
      * any time code is running)
      */
-    Buffer = CFE_PSP_Exception_GetBuffer(CFE_PSP_ReservedMemoryMap.ExceptionStoragePtr->NumWritten);
+    Buffer             = CFE_PSP_Exception_GetBuffer(CFE_PSP_ReservedMemoryMap.ExceptionStoragePtr->NumWritten);
     Buffer->context_id = 0;
 }
-
 
 /***************************************************************************
  **                    EXTERNAL FUNCTION DEFINITIONS
@@ -148,7 +145,8 @@ void CFE_PSP_Exception_WriteComplete(void)
  *---------------------------------------------------------------------------*/
 uint32 CFE_PSP_Exception_GetCount(void)
 {
-    return (CFE_PSP_ReservedMemoryMap.ExceptionStoragePtr->NumWritten - CFE_PSP_ReservedMemoryMap.ExceptionStoragePtr->NumRead);
+    return (CFE_PSP_ReservedMemoryMap.ExceptionStoragePtr->NumWritten -
+            CFE_PSP_ReservedMemoryMap.ExceptionStoragePtr->NumRead);
 }
 
 /*---------------------------------------------------------------------------
@@ -157,9 +155,9 @@ uint32 CFE_PSP_Exception_GetCount(void)
  *---------------------------------------------------------------------------*/
 int32 CFE_PSP_Exception_GetSummary(uint32 *ContextLogId, osal_id_t *TaskId, char *ReasonBuf, uint32 ReasonSize)
 {
-    const CFE_PSP_Exception_LogData_t* Buffer;
-    uint32 NumStored;
-    int32 Status;
+    const CFE_PSP_Exception_LogData_t *Buffer;
+    uint32                             NumStored;
+    int32                              Status;
 
     NumStored = CFE_PSP_Exception_GetCount();
     if (NumStored == 0)
@@ -220,9 +218,9 @@ int32 CFE_PSP_Exception_GetSummary(uint32 *ContextLogId, osal_id_t *TaskId, char
  *---------------------------------------------------------------------------*/
 int32 CFE_PSP_Exception_CopyContext(uint32 ContextLogId, void *ContextBuf, uint32 ContextSize)
 {
-    const CFE_PSP_Exception_LogData_t* Buffer;
-    uint32 SeqId;
-    uint32 ActualSize;
+    const CFE_PSP_Exception_LogData_t *Buffer;
+    uint32                             SeqId;
+    uint32                             ActualSize;
 
     SeqId = ContextLogId - CFE_PSP_EXCEPTION_ID_BASE;
     if (SeqId > OS_OBJECT_INDEX_MASK)
@@ -251,10 +249,9 @@ int32 CFE_PSP_Exception_CopyContext(uint32 ContextLogId, void *ContextBuf, uint3
          * where the CFE platform configuration has not allocated enough space for context logs.
          * Generate a warning message to raise awareness. */
         OS_printf("CFE_PSP: Insufficient buffer for exception context, total=%lu bytes, saved=%lu\n",
-                (unsigned long)Buffer->context_size, (unsigned long)ContextSize);
+                  (unsigned long)Buffer->context_size, (unsigned long)ContextSize);
         ActualSize = ContextSize;
     }
-
 
     memcpy(ContextBuf, &Buffer->context_info, ActualSize);
 
@@ -263,4 +260,3 @@ int32 CFE_PSP_Exception_CopyContext(uint32 ContextLogId, void *ContextBuf, uint3
      */
     return (int32)ActualSize;
 }
-

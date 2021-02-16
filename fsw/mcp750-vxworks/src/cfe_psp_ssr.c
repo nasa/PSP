@@ -31,7 +31,6 @@
 **
 ******************************************************************************/
 
-
 /*
 **  Include Files
 */
@@ -51,7 +50,6 @@
 #include "xbdBlkDev.h"
 #include "xbdRamDisk.h"
 
-
 /*
 ** cFE includes
 */
@@ -63,7 +61,6 @@
 */
 #include "cfe_psp.h"
 #include "cfe_psp_memory.h"
-
 
 /******************************************************************************
 **  Function:  CFE_PSP_InitSSR
@@ -80,23 +77,21 @@
 **    (none)
 */
 
-int32 CFE_PSP_InitSSR(uint32 bus, uint32 device, char *DeviceName )
+int32 CFE_PSP_InitSSR(uint32 bus, uint32 device, char *DeviceName)
 {
-   int32     ReturnCode;
-   device_t  xbd;
-   
-   xbd = ataXbdDevCreate(bus, device, 0, 0, DeviceName);
-   
-   if (xbd == NULLDEV)
-   {
-       ReturnCode = CFE_PSP_ERROR;
-   }
-   else
-   {
-       ReturnCode = CFE_PSP_SUCCESS;
-   }
+    int32    ReturnCode;
+    device_t xbd;
 
-   return(ReturnCode);
-   
+    xbd = ataXbdDevCreate(bus, device, 0, 0, DeviceName);
+
+    if (xbd == NULLDEV)
+    {
+        ReturnCode = CFE_PSP_ERROR;
+    }
+    else
+    {
+        ReturnCode = CFE_PSP_SUCCESS;
+    }
+
+    return (ReturnCode);
 }
-

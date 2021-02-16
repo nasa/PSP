@@ -17,7 +17,4 @@
 /* prototypes normally declared in xbdRamDisk.h */
 /* ----------------------------------------- */
 
-
-
 #endif /* _PSP_STUB_XBDRAMDISK_H_ */
-

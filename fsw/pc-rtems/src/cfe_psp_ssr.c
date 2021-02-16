@@ -31,13 +31,11 @@
 **
 ******************************************************************************/
 
-
 /*
 **  Include Files
 */
 #include <stdio.h>
 #include <stdlib.h>
-
 
 /*
 ** cFE includes
@@ -51,12 +49,11 @@
 #include "cfe_psp.h"
 #include "cfe_psp_memory.h"
 
-
 /******************************************************************************
 **  Function:  CFE_PSP_InitSSR
 **
 **  Purpose:
-**    Initializes the Solid State Recorder device. Dummy function for this 
+**    Initializes the Solid State Recorder device. Dummy function for this
 **    platform.
 **
 **
@@ -67,13 +64,11 @@
 **    (none)
 */
 
-int32 CFE_PSP_InitSSR(uint32 bus, uint32 device, char *DeviceName )
+int32 CFE_PSP_InitSSR(uint32 bus, uint32 device, char *DeviceName)
 {
-   int32     ReturnCode;
+    int32 ReturnCode;
 
-   ReturnCode = CFE_PSP_SUCCESS;
+    ReturnCode = CFE_PSP_SUCCESS;
 
-   return(ReturnCode);
-   
+    return (ReturnCode);
 }
-

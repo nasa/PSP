@@ -1,15 +1,14 @@
 /*
- * 
+ *
  *    Copyright (c) 2020, United States government as represented by the
  *    administrator of the National Aeronautics Space Administration.
  *    All rights reserved. This software was created at NASA Goddard
  *    Space Flight Center pursuant to government contracts.
- * 
+ *
  *    This is governed by the NASA Open Source Agreement and may be used,
  *    distributed and modified only according to the terms of that agreement.
- * 
+ *
  */
-
 
 /**
  * \file     coveragetest-binsem.c
@@ -17,7 +16,6 @@
  * \author   joseph.p.hickey@nasa.gov
  *
  */
-
 
 #include "coveragetest-psp-mcp750-vxworks.h"
 #include "ut-adaptor-bootrec.h"
@@ -98,6 +96,4 @@ void Test_CFE_PSP_GetSpacecraftId(void)
      * there is no way to modify the value at runtime, even in unit test.
      */
     UtAssert_INT32_EQ(CFE_PSP_GetSpacecraftId(), PCS_CONFIG_SPACECRAFT);
-
 }
-

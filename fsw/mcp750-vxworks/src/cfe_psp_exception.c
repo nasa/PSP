@@ -66,8 +66,7 @@
 **
 */
 
-void CFE_PSP_ExceptionHook ( TASK_ID task_id, int vector, void* vpEsf );
-
+void CFE_PSP_ExceptionHook(TASK_ID task_id, int vector, void *vpEsf);
 
 /***************************************************************************
  **                        FUNCTIONS DEFINITIONS
@@ -88,11 +87,11 @@ void CFE_PSP_ExceptionHook ( TASK_ID task_id, int vector, void* vpEsf );
 
 void CFE_PSP_AttachExceptions(void)
 {
-    excHookAdd( CFE_PSP_ExceptionHook );
-    OS_printf("CFE_PSP: Attached cFE Exception Handler. Context Size = %lu bytes.\n",(unsigned long)sizeof(CFE_PSP_Exception_ContextDataEntry_t));
+    excHookAdd(CFE_PSP_ExceptionHook);
+    OS_printf("CFE_PSP: Attached cFE Exception Handler. Context Size = %lu bytes.\n",
+              (unsigned long)sizeof(CFE_PSP_Exception_ContextDataEntry_t));
     CFE_PSP_Exception_Reset();
 }
-
 
 /*
 ** Name: CFE_PSP_ExceptionHook
@@ -113,9 +112,9 @@ void CFE_PSP_AttachExceptions(void)
 **                      then it will be valid.
 **
 */
-void CFE_PSP_ExceptionHook (TASK_ID task_id, int vector, void* vpEsf )
+void CFE_PSP_ExceptionHook(TASK_ID task_id, int vector, void *vpEsf)
 {
-    CFE_PSP_Exception_LogData_t* Buffer;
+    CFE_PSP_Exception_LogData_t *Buffer;
 
     Buffer = CFE_PSP_Exception_GetNextContextBuffer();
     if (Buffer != NULL)
@@ -129,7 +128,7 @@ void CFE_PSP_ExceptionHook (TASK_ID task_id, int vector, void* vpEsf )
          */
         vxTimeBaseGet(&Buffer->context_info.timebase_upper, &Buffer->context_info.timebase_lower);
 
-        Buffer->sys_task_id = task_id;
+        Buffer->sys_task_id         = task_id;
         Buffer->context_info.vector = vector;
 
         /*
@@ -157,9 +156,7 @@ void CFE_PSP_ExceptionHook (TASK_ID task_id, int vector, void* vpEsf )
         GLOBAL_CFE_CONFIGDATA.SystemNotify();
     }
 
-
 } /* end function */
-
 
 /*
 **
@@ -172,23 +169,20 @@ void CFE_PSP_ExceptionHook (TASK_ID task_id, int vector, void* vpEsf )
 */
 void CFE_PSP_SetDefaultExceptionEnvironment(void)
 {
-    vxMsrSet( vxMsrGet()                |
-              _PPC_MSR_EE               |   /* enable the external interrupt */
-              _PPC_MSR_FP               |   /* enable floating point */
-              _PPC_MSR_ME               |   /* major hardware failures */
-              _PPC_MSR_FE0              |   /* floating point exception 0 */
-              _PPC_MSR_FE1              |   /* generate unrecoverable floating point exceptions */
-              _PPC_MSR_DR               );  /* enable data address translation (dbats?) */
+    vxMsrSet(vxMsrGet() | _PPC_MSR_EE | /* enable the external interrupt */
+             _PPC_MSR_FP |              /* enable floating point */
+             _PPC_MSR_ME |              /* major hardware failures */
+             _PPC_MSR_FE0 |             /* floating point exception 0 */
+             _PPC_MSR_FE1 |             /* generate unrecoverable floating point exceptions */
+             _PPC_MSR_DR);              /* enable data address translation (dbats?) */
 
-    vxFpscrSet(  vxFpscrGet()               |
-                 _PPC_FPSCR_VE              |       /* enable exceptions for invalid operations */
-                 _PPC_FPSCR_OE              |       /* enable overflow exceptions */
-                 _PPC_FPSCR_NI              |       /* Non-IEEE mode for denormailized numbers */
-                 _PPC_FPSCR_ZE              );  /* enable divide by zero exceptions */
+    vxFpscrSet(vxFpscrGet() | _PPC_FPSCR_VE | /* enable exceptions for invalid operations */
+               _PPC_FPSCR_OE |                /* enable overflow exceptions */
+               _PPC_FPSCR_NI |                /* Non-IEEE mode for denormailized numbers */
+               _PPC_FPSCR_ZE);                /* enable divide by zero exceptions */
 
-    vxFpscrSet(  vxFpscrGet()               |
-                 _PPC_FPSCR_XE              |  /* fp inexact exc enable */
-                 _PPC_FPSCR_UE              ); /* fp underflow enable */
+    vxFpscrSet(vxFpscrGet() | _PPC_FPSCR_XE | /* fp inexact exc enable */
+               _PPC_FPSCR_UE);                /* fp underflow enable */
 }
 
 /*
@@ -196,7 +190,7 @@ void CFE_PSP_SetDefaultExceptionEnvironment(void)
  *
  * Purpose: Translate a stored exception log entry into a summary string
  */
-int32 CFE_PSP_ExceptionGetSummary_Impl(const CFE_PSP_Exception_LogData_t* Buffer, char *ReasonBuf, uint32 ReasonSize)
+int32 CFE_PSP_ExceptionGetSummary_Impl(const CFE_PSP_Exception_LogData_t *Buffer, char *ReasonBuf, uint32 ReasonSize)
 {
     const char *TaskName;
 
@@ -205,15 +199,13 @@ int32 CFE_PSP_ExceptionGetSummary_Impl(const CFE_PSP_Exception_LogData_t* Buffer
     */
     TaskName = taskName(Buffer->sys_task_id);
 
-    if ( TaskName == NULL )
+    if (TaskName == NULL)
     {
         TaskName = "NULL";
     }
 
-    snprintf(ReasonBuf, ReasonSize, "Vector=0x%06X, vxWorks Task Name=%s, Task ID=0x%08X",
-            Buffer->context_info.vector,TaskName,Buffer->sys_task_id);
+    snprintf(ReasonBuf, ReasonSize, "Vector=0x%06X, vxWorks Task Name=%s, Task ID=0x%08X", Buffer->context_info.vector,
+             TaskName, Buffer->sys_task_id);
 
     return CFE_PSP_SUCCESS;
 }
-
-

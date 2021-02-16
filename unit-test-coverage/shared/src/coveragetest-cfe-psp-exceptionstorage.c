@@ -1,15 +1,14 @@
 /*
- * 
+ *
  *    Copyright (c) 2020, United States government as represented by the
  *    administrator of the National Aeronautics Space Administration.
  *    All rights reserved. This software was created at NASA Goddard
  *    Space Flight Center pursuant to government contracts.
- * 
+ *
  *    This is governed by the NASA Open Source Agreement and may be used,
  *    distributed and modified only according to the terms of that agreement.
- * 
+ *
  */
-
 
 /**
  * \file     coveragetest-binsem.c
@@ -32,24 +31,22 @@
 #include "PCS_cfe_configdata.h"
 #endif
 
-
 void Test_CFE_PSP_Exception_GetBuffer(void)
 {
     /*
      * Test Case For:
      * CFE_PSP_Exception_LogData_t* CFE_PSP_Exception_GetBuffer(uint32 seq)
      */
-    struct CFE_PSP_Exception_LogData* Ptr0;
-    struct CFE_PSP_Exception_LogData* Ptr1;
+    struct CFE_PSP_Exception_LogData *Ptr0;
+    struct CFE_PSP_Exception_LogData *Ptr1;
 
     Ptr0 = CFE_PSP_Exception_GetBuffer(0);
-    UtAssert_True(Ptr0 != NULL, "CFE_PSP_Exception_GetBuffer(0) (%p) != NULL", (void*)Ptr0);
+    UtAssert_True(Ptr0 != NULL, "CFE_PSP_Exception_GetBuffer(0) (%p) != NULL", (void *)Ptr0);
     Ptr1 = CFE_PSP_Exception_GetBuffer(1);
-    UtAssert_True(Ptr1 != NULL, "CFE_PSP_Exception_GetBuffer(1) (%p) != NULL", (void*)Ptr1);
+    UtAssert_True(Ptr1 != NULL, "CFE_PSP_Exception_GetBuffer(1) (%p) != NULL", (void *)Ptr1);
 
     UtAssert_True(Ptr0 != Ptr1, "CFE_PSP_Exception_GetBuffer(0) (%p) != CFE_PSP_Exception_GetBuffer(1) (%p)",
-            (void*)Ptr0, (void*)Ptr1);
-
+                  (void *)Ptr0, (void *)Ptr1);
 }
 void Test_CFE_PSP_Exception_GetNextContextBuffer(void)
 {
@@ -88,15 +85,15 @@ void Test_CFE_PSP_Exception_GetSummary(void)
      * Test Case For:
      * int32 CFE_PSP_Exception_GetSummary(uint32 *ContextLogId, uint32 *TaskId, char *ReasonBuf, uint32 ReasonSize)
      */
-    char ReasonBuf[128];
-    uint32 LogId;
+    char      ReasonBuf[128];
+    uint32    LogId;
     osal_id_t TaskId;
     osal_id_t TestId;
 
     /* Nominal - no exceptions pending should return CFE_PSP_NO_EXCEPTION_DATA */
     CFE_PSP_Exception_Reset();
-    UtAssert_INT32_EQ(CFE_PSP_Exception_GetSummary(&LogId, &TaskId, ReasonBuf, sizeof(ReasonBuf)), CFE_PSP_NO_EXCEPTION_DATA);
-
+    UtAssert_INT32_EQ(CFE_PSP_Exception_GetSummary(&LogId, &TaskId, ReasonBuf, sizeof(ReasonBuf)),
+                      CFE_PSP_NO_EXCEPTION_DATA);
 
     /* Set up an entry and then run again */
     TestId = OS_ObjectIdFromInteger(2857);
@@ -132,18 +129,18 @@ void Test_CFE_PSP_Exception_CopyContext(void)
      * Test Case For:
      * int32 CFE_PSP_Exception_CopyContext(uint32 ContextLogId, void *ContextBuf, uint32 ContextSize)
      */
-    struct CFE_PSP_Exception_LogData* Ptr;
-    uint32 LogId;
-    uint32 NumEntries;
-    uint32 Count;
-    uint32 SmallBuf[1];
-    uint32 LargeBuf[4];
+    struct CFE_PSP_Exception_LogData *Ptr;
+    uint32                            LogId;
+    uint32                            NumEntries;
+    uint32                            Count;
+    uint32                            SmallBuf[1];
+    uint32                            LargeBuf[4];
 
     CFE_PSP_Exception_Reset();
     UtAssert_INT32_EQ(CFE_PSP_Exception_CopyContext(0, SmallBuf, sizeof(SmallBuf)), CFE_PSP_NO_EXCEPTION_DATA);
 
     Ptr = CFE_PSP_Exception_GetNextContextBuffer();
-    UtAssert_True(Ptr != NULL, "CFE_PSP_Exception_GetNextContextBuffer() (%p) != NULL", (void*)Ptr);
+    UtAssert_True(Ptr != NULL, "CFE_PSP_Exception_GetNextContextBuffer() (%p) != NULL", (void *)Ptr);
     LogId = UT_Get_Exception_Id(Ptr);
     UT_Generate_Exception_Context(Ptr, sizeof(LargeBuf));
     CFE_PSP_Exception_WriteComplete();
@@ -171,4 +168,3 @@ void Test_CFE_PSP_Exception_CopyContext(void)
     UtAssert_UINT32_EQ(CFE_PSP_Exception_GetCount(), NumEntries);
     UtAssert_INT32_EQ(CFE_PSP_Exception_CopyContext(LogId, SmallBuf, sizeof(SmallBuf)), CFE_PSP_NO_EXCEPTION_DATA);
 }
-

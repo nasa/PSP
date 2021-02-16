@@ -16,7 +16,6 @@
 /* ----------------------------------------- */
 /* prototypes normally declared in cacheLib.h */
 /* ----------------------------------------- */
-extern PCS_STATUS    PCS_cacheTextUpdate (void * adrs, size_t bytes);
+extern PCS_STATUS PCS_cacheTextUpdate(void *adrs, size_t bytes);
 
 #endif /* _PSP_STUB_CACHELIB_H_ */
-

@@ -42,14 +42,13 @@
 extern int rtems_fxp_attach(struct rtems_bsdnet_ifconfig *config, int attaching);
 
 /*
-** cFE includes 
+** cFE includes
 */
 #include "common_types.h"
 #include "osapi.h"
-#include "cfe_psp.h" 
+#include "cfe_psp.h"
 #include "cfe_psp_memory.h"
 #include "cfe_psp_module.h"
-
 
 /*
  * The preferred way to obtain the CFE tunable values at runtime is via
@@ -58,37 +57,33 @@ extern int rtems_fxp_attach(struct rtems_bsdnet_ifconfig *config, int attaching)
  */
 #include <target_config.h>
 
-#define CFE_PSP_MAIN_FUNCTION        (*GLOBAL_CONFIGDATA.CfeConfig->SystemMain)
-#define CFE_PSP_NONVOL_STARTUP_FILE  (GLOBAL_CONFIGDATA.CfeConfig->NonvolStartupFile)
+#define CFE_PSP_MAIN_FUNCTION       (*GLOBAL_CONFIGDATA.CfeConfig->SystemMain)
+#define CFE_PSP_NONVOL_STARTUP_FILE (GLOBAL_CONFIGDATA.CfeConfig->NonvolStartupFile)
 
 /*
 ** Global variables
 */
 
+rtems_id RtemsTimerId;
 
-rtems_id          RtemsTimerId;
-
-static unsigned char ethernet_address[6] = {0x00, 0x04, 0x9F, 0x00, 0x27, 0x61 };
-static char net_name_str[] = "fxp1";
-static char ip_addr_str[] = "10.0.2.17";
-static char ip_netmask_str[] = "255.255.255.0";
+static unsigned char ethernet_address[6] = {0x00, 0x04, 0x9F, 0x00, 0x27, 0x61};
+static char          net_name_str[]      = "fxp1";
+static char          ip_addr_str[]       = "10.0.2.17";
+static char          ip_netmask_str[]    = "255.255.255.0";
 
 static struct rtems_bsdnet_ifconfig netdriver_config = {
-        .name = net_name_str,
-        .attach = rtems_fxp_attach,
-        .next = NULL,
-        .ip_address = ip_addr_str,
-        .ip_netmask = ip_netmask_str,
-        .hardware_address = ethernet_address
-        /* more options can follow */
+    .name             = net_name_str,
+    .attach           = rtems_fxp_attach,
+    .next             = NULL,
+    .ip_address       = ip_addr_str,
+    .ip_netmask       = ip_netmask_str,
+    .hardware_address = ethernet_address
+    /* more options can follow */
 };
 
 struct rtems_bsdnet_config rtems_bsdnet_config = {
-        .ifconfig = &netdriver_config,
-        .bootp = rtems_bsdnet_do_dhcp_failsafe, /* fill if DHCP is used*/
+    .ifconfig = &netdriver_config, .bootp = rtems_bsdnet_do_dhcp_failsafe, /* fill if DHCP is used*/
 };
-
-
 
 /*
 ** 1 HZ Timer "ISR"
@@ -121,20 +116,19 @@ int timer_count = 0;
 */
 int CFE_PSP_Setup(void)
 {
-   rtems_status_code status;
+    rtems_status_code status;
 
-   /*
-    * Initialize the network.  This is also optional and only
-    * works if an appropriate network device is present.
-    */
-   status = rtems_bsdnet_initialize_network();
-   if (status != RTEMS_SUCCESSFUL)
-   {
-     printf ("Network init not successful: %s / %s (continuing)\n",
-             rtems_status_text (status),strerror(errno));
-   }
+    /*
+     * Initialize the network.  This is also optional and only
+     * works if an appropriate network device is present.
+     */
+    status = rtems_bsdnet_initialize_network();
+    if (status != RTEMS_SUCCESSFUL)
+    {
+        printf("Network init not successful: %s / %s (continuing)\n", rtems_status_text(status), strerror(errno));
+    }
 
-   return RTEMS_SUCCESSFUL;
+    return RTEMS_SUCCESSFUL;
 }
 
 /******************************************************************************
@@ -164,14 +158,13 @@ int CFE_PSP_Setup(void)
 void CFE_PSP_SetupSystemTimer(void)
 {
     osal_id_t SystemTimebase;
-    int32  Status;
+    int32     Status;
 
     Status = OS_TimeBaseCreate(&SystemTimebase, "cFS-Master", NULL);
     if (Status == OS_SUCCESS)
     {
         Status = OS_TimeBaseSet(SystemTimebase, 250000, 250000);
     }
-
 
     /*
      * If anything failed, cFE/cFS will not run properly, so a panic is appropriate
@@ -182,7 +175,6 @@ void CFE_PSP_SetupSystemTimer(void)
         CFE_PSP_Panic(Status);
     }
 }
-
 
 /*
 ** A simple entry point to start from the BSP loader
@@ -200,15 +192,15 @@ void CFE_PSP_SetupSystemTimer(void)
 */
 void OS_Application_Startup(void)
 {
-   if (CFE_PSP_Setup() != RTEMS_SUCCESSFUL)
-   {
-       CFE_PSP_Panic(CFE_PSP_ERROR);
-   }
+    if (CFE_PSP_Setup() != RTEMS_SUCCESSFUL)
+    {
+        CFE_PSP_Panic(CFE_PSP_ERROR);
+    }
 
-   /*
-   ** Run the PSP Main - this will return when init is complete
-   */
-   CFE_PSP_Main();
+    /*
+    ** Run the PSP Main - this will return when init is complete
+    */
+    CFE_PSP_Main();
 }
 
 /******************************************************************************
@@ -233,64 +225,61 @@ void OS_Application_Startup(void)
 
 void CFE_PSP_Main(void)
 {
-   uint32            reset_type;
-   uint32            reset_subtype;
-   osal_id_t         fs_id;
-   int32 Status;
+    uint32    reset_type;
+    uint32    reset_subtype;
+    osal_id_t fs_id;
+    int32     Status;
 
-
-
-   /*
-   ** Initialize the OS API
-   */
-   Status = OS_API_Init();
-   if (Status != OS_SUCCESS)
-   {
-       /* irrecoverable error if OS_API_Init() fails. */
-       /* note: use printf here, as OS_printf may not work */
-       printf("CFE_PSP: OS_API_Init() failure\n");
-       CFE_PSP_Panic(Status);
-   }
-
-   /*
-    * Initialize the CFE reserved memory map
+    /*
+    ** Initialize the OS API
     */
-   CFE_PSP_SetupReservedMemoryMap();
+    Status = OS_API_Init();
+    if (Status != OS_SUCCESS)
+    {
+        /* irrecoverable error if OS_API_Init() fails. */
+        /* note: use printf here, as OS_printf may not work */
+        printf("CFE_PSP: OS_API_Init() failure\n");
+        CFE_PSP_Panic(Status);
+    }
 
-   /*
-   ** Set up the virtual FS mapping for the "/cf" directory
-   */
-   Status = OS_FileSysAddFixedMap(&fs_id, "/mnt/eeprom", "/cf");
-   if (Status != OS_SUCCESS)
-   {
-       /* Print for informational purposes --
-        * startup can continue, but loads may fail later, depending on config. */
-       OS_printf("CFE_PSP: OS_FileSysAddFixedMap() failure: %d\n", (int)Status);
-   }
+    /*
+     * Initialize the CFE reserved memory map
+     */
+    CFE_PSP_SetupReservedMemoryMap();
 
-   /*
-   ** Initialize the statically linked modules (if any)
-   */
-   CFE_PSP_ModuleInit();
+    /*
+    ** Set up the virtual FS mapping for the "/cf" directory
+    */
+    Status = OS_FileSysAddFixedMap(&fs_id, "/mnt/eeprom", "/cf");
+    if (Status != OS_SUCCESS)
+    {
+        /* Print for informational purposes --
+         * startup can continue, but loads may fail later, depending on config. */
+        OS_printf("CFE_PSP: OS_FileSysAddFixedMap() failure: %d\n", (int)Status);
+    }
 
-   /* Prepare the system timing resources */
-   CFE_PSP_SetupSystemTimer();
+    /*
+    ** Initialize the statically linked modules (if any)
+    */
+    CFE_PSP_ModuleInit();
 
-   /*
-   ** Determine Reset type by reading the hardware reset register.
-   */
-   reset_type = CFE_PSP_RST_TYPE_POWERON;
-   reset_subtype = CFE_PSP_RST_SUBTYPE_POWER_CYCLE;
+    /* Prepare the system timing resources */
+    CFE_PSP_SetupSystemTimer();
 
-   /*
-   ** Initialize the reserved memory 
-   */
-   CFE_PSP_InitProcessorReservedMemory(reset_type);
+    /*
+    ** Determine Reset type by reading the hardware reset register.
+    */
+    reset_type    = CFE_PSP_RST_TYPE_POWERON;
+    reset_subtype = CFE_PSP_RST_SUBTYPE_POWER_CYCLE;
 
-   /*
-   ** Call cFE entry point. This will return when cFE startup
-   ** is complete.
-   */
-   CFE_PSP_MAIN_FUNCTION(reset_type,reset_subtype, 1, CFE_PSP_NONVOL_STARTUP_FILE);
+    /*
+    ** Initialize the reserved memory
+    */
+    CFE_PSP_InitProcessorReservedMemory(reset_type);
 
+    /*
+    ** Call cFE entry point. This will return when cFE startup
+    ** is complete.
+    */
+    CFE_PSP_MAIN_FUNCTION(reset_type, reset_subtype, 1, CFE_PSP_NONVOL_STARTUP_FILE);
 }

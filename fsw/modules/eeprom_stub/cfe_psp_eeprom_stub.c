@@ -37,39 +37,37 @@ void eeprom_stub_Init(uint32 PspModuleId)
     /* Nothing to init */
 }
 
-
-int32 CFE_PSP_EepromWrite32( cpuaddr MemoryAddress, uint32 uint32Value )
+int32 CFE_PSP_EepromWrite32(cpuaddr MemoryAddress, uint32 uint32Value)
 {
-    return(CFE_PSP_ERROR_NOT_IMPLEMENTED);
+    return (CFE_PSP_ERROR_NOT_IMPLEMENTED);
 }
 
-int32 CFE_PSP_EepromWrite16( cpuaddr MemoryAddress, uint16 uint16Value )
+int32 CFE_PSP_EepromWrite16(cpuaddr MemoryAddress, uint16 uint16Value)
 {
-    return(CFE_PSP_ERROR_NOT_IMPLEMENTED);
+    return (CFE_PSP_ERROR_NOT_IMPLEMENTED);
 }
 
-int32 CFE_PSP_EepromWrite8( cpuaddr MemoryAddress, uint8 ByteValue )
+int32 CFE_PSP_EepromWrite8(cpuaddr MemoryAddress, uint8 ByteValue)
 {
-    return(CFE_PSP_ERROR_NOT_IMPLEMENTED);
+    return (CFE_PSP_ERROR_NOT_IMPLEMENTED);
 }
 
 int32 CFE_PSP_EepromWriteEnable(uint32 Bank)
 {
-    return(CFE_PSP_ERROR_NOT_IMPLEMENTED);
+    return (CFE_PSP_ERROR_NOT_IMPLEMENTED);
 }
 
 int32 CFE_PSP_EepromWriteDisable(uint32 Bank)
 {
-    return(CFE_PSP_ERROR_NOT_IMPLEMENTED);
+    return (CFE_PSP_ERROR_NOT_IMPLEMENTED);
 }
 
 int32 CFE_PSP_EepromPowerUp(uint32 Bank)
 {
-    return(CFE_PSP_ERROR_NOT_IMPLEMENTED);
+    return (CFE_PSP_ERROR_NOT_IMPLEMENTED);
 }
 
 int32 CFE_PSP_EepromPowerDown(uint32 Bank)
 {
-   return(CFE_PSP_ERROR_NOT_IMPLEMENTED);
+    return (CFE_PSP_ERROR_NOT_IMPLEMENTED);
 }
-

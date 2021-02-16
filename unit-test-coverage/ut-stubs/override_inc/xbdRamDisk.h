@@ -19,6 +19,4 @@
 /* mappings for declarations in xbdRamDisk.h */
 /* ----------------------------------------- */
 
-
-
 #endif /* _PSP_OVERRIDE_XBDRAMDISK_H_ */

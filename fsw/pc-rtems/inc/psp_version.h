@@ -29,7 +29,7 @@
 /*
  * Development Build Macro Definitions
  */
-#define CFE_PSP_IMPL_BUILD_NUMBER   58
+#define CFE_PSP_IMPL_BUILD_NUMBER   68
 #define CFE_PSP_IMPL_BUILD_BASELINE "v1.5.0-rc1"
 
 /*
@@ -38,7 +38,9 @@
 #define CFE_PSP_IMPL_MAJOR_VERSION 1 /*!< @brief ONLY APPLY for OFFICIAL releases. Major version number. */
 #define CFE_PSP_IMPL_MINOR_VERSION 4 /*!< @brief ONLY APPLY for OFFICIAL releases. Minor version number. */
 #define CFE_PSP_IMPL_REVISION      0 /*!< @brief ONLY APPLY for OFFICIAL releases. Revision number. */
-#define CFE_PSP_IMPL_MISSION_REV 99 /*!< @brief ONLY APPLY for OFFICIAL releases. Revision version number. A value of "99" indicates an unreleased development version.  */
+#define CFE_PSP_IMPL_MISSION_REV                                                                                      \
+    99 /*!< @brief ONLY APPLY for OFFICIAL releases. Revision version number. A value of "99" indicates an unreleased \
+          development version.  */
 
 /*
  * Tools to construct version string
@@ -47,13 +49,13 @@
 #define CFE_PSP_IMPL_STR(x) \
     CFE_PSP_IMPL_STR_HELPER(x) /*!< @brief Helper function to concatenate strings from integer */
 
-/*! @brief Development Build Version Number.
+/*! @brief DEVELOPMENT Build Version Number.
  *  @details Baseline git tag + Number of commits since baseline. @n
  *  See @ref cfsversions for format differences between development and release versions.
  */
-#define CFE_PSP_IMPL_VERSION CFE_PSP_IMPL_BUILD_BASELINE CFE_PSP_IMPL_STR(CFE_PSP_IMPL_BUILD_NUMBER)
+#define CFE_PSP_IMPL_VERSION CFE_PSP_IMPL_BUILD_BASELINE "+dev" CFE_PSP_IMPL_STR(CFE_PSP_IMPL_BUILD_NUMBER)
 
-/*! @brief Development Build Version String.
+/*! @brief DEVELOPMENT Build Version String.
  *  @details Reports the current development build's baseline, number, and name. Also includes a note about the latest
  * official version. @n See @ref cfsversions for format differences between development and release versions.
  */

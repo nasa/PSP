@@ -7,12 +7,12 @@
 /* ----------------------------------------- */
 /* constants normally defined in mcpx750.h */
 /* ----------------------------------------- */
-#define PCS_SYS_REG_BLRR_PWRON         0x01
-#define PCS_SYS_REG_BLRR_PBRST         0x02
-#define PCS_SYS_REG_BLRR_FBTN          0x04
-#define PCS_SYS_REG_BLRR_WDT2          0x08
-#define PCS_SYS_REG_BLRR_SWSRST        0x10
-#define PCS_SYS_REG_BLRR_SWHRST        0x20
+#define PCS_SYS_REG_BLRR_PWRON  0x01
+#define PCS_SYS_REG_BLRR_PBRST  0x02
+#define PCS_SYS_REG_BLRR_FBTN   0x04
+#define PCS_SYS_REG_BLRR_WDT2   0x08
+#define PCS_SYS_REG_BLRR_SWSRST 0x10
+#define PCS_SYS_REG_BLRR_SWHRST 0x20
 
 extern uint32_t *PCS_SYS_REG_BLRR;
 
@@ -24,6 +24,4 @@ extern uint32_t *PCS_SYS_REG_BLRR;
 /* prototypes normally declared in mcpx750.h */
 /* ----------------------------------------- */
 
-
 #endif /* _PSP_STUB_MCPX750_H_ */
-

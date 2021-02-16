@@ -25,18 +25,16 @@
  * it only allocates sequential blocks and does not recover
  * the space after free.
  */
-#define MPOOL_START_SIGNATURE       0x8a458c6b
-#define MPOOL_BLOCK_SIGNATURE       0x3ef65721
-#define MPOOL_ALIGN                 16
+#define MPOOL_START_SIGNATURE 0x8a458c6b
+#define MPOOL_BLOCK_SIGNATURE 0x3ef65721
+#define MPOOL_ALIGN           16
 
 struct MPOOL_REC
 {
     cpuaddr BlockAddr;
-    uint32 Magic;
-    uint32 Size;
+    uint32  Magic;
+    uint32  Size;
 };
-
-
 
 void PCS_exit(int c)
 {
@@ -51,9 +49,9 @@ void PCS_exit(int c)
      */
 }
 
-unsigned long int PCS_strtoul (const char * nptr, char ** endptr, int base)
+unsigned long int PCS_strtoul(const char *nptr, char **endptr, int base)
 {
-    int32 Status;
+    int32         Status;
     unsigned long Result = 0;
 
     Status = UT_DEFAULT_IMPL_RC(PCS_strtoul, -1);
@@ -69,46 +67,45 @@ unsigned long int PCS_strtoul (const char * nptr, char ** endptr, int base)
     }
 
     return Result;
-
 }
 
-int PCS_system (const char * command)
+int PCS_system(const char *command)
 {
     return UT_DEFAULT_IMPL(PCS_system);
 }
 
 void *PCS_malloc(size_t sz)
 {
-    int32 Status;
-    void *PoolPtr;
-    cpuaddr PoolStart;
-    cpuaddr PoolEnd;
-    cpuaddr NextBlock;
-    size_t NextSize;
-    size_t PoolSize;
-    uint32 CallCnt;
+    int32             Status;
+    void *            PoolPtr;
+    cpuaddr           PoolStart;
+    cpuaddr           PoolEnd;
+    cpuaddr           NextBlock;
+    size_t            NextSize;
+    size_t            PoolSize;
+    uint32            CallCnt;
     struct MPOOL_REC *Rec;
 
-    Rec = NULL;
+    Rec     = NULL;
     CallCnt = UT_GetStubCount(UT_KEY(PCS_malloc));
     UT_GetDataBuffer(UT_KEY(PCS_malloc), &PoolPtr, &PoolSize, NULL);
 
     if (PoolPtr != NULL)
     {
         PoolStart = (cpuaddr)PoolPtr;
-        PoolEnd = PoolStart + PoolSize;
+        PoolEnd   = PoolStart + PoolSize;
         PoolStart = (PoolStart + MPOOL_ALIGN - 1) & ~((cpuaddr)MPOOL_ALIGN - 1);
-        PoolSize = PoolEnd - PoolStart;
+        PoolSize  = PoolEnd - PoolStart;
 
         if (PoolSize > (MPOOL_ALIGN * 2))
         {
-            Rec = (struct MPOOL_REC*)PoolStart;
+            Rec       = (struct MPOOL_REC *)PoolStart;
             NextBlock = PoolStart + MPOOL_ALIGN;
             PoolSize -= MPOOL_ALIGN;
             if (CallCnt == 0)
             {
-                Rec->Magic = MPOOL_START_SIGNATURE;
-                Rec->Size = 0;
+                Rec->Magic     = MPOOL_START_SIGNATURE;
+                Rec->Size      = 0;
                 Rec->BlockAddr = NextBlock;
             }
             else if (Rec->Magic != MPOOL_START_SIGNATURE)
@@ -138,25 +135,25 @@ void *PCS_malloc(size_t sz)
         return NULL;
     }
 
-    NextSize = (NextSize + MPOOL_ALIGN - 1) & ~((size_t)MPOOL_ALIGN);
+    NextSize  = (NextSize + MPOOL_ALIGN - 1) & ~((size_t)MPOOL_ALIGN);
     NextBlock = Rec->BlockAddr + MPOOL_ALIGN;
     Rec->BlockAddr += NextSize;
     Rec->Size += NextSize;
 
-    Rec = (struct MPOOL_REC*)(NextBlock - sizeof(struct MPOOL_REC));
+    Rec            = (struct MPOOL_REC *)(NextBlock - sizeof(struct MPOOL_REC));
     Rec->BlockAddr = NextBlock;
-    Rec->Magic = MPOOL_BLOCK_SIGNATURE;
-    Rec->Size = sz;
+    Rec->Magic     = MPOOL_BLOCK_SIGNATURE;
+    Rec->Size      = sz;
 
-    return ((void*)NextBlock);
+    return ((void *)NextBlock);
 }
 
 void PCS_free(void *ptr)
 {
-    int32 Status;
-    cpuaddr BlockAddr;
-    void *PoolPtr;
-    size_t PoolSize;
+    int32             Status;
+    cpuaddr           BlockAddr;
+    void *            PoolPtr;
+    size_t            PoolSize;
     struct MPOOL_REC *Rec;
 
     /*
@@ -175,7 +172,7 @@ void PCS_free(void *ptr)
         }
         else
         {
-            Rec = (struct MPOOL_REC*)(BlockAddr - sizeof(struct MPOOL_REC));
+            Rec = (struct MPOOL_REC *)(BlockAddr - sizeof(struct MPOOL_REC));
             if (Rec->Magic == MPOOL_BLOCK_SIGNATURE)
             {
                 Rec->Magic = ~MPOOL_BLOCK_SIGNATURE;
@@ -190,8 +187,4 @@ void PCS_free(void *ptr)
             }
         }
     }
-
-
 }
-
-

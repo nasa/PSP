@@ -37,11 +37,11 @@
  * that will fit in with the OSAL object ID values and not overlap anything.
  */
 #ifdef OS_OBJECT_TYPE_USER
-#define CFE_PSP_MODULE_BASE         ((OS_OBJECT_TYPE_USER + 0x100) << OS_OBJECT_TYPE_SHIFT)
-#define CFE_PSP_MODULE_INDEX_MASK   OS_OBJECT_INDEX_MASK
+#define CFE_PSP_MODULE_BASE       ((OS_OBJECT_TYPE_USER + 0x100) << OS_OBJECT_TYPE_SHIFT)
+#define CFE_PSP_MODULE_INDEX_MASK OS_OBJECT_INDEX_MASK
 #else
-#define CFE_PSP_MODULE_BASE         0x01100000
-#define CFE_PSP_MODULE_INDEX_MASK   0xFFFF
+#define CFE_PSP_MODULE_BASE       0x01100000
+#define CFE_PSP_MODULE_INDEX_MASK 0xFFFF
 #endif
 
 static uint32 CFE_PSP_ModuleCount = 0;
@@ -54,7 +54,7 @@ static uint32 CFE_PSP_ModuleCount = 0;
 void CFE_PSP_ModuleInit(void)
 {
     CFE_StaticModuleLoadEntry_t *Entry;
-    CFE_PSP_ModuleApi_t *ApiPtr;
+    CFE_PSP_ModuleApi_t *        ApiPtr;
 
     /*
      * Call the init function for all statically linked modules
@@ -62,11 +62,10 @@ void CFE_PSP_ModuleInit(void)
     Entry = GLOBAL_CONFIGDATA.PspModuleList;
     if (Entry != NULL)
     {
-        while(Entry->Name != NULL)
+        while (Entry->Name != NULL)
         {
             ApiPtr = (CFE_PSP_ModuleApi_t *)Entry->Api;
-            if ((uint32)ApiPtr->ModuleType == CFE_PSP_MODULE_TYPE_SIMPLE &&
-                    ApiPtr->Init != NULL)
+            if ((uint32)ApiPtr->ModuleType == CFE_PSP_MODULE_TYPE_SIMPLE && ApiPtr->Init != NULL)
             {
                 (*ApiPtr->Init)(CFE_PSP_MODULE_BASE | CFE_PSP_ModuleCount);
             }
@@ -76,7 +75,6 @@ void CFE_PSP_ModuleInit(void)
     }
 }
 
-
 /***************************************************
  * Function Name: CFE_PSP_Module_GetAPIEntry
  *
@@ -84,7 +82,7 @@ void CFE_PSP_ModuleInit(void)
  */
 int32 CFE_PSP_Module_GetAPIEntry(uint32 PspModuleId, CFE_PSP_ModuleApi_t **API)
 {
-    int32 Result;
+    int32  Result;
     uint32 LocalId;
 
     Result = CFE_PSP_INVALID_MODULE_ID;
@@ -93,14 +91,13 @@ int32 CFE_PSP_Module_GetAPIEntry(uint32 PspModuleId, CFE_PSP_ModuleApi_t **API)
         LocalId = PspModuleId & CFE_PSP_MODULE_INDEX_MASK;
         if (LocalId < CFE_PSP_ModuleCount)
         {
-            *API = (CFE_PSP_ModuleApi_t *)GLOBAL_CONFIGDATA.PspModuleList[LocalId].Api;
+            *API   = (CFE_PSP_ModuleApi_t *)GLOBAL_CONFIGDATA.PspModuleList[LocalId].Api;
             Result = CFE_PSP_SUCCESS;
         }
     }
 
     return Result;
 }
-
 
 /***************************************************
  * Function Name: CFE_PSP_Module_FindByName
@@ -109,19 +106,19 @@ int32 CFE_PSP_Module_GetAPIEntry(uint32 PspModuleId, CFE_PSP_ModuleApi_t **API)
  */
 int32 CFE_PSP_Module_FindByName(const char *ModuleName, uint32 *PspModuleId)
 {
-    uint32 i;
-    int32 Result;
+    uint32                       i;
+    int32                        Result;
     CFE_StaticModuleLoadEntry_t *Entry;
 
-    Entry = GLOBAL_CONFIGDATA.PspModuleList;
+    Entry  = GLOBAL_CONFIGDATA.PspModuleList;
     Result = CFE_PSP_INVALID_MODULE_NAME;
-    i = 0;
+    i      = 0;
     while (i < CFE_PSP_ModuleCount)
     {
         if (strcmp(Entry->Name, ModuleName) == 0)
         {
             *PspModuleId = CFE_PSP_MODULE_BASE | (i & CFE_PSP_MODULE_INDEX_MASK);
-            Result = CFE_PSP_SUCCESS;
+            Result       = CFE_PSP_SUCCESS;
             break;
         }
         ++Entry;

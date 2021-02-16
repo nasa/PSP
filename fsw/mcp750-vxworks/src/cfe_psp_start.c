@@ -52,19 +52,18 @@
 #include "mcpx750.h"
 
 /*
-** cFE includes 
+** cFE includes
 */
 #include "common_types.h"
 #include "osapi.h"
 
-#include "cfe_psp.h" 
-#include "cfe_psp_memory.h"           
+#include "cfe_psp.h"
+#include "cfe_psp_memory.h"
 
 /*
 **  External Declarations
 */
-IMPORT void sysPciWrite32 (UINT32, UINT32);
-
+IMPORT void sysPciWrite32(UINT32, UINT32);
 
 /*
  * The preferred way to obtain the CFE tunable values at runtime is via
@@ -73,11 +72,9 @@ IMPORT void sysPciWrite32 (UINT32, UINT32);
  */
 #include <target_config.h>
 
-#define CFE_PSP_MAIN_FUNCTION        (*GLOBAL_CONFIGDATA.CfeConfig->SystemMain)
-#define CFE_PSP_NONVOL_STARTUP_FILE  (GLOBAL_CONFIGDATA.CfeConfig->NonvolStartupFile)
-#define CFE_PSP_1HZ_FUNCTION         (*GLOBAL_CONFIGDATA.CfeConfig->System1HzISR)
-
-
+#define CFE_PSP_MAIN_FUNCTION       (*GLOBAL_CONFIGDATA.CfeConfig->SystemMain)
+#define CFE_PSP_NONVOL_STARTUP_FILE (GLOBAL_CONFIGDATA.CfeConfig->NonvolStartupFile)
+#define CFE_PSP_1HZ_FUNCTION        (*GLOBAL_CONFIGDATA.CfeConfig->System1HzISR)
 
 /******************************************************************************
 **  Function:  OS_Application_Startup()
@@ -93,150 +90,147 @@ IMPORT void sysPciWrite32 (UINT32, UINT32);
 */
 void OS_Application_Startup(void)
 {
-   int    TicksPerSecond;
-   uint32 reset_type;
-   uint32 reset_subtype;
-   osal_id_t fs_id;
-   char   reset_register;
-   int32  Status;
+    int       TicksPerSecond;
+    uint32    reset_type;
+    uint32    reset_subtype;
+    osal_id_t fs_id;
+    char      reset_register;
+    int32     Status;
 
-
-   /*
-   ** Initialize the OS API
-   */
-   Status = OS_API_Init();
-   if (Status != OS_SUCCESS)
-   {
-       /* irrecoverable error if OS_API_Init() fails. */
-       /* note: use printf here, as OS_printf may not work */
-       printf("CFE_PSP: OS_API_Init() failure\n");
-       CFE_PSP_Panic(Status);
-
-       /*
-        * normally CFE_PSP_Panic() does not return, except
-        * during unit testing.  This return avoids executing
-        * the rest of this function in that case.
-        */
-       return;
-   }
-
-   /*
-   ** Set up the virtual FS mapping for the "/cf" directory
-   ** On this platform it is will use the CF:0 physical device.
-   */
-   Status = OS_FileSysAddFixedMap(&fs_id, "CF:0", "/cf");
-   if (Status != OS_SUCCESS)
-   {
-       /* Print for informational purposes --
-        * startup can continue, but loads may fail later, depending on config. */
-       OS_printf("CFE_PSP: OS_FileSysAddFixedMap() failure: %d\n", (int)Status);
-   }
-
-   /* 
-   ** Delay for one second. 
-   */
-   TicksPerSecond = sysClkRateGet();
-   (void) taskDelay( TicksPerSecond );
-
-   /* 
-   ** This starts up the hardware timer on the board that
-   ** will be used to get the local time 
-   */
-   sysPciWrite32(0xFC0011D0, 0x0D6937E5);
-
-   /*
-   ** Setup the pointer to the reserved area in vxWorks.
-   ** This must be done before any of the reset variables are used.
-   */
-   CFE_PSP_SetupReservedMemoryMap();
-
-   /*
-   ** Determine Reset type by reading the hardware reset register.
-   */
-   reset_register = *(SYS_REG_BLRR);
-   OS_printf("CFE_PSP: Reset Register = %02X\n",reset_register);
-   
-   if ( reset_register & SYS_REG_BLRR_PWRON )
-   {    
-      OS_printf("CFE_PSP: POWERON Reset: Power Switch ON.\n");
-      reset_type = CFE_PSP_RST_TYPE_POWERON;
-      reset_subtype = CFE_PSP_RST_SUBTYPE_POWER_CYCLE;
-   }
-   else if ( reset_register & SYS_REG_BLRR_PBRST )
-   {    
-      OS_printf("CFE_PSP: POWERON Reset: CPCI Push Button Reset.\n");
-      reset_type = CFE_PSP_RST_TYPE_POWERON;
-      reset_subtype = CFE_PSP_RST_SUBTYPE_PUSH_BUTTON;
-   }
-   else if ( reset_register & SYS_REG_BLRR_FBTN )
-   {    
-      OS_printf("CFE_PSP: POWERON Reset: Front Panel Push Button Reset.\n");
-      reset_type = CFE_PSP_RST_SUBTYPE_PUSH_BUTTON;
-      reset_subtype = 3;
-   }
-   else if ( reset_register & SYS_REG_BLRR_WDT2 )
-   {    
-      OS_printf("CFE_PSP: PROCESSOR Reset: Watchdog level 2 Reset.\n");
-      reset_type = CFE_PSP_RST_TYPE_PROCESSOR;
-      reset_subtype = CFE_PSP_RST_SUBTYPE_HW_WATCHDOG;
-   }
-   else if ( reset_register & SYS_REG_BLRR_SWSRST )
-   {    
-      OS_printf("CFE_PSP: PROCESSOR Reset: Software Soft Reset.\n");
-      reset_type = CFE_PSP_RST_TYPE_PROCESSOR;
-      reset_subtype = CFE_PSP_RST_SUBTYPE_RESET_COMMAND;
-   }
-   else if ( reset_register & SYS_REG_BLRR_SWHRST )
-   {
-   
-      /*
-      ** For a Software hard reset, we want to look at the special 
-      ** BSP reset variable to determine if we wanted a 
-      ** Power ON or a Processor reset. Because the vxWorks sysToMonitor and
-      ** reboot functions use this reset type, we want to use this for a software
-      ** commanded processor or Power on reset.
-      */
-      if ( CFE_PSP_ReservedMemoryMap.BootPtr->bsp_reset_type == CFE_PSP_RST_TYPE_POWERON)
-      {
-         OS_printf("CFE_PSP: POWERON Reset: Software Hard Reset.\n");
-         reset_type = CFE_PSP_RST_TYPE_POWERON;
-         reset_subtype = CFE_PSP_RST_SUBTYPE_RESET_COMMAND;
-      }
-      else
-      {
-         OS_printf("CFE_PSP: PROCESSOR Reset: Software Hard Reset.\n");
-         reset_type = CFE_PSP_RST_TYPE_PROCESSOR;
-         reset_subtype = CFE_PSP_RST_SUBTYPE_RESET_COMMAND;
-      }
-   }
-   else 
-   {
-      OS_printf("CFE_PSP: POWERON Reset: UNKNOWN Reset.\n");
-      reset_type = CFE_PSP_RST_TYPE_POWERON;
-      reset_subtype = CFE_PSP_RST_SUBTYPE_UNDEFINED_RESET; 
-   }   
- 
-   /*
-    * If CFE fails to boot with a processor reset, 
-    * then make sure next time it uses a power on reset.
+    /*
+    ** Initialize the OS API
     */
-   if ( reset_type == CFE_PSP_RST_TYPE_PROCESSOR ) 
-   {
-       CFE_PSP_ReservedMemoryMap.BootPtr->bsp_reset_type = CFE_PSP_RST_TYPE_POWERON;
-   }
+    Status = OS_API_Init();
+    if (Status != OS_SUCCESS)
+    {
+        /* irrecoverable error if OS_API_Init() fails. */
+        /* note: use printf here, as OS_printf may not work */
+        printf("CFE_PSP: OS_API_Init() failure\n");
+        CFE_PSP_Panic(Status);
 
-   /*
-   ** Initialize the reserved memory 
-   */
-   CFE_PSP_InitProcessorReservedMemory(reset_type);
+        /*
+         * normally CFE_PSP_Panic() does not return, except
+         * during unit testing.  This return avoids executing
+         * the rest of this function in that case.
+         */
+        return;
+    }
 
+    /*
+    ** Set up the virtual FS mapping for the "/cf" directory
+    ** On this platform it is will use the CF:0 physical device.
+    */
+    Status = OS_FileSysAddFixedMap(&fs_id, "CF:0", "/cf");
+    if (Status != OS_SUCCESS)
+    {
+        /* Print for informational purposes --
+         * startup can continue, but loads may fail later, depending on config. */
+        OS_printf("CFE_PSP: OS_FileSysAddFixedMap() failure: %d\n", (int)Status);
+    }
 
-   /*
-   ** Call cFE entry point. This will return when cFE startup
-   ** is complete.
-   */
-   CFE_PSP_MAIN_FUNCTION(reset_type,reset_subtype, 1, CFE_PSP_NONVOL_STARTUP_FILE);
+    /*
+    ** Delay for one second.
+    */
+    TicksPerSecond = sysClkRateGet();
+    (void)taskDelay(TicksPerSecond);
 
+    /*
+    ** This starts up the hardware timer on the board that
+    ** will be used to get the local time
+    */
+    sysPciWrite32(0xFC0011D0, 0x0D6937E5);
+
+    /*
+    ** Setup the pointer to the reserved area in vxWorks.
+    ** This must be done before any of the reset variables are used.
+    */
+    CFE_PSP_SetupReservedMemoryMap();
+
+    /*
+    ** Determine Reset type by reading the hardware reset register.
+    */
+    reset_register = *(SYS_REG_BLRR);
+    OS_printf("CFE_PSP: Reset Register = %02X\n", reset_register);
+
+    if (reset_register & SYS_REG_BLRR_PWRON)
+    {
+        OS_printf("CFE_PSP: POWERON Reset: Power Switch ON.\n");
+        reset_type    = CFE_PSP_RST_TYPE_POWERON;
+        reset_subtype = CFE_PSP_RST_SUBTYPE_POWER_CYCLE;
+    }
+    else if (reset_register & SYS_REG_BLRR_PBRST)
+    {
+        OS_printf("CFE_PSP: POWERON Reset: CPCI Push Button Reset.\n");
+        reset_type    = CFE_PSP_RST_TYPE_POWERON;
+        reset_subtype = CFE_PSP_RST_SUBTYPE_PUSH_BUTTON;
+    }
+    else if (reset_register & SYS_REG_BLRR_FBTN)
+    {
+        OS_printf("CFE_PSP: POWERON Reset: Front Panel Push Button Reset.\n");
+        reset_type    = CFE_PSP_RST_SUBTYPE_PUSH_BUTTON;
+        reset_subtype = 3;
+    }
+    else if (reset_register & SYS_REG_BLRR_WDT2)
+    {
+        OS_printf("CFE_PSP: PROCESSOR Reset: Watchdog level 2 Reset.\n");
+        reset_type    = CFE_PSP_RST_TYPE_PROCESSOR;
+        reset_subtype = CFE_PSP_RST_SUBTYPE_HW_WATCHDOG;
+    }
+    else if (reset_register & SYS_REG_BLRR_SWSRST)
+    {
+        OS_printf("CFE_PSP: PROCESSOR Reset: Software Soft Reset.\n");
+        reset_type    = CFE_PSP_RST_TYPE_PROCESSOR;
+        reset_subtype = CFE_PSP_RST_SUBTYPE_RESET_COMMAND;
+    }
+    else if (reset_register & SYS_REG_BLRR_SWHRST)
+    {
+
+        /*
+        ** For a Software hard reset, we want to look at the special
+        ** BSP reset variable to determine if we wanted a
+        ** Power ON or a Processor reset. Because the vxWorks sysToMonitor and
+        ** reboot functions use this reset type, we want to use this for a software
+        ** commanded processor or Power on reset.
+        */
+        if (CFE_PSP_ReservedMemoryMap.BootPtr->bsp_reset_type == CFE_PSP_RST_TYPE_POWERON)
+        {
+            OS_printf("CFE_PSP: POWERON Reset: Software Hard Reset.\n");
+            reset_type    = CFE_PSP_RST_TYPE_POWERON;
+            reset_subtype = CFE_PSP_RST_SUBTYPE_RESET_COMMAND;
+        }
+        else
+        {
+            OS_printf("CFE_PSP: PROCESSOR Reset: Software Hard Reset.\n");
+            reset_type    = CFE_PSP_RST_TYPE_PROCESSOR;
+            reset_subtype = CFE_PSP_RST_SUBTYPE_RESET_COMMAND;
+        }
+    }
+    else
+    {
+        OS_printf("CFE_PSP: POWERON Reset: UNKNOWN Reset.\n");
+        reset_type    = CFE_PSP_RST_TYPE_POWERON;
+        reset_subtype = CFE_PSP_RST_SUBTYPE_UNDEFINED_RESET;
+    }
+
+    /*
+     * If CFE fails to boot with a processor reset,
+     * then make sure next time it uses a power on reset.
+     */
+    if (reset_type == CFE_PSP_RST_TYPE_PROCESSOR)
+    {
+        CFE_PSP_ReservedMemoryMap.BootPtr->bsp_reset_type = CFE_PSP_RST_TYPE_POWERON;
+    }
+
+    /*
+    ** Initialize the reserved memory
+    */
+    CFE_PSP_InitProcessorReservedMemory(reset_type);
+
+    /*
+    ** Call cFE entry point. This will return when cFE startup
+    ** is complete.
+    */
+    CFE_PSP_MAIN_FUNCTION(reset_type, reset_subtype, 1, CFE_PSP_NONVOL_STARTUP_FILE);
 }
 
 /******************************************************************************
@@ -253,16 +247,15 @@ void OS_Application_Startup(void)
 */
 void OS_Application_Run(void)
 {
-   int    TicksPerSecond;
+    int TicksPerSecond;
 
-   /*
-   ** Main loop for default task and simulated 1hz 
-   */
-   for ( ;; )
-   {
-      TicksPerSecond = sysClkRateGet();
-      (void) taskDelay( TicksPerSecond );
-      CFE_PSP_1HZ_FUNCTION();
-   }
+    /*
+    ** Main loop for default task and simulated 1hz
+    */
+    for (;;)
+    {
+        TicksPerSecond = sysClkRateGet();
+        (void)taskDelay(TicksPerSecond);
+        CFE_PSP_1HZ_FUNCTION();
+    }
 }
-
