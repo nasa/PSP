@@ -733,3 +733,88 @@ int32 CFE_PSP_Exception_CopyContext(uint32 ContextLogId, void *ContextBuf, uint3
 
     return status;
 }
+
+/*----------------------------------------------------------------
+ *
+ * Function: CFE_PSP_GetVersionString
+ *
+ *  Purpose: Implemented per public OSAL API
+ *           See description in API and header file for detail
+ *
+ *-----------------------------------------------------------------*/
+const char *CFE_PSP_GetVersionString(void)
+{
+    static const char DEFAULT[] = "UT";
+    void *            Buffer;
+    const char *      RetVal;
+
+    UT_GetDataBuffer(UT_KEY(CFE_PSP_GetVersionString), &Buffer, NULL, NULL);
+    if (Buffer == NULL)
+    {
+        RetVal = DEFAULT;
+    }
+    else
+    {
+        RetVal = Buffer;
+    }
+
+    return RetVal;
+}
+
+/*----------------------------------------------------------------
+ *
+ * Function: CFE_PSP_GetVersionCodeName
+ *
+ *  Purpose: Implemented per public OSAL API
+ *           See description in API and header file for detail
+ *
+ *-----------------------------------------------------------------*/
+const char *CFE_PSP_GetVersionCodeName(void)
+{
+    static const char DEFAULT[] = "UT";
+    void *            Buffer;
+    const char *      RetVal;
+
+    UT_GetDataBuffer(UT_KEY(CFE_PSP_GetVersionCodeName), &Buffer, NULL, NULL);
+    if (Buffer == NULL)
+    {
+        RetVal = DEFAULT;
+    }
+    else
+    {
+        RetVal = Buffer;
+    }
+
+    return RetVal;
+}
+
+/*----------------------------------------------------------------
+ *
+ * Function: CFE_PSP_GetVersionNumber
+ *
+ *  Purpose: Implemented per public OSAL API
+ *           See description in API and header file for detail
+ *
+ *-----------------------------------------------------------------*/
+void CFE_PSP_GetVersionNumber(uint8 VersionNumbers[4])
+{
+    UT_Stub_RegisterContext(UT_KEY(CFE_PSP_GetVersionNumber), VersionNumbers);
+    UT_DEFAULT_IMPL(VersionNumbers);
+}
+
+/*----------------------------------------------------------------
+ *
+ * Function: CFE_PSP_GetBuildNumber
+ *
+ *  Purpose: Implemented per public OSAL API
+ *           See description in API and header file for detail
+ *
+ *-----------------------------------------------------------------*/
+uint32 CFE_PSP_GetBuildNumber(void)
+{
+    int32 status;
+
+    status = UT_DEFAULT_IMPL(CFE_PSP_GetBuildNumber);
+
+    return status;
+}

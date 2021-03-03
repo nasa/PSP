@@ -39,11 +39,13 @@
 */
 typedef const struct
 {
-    uint8 MajorVersion;
-    uint8 MinorVersion;
-    uint8 Revision;
-    uint8 MissionRev;
-    char  VersionString[32];
+    uint8       MajorVersion;
+    uint8       MinorVersion;
+    uint8       Revision;
+    uint8       MissionRev;
+    const char *VersionString;   /**< The simple semantic version identifier */
+    const char *VersionCodeName; /**< Cross-module compatiblity indicator */
+    uint32      BuildNumber;
 } CFE_PSP_VersionInfo_t;
 
 /**

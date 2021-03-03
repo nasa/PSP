@@ -410,4 +410,59 @@ int32 CFE_PSP_EepromWriteDisable(uint32 Bank);
 int32 CFE_PSP_EepromPowerUp(uint32 Bank);
 int32 CFE_PSP_EepromPowerDown(uint32 Bank);
 
+/**
+ * \brief Obtain the PSP version/baseline identifier string
+ *
+ * This retrieves the PSP version identifier string without extra info
+ *
+ * \returns Version string.  This is a fixed string and cannot be NULL.
+ */
+const char *CFE_PSP_GetVersionString(void);
+
+/**
+ * \brief Obtain the version code name
+ *
+ * This retrieves the PSP code name.  This is a compatibility indicator for the
+ * overall NASA CFS ecosystem.  All modular components which are intended to
+ * interoperate should report the same code name.
+ *
+ * \returns Code name.  This is a fixed string and cannot be NULL.
+ */
+const char *CFE_PSP_GetVersionCodeName(void);
+
+/**
+ * \brief Obtain the PSP numeric version numbers as uint8 values
+ *
+ * This retrieves the numeric PSP version identifier as an array of 4 uint8 values.
+ *
+ * The array of numeric values is in order of precedence:
+ *  [0] = Major Number
+ *  [1] = Minor Number
+ *  [2] = Revision Number
+ *  [3] = Mission Revision
+ *
+ * The "Mission Revision" (last output) also indicates whether this is an
+ * official release, a patched release, or a development version.
+ *  0 indicates an official release
+ *  1-254 local patch level (reserved for mission use)
+ *  255 indicates a development build
+ *
+ * \param[out] VersionNumbers  A fixed-size array to be filled with the version numbers
+ */
+void CFE_PSP_GetVersionNumber(uint8 VersionNumbers[4]);
+
+/**
+ * \brief Obtain the PSP library numeric build number
+ *
+ * The build number is a monotonically increasing number that (coarsely)
+ * reflects the number of commits/changes that have been merged since the
+ * epoch release.  During development cycles this number should increase
+ * after each subsequent merge/modification.
+ *
+ * Like other version information, this is a fixed number assigned at compile time.
+ *
+ * \returns The OSAL library build number
+ */
+uint32 CFE_PSP_GetBuildNumber(void);
+
 #endif /* _cfe_psp_ */
