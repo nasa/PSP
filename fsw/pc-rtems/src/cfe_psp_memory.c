@@ -528,24 +528,3 @@ int32 CFE_PSP_GetCFETextSegmentInfo(cpuaddr *PtrToCFESegment, uint32 *SizeOfCFES
 
     return (return_code);
 }
-
-// extern int rtems_shell_main_wkspace_info(int argc,char *argv[]);
-// extern int rtems_shell_main_malloc_info( int argc, char *argv[]);
-
-void CFE_PSP_MemReport(char *message)
-{
-
-    // int MemStatus;
-    // char *malloc_argv[] = {"malloc", "info"};
-    // char *wkspace_argv[] = {"wkspace", "info"};
-
-    OS_printf("------------------------ Memory Stat Report ----------------------------\n");
-    OS_printf(" Called from: %s\n", message);
-    OS_printf("------------------------ Dumping Malloc Stats: ----------------------------\n");
-    // MemStatus = rtems_shell_main_malloc_info(2, malloc_argv);
-    // OS_printf("rtems_shell_main_malloc_info() rc=%d\n",(int)MemStatus);
-    OS_printf("------------------------ Dumping Wkspace Stats: ----------------------------\n");
-    // MemStatus = rtems_shell_main_wkspace_info(2, wkspace_argv);
-    // OS_printf("rtems_shell_main_wkspace_info() rc=%d\n",(int)MemStatus);
-    OS_printf("------------------------ Done ----------------- ----------------------------\n");
-}
