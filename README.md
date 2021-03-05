@@ -9,6 +9,14 @@ This is a collection of APIs abstracting platform specific functionality to be l
 
 ## Version History
 
+### Development Build: 1.5.0-rc1+dev76
+
+- Fix #246, remove unused code.
+- Fix #254, use CMake to publish interface details
+- Fix #256, add PSP version API
+- Fix #258, Add Testing Tools to the Security Policy
+- See <https://github.com/nasa/PSP/pull/260>
+
 ### Development Build: 1.5.0-rc1+dev68
 
 - Updates continuous integration workfow by adding static analysis with timeout and code format check. Adds status badges to ReadMe and removes old TravisCI artifacts.
