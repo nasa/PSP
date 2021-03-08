@@ -7,8 +7,6 @@
 # This contains the fully platform-specific code to 
 # run CFE on this target.
 
-include_directories(inc) 
-
 # Build the pc-linux implementation as a library
 add_library(psp-${CFE_PSP_TARGETNAME}-impl OBJECT
     src/cfe_psp_exception.c
@@ -26,3 +24,6 @@ add_library(psp-${CFE_PSP_TARGETNAME}-impl OBJECT
 target_compile_definitions(psp-${CFE_SYSTEM_PSPNAME}-impl PRIVATE
     _GNU_SOURCE
 )
+
+target_include_directories(psp-${CFE_PSP_TARGETNAME}-impl PRIVATE inc)
+target_link_libraries(psp-${CFE_PSP_TARGETNAME}-impl PRIVATE psp_module_api)

@@ -49,6 +49,7 @@ add_executable(coverage-${CFE_PSP_TARGETNAME}-testrunner
 target_link_libraries(coverage-${CFE_PSP_TARGETNAME}-testrunner
     ${UT_COVERAGE_LINK_FLAGS}
     ut-adaptor-${CFE_PSP_TARGETNAME}
+    psp_module_api
     ut_psp_cfe_stubs
     ut_psp_libc_stubs
     ut_osapi_stubs

@@ -31,3 +31,8 @@ target_include_directories(ut-adaptor-${CFE_PSP_TARGETNAME} PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/inc
     ${PSPCOVERAGE_SOURCE_DIR}/shared/adaptors/inc
 )
+
+target_link_libraries(ut-adaptor-${CFE_PSP_TARGETNAME} PRIVATE 
+    psp_module_api
+    ut_assert 
+)
