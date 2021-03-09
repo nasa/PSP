@@ -14,7 +14,6 @@
 # Build the shared implementation as a library
 add_library(psp-${CFE_PSP_TARGETNAME}-shared OBJECT
     src/cfe_psp_configdata.c
-    src/cfe_psp_eeprom.c
     src/cfe_psp_exceptionstorage.c
     src/cfe_psp_memrange.c
     src/cfe_psp_memutils.c
