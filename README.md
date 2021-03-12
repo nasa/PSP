@@ -9,7 +9,12 @@ This is a collection of APIs abstracting platform specific functionality to be l
 
 ## Version History
 
-### Development Build: 1.5.0-rc1+dev76
+### Development Build: v1.5.0-rc1+dev80
+
+- HOTFIX 20210312, updates to work with older CMake
+- See <https://github.com/nasa/PSP/pull/267>
+
+### Development Build: v1.5.0-rc1+dev76
 
 - Fix #246, remove unused code.
 - Fix #254, use CMake to publish interface details
