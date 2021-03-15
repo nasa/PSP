@@ -18,6 +18,14 @@ add_library(psp-${CFE_PSP_TARGETNAME}-impl OBJECT
     src/cfe_psp_timer.c
     src/cfe_psp_watchdog.c
 )
-target_include_directories(psp-${CFE_PSP_TARGETNAME}-impl PRIVATE inc)
-target_link_libraries(psp-${CFE_PSP_TARGETNAME}-impl PRIVATE psp_module_api)
+
+target_compile_definitions(psp-${CFE_SYSTEM_PSPNAME}-impl PRIVATE
+    $<TARGET_PROPERTY:psp_module_api,INTERFACE_COMPILE_DEFINITIONS>
+)
+
+target_include_directories(psp-${CFE_PSP_TARGETNAME}-impl PRIVATE 
+    inc
+    $<TARGET_PROPERTY:psp_module_api,INTERFACE_INCLUDE_DIRECTORIES>
+)
+
 

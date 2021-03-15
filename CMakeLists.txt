@@ -21,6 +21,7 @@ target_compile_definitions(psp_module_api INTERFACE
 target_include_directories(psp_module_api INTERFACE
     fsw/inc         # public API
     fsw/shared/inc  # all PSP shared headers
+    fsw/${CFE_PSP_TARGETNAME}/inc # all impl headers
     ${CFE_SOURCE_DIR}/cmake/target/inc    # for sysconfig
     $<TARGET_PROPERTY:osal,INTERFACE_INCLUDE_DIRECTORIES>  # use headers from OSAL
 )
