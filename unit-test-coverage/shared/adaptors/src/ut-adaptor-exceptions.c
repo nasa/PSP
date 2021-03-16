@@ -18,8 +18,8 @@
  */
 
 #include "ut-adaptor-exceptions.h"
-#include <cfe_psp_config.h>
-#include <cfe_psp_memory.h>
+#include "cfe_psp_config.h"
+#include "cfe_psp_memory.h"
 
 #define CFE_PSP_MAX_EXCEPTION_ENTRIES        4
 #define CFE_PSP_MAX_EXCEPTION_BACKTRACE_SIZE 16

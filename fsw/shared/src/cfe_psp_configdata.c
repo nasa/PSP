@@ -25,10 +25,10 @@
  *      Author: joseph.p.hickey@nasa.gov
  */
 
-#include <cfe_psp.h>
-#include <cfe_psp_config.h>
-#include <psp_version.h>
-#include <cfe_psp_configdata.h>
+#include "cfe_psp.h"
+#include "cfe_psp_config.h"
+#include "psp_version.h"
+#include "cfe_psp_configdata.h"
 
 /**
  * Instantiation of the PSP/HW configuration data

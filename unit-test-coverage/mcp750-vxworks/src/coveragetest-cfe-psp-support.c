@@ -20,11 +20,11 @@
 #include "coveragetest-psp-mcp750-vxworks.h"
 #include "ut-adaptor-bootrec.h"
 
-#include <cfe_psp.h>
+#include "cfe_psp.h"
 
-#include <PCS_stdlib.h>
-#include <PCS_rebootLib.h>
-#include <PCS_cacheLib.h>
+#include "PCS_stdlib.h"
+#include "PCS_rebootLib.h"
+#include "PCS_cacheLib.h"
 #include "PCS_cfe_configdata.h"
 
 void Test_CFE_PSP_Restart(void)

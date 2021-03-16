@@ -21,13 +21,13 @@
 #include "utstubs.h"
 #include "ut-adaptor-exceptions.h"
 
-#include <cfe_psp.h>
-#include <cfe_psp_exceptionstorage_api.h>
+#include "cfe_psp.h"
+#include "cfe_psp_exceptionstorage_api.h"
 
 #ifdef jphfix
-#include <PCS_stdlib.h>
-#include <PCS_rebootLib.h>
-#include <PCS_cacheLib.h>
+#include "PCS_stdlib.h"
+#include "PCS_rebootLib.h"
+#include "PCS_cacheLib.h"
 #include "PCS_cfe_configdata.h"
 #endif
 

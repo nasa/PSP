@@ -20,8 +20,8 @@
 #ifndef INCLUDE_UT_ADAPTOR_EXCEPTIONS_H_
 #define INCLUDE_UT_ADAPTOR_EXCEPTIONS_H_
 
-#include <common_types.h>
-#include <cfe_psp_exceptionstorage_api.h>
+#include "common_types.h"
+#include "cfe_psp_exceptionstorage_api.h"
 
 uint32 UT_Get_Exception_MaxEntries(void);
 size_t UT_Get_Exception_Size(void);

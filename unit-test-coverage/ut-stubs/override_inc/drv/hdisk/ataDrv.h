@@ -12,7 +12,7 @@
 #ifndef _PSP_OVERRIDE_DRV_HDISK_ATADRV_H_
 #define _PSP_OVERRIDE_DRV_HDISK_ATADRV_H_
 
-#include <PCS_drv_hdisk_ataDrv.h>
+#include "PCS_drv_hdisk_ataDrv.h"
 #include <vxWorks.h>
 #include <blkIo.h>
 

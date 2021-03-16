@@ -1,7 +1,7 @@
 #ifndef _PSP_STUB_CFE_CONFIGDATA_H_
 #define _PSP_STUB_CFE_CONFIGDATA_H_
 
-#include <PCS_basetypes.h>
+#include "PCS_basetypes.h"
 
 #define PCS_CONFIG_MISSIONVERSION "UT-mission"
 #define PCS_CONFIG_CFEVERSION     "UT-CFE"

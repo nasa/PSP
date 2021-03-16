@@ -20,11 +20,11 @@
 #ifndef INCLUDE_PSP_MCP750_VXWORKS_COVERAGETEST_H_
 #define INCLUDE_PSP_MCP750_VXWORKS_COVERAGETEST_H_
 
-#include <utassert.h>
-#include <uttest.h>
-#include <utstubs.h>
+#include "utassert.h"
+#include "uttest.h"
+#include "utstubs.h"
 
-#include <coveragetest-psp-shared.h>
+#include "coveragetest-psp-shared.h"
 
 #define ADD_TEST(test) UtTest_Add((Test_##test), Psp_Test_Setup, Psp_Test_Teardown, #test)
 

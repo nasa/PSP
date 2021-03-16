@@ -13,7 +13,7 @@
 #include <stdlib.h>
 #include "utstubs.h"
 
-#include <PCS_rebootLib.h>
+#include "PCS_rebootLib.h"
 
 void PCS_reboot(int boottype)
 {

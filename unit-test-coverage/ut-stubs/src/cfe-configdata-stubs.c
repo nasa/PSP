@@ -14,10 +14,10 @@
 #include <stdio.h>
 #include "utstubs.h"
 
-#include <common_types.h>
-#include <target_config.h>
+#include "common_types.h"
+#include "target_config.h"
 
-#include <PCS_cfe_configdata.h>
+#include "PCS_cfe_configdata.h"
 
 Target_CfeConfigData GLOBAL_CFE_CONFIGDATA = {
 

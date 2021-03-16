@@ -70,7 +70,7 @@ IMPORT void sysPciWrite32(UINT32, UINT32);
  * the dynamically generated configuration object.  This allows a single build
  * of the PSP to be completely CFE-independent.
  */
-#include <target_config.h>
+#include "target_config.h"
 
 #define CFE_PSP_MAIN_FUNCTION       (*GLOBAL_CONFIGDATA.CfeConfig->SystemMain)
 #define CFE_PSP_NONVOL_STARTUP_FILE (GLOBAL_CONFIGDATA.CfeConfig->NonvolStartupFile)

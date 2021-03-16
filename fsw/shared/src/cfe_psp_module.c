@@ -27,7 +27,7 @@
 
 #include <stdio.h>
 #include <string.h>
-#include <osapi.h>
+#include "osapi.h"
 
 #include "cfe_psp_configdata.h"
 #include "cfe_psp_module.h"

@@ -20,7 +20,7 @@
 #ifndef INCLUDE_VXWORKS_H_
 #define INCLUDE_VXWORKS_H_
 
-#include <PCS_vxWorks.h>
+#include "PCS_vxWorks.h"
 
 #define IMPORT
 

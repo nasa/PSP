@@ -13,7 +13,7 @@
 #define _PSP_OVERRIDE_EXCLIB_H_
 
 #include <vxWorks.h>
-#include <PCS_excLib.h>
+#include "PCS_excLib.h"
 
 /* -----------------------------------------  */
 /* mappings for declarations in excLib.h */

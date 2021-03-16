@@ -14,7 +14,7 @@
 #include <stdio.h>
 #include "utstubs.h"
 
-#include <PCS_stdio.h>
+#include "PCS_stdio.h"
 
 struct PCS_FILE
 {

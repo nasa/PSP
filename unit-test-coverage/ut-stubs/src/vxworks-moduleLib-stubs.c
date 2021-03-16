@@ -13,7 +13,7 @@
 #include <stdlib.h>
 #include "utstubs.h"
 
-#include <PCS_moduleLib.h>
+#include "PCS_moduleLib.h"
 
 PCS_MODULE_ID PCS_moduleFindByName(const char *moduleName)
 {

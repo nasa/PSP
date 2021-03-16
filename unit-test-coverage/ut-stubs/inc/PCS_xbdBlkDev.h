@@ -2,9 +2,9 @@
 #ifndef _PSP_STUB_XBDBLKDEV_H_
 #define _PSP_STUB_XBDBLKDEV_H_
 
-#include <PCS_basetypes.h>
-#include <PCS_vxWorks.h>
-#include <PCS_blkIo.h>
+#include "PCS_basetypes.h"
+#include "PCS_vxWorks.h"
+#include "PCS_blkIo.h"
 
 /* ----------------------------------------- */
 /* constants normally defined in xbdBlkDev.h */

@@ -13,7 +13,7 @@
 #include <stdlib.h>
 #include "utstubs.h"
 
-#include <PCS_fppLib.h>
+#include "PCS_fppLib.h"
 
 void PCS_fppSave(PCS_FP_CONTEXT *fpc)
 {

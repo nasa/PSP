@@ -20,7 +20,7 @@
 #ifndef INCLUDE_OCS_VXWORKS_H_
 #define INCLUDE_OCS_VXWORKS_H_
 
-#include <PCS_basetypes.h>
+#include "PCS_basetypes.h"
 
 /* ----------------------------------------- */
 /* constants normally defined in vxWorks.h */
