@@ -59,6 +59,7 @@
 
 #include "cfe_psp.h"
 #include "cfe_psp_memory.h"
+#include "cfe_psp_module.h"
 
 /*
 **  External Declarations
@@ -145,6 +146,11 @@ void OS_Application_Startup(void)
     ** This must be done before any of the reset variables are used.
     */
     CFE_PSP_SetupReservedMemoryMap();
+
+    /*
+    ** Initialize the statically linked modules (if any)
+    */
+    CFE_PSP_ModuleInit();
 
     /*
     ** Determine Reset type by reading the hardware reset register.
