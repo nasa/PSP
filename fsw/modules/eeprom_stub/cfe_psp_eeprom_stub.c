@@ -34,7 +34,8 @@ CFE_PSP_MODULE_DECLARE_SIMPLE(eeprom_stub);
 
 void eeprom_stub_Init(uint32 PspModuleId)
 {
-    /* Nothing to init */
+    /* Inform the user that this module is in use */
+    printf("CFE_PSP: Using STUB EEPROM implementation\n");
 }
 
 int32 CFE_PSP_EepromWrite32(cpuaddr MemoryAddress, uint32 uint32Value)

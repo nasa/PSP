@@ -19,6 +19,8 @@
 
 #include <PCS_cfe_configdata.h>
 
+CFE_StaticModuleLoadEntry_t CFE_PSP_BASE_MODULE_LIST[] = {{NULL}};
+
 Target_CfeConfigData GLOBAL_CFE_CONFIGDATA = {
 
     /**
