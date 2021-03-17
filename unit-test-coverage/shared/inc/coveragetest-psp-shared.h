@@ -20,9 +20,9 @@
 #ifndef INCLUDE_PSP_SHARED_COVERAGETEST_H_
 #define INCLUDE_PSP_SHARED_COVERAGETEST_H_
 
-#include <utassert.h>
-#include <uttest.h>
-#include <utstubs.h>
+#include "utassert.h"
+#include "uttest.h"
+#include "utstubs.h"
 
 void Test_CFE_PSP_Exception_GetBuffer(void);
 void Test_CFE_PSP_Exception_GetNextContextBuffer(void);

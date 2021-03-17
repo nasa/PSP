@@ -12,7 +12,7 @@
 #ifndef _PSP_OVERRIDE_XBDBLKDEV_H_
 #define _PSP_OVERRIDE_XBDBLKDEV_H_
 
-#include <PCS_xbdBlkDev.h>
+#include "PCS_xbdBlkDev.h"
 #include <vxWorks.h>
 #include <blkIo.h>
 

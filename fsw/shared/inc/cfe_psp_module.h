@@ -30,8 +30,8 @@
 #ifndef CFE_PSP_MODULE_H_
 #define CFE_PSP_MODULE_H_
 
-#include <cfe_psp.h>
-#include <target_config.h>
+#include "cfe_psp.h"
+#include "target_config.h"
 
 typedef enum
 {

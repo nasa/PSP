@@ -61,7 +61,7 @@
  * the dynamically generated configuration object.  This allows a single build
  * of the PSP to be completely CFE-independent.
  */
-#include <target_config.h>
+#include "target_config.h"
 #include "cfe_psp_module.h"
 
 #define CFE_PSP_MAIN_FUNCTION       (*GLOBAL_CONFIGDATA.CfeConfig->SystemMain)

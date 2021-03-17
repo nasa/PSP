@@ -2,7 +2,7 @@
 #ifndef _PSP_STUB_MCPX750_H_
 #define _PSP_STUB_MCPX750_H_
 
-#include <PCS_basetypes.h>
+#include "PCS_basetypes.h"
 
 /* ----------------------------------------- */
 /* constants normally defined in mcpx750.h */

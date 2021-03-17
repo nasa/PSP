@@ -12,7 +12,7 @@
 #ifndef _PSP_OVERRIDE_MCPX750_H_
 #define _PSP_OVERRIDE_MCPX750_H_
 
-#include <PCS_mcpx750.h>
+#include "PCS_mcpx750.h"
 
 /* ----------------------------------------- */
 /* mappings for declarations in mcpx750.h */

@@ -12,7 +12,7 @@
 #ifndef _PSP_OVERRIDE_TASKLIB_H_
 #define _PSP_OVERRIDE_TASKLIB_H_
 
-#include <PCS_taskLib.h>
+#include "PCS_taskLib.h"
 #include <vxWorks.h>
 
 /* ----------------------------------------- */

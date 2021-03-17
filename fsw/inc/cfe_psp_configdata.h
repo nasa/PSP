@@ -29,9 +29,9 @@
 #define CFE_PSP_CONFIG_H_
 
 /* osapi.h is required for the definition of OS_VolumeInto_t */
-#include <osapi.h>
+#include "osapi.h"
 /* cfe_psp.h is required for the definition of CFE_PSP_MemTable_t */
-#include <cfe_psp.h>
+#include "cfe_psp.h"
 
 /*
 ** PSP software version record

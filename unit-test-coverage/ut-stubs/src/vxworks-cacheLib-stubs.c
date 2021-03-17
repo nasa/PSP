@@ -13,7 +13,7 @@
 #include <stdlib.h>
 #include "utstubs.h"
 
-#include <PCS_cacheLib.h>
+#include "PCS_cacheLib.h"
 
 PCS_STATUS PCS_cacheTextUpdate(void *adrs, size_t bytes)
 {

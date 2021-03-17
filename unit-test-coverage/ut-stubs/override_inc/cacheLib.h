@@ -12,7 +12,7 @@
 #ifndef _PSP_OVERRIDE_CACHELIB_H_
 #define _PSP_OVERRIDE_CACHELIB_H_
 
-#include <PCS_cacheLib.h>
+#include "PCS_cacheLib.h"
 
 /* ----------------------------------------- */
 /* mappings for declarations in cacheLib.h */

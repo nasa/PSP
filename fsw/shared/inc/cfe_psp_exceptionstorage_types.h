@@ -27,8 +27,8 @@
 #ifndef CFE_PSP_EXCEPTIONSTORAGE_TYPES_H_
 #define CFE_PSP_EXCEPTIONSTORAGE_TYPES_H_
 
-#include <cfe_psp.h>
-#include <cfe_psp_config.h>
+#include "cfe_psp.h"
+#include "cfe_psp_config.h"
 
 /*
  * The "MetaData" stores ephemeral exception information

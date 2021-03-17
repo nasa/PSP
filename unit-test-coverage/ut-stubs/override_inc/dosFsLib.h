@@ -12,7 +12,7 @@
 #ifndef _PSP_OVERRIDE_DOSFSLIB_H_
 #define _PSP_OVERRIDE_DOSFSLIB_H_
 
-#include <PCS_dosFsLib.h>
+#include "PCS_dosFsLib.h"
 #include <vxWorks.h>
 
 /* ----------------------------------------- */

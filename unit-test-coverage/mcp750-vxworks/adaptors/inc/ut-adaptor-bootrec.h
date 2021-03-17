@@ -20,7 +20,7 @@
 #ifndef INCLUDE_UT_ADAPTOR_BOOTREC_H_
 #define INCLUDE_UT_ADAPTOR_BOOTREC_H_
 
-#include <common_types.h>
+#include "common_types.h"
 
 void   UT_Setup_ReservedMem_BootRec(void);
 uint32 UT_Get_ReservedMem_BootType(void);

@@ -13,8 +13,8 @@
 #include <stdlib.h>
 #include "utstubs.h"
 
-#include <PCS_vxLib.h>
-#include <PCS_arch_ppc_vxPpcLib.h>
+#include "PCS_vxLib.h"
+#include "PCS_arch_ppc_vxPpcLib.h"
 
 void PCS_vxTimeBaseGet(uint32_t *u, uint32_t *l)
 {

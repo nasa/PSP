@@ -12,7 +12,7 @@
 #ifndef _PSP_OVERRIDE_SYS_TYPES_H_
 #define _PSP_OVERRIDE_SYS_TYPES_H_
 
-#include <PCS_sys_types.h>
+#include "PCS_sys_types.h"
 
 /* ----------------------------------------- */
 /* mappings for declarations in sys/types.h */

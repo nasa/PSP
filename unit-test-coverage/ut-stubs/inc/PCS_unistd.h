@@ -2,8 +2,8 @@
 #ifndef _PSP_STUB_UNISTD_H_
 #define _PSP_STUB_UNISTD_H_
 
-#include <PCS_basetypes.h>
-#include <PCS_sys_types.h>
+#include "PCS_basetypes.h"
+#include "PCS_sys_types.h"
 
 /* ----------------------------------------- */
 /* constants normally defined in unistd.h */

@@ -12,7 +12,7 @@
 #ifndef _PSP_OVERRIDE_STDLIB_H_
 #define _PSP_OVERRIDE_STDLIB_H_
 
-#include <PCS_stdlib.h>
+#include "PCS_stdlib.h"
 
 /* ----------------------------------------- */
 /* mappings for declarations in stdlib.h */

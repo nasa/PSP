@@ -12,7 +12,7 @@
 #ifndef _PSP_OVERRIDE_FPPLIB_H_
 #define _PSP_OVERRIDE_FPPLIB_H_
 
-#include <PCS_fppLib.h>
+#include "PCS_fppLib.h"
 
 /* ----------------------------------------- */
 /* mappings for declarations in fppLib.h */

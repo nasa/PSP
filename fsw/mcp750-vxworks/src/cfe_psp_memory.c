@@ -56,7 +56,7 @@
 #include "cfe_psp.h"
 #include "cfe_psp_memory.h"
 
-#include <target_config.h>
+#include "target_config.h"
 
 /*
 **  External Declarations

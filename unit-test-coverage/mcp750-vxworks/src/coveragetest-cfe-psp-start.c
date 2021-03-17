@@ -20,12 +20,12 @@
 #include "coveragetest-psp-mcp750-vxworks.h"
 #include "ut-adaptor-bootrec.h"
 
-#include <cfe_psp.h>
+#include "cfe_psp.h"
 
-#include <PCS_sysLib.h>
-#include <PCS_mcpx750.h>
-#include <PCS_stdlib.h>
-#include <PCS_cfe_configdata.h>
+#include "PCS_sysLib.h"
+#include "PCS_mcpx750.h"
+#include "PCS_stdlib.h"
+#include "PCS_cfe_configdata.h"
 
 extern void UT_OS_Application_Startup(void);
 extern void UT_OS_Application_Run(void);
