@@ -583,7 +583,7 @@ int32 CFE_PSP_GetCFETextSegmentInfo(cpuaddr *PtrToCFESegment, uint32 *SizeOfCFES
 **        This function is used to mimic the response of the PSP function
 **        CFE_PSP_GetKernelTextSegmentInfo.  The user can adjust the response by
 **        setting the values in the BSPGetCFETextRtn structure prior to this
-**        function being called.  
+**        function being called.
 **
 ** \par Assumptions, External Events, and Notes:
 **        None
@@ -592,8 +592,7 @@ int32 CFE_PSP_GetCFETextSegmentInfo(cpuaddr *PtrToCFESegment, uint32 *SizeOfCFES
 **        Returns either a user-defined status flag or OS_SUCCESS.
 **
 ******************************************************************************/
-int32 CFE_PSP_GetKernelTextSegmentInfo(cpuaddr *PtrToKernelSegment, uint32
-*SizeOfKernelSegment)
+int32 CFE_PSP_GetKernelTextSegmentInfo(cpuaddr *PtrToKernelSegment, uint32 *SizeOfKernelSegment)
 {
     static uint32 LocalTextSegment;
     int32         status;
@@ -620,7 +619,6 @@ int32 CFE_PSP_GetKernelTextSegmentInfo(cpuaddr *PtrToKernelSegment, uint32
 
     return status;
 }
-
 
 /*****************************************************************************/
 /**
