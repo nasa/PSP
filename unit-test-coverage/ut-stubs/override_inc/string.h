@@ -12,7 +12,7 @@
 #ifndef _PSP_OVERRIDE_STRING_H_
 #define _PSP_OVERRIDE_STRING_H_
 
-#include <PCS_string.h>
+#include "PCS_string.h"
 
 /* ----------------------------------------- */
 /* mappings for declarations in string.h */

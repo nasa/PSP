@@ -18,8 +18,8 @@
  */
 
 #include "ut-adaptor-bootrec.h"
-#include <cfe_psp_config.h>
-#include <cfe_psp_memory.h>
+#include "cfe_psp_config.h"
+#include "cfe_psp_memory.h"
 
 static CFE_PSP_ReservedMemoryBootRecord_t UT_BOOTREC;
 

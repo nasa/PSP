@@ -12,7 +12,7 @@
 #ifndef _PSP_OVERRIDE_BLKIO_H_
 #define _PSP_OVERRIDE_BLKIO_H_
 
-#include <PCS_blkIo.h>
+#include "PCS_blkIo.h"
 #include <vxWorks.h>
 
 /* ---------------------------------------*/

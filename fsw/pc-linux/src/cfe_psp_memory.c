@@ -68,7 +68,7 @@
 #define CFE_PSP_RESET_KEY_FILE    ".resetkeyfile"
 #define CFE_PSP_RESERVED_KEY_FILE ".reservedkeyfile"
 
-#include <target_config.h>
+#include "target_config.h"
 
 /*
  * Define the PSP-supported capacities to be the maximum allowed,

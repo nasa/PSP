@@ -1,0 +1,12 @@
+/* This file is generated via CMake - do not edit in place */
+#include "cfe_psp_module.h"
+
+@GENERATED_EXTERNS@
+
+CFE_StaticModuleLoadEntry_t CFE_PSP_BASE_MODULE_LIST[] =
+{
+@GENERATED_KEYVALS@
+{ NULL }
+};
+
+/* END OF FILE */

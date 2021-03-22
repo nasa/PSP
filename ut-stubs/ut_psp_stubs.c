@@ -37,7 +37,7 @@
 #include "utstubs.h"
 #include <string.h>
 
-#include <target_config.h>
+#include "target_config.h"
 
 Target_PspConfigData GLOBAL_PSP_CONFIGDATA = {0};
 Target_CfeConfigData GLOBAL_CFE_CONFIGDATA = {0};

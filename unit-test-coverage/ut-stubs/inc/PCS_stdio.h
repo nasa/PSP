@@ -2,8 +2,8 @@
 #ifndef _PSP_STUB_STDIO_H_
 #define _PSP_STUB_STDIO_H_
 
-#include <PCS_basetypes.h>
-#include <PCS_stdarg.h>
+#include "PCS_basetypes.h"
+#include "PCS_stdarg.h"
 
 /* ----------------------------------------- */
 /* constants normally defined in stdio.h */

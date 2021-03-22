@@ -38,6 +38,15 @@
 #include <stdio.h>
 
 #include "cfe_psp.h"
+#include "cfe_psp_module.h"
+
+CFE_PSP_MODULE_DECLARE_SIMPLE(eeprom_direct);
+
+void eeprom_direct_Init(uint32 PspModuleId)
+{
+    /* Inform the user that this module is in use */
+    printf("CFE_PSP: Using DIRECT memory mapped EEPROM implementation\n");
+}
 
 /*
 ** global memory

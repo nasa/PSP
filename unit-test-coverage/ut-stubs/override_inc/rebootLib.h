@@ -12,7 +12,7 @@
 #ifndef _PSP_OVERRIDE_REBOOTLIB_H_
 #define _PSP_OVERRIDE_REBOOTLIB_H_
 
-#include <PCS_rebootLib.h>
+#include "PCS_rebootLib.h"
 
 /* ----------------------------------------- */
 /* mappings for declarations in rebootLib.h */

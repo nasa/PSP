@@ -13,8 +13,8 @@
 #include <stdlib.h>
 #include "utstubs.h"
 
-#include <PCS_taskLib.h>
-#include <PCS_errnoLib.h>
+#include "PCS_taskLib.h"
+#include "PCS_errnoLib.h"
 
 static PCS_WIND_TCB PCS_LOCAL_TASK = {0};
 

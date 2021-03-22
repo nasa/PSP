@@ -12,7 +12,7 @@
 #ifndef _PSP_OVERRIDE_STDIO_H_
 #define _PSP_OVERRIDE_STDIO_H_
 
-#include <PCS_stdio.h>
+#include "PCS_stdio.h"
 
 /* ----------------------------------------- */
 /* mappings for declarations in stdio.h */

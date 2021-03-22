@@ -13,7 +13,7 @@
 #include <stdlib.h>
 #include "utstubs.h"
 
-#include <PCS_sysLib.h>
+#include "PCS_sysLib.h"
 
 int PCS_sysClkRateGet(void)
 {

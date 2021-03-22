@@ -27,7 +27,7 @@
 
 #include <stdio.h>
 #include <string.h>
-#include <osapi.h>
+#include "osapi.h"
 
 #include "cfe_psp_configdata.h"
 #include "cfe_psp_module.h"
@@ -47,11 +47,11 @@
 static uint32 CFE_PSP_ModuleCount = 0;
 
 /***************************************************
- * Function Name: CFE_PSP_ModuleInit
+ * Function Name: CFE_PSP_ModuleInitList
  *
- * See prototype for full description
+ * Helper function to initalize a list of modules (not externally called)
  */
-void CFE_PSP_ModuleInit(void)
+void CFE_PSP_ModuleInitList(CFE_StaticModuleLoadEntry_t *ListPtr)
 {
     CFE_StaticModuleLoadEntry_t *Entry;
     CFE_PSP_ModuleApi_t *        ApiPtr;
@@ -59,7 +59,7 @@ void CFE_PSP_ModuleInit(void)
     /*
      * Call the init function for all statically linked modules
      */
-    Entry = GLOBAL_CONFIGDATA.PspModuleList;
+    Entry = ListPtr;
     if (Entry != NULL)
     {
         while (Entry->Name != NULL)
@@ -73,6 +73,20 @@ void CFE_PSP_ModuleInit(void)
             ++CFE_PSP_ModuleCount;
         }
     }
+}
+
+/***************************************************
+ * Function Name: CFE_PSP_ModuleInit
+ *
+ * See prototype for full description
+ */
+void CFE_PSP_ModuleInit(void)
+{
+    /* First initialize the fixed set of modules for this PSP */
+    CFE_PSP_ModuleInitList(CFE_PSP_BASE_MODULE_LIST);
+
+    /* Then initialize any user-selected extension modules */
+    CFE_PSP_ModuleInitList(GLOBAL_CONFIGDATA.PspModuleList);
 }
 
 /***************************************************

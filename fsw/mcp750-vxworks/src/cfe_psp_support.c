@@ -61,7 +61,7 @@
 #include "cfe_psp.h"
 #include "cfe_psp_memory.h"
 
-#include <target_config.h>
+#include "target_config.h"
 
 #define CFE_PSP_CPU_ID        (GLOBAL_CONFIGDATA.Default_CpuId)
 #define CFE_PSP_CPU_NAME      (GLOBAL_CONFIGDATA.Default_CpuName)

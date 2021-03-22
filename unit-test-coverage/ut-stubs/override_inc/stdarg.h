@@ -12,7 +12,7 @@
 #ifndef _PSP_OVERRIDE_STDARG_H_
 #define _PSP_OVERRIDE_STDARG_H_
 
-#include <PCS_stdarg.h>
+#include "PCS_stdarg.h"
 
 /* ----------------------------------------- */
 /* mappings for declarations in stdarg.h */

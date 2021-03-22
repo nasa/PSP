@@ -2,8 +2,8 @@
 #ifndef _PSP_STUB_CACHELIB_H_
 #define _PSP_STUB_CACHELIB_H_
 
-#include <PCS_basetypes.h>
-#include <PCS_vxWorks.h>
+#include "PCS_basetypes.h"
+#include "PCS_vxWorks.h"
 
 /* ----------------------------------------- */
 /* constants normally defined in cacheLib.h */

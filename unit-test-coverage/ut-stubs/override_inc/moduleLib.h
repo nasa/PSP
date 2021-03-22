@@ -12,7 +12,7 @@
 #ifndef _PSP_OVERRIDE_MODULELIB_H_
 #define _PSP_OVERRIDE_MODULELIB_H_
 
-#include <PCS_moduleLib.h>
+#include "PCS_moduleLib.h"
 #include <vxWorks.h>
 
 /* ----------------------------------------- */

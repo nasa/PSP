@@ -2,8 +2,8 @@
 #ifndef _PSP_STUB_SYSLIB_H_
 #define _PSP_STUB_SYSLIB_H_
 
-#include <PCS_basetypes.h>
-#include <PCS_vxWorks.h>
+#include "PCS_basetypes.h"
+#include "PCS_vxWorks.h"
 
 /* ----------------------------------------- */
 /* constants normally defined in sysLib.h */

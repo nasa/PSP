@@ -14,7 +14,7 @@
 #include <stdio.h>
 #include "utstubs.h"
 
-#include <PCS_string.h>
+#include "PCS_string.h"
 
 void *PCS_memset(void *s, int c, size_t n)
 {

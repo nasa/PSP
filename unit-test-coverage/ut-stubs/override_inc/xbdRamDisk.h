@@ -12,7 +12,7 @@
 #ifndef _PSP_OVERRIDE_XBDRAMDISK_H_
 #define _PSP_OVERRIDE_XBDRAMDISK_H_
 
-#include <PCS_xbdRamDisk.h>
+#include "PCS_xbdRamDisk.h"
 #include <vxWorks.h>
 
 /* ----------------------------------------- */

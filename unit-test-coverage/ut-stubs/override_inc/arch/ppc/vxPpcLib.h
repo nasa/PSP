@@ -12,7 +12,7 @@
 #ifndef _PSP_OVERRIDE_VXPPCLIB_H_
 #define _PSP_OVERRIDE_VXPPCLIB_H_
 
-#include <PCS_arch_ppc_vxPpcLib.h>
+#include "PCS_arch_ppc_vxPpcLib.h"
 
 /*
  * When building the coverage test on an actual VxWorks target,

@@ -24,8 +24,8 @@
  * Defines API that obtains the values of the various version identifiers
  */
 
-#include <cfe_psp.h>
-#include <cfe_psp_configdata.h>
+#include "cfe_psp.h"
+#include "cfe_psp_configdata.h"
 
 /*----------------------------------------------------------------
  *

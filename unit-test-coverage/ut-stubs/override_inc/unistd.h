@@ -12,7 +12,7 @@
 #ifndef _PSP_OVERRIDE_UNISTD_H_
 #define _PSP_OVERRIDE_UNISTD_H_
 
-#include <PCS_unistd.h>
+#include "PCS_unistd.h"
 
 /* ----------------------------------------- */
 /* mappings for declarations in unistd.h */

@@ -2,7 +2,7 @@
 #ifndef _PSP_STUB_SYS_TYPES_H_
 #define _PSP_STUB_SYS_TYPES_H_
 
-#include <PCS_basetypes.h>
+#include "PCS_basetypes.h"
 
 /* ----------------------------------------- */
 /* constants normally defined in sys/types.h */

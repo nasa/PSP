@@ -2,7 +2,7 @@
 #ifndef _PSP_STUB_VXPPCLIB_H_
 #define _PSP_STUB_VXPPCLIB_H_
 
-#include <PCS_basetypes.h>
+#include "PCS_basetypes.h"
 
 /*
  * When building the coverage test on an actual VxWorks target,

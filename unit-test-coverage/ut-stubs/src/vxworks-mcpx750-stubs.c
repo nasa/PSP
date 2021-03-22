@@ -13,7 +13,7 @@
 #include <stdlib.h>
 #include "utstubs.h"
 
-#include <PCS_mcpx750.h>
+#include "PCS_mcpx750.h"
 
 static uint32_t PCS_SYS_REG_BLRR_VALUE;
 

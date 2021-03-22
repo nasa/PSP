@@ -12,7 +12,7 @@
 #ifndef _PSP_OVERRIDE_USRLIB_H_
 #define _PSP_OVERRIDE_USRLIB_H_
 
-#include <PCS_usrLib.h>
+#include "PCS_usrLib.h"
 #include <vxWorks.h>
 
 /* ----------------------------------------- */

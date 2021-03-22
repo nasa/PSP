@@ -27,7 +27,7 @@
 #ifndef CFE_PSP_EXCEPTIONSTORAGE_API_H_
 #define CFE_PSP_EXCEPTIONSTORAGE_API_H_
 
-#include <cfe_psp.h>
+#include "cfe_psp.h"
 
 /*
  * Abstract types for exception storage.
