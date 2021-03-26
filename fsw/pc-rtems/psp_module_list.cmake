@@ -2,3 +2,4 @@
 # when this PSP is selected.  They must exist under fsw/modules
 
 eeprom_stub
+timebase_posix_clock
