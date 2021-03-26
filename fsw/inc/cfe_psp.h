@@ -153,6 +153,13 @@
 #define CFE_PSP_MISSION_REV   (GLOBAL_PSP_CONFIGDATA.PSP_VersionInfo.MissionRev)
 #define CFE_PSP_VERSION       (GLOBAL_PSP_CONFIGDATA.PSP_VersionInfo.VersionString)
 
+/**
+ * \brief The name of the software/RTOS timebase for general system timers.
+ *
+ * This name may be referred to by CFE TIME and/or SCH when setting up its own timers.
+ */
+#define CFE_PSP_SOFT_TIMEBASE_NAME "cFS-Master"
+
 /*
 ** Type Definitions
 */
