@@ -39,7 +39,6 @@
 
 #include "target_config.h"
 
-Target_PspConfigData GLOBAL_PSP_CONFIGDATA = {0};
 Target_CfeConfigData GLOBAL_CFE_CONFIGDATA = {0};
 
 /**
@@ -57,8 +56,7 @@ Target_ConfigData GLOBAL_CONFIGDATA = {.MissionVersion       = "MissionUnitTest"
                                        .Default_CpuName      = "UnitTestCpu",
                                        .Default_CpuId        = 1,
                                        .Default_SpacecraftId = 0x42,
-                                       .CfeConfig            = &GLOBAL_CFE_CONFIGDATA,
-                                       .PspConfig            = &GLOBAL_PSP_CONFIGDATA};
+                                       .CfeConfig            = &GLOBAL_CFE_CONFIGDATA};
 
 /*
 ** Functions
