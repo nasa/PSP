@@ -38,10 +38,8 @@
  * code such as CFE core or apps would not be able to \#include the
  * PSP cfe_psp_config.h or psp_version.h files
  */
-Target_PspConfigData GLOBAL_PSP_CONFIGDATA = {.PSP_WatchdogMin  = CFE_PSP_WATCHDOG_MIN,
-                                              .PSP_WatchdogMax  = CFE_PSP_WATCHDOG_MAX,
-                                              .PSP_MemTableSize = CFE_PSP_MEM_TABLE_SIZE,
-                                              .PSP_MemoryTable  = CFE_PSP_MemoryTable,
+Target_PspConfigData GLOBAL_PSP_CONFIGDATA = {.PSP_WatchdogMin = CFE_PSP_WATCHDOG_MIN,
+                                              .PSP_WatchdogMax = CFE_PSP_WATCHDOG_MAX,
 
                                               .HW_NumEepromBanks = CFE_PSP_NUM_EEPROM_BANKS,
 

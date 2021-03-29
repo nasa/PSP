@@ -158,18 +158,6 @@
 */
 
 /*
-** Memory table type
-*/
-typedef struct
-{
-    uint32  MemoryType;
-    uint32  WordSize;
-    cpuaddr StartAddr;
-    uint32  Size;
-    uint32  Attributes;
-} CFE_PSP_MemTable_t;
-
-/*
 ** Function prototypes
 */
 
@@ -394,11 +382,11 @@ int32 CFE_PSP_MemWrite32(cpuaddr MemoryAddress, uint32 uint32Value);
 int32 CFE_PSP_MemCpy(void *dest, const void *src, uint32 n);
 int32 CFE_PSP_MemSet(void *dest, uint8 value, uint32 n);
 
-int32  CFE_PSP_MemValidateRange(cpuaddr Address, uint32 Size, uint32 MemoryType);
+int32  CFE_PSP_MemValidateRange(cpuaddr Address, size_t Size, uint32 MemoryType);
 uint32 CFE_PSP_MemRanges(void);
-int32  CFE_PSP_MemRangeSet(uint32 RangeNum, uint32 MemoryType, cpuaddr StartAddr, uint32 Size, uint32 WordSize,
+int32  CFE_PSP_MemRangeSet(uint32 RangeNum, uint32 MemoryType, cpuaddr StartAddr, size_t Size, size_t WordSize,
                            uint32 Attributes);
-int32  CFE_PSP_MemRangeGet(uint32 RangeNum, uint32 *MemoryType, cpuaddr *StartAddr, uint32 *Size, uint32 *WordSize,
+int32  CFE_PSP_MemRangeGet(uint32 RangeNum, uint32 *MemoryType, cpuaddr *StartAddr, size_t *Size, size_t *WordSize,
                            uint32 *Attributes);
 
 int32 CFE_PSP_EepromWrite8(cpuaddr MemoryAddress, uint8 ByteValue);

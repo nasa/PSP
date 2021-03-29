@@ -56,11 +56,9 @@ typedef const struct
  */
 typedef const struct
 {
-    uint32              PSP_WatchdogMin;      /**< PSP Minimum watchdog in milliseconds */
-    uint32              PSP_WatchdogMax;      /**< PSP Maximum watchdog in milliseconds */
-    uint32              PSP_MemTableSize;     /**< Size of PSP memory table */
-    uint32              PSP_ExceptionLogSize; /**< Size of PSP exception log */
-    CFE_PSP_MemTable_t *PSP_MemoryTable;      /**< Pointer to PSP memory table (forward reference) */
+    uint32 PSP_WatchdogMin;      /**< PSP Minimum watchdog in milliseconds */
+    uint32 PSP_WatchdogMax;      /**< PSP Maximum watchdog in milliseconds */
+    uint32 PSP_ExceptionLogSize; /**< Size of PSP exception log */
 
     /**
      * Number of EEPROM banks on this platform
@@ -76,11 +74,5 @@ typedef const struct
  * Allows the actual instantiation to be done outside this module
  */
 extern Target_PspConfigData GLOBAL_PSP_CONFIGDATA;
-
-/**
- * Extern reference to the psp memory table
- * Allows the actual instantiation to be done outside this module
- */
-extern CFE_PSP_MemTable_t CFE_PSP_MemoryTable[];
 
 #endif /* CFE_PSP_CONFIG_H_ */

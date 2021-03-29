@@ -35,12 +35,7 @@
 */
 
 #include "cfe_psp.h"
-
-/*
- * The "extern" declaration for the MemRange table is in the configdata header
- */
-#include "cfe_psp_config.h"
-#include "cfe_psp_configdata.h"
+#include "cfe_psp_memory.h"
 
 /*
 ** Name: CFE_PSP_MemValidateRange
@@ -68,15 +63,16 @@
 **   CFE_PSP_INVALID_MEM_RANGE -- The Memory range associated with the address is not large enough to contain
 **                            Address + Size.
 */
-int32 CFE_PSP_MemValidateRange(cpuaddr Address, uint32 Size, uint32 MemoryType)
+int32 CFE_PSP_MemValidateRange(cpuaddr Address, size_t Size, uint32 MemoryType)
 {
-    cpuaddr StartAddressToTest = Address;
-    cpuaddr EndAddressToTest   = Address + Size - 1;
-    cpuaddr StartAddressInTable;
-    cpuaddr EndAddressInTable;
-    uint32  TypeInTable;
-    int32   ReturnCode = CFE_PSP_INVALID_MEM_ADDR;
-    uint32  i;
+    cpuaddr             StartAddressToTest = Address;
+    cpuaddr             EndAddressToTest   = Address + Size - 1;
+    cpuaddr             StartAddressInTable;
+    cpuaddr             EndAddressInTable;
+    uint32              TypeInTable;
+    int32               ReturnCode = CFE_PSP_INVALID_MEM_ADDR;
+    size_t              i;
+    CFE_PSP_MemTable_t *SysMemPtr;
 
     /*
     ** Before searching table, do a preliminary parameter validation
@@ -91,16 +87,17 @@ int32 CFE_PSP_MemValidateRange(cpuaddr Address, uint32 Size, uint32 MemoryType)
         return (CFE_PSP_INVALID_MEM_RANGE);
     }
 
+    SysMemPtr = CFE_PSP_ReservedMemoryMap.SysMemoryTable;
     for (i = 0; i < CFE_PSP_MEM_TABLE_SIZE; i++)
     {
         /*
         ** Only look at valid memory table entries
         */
-        if (CFE_PSP_MemoryTable[i].MemoryType != CFE_PSP_MEM_INVALID)
+        if (SysMemPtr->MemoryType != CFE_PSP_MEM_INVALID)
         {
-            StartAddressInTable = CFE_PSP_MemoryTable[i].StartAddr;
-            EndAddressInTable   = CFE_PSP_MemoryTable[i].StartAddr + CFE_PSP_MemoryTable[i].Size - 1;
-            TypeInTable         = CFE_PSP_MemoryTable[i].MemoryType;
+            StartAddressInTable = SysMemPtr->StartAddr;
+            EndAddressInTable   = SysMemPtr->StartAddr + SysMemPtr->Size - 1;
+            TypeInTable         = SysMemPtr->MemoryType;
 
             /*
             ** Step 1: Get the Address to Fit within the range
@@ -151,6 +148,8 @@ int32 CFE_PSP_MemValidateRange(cpuaddr Address, uint32 Size, uint32 MemoryType)
                 /* The range is not valid, move to the next entry */
             }
         } /* End if MemoryType != CFE_PSP_MEM_INVALID */
+
+        ++SysMemPtr;
 
     } /* End for */
     return (ReturnCode);
@@ -215,9 +214,10 @@ uint32 CFE_PSP_MemRanges(void)
 **   CFE_PSP_INVALID_MEM_WORDSIZE -- The WordSIze parameter is not one of the predefined types.
 **   CFE_PSP_INVALID_MEM_ATTR -- The Attributes parameter is not one of the predefined types.
 */
-int32 CFE_PSP_MemRangeSet(uint32 RangeNum, uint32 MemoryType, cpuaddr StartAddr, uint32 Size, uint32 WordSize,
+int32 CFE_PSP_MemRangeSet(uint32 RangeNum, uint32 MemoryType, cpuaddr StartAddr, size_t Size, size_t WordSize,
                           uint32 Attributes)
 {
+    CFE_PSP_MemTable_t *SysMemPtr;
 
     if (RangeNum >= CFE_PSP_MEM_TABLE_SIZE)
     {
@@ -244,11 +244,13 @@ int32 CFE_PSP_MemRangeSet(uint32 RangeNum, uint32 MemoryType, cpuaddr StartAddr,
     /*
     ** Parameters check out, add the range
     */
-    CFE_PSP_MemoryTable[RangeNum].MemoryType = MemoryType;
-    CFE_PSP_MemoryTable[RangeNum].StartAddr  = StartAddr;
-    CFE_PSP_MemoryTable[RangeNum].Size       = Size;
-    CFE_PSP_MemoryTable[RangeNum].WordSize   = WordSize;
-    CFE_PSP_MemoryTable[RangeNum].Attributes = Attributes;
+    SysMemPtr = &CFE_PSP_ReservedMemoryMap.SysMemoryTable[RangeNum];
+
+    SysMemPtr->MemoryType = MemoryType;
+    SysMemPtr->StartAddr  = StartAddr;
+    SysMemPtr->Size       = Size;
+    SysMemPtr->WordSize   = WordSize;
+    SysMemPtr->Attributes = Attributes;
 
     return (CFE_PSP_SUCCESS);
 }
@@ -284,9 +286,10 @@ int32 CFE_PSP_MemRangeSet(uint32 RangeNum, uint32 MemoryType, cpuaddr StartAddr,
 **   CFE_PSP_INVALID_POINTER   -- Parameter error
 **   CFE_PSP_INVALID_MEM_RANGE -- The index into the table is invalid
 */
-int32 CFE_PSP_MemRangeGet(uint32 RangeNum, uint32 *MemoryType, cpuaddr *StartAddr, uint32 *Size, uint32 *WordSize,
+int32 CFE_PSP_MemRangeGet(uint32 RangeNum, uint32 *MemoryType, cpuaddr *StartAddr, size_t *Size, size_t *WordSize,
                           uint32 *Attributes)
 {
+    CFE_PSP_MemTable_t *SysMemPtr;
 
     if (MemoryType == NULL || StartAddr == NULL || Size == NULL || WordSize == NULL || Attributes == NULL)
     {
@@ -298,11 +301,13 @@ int32 CFE_PSP_MemRangeGet(uint32 RangeNum, uint32 *MemoryType, cpuaddr *StartAdd
         return (CFE_PSP_INVALID_MEM_RANGE);
     }
 
-    *MemoryType = CFE_PSP_MemoryTable[RangeNum].MemoryType;
-    *StartAddr  = CFE_PSP_MemoryTable[RangeNum].StartAddr;
-    *Size       = CFE_PSP_MemoryTable[RangeNum].Size;
-    *WordSize   = CFE_PSP_MemoryTable[RangeNum].WordSize;
-    *Attributes = CFE_PSP_MemoryTable[RangeNum].Attributes;
+    SysMemPtr = &CFE_PSP_ReservedMemoryMap.SysMemoryTable[RangeNum];
+
+    *MemoryType = SysMemPtr->MemoryType;
+    *StartAddr  = SysMemPtr->StartAddr;
+    *Size       = SysMemPtr->Size;
+    *WordSize   = SysMemPtr->WordSize;
+    *Attributes = SysMemPtr->Attributes;
 
     return (CFE_PSP_SUCCESS);
 }
