@@ -577,6 +577,51 @@ int32 CFE_PSP_GetCFETextSegmentInfo(cpuaddr *PtrToCFESegment, uint32 *SizeOfCFES
 
 /*****************************************************************************/
 /**
+** \brief CFE_PSP_GetKernelTextSegmentInfo stub function
+**
+** \par Description
+**        This function is used to mimic the response of the PSP function
+**        CFE_PSP_GetKernelTextSegmentInfo.  The user can adjust the response by
+**        setting the values in the BSPGetCFETextRtn structure prior to this
+**        function being called.
+**
+** \par Assumptions, External Events, and Notes:
+**        None
+**
+** \returns
+**        Returns either a user-defined status flag or OS_SUCCESS.
+**
+******************************************************************************/
+int32 CFE_PSP_GetKernelTextSegmentInfo(cpuaddr *PtrToKernelSegment, uint32 *SizeOfKernelSegment)
+{
+    static uint32 LocalTextSegment;
+    int32         status;
+    void *        TempAddr;
+    size_t        TempSize;
+
+    status = UT_DEFAULT_IMPL(CFE_PSP_GetKernelTextSegmentInfo);
+
+    if (status >= 0)
+    {
+        UT_GetDataBuffer(UT_KEY(CFE_PSP_GetKernelTextSegmentInfo), &TempAddr, &TempSize, NULL);
+        if (*PtrToKernelSegment == 0)
+        {
+            /* Backup -- Set the pointer and size to anything */
+            *PtrToKernelSegment  = (cpuaddr)&LocalTextSegment;
+            *SizeOfKernelSegment = sizeof(LocalTextSegment);
+        }
+        else
+        {
+            *PtrToKernelSegment  = (cpuaddr)TempAddr;
+            *SizeOfKernelSegment = TempSize;
+        }
+    }
+
+    return status;
+}
+
+/*****************************************************************************/
+/**
 ** \brief CFE_PSP_MemRead8 stub function
 **
 ** \par Description
