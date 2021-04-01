@@ -9,6 +9,12 @@ This is a collection of APIs abstracting platform specific functionality to be l
 
 ## Version History
 
+### Development Build: v1.5.0-rc1+dev95
+
+- Includes `cfe_psp_version.c` in the cmake source list, which was mistakenly omitted previously.
+- Applied the patch and confirmed that CS Cmake unit tests build. Unit tests relying on `CFE_PSP_GetKernelTextSegmentInfo` will build.
+- See <https://github.com/nasa/PSP/pull/279>
+
 ### Development Build: v1.5.0-rc1+dev90
 
 - Addresses the issue of incompatible/non-portable code blobs in the "shared" directory. It uses the same modular init pattern as is used elsewhere in cFE: CMake generates a list of "base" modules correlating with the selected PSP (i.e. pc-linux, mcp750-vxworks, etc) and these modules are then initialized (in order) before the rest of PSP runs. The "direct write" EEPROM is not used unconditionally. Instead the proper eeprom implementation module is selected based on which PSP is selected. MCP750 uses direct write, pc-linux uses an mmap file, and pc-rtems uses a stub (not implemented).
