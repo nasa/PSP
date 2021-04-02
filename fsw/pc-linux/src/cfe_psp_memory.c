@@ -674,6 +674,13 @@ void CFE_PSP_SetupReservedMemoryMap(void)
     CFE_PSP_InitResetArea();
     CFE_PSP_InitVolatileDiskMem();
     CFE_PSP_InitUserReservedArea();
+
+    /*
+     * Set up the "RAM" entry in the memory table.
+     * On Linux this is just encompasses the entire memory space, but an entry needs
+     * to exist so that CFE_PSP_ValidateMemRange() works as intended.
+     */
+    CFE_PSP_MemRangeSet(0, CFE_PSP_MEM_RAM, 0, SIZE_MAX, CFE_PSP_MEM_SIZE_DWORD, CFE_PSP_MEM_ATTR_READWRITE);
 }
 
 int32 CFE_PSP_InitProcessorReservedMemory(uint32 RestartType)

@@ -418,6 +418,13 @@ void CFE_PSP_SetupReservedMemoryMap(void)
      * (prefer this over removing the increment, as it is safer if another block is added)
      */
     OS_printf("CFE_PSP: PSP reserved memory ends at: 0x%08lX\n", (unsigned long)ReservedMemoryAddr);
+
+    /*
+     * Set up the "RAM" entry in the memory table.
+     * On RTEMS this is just encompasses the entire memory space, but an entry needs
+     * to exist so that CFE_PSP_ValidateMemRange() works as intended.
+     */
+    CFE_PSP_MemRangeSet(0, CFE_PSP_MEM_RAM, 0, SIZE_MAX, CFE_PSP_MEM_SIZE_DWORD, CFE_PSP_MEM_ATTR_READWRITE);
 }
 
 /******************************************************************************

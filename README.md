@@ -9,6 +9,13 @@ This is a collection of APIs abstracting platform specific functionality to be l
 
 ## Version History
 
+### Development Build: v1.5.0-rc1+dev101
+
+- Removes unnecessary global config structure `Target_PspConfigData` and associated elements infavor of the new version API.
+- The mem pool stats TLM command now works on 64-bit Linux and sends out the expected telemetry packet.
+Converts `CFE_PSP_MemoryTable` to internal object (instead of external) that should only be accessed via the PSP API. Replace `uint32`s with `size_t`. Use full range (SIZE_MAX) in the Linux/RTEMS implementation.
+- See <https://github.com/nasa/PSP/pull/288> and <https://github.com/nasa/cFS/pull/233>
+
 ### Development Build: v1.5.0-rc1+dev95
 
 - Includes `cfe_psp_version.c` in the cmake source list, which was mistakenly omitted previously.

@@ -29,7 +29,7 @@
 /*
  * Development Build Macro Definitions
  */
-#define CFE_PSP_IMPL_BUILD_NUMBER   95
+#define CFE_PSP_IMPL_BUILD_NUMBER   101
 #define CFE_PSP_IMPL_BUILD_BASELINE "v1.5.0-rc1"
 
 /*
@@ -41,6 +41,8 @@
 #define CFE_PSP_IMPL_MISSION_REV                                                                                      \
     99 /*!< @brief ONLY APPLY for OFFICIAL releases. Revision version number. A value of "99" indicates an unreleased \
           development version.  */
+
+#define CFE_PSP_IMPL_CODENAME "Bootes"
 
 /*
  * Tools to construct version string

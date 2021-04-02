@@ -47,8 +47,7 @@ Target_ConfigData GLOBAL_CONFIGDATA = {.MissionVersion       = PCS_CONFIG_MISSIO
                                        .Default_CpuName      = PCS_CONFIG_CPUNAME,
                                        .Default_CpuId        = PCS_CONFIG_CPUNUMBER,
                                        .Default_SpacecraftId = PCS_CONFIG_SPACECRAFT,
-                                       .CfeConfig            = &GLOBAL_CFE_CONFIGDATA,
-                                       .PspConfig            = &GLOBAL_PSP_CONFIGDATA};
+                                       .CfeConfig            = &GLOBAL_CFE_CONFIGDATA};
 
 /**
  * Stub for the main system entry function implemented in CFE ES

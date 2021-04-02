@@ -42,6 +42,18 @@
 #include "cfe_psp_config.h"
 #include "cfe_psp_exceptionstorage_types.h"
 
+/*
+** Memory table type
+*/
+typedef struct
+{
+    uint32  MemoryType;
+    size_t  WordSize;
+    cpuaddr StartAddr;
+    size_t  Size;
+    uint32  Attributes;
+} CFE_PSP_MemTable_t;
+
 typedef struct
 {
     void * BlockPtr;
@@ -58,6 +70,16 @@ typedef struct
     CFE_PSP_MemoryBlock_t VolatileDiskMemory;
     CFE_PSP_MemoryBlock_t CDSMemory;
     CFE_PSP_MemoryBlock_t UserReservedMemory;
+
+    /**
+     * \brief The system memory table
+     *
+     * This is the table used for CFE_PSP_MemRangeGet/Set and related ops
+     * that allow CFE applications to query the general system memory map.
+     */
+
+    CFE_PSP_MemTable_t SysMemoryTable[CFE_PSP_MEM_TABLE_SIZE];
+
 } CFE_PSP_ReservedMemoryMap_t;
 
 /**

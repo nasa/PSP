@@ -25,7 +25,7 @@
  */
 
 #include "cfe_psp.h"
-#include "cfe_psp_configdata.h"
+#include "psp_version.h"
 
 /*----------------------------------------------------------------
  *
@@ -37,7 +37,7 @@
  *-----------------------------------------------------------------*/
 const char *CFE_PSP_GetVersionString(void)
 {
-    return GLOBAL_PSP_CONFIGDATA.PSP_VersionInfo.VersionString;
+    return CFE_PSP_IMPL_VERSION;
 }
 
 /*----------------------------------------------------------------
@@ -50,7 +50,7 @@ const char *CFE_PSP_GetVersionString(void)
  *-----------------------------------------------------------------*/
 const char *CFE_PSP_GetVersionCodeName(void)
 {
-    return GLOBAL_PSP_CONFIGDATA.PSP_VersionInfo.VersionCodeName;
+    return CFE_PSP_IMPL_CODENAME;
 }
 
 /*----------------------------------------------------------------
@@ -63,10 +63,10 @@ const char *CFE_PSP_GetVersionCodeName(void)
  *-----------------------------------------------------------------*/
 void CFE_PSP_GetVersionNumber(uint8 VersionNumbers[4])
 {
-    VersionNumbers[0] = GLOBAL_PSP_CONFIGDATA.PSP_VersionInfo.MajorVersion;
-    VersionNumbers[1] = GLOBAL_PSP_CONFIGDATA.PSP_VersionInfo.MinorVersion;
-    VersionNumbers[2] = GLOBAL_PSP_CONFIGDATA.PSP_VersionInfo.Revision;
-    VersionNumbers[3] = GLOBAL_PSP_CONFIGDATA.PSP_VersionInfo.MissionRev;
+    VersionNumbers[0] = CFE_PSP_IMPL_MAJOR_VERSION;
+    VersionNumbers[1] = CFE_PSP_IMPL_MINOR_VERSION;
+    VersionNumbers[2] = CFE_PSP_IMPL_REVISION;
+    VersionNumbers[3] = CFE_PSP_IMPL_MISSION_REV;
 }
 
 /*----------------------------------------------------------------
@@ -79,5 +79,5 @@ void CFE_PSP_GetVersionNumber(uint8 VersionNumbers[4])
  *-----------------------------------------------------------------*/
 uint32 CFE_PSP_GetBuildNumber(void)
 {
-    return GLOBAL_PSP_CONFIGDATA.PSP_VersionInfo.BuildNumber;
+    return CFE_PSP_IMPL_BUILD_NUMBER;
 }
