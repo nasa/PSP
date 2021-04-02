@@ -146,13 +146,6 @@
 #define CFE_PSP_RST_SUBTYPE_MAX 10
 /** \} */
 
-/* Implement the "version" macros */
-#define CFE_PSP_MAJOR_VERSION (GLOBAL_PSP_CONFIGDATA.PSP_VersionInfo.MajorVersion)
-#define CFE_PSP_MINOR_VERSION (GLOBAL_PSP_CONFIGDATA.PSP_VersionInfo.MinorVersion)
-#define CFE_PSP_REVISION      (GLOBAL_PSP_CONFIGDATA.PSP_VersionInfo.Revision)
-#define CFE_PSP_MISSION_REV   (GLOBAL_PSP_CONFIGDATA.PSP_VersionInfo.MissionRev)
-#define CFE_PSP_VERSION       (GLOBAL_PSP_CONFIGDATA.PSP_VersionInfo.VersionString)
-
 /*
 ** Type Definitions
 */

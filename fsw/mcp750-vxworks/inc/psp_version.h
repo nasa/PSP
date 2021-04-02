@@ -42,6 +42,8 @@
     99 /*!< @brief ONLY APPLY for OFFICIAL releases. Revision version number. A value of "99" indicates an unreleased \
           development version.  */
 
+#define CFE_PSP_IMPL_CODENAME "Bootes"
+
 /*
  * Tools to construct version string
  */
