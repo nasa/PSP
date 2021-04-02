@@ -668,7 +668,7 @@ int32 CFE_PSP_MemRead8(cpuaddr Address, uint8 *Data)
 **        Returns either a user-defined status flag or OS_SUCCESS.
 **
 ******************************************************************************/
-int32 CFE_PSP_MemValidateRange(cpuaddr Address, uint32 Size, uint32 MemoryType)
+int32 CFE_PSP_MemValidateRange(cpuaddr Address, size_t Size, uint32 MemoryType)
 {
     int32 status;
 

@@ -408,6 +408,11 @@ void CFE_PSP_SetupReservedMemoryMap(void)
 
     OS_printf("CFE_PSP: MCP750 Reserved Memory Block at 0x%08lx, Total Size = 0x%lx\n",
               (unsigned long)MCP750_ReservedMemBlock.BlockPtr, (unsigned long)MCP750_ReservedMemBlock.BlockSize);
+
+    /*
+     * Set up the "RAM" entry in the memory table.
+     */
+    CFE_PSP_MemRangeSet(0, CFE_PSP_MEM_RAM, 0, 0x8000000, CFE_PSP_MEM_SIZE_DWORD, CFE_PSP_MEM_ATTR_READWRITE);
 }
 
 /******************************************************************************
