@@ -113,10 +113,8 @@ typedef struct
 /*
 ** Prototypes for this module
 */
-void CFE_PSP_TimerHandler(int signum);
 void CFE_PSP_DisplayUsage(char *Name);
 void CFE_PSP_ProcessArgumentDefaults(CFE_PSP_CommandData_t *CommandDataDefault);
-void CFE_PSP_SetupLocal1Hz(void);
 
 /*
 ** Global variables
@@ -212,8 +210,6 @@ void OS_Application_Startup(void)
 {
     uint32       reset_type;
     uint32       reset_subtype;
-    int32        time_status;
-    osal_id_t    sys_timebase_id;
     osal_id_t    fs_id;
     int          opt       = 0;
     int          longIndex = 0;
@@ -343,41 +339,6 @@ void OS_Application_Startup(void)
     CFE_PSP_IdleTaskState.ThreadID = pthread_self();
 
     /*
-    ** Set up the timebase, if OSAL supports it
-    ** Done here so that the modules can also use it, if desired
-    **
-    ** This is a clock named "cFS-Master" that will serve to drive
-    ** all time-related CFE functions including the 1Hz signal.
-    **
-    ** Note the timebase is only prepared here; the application is
-    ** not ready to receive a callback yet, as it hasn't been started.
-    ** CFE TIME registers its own callback when it is ready to do so.
-    */
-    time_status = OS_TimeBaseCreate(&sys_timebase_id, "cFS-Master", NULL);
-    if (time_status == OS_SUCCESS)
-    {
-        /*
-         * Set the clock to trigger with 50ms resolution - slow enough that
-         * it will not hog CPU resources but fast enough to have sufficient resolution
-         * for most general timing purposes.
-         * (It may be better to move this to the mission config file)
-         */
-        time_status = OS_TimeBaseSet(sys_timebase_id, 50000, 50000);
-    }
-    else
-    {
-        /*
-         * Cannot create a timebase in OSAL.
-         *
-         * Note: Most likely this is due to building with
-         * the old/classic POSIX OSAL which does not support this.
-         *
-         * See below for workaround.
-         */
-        sys_timebase_id = OS_OBJECT_ID_UNDEFINED;
-    }
-
-    /*
     ** Set up the virtual FS mapping for the "/cf" directory
     ** On this platform it is just a local/relative dir of the same name.
     */
@@ -453,15 +414,6 @@ void OS_Application_Startup(void)
     ** Call cFE entry point.
     */
     CFE_PSP_MAIN_FUNCTION(reset_type, reset_subtype, 1, CFE_PSP_NONVOL_STARTUP_FILE);
-
-    /*
-     * Backward compatibility for old OSAL.
-     */
-    if (!OS_ObjectIdDefined(sys_timebase_id) || time_status != OS_SUCCESS)
-    {
-        OS_printf("CFE_PSP: WARNING - Compatibility mode - using local 1Hz Interrupt\n");
-        CFE_PSP_SetupLocal1Hz();
-    }
 }
 
 void OS_Application_Run(void)
@@ -520,31 +472,6 @@ void OS_Application_Run(void)
     OS_TaskDelay(100);
 
     OS_DeleteAllObjects();
-}
-
-/******************************************************************************
-**  Function:  CFE_PSP_TimerHandler()
-**
-**  Purpose:
-**    1hz "isr" routine for linux/OSX
-**    This timer handler will execute 4 times a second.
-**
-**  Arguments:
-**    (none)
-**
-**  Return:
-**    (none)
-*/
-void CFE_PSP_TimerHandler(int signum)
-{
-    /*
-    ** call the CFE_TIME 1hz ISR
-    */
-    if ((TimerCounter % 4) == 0)
-        CFE_PSP_1HZ_FUNCTION();
-
-    /* update timer counter */
-    TimerCounter++;
 }
 
 /******************************************************************************
@@ -637,74 +564,5 @@ void CFE_PSP_ProcessArgumentDefaults(CFE_PSP_CommandData_t *CommandDataDefault)
         CommandDataDefault->CpuName[CFE_PSP_CPU_NAME_LENGTH - 1] = 0;
         printf("CFE_PSP: Default CPU Name: %s\n", CFE_PSP_CPU_NAME);
         CommandDataDefault->GotCpuName = 1;
-    }
-}
-
-/******************************************************************************
-**  Function:  CFE_PSP_SetupLocal1Hz
-**
-**  Purpose:
-**    This is a backward-compatible timer setup that is invoked when
-**    there is a failure to set up the timebase in OSAL.  It is basically
-**    the old way of doing things.
-**
-**    IMPORTANT: Note this is technically incorrect as it gives the
-**    callback directly in the context of the signal handler.  It is
-**    against spec to use most OSAL functions within a signal.
-**
-**    This is included merely to mimic the previous system behavior. It
-**    should be removed in a future version of the PSP.
-**
-**
-**  Arguments:
-**    (none)
-**
-**  Return:
-**    (none)
-**
-*/
-
-void CFE_PSP_SetupLocal1Hz(void)
-{
-    struct sigaction sa;
-    struct itimerval timer;
-    int              ret;
-
-    /*
-    ** Init timer counter
-    */
-    TimerCounter = 0;
-
-    /*
-    ** Install timer_handler as the signal handler for SIGALRM.
-    */
-    memset(&sa, 0, sizeof(sa));
-    sa.sa_handler = &CFE_PSP_TimerHandler;
-
-    /*
-    ** Configure the timer to expire after 250ms
-    **
-    ** (this is historical; the actual callback is invoked
-    ** only on every 4th timer tick.  previous versions of the
-    ** PSP did it this way, so this is preserved here).
-    */
-    timer.it_value.tv_sec     = 0;
-    timer.it_value.tv_usec    = 250000;
-    timer.it_interval.tv_sec  = 0;
-    timer.it_interval.tv_usec = 250000;
-
-    ret = sigaction(SIGALRM, &sa, NULL);
-
-    if (ret < 0)
-    {
-        OS_printf("CFE_PSP: sigaction() error %d: %s \n", ret, strerror(errno));
-    }
-    else
-    {
-        ret = setitimer(ITIMER_REAL, &timer, NULL);
-        if (ret < 0)
-        {
-            OS_printf("CFE_PSP: setitimer() error %d: %s \n", ret, strerror(errno));
-        }
     }
 }

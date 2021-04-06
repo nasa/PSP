@@ -52,6 +52,16 @@
 #define CFE_PSP_MAX_EXCEPTION_ENTRIES 4
 
 /*
+ * The tick period that will be configured in the RTOS for the simulated
+ * time base, in microseconds.  This in turn is used to drive the 1hz clock
+ * and other functions.
+ *
+ * On the MCP750 the sysClockRate runs at 60Hz so this is the same period
+ * that the cFE software timebase will be configured at.
+ */
+#define CFE_PSP_SOFT_TIMEBASE_PERIOD 16666
+
+/*
 ** Typedef for the layout of the vxWorks boot record structure
 **
 ** This is statically placed at the beginning of system memory (sysMemTop)

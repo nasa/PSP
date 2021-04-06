@@ -66,6 +66,19 @@
 #define CFE_PSP_EXCEPTION_EVENT_SIGNAL SIGUSR1
 
 /*
+ * The tick period that will be configured in the RTOS for the simulated
+ * time base, in microseconds.  This in turn is used to drive the 1hz clock
+ * and other functions.
+ *
+ * To minimize jitter in the resulting callbacks, it should be an even
+ * divisor of 1000000 usec.
+ *
+ * Note - 10ms/100Hz is chosen to also allow this same timebase to be
+ * used to drive the CFS SCH minor frame callbacks in its default config.
+ */
+#define CFE_PSP_SOFT_TIMEBASE_PERIOD 10000
+
+/*
 ** Global variables
 */
 
