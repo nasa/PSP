@@ -3,3 +3,5 @@
 
 soft_timebase
 eeprom_direct
+ram_direct
+port_direct

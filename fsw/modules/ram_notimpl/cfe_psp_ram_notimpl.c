@@ -19,56 +19,51 @@
 */
 
 /**
- * \file cfe_psp_eeprom_stub.c
+ * \file cfe_psp_ram_notimpl.c
  *
- *  Created on: Jul 17, 2015
- *      Author: joseph.p.hickey@nasa.gov
+ * A PSP module to satisfy the "RAM" API on systems which
+ * cannot access physical memory directly.
  *
- * This is a stub implementation of the PSP EEPROM API calls that return CFE_PSP_ERROR_NOT_IMPLEMENTED
+ * All functions return CFE_PSP_ERR_NOT_IMPLEMENTED
  */
 
 #include "cfe_psp.h"
 #include "cfe_psp_module.h"
 
-CFE_PSP_MODULE_DECLARE_SIMPLE(eeprom_stub);
+CFE_PSP_MODULE_DECLARE_SIMPLE(ram_notimpl);
 
-void eeprom_stub_Init(uint32 PspModuleId)
+void ram_notimpl_Init(uint32 PspModuleId)
 {
     /* Inform the user that this module is in use */
-    printf("CFE_PSP: Using STUB EEPROM implementation\n");
+    printf("CFE_PSP: Physical RAM access not implemented\n");
 }
 
-int32 CFE_PSP_EepromWrite32(cpuaddr MemoryAddress, uint32 uint32Value)
+int32 CFE_PSP_MemRead8(cpuaddr MemoryAddress, uint8 *ByteValue)
 {
     return (CFE_PSP_ERROR_NOT_IMPLEMENTED);
 }
 
-int32 CFE_PSP_EepromWrite16(cpuaddr MemoryAddress, uint16 uint16Value)
+int32 CFE_PSP_MemWrite8(cpuaddr MemoryAddress, uint8 ByteValue)
 {
     return (CFE_PSP_ERROR_NOT_IMPLEMENTED);
 }
 
-int32 CFE_PSP_EepromWrite8(cpuaddr MemoryAddress, uint8 ByteValue)
+int32 CFE_PSP_MemRead16(cpuaddr MemoryAddress, uint16 *uint16Value)
 {
     return (CFE_PSP_ERROR_NOT_IMPLEMENTED);
 }
 
-int32 CFE_PSP_EepromWriteEnable(uint32 Bank)
+int32 CFE_PSP_MemWrite16(cpuaddr MemoryAddress, uint16 uint16Value)
 {
     return (CFE_PSP_ERROR_NOT_IMPLEMENTED);
 }
 
-int32 CFE_PSP_EepromWriteDisable(uint32 Bank)
+int32 CFE_PSP_MemRead32(cpuaddr MemoryAddress, uint32 *uint32Value)
 {
     return (CFE_PSP_ERROR_NOT_IMPLEMENTED);
 }
 
-int32 CFE_PSP_EepromPowerUp(uint32 Bank)
-{
-    return (CFE_PSP_ERROR_NOT_IMPLEMENTED);
-}
-
-int32 CFE_PSP_EepromPowerDown(uint32 Bank)
+int32 CFE_PSP_MemWrite32(cpuaddr MemoryAddress, uint32 uint32Value)
 {
     return (CFE_PSP_ERROR_NOT_IMPLEMENTED);
 }

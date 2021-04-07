@@ -17,8 +17,6 @@ add_library(psp-${CFE_PSP_TARGETNAME}-shared OBJECT
     src/cfe_psp_memrange.c
     src/cfe_psp_memutils.c
     src/cfe_psp_module.c
-    src/cfe_psp_port.c
-    src/cfe_psp_ram.c
     src/cfe_psp_version.c
 )
 
@@ -29,4 +27,3 @@ target_compile_definitions(psp-${CFE_SYSTEM_PSPNAME}-shared PRIVATE
 target_include_directories(psp-${CFE_PSP_TARGETNAME}-shared PRIVATE
     $<TARGET_PROPERTY:psp_module_api,INTERFACE_INCLUDE_DIRECTORIES>
 )
-

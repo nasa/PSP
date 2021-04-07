@@ -18,25 +18,23 @@
 **  limitations under the License.
 */
 
-/*
-** File   :	cfe_pep_memport.c
-**
-** Author :	Ezra Yeheskeli
-**
-** Purpose:
-**		   This file  contains some of the cFE Platform Support Layer.
-**         It contains the processor architecture specific calls.
-**
-**  16-Nov-2003 Ezra Yeheskeli
-**          - First Creation.
-**
-*/
-
-/*
-** Include section
-*/
+/**
+ * \file cfe_psp_port_direct.c
+ *
+ * A PSP module to satisfy the "PORT" API on systems which
+ * can access I/O ports directly via memory mapped addresses.
+ */
 
 #include "cfe_psp.h"
+#include "cfe_psp_module.h"
+
+CFE_PSP_MODULE_DECLARE_SIMPLE(port_direct);
+
+void port_direct_Init(uint32 PspModuleId)
+{
+    /* Inform the user that this module is in use */
+    printf("CFE_PSP: Using DIRECT memory mapped PORT implementation\n");
+}
 
 /*
 ** global memory

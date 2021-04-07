@@ -3,3 +3,5 @@
 
 soft_timebase
 eeprom_mmap_file
+ram_notimpl
+port_notimpl
