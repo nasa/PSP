@@ -18,9 +18,11 @@
 
 void PCS_vxTimeBaseGet(uint32_t *u, uint32_t *l)
 {
-    UT_DEFAULT_IMPL(PCS_vxTimeBaseGet);
+    UT_Stub_RegisterContextGenericArg(UT_KEY(PCS_vxTimeBaseGet), u);
+    UT_Stub_RegisterContextGenericArg(UT_KEY(PCS_vxTimeBaseGet), l);
     *u = 0;
     *l = 0;
+    UT_DEFAULT_IMPL(PCS_vxTimeBaseGet);
 }
 void PCS_vxMsrSet(uint32_t val)
 {

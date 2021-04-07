@@ -2,6 +2,7 @@
 # when this PSP is selected.  They must exist under fsw/modules
 
 soft_timebase
+timebase_vxworks
 eeprom_direct
 ram_direct
 port_direct

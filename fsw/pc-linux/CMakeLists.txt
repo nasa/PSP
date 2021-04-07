@@ -14,8 +14,8 @@ add_library(psp-${CFE_PSP_TARGETNAME}-impl OBJECT
     src/cfe_psp_ssr.c
     src/cfe_psp_start.c
     src/cfe_psp_support.c
-    src/cfe_psp_timer.c
-    src/cfe_psp_watchdog.c)
+    src/cfe_psp_watchdog.c
+)
 
 # The _GNU_SOURCE directive is required to call non-posix APIs
 # that are specific to the Linux/glibc environment.
