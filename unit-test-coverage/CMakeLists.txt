@@ -30,6 +30,7 @@ include_directories(${UT_ASSERT_SOURCE_DIR}/inc)
 include_directories(${PSPCOVERAGE_SOURCE_DIR}/ut-stubs/inc)
 
 add_subdirectory(ut-stubs)
+add_subdirectory(modules)
 
 # Build targets for each of the indicated PSPs
 foreach(SETNAME ${PSPCOVERAGE_TARGETS})

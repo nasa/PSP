@@ -146,6 +146,13 @@
 #define CFE_PSP_RST_SUBTYPE_MAX 10
 /** \} */
 
+/**
+ * \brief The name of the software/RTOS timebase for general system timers.
+ *
+ * This name may be referred to by CFE TIME and/or SCH when setting up its own timers.
+ */
+#define CFE_PSP_SOFT_TIMEBASE_NAME "cFS-Master"
+
 /*
 ** Type Definitions
 */
@@ -166,10 +173,26 @@ extern void CFE_PSP_Main(void);
 ** The flight software (i.e. cFE ) should not call this routine.
 */
 
+/**
+ * \brief Sample/Read a monotonic platform clock with normalization
+ *
+ * Outputs an OS_time_t value indicating the time elapsed since an epoch.  The
+ * epoch is not defined, but typically represents the system boot time.  The
+ * value increases continously over time and cannot be reset by software.
+ *
+ * This is similar to the CFE_PSP_Get_Timebase(), but additionally it normalizes
+ * the output value to an OS_time_t, thereby providing consistent units to
+ * the calling application.  Any OSAL-provided routine accepts OS_time_t inputs
+ * may be used to convert this value into other standardized time units.
+ *
+ * \note This should refer to the same time domain as CFE_PSP_Get_Timebase(),
+ * the primary difference being the format and units of the output value.
+ *
+ * \sa CFE_PSP_Get_Timebase()
+ *
+ * \param[out] LocalTime Value of PSP tick counter as OS_time_t
+ */
 extern void CFE_PSP_GetTime(OS_time_t *LocalTime);
-/* This call gets the local time from the hardware on the Vxworks system
- * on the mcp750s
- * on the other os/hardware setup, it will get the time the normal way */
 
 extern void CFE_PSP_Restart(uint32 resetType);
 /*
@@ -229,10 +252,31 @@ extern uint32 CFE_PSP_GetTimerLow32Rollover(void);
 ** CFE_PSP_TIMER_LOW32_ROLLOVER will be 0.
 */
 
+/**
+ * \brief Sample/Read a monotonic platform clock without normalization
+ *
+ * This is defined as a free-running, monotonically-increasing tick counter.  The
+ * epoch is not defined, but typically is the system boot time, and the value increases
+ * indefinitely as the system runs.  The tick period/rate is also not defined.
+ *
+ * Rollover events - where the range of representable values is exceeded - are
+ * theoretically possible, but would take many years of continuous uptime to occur
+ * (typically hundreds of years, if not thousands). System designers should ensure
+ * that the actual tick rate and resulting timebase range is sufficiently large to
+ * ensure that rollover is not a concern.
+ *
+ * \note This is a "raw" value from the underlying platform with minimal/no conversions
+ * or normalization applied.  Neither the epoch nor the resolution of this tick
+ * counter is specified, and it may vary from platform to platform.  Use the
+ * CFE_PSP_GetTime() function to sample the timebase and also convert the units
+ * into a normalized/more consistent form.
+ *
+ * \sa CFE_PSP_GetTime()
+ *
+ * \param[out] Tbu Buffer to hold the upper 32 bits of a 64-bit tick counter
+ * \param[out] Tbl Buffer to hold the lower 32 bits of a 64-bit tick counter
+ */
 extern void CFE_PSP_Get_Timebase(uint32 *Tbu, uint32 *Tbl);
-/*
-** CFE_PSP_Get_Timebase
-*/
 
 extern uint32 CFE_PSP_Get_Dec(void);
 /*

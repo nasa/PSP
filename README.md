@@ -9,6 +9,17 @@ This is a collection of APIs abstracting platform specific functionality to be l
 
 ## Version History
 
+
+### Development Build: v1.5.0-rc1+dev112
+
+- Cleans up stale code from the previous methods of generating 1Hz. Adds a new PSP module that instantiates an OSAL abstract timebase for use with cFE services. This single module is used across all psp implementations (mcp750, pc-linux, pc-rtems). Results in 1Hz timing tick on MCP750 will be more accurate. No changes to Linux or RTEMS
+- Fixes segfaults when `CFE_PSP_Port` routines are invoked on Linux.
+- Converts `cfe_psp_ram.c` and `cfe_psp_port.c` into modular components and removes from the "shared" directory. The existing implementations become the corresponding "direct" module, and are enabled based on the psp module selection. Adds a "notimpl" variant where all the functions return `CFE_PSP_ERR_NOT_IMPLEMENTED`. This is used on Linux
+or any other system where direct access is not possible.  Renames the existing `eeprom_stub` module to be `eeprom_notimpl` for consistency and to avoid confusion with the unit test stubs.
+- Implements two PSP modules to provide `CFE_PSP_GetTime` and `CFE_PSP_GetTimeBase`, one for POSIX-compliant RTOS using `clock_gettime()` and the other specifically for PowerPC processors on VxWorks that have the `vxTimeBaseGet()` routine. Clarifies and documents the difference and use cases for `CFE_PSP_GetTime` and `CFE_PSP_GetTimeBase`. No impact to behavior.
+- Adds a coverage test for the VxWorks PSP timebase module and provides an example of how this can be implemented for other modules.
+- See <https://github.com/nasa/PSP/pull/289> and <https://github.com/nasa/cFS/pull/238>
+
 ### Development Build: v1.5.0-rc1+dev101
 
 - Removes unnecessary global config structure `Target_PspConfigData` and associated elements infavor of the new version API.

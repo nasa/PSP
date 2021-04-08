@@ -37,6 +37,23 @@
 #include "taskLib.h"
 #include "arch/ppc/esfPpc.h"
 
+/**
+ * \brief Period of the VxWorks timebase, in nanoseconds
+ *
+ * This is expressed as a ratio in case it is not a whole number.
+ *
+ * Multiplying the timebase register by 60 should yield a result
+ * in nanoseconds, and then further dividing by the OSAL OS_time_t tick
+ * resolution will convert to an OS_time_t compatible value.
+ *
+ * On the MCP750 - the PPC timebase runs at 60ns period or ~16.67 MHz.
+ *
+ * Note this is distinct from the VxWorks system timer tick which runs,
+ * confusingly, at 60Hz or a ~16.67ms period.
+ */
+#define CFE_PSP_VX_TIMEBASE_PERIOD_NUMERATOR   60
+#define CFE_PSP_VX_TIMEBASE_PERIOD_DENOMINATOR 1
+
 /*
 ** This define sets the number of memory ranges that are defined in the memory range defintion
 ** table.
@@ -50,6 +67,16 @@
  * It must always be a power of two.
  */
 #define CFE_PSP_MAX_EXCEPTION_ENTRIES 4
+
+/*
+ * The tick period that will be configured in the RTOS for the simulated
+ * time base, in microseconds.  This in turn is used to drive the 1hz clock
+ * and other functions.
+ *
+ * On the MCP750 the sysClockRate runs at 60Hz so this is the same period
+ * that the cFE software timebase will be configured at.
+ */
+#define CFE_PSP_SOFT_TIMEBASE_PERIOD 16666
 
 /*
 ** Typedef for the layout of the vxWorks boot record structure

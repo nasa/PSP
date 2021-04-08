@@ -42,9 +42,12 @@ set(GENERATED_EXTERNS)
 set(GENERATED_KEYVALS)
 foreach(PSPMOD ${PSP_TARGET_MODULE_LIST})
     add_subdirectory(fsw/modules/${PSPMOD} ${PSPMOD}-${CFE_PSP_TARGETNAME}-impl)
-    list(APPEND GENERATED_EXTERNS "extern CFE_PSP_ModuleApi_t CFE_PSP_${PSPMOD}_API;\n")
+    list(APPEND GENERATED_EXTERNS "extern CFE_PSP_ModuleApi_t CFE_PSP_${PSPMOD}_API\;\n")
     list(APPEND GENERATED_KEYVALS "{ .Name = \"${PSPMOD}\", .Api = &CFE_PSP_${PSPMOD}_API },\n")
 endforeach()
+
+string(CONCAT GENERATED_EXTERNS ${GENERATED_EXTERNS})
+string(CONCAT GENERATED_KEYVALS ${GENERATED_KEYVALS})
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake/module_list.c.in ${CMAKE_CURRENT_BINARY_DIR}/${CFE_PSP_TARGETNAME}_module_list.c @ONLY)
 
@@ -60,7 +63,7 @@ target_link_libraries(psp-${CFE_PSP_TARGETNAME} PRIVATE
     psp_module_api
 )
 
-target_include_directories(psp-${CFE_PSP_TARGETNAME} INTERFACE 
+target_include_directories(psp-${CFE_PSP_TARGETNAME} INTERFACE
     fsw/inc
 )
 

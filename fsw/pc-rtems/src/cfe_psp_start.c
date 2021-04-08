@@ -131,51 +131,6 @@ int CFE_PSP_Setup(void)
     return RTEMS_SUCCESSFUL;
 }
 
-/******************************************************************************
-**  Function:  CFE_PSP_SetupSystemTimer
-**
-**  Purpose:
-**    BSP system time base and timer object setup.
-**    This does the necessary work to start the 1Hz time tick required by CFE
-**
-**  Arguments:
-**    (none)
-**
-**  Return:
-**    (none)
-**
-** NOTE:
-**      The handles to the timebase/timer objects are "start and forget"
-**      as they are supposed to run forever as long as CFE runs.
-**
-**      If needed for e.g. additional timer creation, they can be recovered
-**      using an OSAL GetIdByName() call.
-**
-**      This is preferred anyway -- far cleaner than trying to pass the uint32 value
-**      up to the application somehow.
-*/
-
-void CFE_PSP_SetupSystemTimer(void)
-{
-    osal_id_t SystemTimebase;
-    int32     Status;
-
-    Status = OS_TimeBaseCreate(&SystemTimebase, "cFS-Master", NULL);
-    if (Status == OS_SUCCESS)
-    {
-        Status = OS_TimeBaseSet(SystemTimebase, 250000, 250000);
-    }
-
-    /*
-     * If anything failed, cFE/cFS will not run properly, so a panic is appropriate
-     */
-    if (Status != OS_SUCCESS)
-    {
-        OS_printf("CFE_PSP: Error configuring cFS timing: %d\n", (int)Status);
-        CFE_PSP_Panic(Status);
-    }
-}
-
 /*
 ** A simple entry point to start from the BSP loader
 **
@@ -262,9 +217,6 @@ void CFE_PSP_Main(void)
     ** Initialize the statically linked modules (if any)
     */
     CFE_PSP_ModuleInit();
-
-    /* Prepare the system timing resources */
-    CFE_PSP_SetupSystemTimer();
 
     /*
     ** Determine Reset type by reading the hardware reset register.

@@ -18,25 +18,23 @@
 **  limitations under the License.
 */
 
-/*
-** File   :	cfe_psp_memram.c
-**
-** Author :	Ezra Yeheskeli
-**
-** Purpose:
-**		   This file  contains some of the cFE Platform Support Layer.
-**         It contains the processor architecture specific calls.
-**
-**  16-Nov-2003 Ezra Yeheskeli
-**          - First Creation.
-**
-*/
-
-/*
-** Include section
-*/
+/**
+ * \file cfe_psp_ram_direct.c
+ *
+ * A PSP module to satisfy the "RAM" API on systems which
+ * can access physical memory directly.
+ */
 
 #include "cfe_psp.h"
+#include "cfe_psp_module.h"
+
+CFE_PSP_MODULE_DECLARE_SIMPLE(ram_direct);
+
+void ram_direct_Init(uint32 PspModuleId)
+{
+    /* Inform the user that this module is in use */
+    printf("CFE_PSP: Using DIRECT memory mapped RAM implementation\n");
+}
 
 /*
 ** global memory

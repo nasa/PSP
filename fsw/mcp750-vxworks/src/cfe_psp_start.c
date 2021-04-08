@@ -59,6 +59,7 @@
 
 #include "cfe_psp.h"
 #include "cfe_psp_memory.h"
+#include "cfe_psp_module.h"
 
 /*
 **  External Declarations
@@ -74,7 +75,6 @@ IMPORT void sysPciWrite32(UINT32, UINT32);
 
 #define CFE_PSP_MAIN_FUNCTION       (*GLOBAL_CONFIGDATA.CfeConfig->SystemMain)
 #define CFE_PSP_NONVOL_STARTUP_FILE (GLOBAL_CONFIGDATA.CfeConfig->NonvolStartupFile)
-#define CFE_PSP_1HZ_FUNCTION        (*GLOBAL_CONFIGDATA.CfeConfig->System1HzISR)
 
 /******************************************************************************
 **  Function:  OS_Application_Startup()
@@ -145,6 +145,11 @@ void OS_Application_Startup(void)
     ** This must be done before any of the reset variables are used.
     */
     CFE_PSP_SetupReservedMemoryMap();
+
+    /*
+    ** Initialize the statically linked modules (if any)
+    */
+    CFE_PSP_ModuleInit();
 
     /*
     ** Determine Reset type by reading the hardware reset register.
@@ -231,31 +236,4 @@ void OS_Application_Startup(void)
     ** is complete.
     */
     CFE_PSP_MAIN_FUNCTION(reset_type, reset_subtype, 1, CFE_PSP_NONVOL_STARTUP_FILE);
-}
-
-/******************************************************************************
-**  Function:  OS_Application_Run()
-**
-**  Purpose:
-**    Idle Loop entry point from OSAL BSP.
-**
-**  Arguments:
-**    (none)
-**
-**  Return:
-**    (none)
-*/
-void OS_Application_Run(void)
-{
-    int TicksPerSecond;
-
-    /*
-    ** Main loop for default task and simulated 1hz
-    */
-    for (;;)
-    {
-        TicksPerSecond = sysClkRateGet();
-        (void)taskDelay(TicksPerSecond);
-        CFE_PSP_1HZ_FUNCTION();
-    }
 }
