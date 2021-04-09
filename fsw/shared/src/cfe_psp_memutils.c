@@ -19,12 +19,12 @@
 */
 
 /*
-** File   :	cfe_psp_memutils.c
+** File   : cfe_psp_memutils.c
 **
-** Author :	Ezra Yeheskeli
+** Author : Ezra Yeheskeli
 **
 ** Purpose:
-**		   This file  contains some of the cFE Platform Support Layer.
+**         This file  contains some of the cFE Platform Support Layer.
 **        It contains the processor architecture specific calls.
 **
 **
@@ -51,7 +51,7 @@
 ** Name: CFE_PSP_MemCpy
 **
 ** Purpose:
-**	Copies 'size' byte from memory address pointed by 'src' to memory
+**  Copies 'size' byte from memory address pointed by 'src' to memory
 **  address pointed by ' dst' For now we are using the standard c library
 **  call 'memcpy' but if we find we need to make it more efficient then
 **  we'll implement it in assembly.
@@ -59,7 +59,7 @@
 ** Assumptions and Notes:
 **
 ** Parameters:
-**	dst : pointer to an address to copy to
+**  dst : pointer to an address to copy to
 **  src : pointer address to copy from
 **
 ** Global Inputs: None
@@ -79,7 +79,7 @@ int32 CFE_PSP_MemCpy(void *dst, const void *src, uint32 size)
 ** Name: CFE_PSP_MemSet
 **
 ** Purpose:
-**	Copies 'size' number of byte of value 'value' to memory address pointed
+**  Copies 'size' number of byte of value 'value' to memory address pointed
 **  by 'dst' .For now we are using the standard c library call 'memset'
 **  but if we find we need to make it more efficient then we'll implement
 **  it in assembly.

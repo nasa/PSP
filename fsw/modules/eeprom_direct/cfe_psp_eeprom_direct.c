@@ -19,12 +19,12 @@
 */
 
 /*
-** File   :	cfe_psp_eeprom.c
+** File   : cfe_psp_eeprom.c
 **
-** Author :	Ezra Yeheskeli
+** Author : Ezra Yeheskeli
 **
 ** Purpose:
-**		   This file  contains some of the OS APIs abstraction layer.
+**         This file  contains some of the OS APIs abstraction layer.
 **         It contains the processor architecture specific calls.
 **
 **  16-Nov-2003 Ezra Yeheskeli
@@ -67,10 +67,10 @@ void eeprom_direct_Init(uint32 PspModuleId)
  **
  **
  ** Return Values:
- **	 CFE_PSP_SUCCESS
- **	 CFE_PSP_ERROR_TIMEOUT write operation did not go through after a specific
+ **  CFE_PSP_SUCCESS
+ **  CFE_PSP_ERROR_TIMEOUT write operation did not go through after a specific
  **   timeout.
- **	 CFE_PSP_ERROR_ADD_MISALIGNED The Address is not aligned to 16 bit addressing
+ **  CFE_PSP_ERROR_ADD_MISALIGNED The Address is not aligned to 16 bit addressing
  **   scheme.
  */
 int32 CFE_PSP_EepromWrite32(cpuaddr MemoryAddress, uint32 uint32Value)
@@ -105,7 +105,7 @@ int32 CFE_PSP_EepromWrite32(cpuaddr MemoryAddress, uint32 uint32Value)
  **
  ** Return Values:
  **   CFE_PSP_SUCCESS
- **	 CFE_PSP_ERROR_TIMEOUT write operation did not go through after a specific
+ **  CFE_PSP_ERROR_TIMEOUT write operation did not go through after a specific
  **   timeout.
  **   CFE_PSP_ERROR_ADD_MISALIGNED The Address is not aligned to 16 bit addressing
  **   scheme.
@@ -200,7 +200,7 @@ int32 CFE_PSP_EepromWrite16(cpuaddr MemoryAddress, uint16 uint16Value)
  **
  ** Return Values:
  **   CFE_PSP_SUCCESS
- **	 CFE_PSP_ERROR_TIMEOUT write operation did not go through after a specific
+ **  CFE_PSP_ERROR_TIMEOUT write operation did not go through after a specific
  **   timeout.
  */
 
@@ -273,7 +273,7 @@ int32 CFE_PSP_EepromWrite8(cpuaddr MemoryAddress, uint8 ByteValue)
 ** Name: CFE_PSP_EepromWriteEnable
 **
 ** Purpose:
-**		Eable the eeprom for write operation
+**      Eable the eeprom for write operation
 **
 ** Assumptions and Notes:
 **
@@ -297,7 +297,7 @@ int32 CFE_PSP_EepromWriteEnable(uint32 Bank)
 ** Name: CFE_PSP_EepromWriteDisable
 **
 ** Purpose:
-**		Disable  the eeprom from write operation
+**      Disable  the eeprom from write operation
 **
 ** Assumptions and Notes:
 **
@@ -321,7 +321,7 @@ int32 CFE_PSP_EepromWriteDisable(uint32 Bank)
 ** Name: CFE_PSP_EepromPowerUp
 **
 ** Purpose:
-**		Power up the eeprom
+**      Power up the eeprom
 ** Assumptions and Notes:
 **
 ** Parameters:
@@ -344,7 +344,7 @@ int32 CFE_PSP_EepromPowerUp(uint32 Bank)
 ** Name: CFE_PSP_EepromPowerDown
 **
 ** Purpose:
-**		Power down the eeprom
+**      Power down the eeprom
 ** Assumptions and Notes:
 **
 ** Parameters:

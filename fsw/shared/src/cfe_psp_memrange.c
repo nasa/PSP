@@ -19,12 +19,12 @@
 */
 
 /*
-** File   :	cfe_psp_memrange.c
+** File   : cfe_psp_memrange.c
 **
-** Author :	Alan Cudmore
+** Author : Alan Cudmore
 **
 ** Purpose:
-**		   This file contains the memory range functions for the cFE Platform Support Package.
+**         This file contains the memory range functions for the cFE Platform Support Package.
 **       The memory range is a table of valid memory address ranges maintained by the cFE.
 **
 **
@@ -41,7 +41,7 @@
 ** Name: CFE_PSP_MemValidateRange
 **
 ** Purpose:
-**		Validate the memory range and type using the global CFE_PSP_MemoryTable
+**      Validate the memory range and type using the global CFE_PSP_MemoryTable
 **
 ** Assumptions and Notes:
 **
@@ -159,7 +159,7 @@ int32 CFE_PSP_MemValidateRange(cpuaddr Address, size_t Size, uint32 MemoryType)
 ** Name: CFE_PSP_MemRanges
 **
 ** Purpose:
-**		Return the number of memory ranges in the CFE_PSP_MemoryTable
+**      Return the number of memory ranges in the CFE_PSP_MemoryTable
 **
 ** Assumptions and Notes:
 **
@@ -182,7 +182,7 @@ uint32 CFE_PSP_MemRanges(void)
 ** Name: CFE_PSP_MemRangeSet
 **
 ** Purpose:
-**		This function populates one of the records in the CFE_PSP_MemoryTable.
+**      This function populates one of the records in the CFE_PSP_MemoryTable.
 **
 ** Assumptions and Notes:
 **    Because the table is fixed size, the entries are set by using the integer index.
@@ -259,7 +259,7 @@ int32 CFE_PSP_MemRangeSet(uint32 RangeNum, uint32 MemoryType, cpuaddr StartAddr,
 ** Name: CFE_PSP_MemRangeGet
 **
 ** Purpose:
-**		This function retrieves one of the records in the CFE_PSP_MemoryTable.
+**      This function retrieves one of the records in the CFE_PSP_MemoryTable.
 **
 ** Assumptions and Notes:
 **    Becasue the table is fixed size, the entries are accessed by using the integer index.
