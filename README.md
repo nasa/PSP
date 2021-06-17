@@ -9,6 +9,11 @@ This is a collection of APIs abstracting platform specific functionality to be l
 
 ## Version History
 
+### Development Build: v1.5.0-rc1+dev118
+
+- Implement Coding Standards in CodeQL
+- rename doc to docs
+- See <https://github.com/nasa/PSP/pull/296> and <https://github.com/nasa/cFS/pull/265/>
 
 ### Development Build: v1.5.0-rc1+dev112
 
