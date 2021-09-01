@@ -373,7 +373,7 @@ void CFE_PSP_SetupReservedMemoryMap(void)
     RequiredSize += CDSSize;
     RequiredSize += UserReservedSize;
 
-    OS_printf("Sizeof BSP reserved memory = %u bytes\n", (unsigned int)RequiredSize);
+    OS_printf("Size of BSP reserved memory = %u bytes\n", (unsigned int)RequiredSize);
 
     PcRtems_ReservedMemBlock.BlockPtr = malloc(RequiredSize);
 
