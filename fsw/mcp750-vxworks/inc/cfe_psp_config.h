@@ -55,7 +55,7 @@
 #define CFE_PSP_VX_TIMEBASE_PERIOD_DENOMINATOR 1
 
 /*
-** This define sets the number of memory ranges that are defined in the memory range defintion
+** This define sets the number of memory ranges that are defined in the memory range definition
 ** table.
 */
 #define CFE_PSP_MEM_TABLE_SIZE 10

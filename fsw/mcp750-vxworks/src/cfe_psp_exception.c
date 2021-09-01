@@ -76,7 +76,7 @@ void CFE_PSP_ExceptionHook(TASK_ID task_id, int vector, void *vpEsf);
 **
 **   Name: CFE_PSP_AttachExceptions
 **
-**   Purpose: This function Initializes the task execptions and adds a hook
+**   Purpose: This function Initializes the task exceptions and adds a hook
 **              into the VxWorks exception handling.  The below hook is called
 **              for every exception that VxWorks catches.
 **
@@ -178,7 +178,7 @@ void CFE_PSP_SetDefaultExceptionEnvironment(void)
 
     vxFpscrSet(vxFpscrGet() | _PPC_FPSCR_VE | /* enable exceptions for invalid operations */
                _PPC_FPSCR_OE |                /* enable overflow exceptions */
-               _PPC_FPSCR_NI |                /* Non-IEEE mode for denormailized numbers */
+               _PPC_FPSCR_NI |                /* Non-IEEE mode for denormalized numbers */
                _PPC_FPSCR_ZE);                /* enable divide by zero exceptions */
 
     vxFpscrSet(vxFpscrGet() | _PPC_FPSCR_XE | /* fp inexact exc enable */

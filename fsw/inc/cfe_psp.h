@@ -178,7 +178,7 @@ extern void CFE_PSP_Main(void);
  *
  * Outputs an OS_time_t value indicating the time elapsed since an epoch.  The
  * epoch is not defined, but typically represents the system boot time.  The
- * value increases continously over time and cannot be reset by software.
+ * value increases continuously over time and cannot be reset by software.
  *
  * This is similar to the CFE_PSP_Get_Timebase(), but additionally it normalizes
  * the output value to an OS_time_t, thereby providing consistent units to
@@ -221,7 +221,7 @@ extern uint32 CFE_PSP_GetProcessorId(void);
 
 extern uint32 CFE_PSP_GetSpacecraftId(void);
 /*
-** CFE_PSP_GetSpacecraftId retuns the Spacecraft ID (if any )
+** CFE_PSP_GetSpacecraftId returns the Spacecraft ID (if any )
 */
 
 extern const char *CFE_PSP_GetProcessorName(void);

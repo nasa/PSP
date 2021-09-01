@@ -24,7 +24,7 @@
 ** Purpose:
 **   This file contains glue routines between the cFE and the OS Board Support Package ( BSP ).
 **   The functions here allow the cFE to interface functions that are board and OS specific
-**   and usually dont fit well in the OS abstraction layer.
+**   and usually don't fit well in the OS abstraction layer.
 **
 ** History:
 **   2009/07/20  A. Cudmore    | Initial version,

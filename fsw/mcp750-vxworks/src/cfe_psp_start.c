@@ -118,7 +118,7 @@ void OS_Application_Startup(void)
 
     /*
     ** Set up the virtual FS mapping for the "/cf" directory
-    ** On this platform it is will use the CF:0 physical device.
+    ** On this platform it will use the CF:0 physical device.
     */
     Status = OS_FileSysAddFixedMap(&fs_id, "CF:0", "/cf");
     if (Status != OS_SUCCESS)
