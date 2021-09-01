@@ -48,7 +48,7 @@ static uint32 CFE_PSP_ModuleCount = 0;
 /***************************************************
  * Function Name: CFE_PSP_ModuleInitList
  *
- * Helper function to initalize a list of modules (not externally called)
+ * Helper function to initialize a list of modules (not externally called)
  */
 void CFE_PSP_ModuleInitList(CFE_StaticModuleLoadEntry_t *ListPtr)
 {

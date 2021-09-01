@@ -58,7 +58,7 @@ typedef long PCS_Vx_usr_arg_t;
  * without arguments, e.g. "int (*FUNCPTR)()".  This is acceptable
  * by some compilers but generally incompatible with the
  * "-Wstrict-prototype" gcc warning option.  So in this override it
- * is defined as a int argument.  This means that application code
+ * is defined as an int argument.  This means that application code
  * may need to cast it at the time of use (which is generally done anyway).
  */
 typedef int (*PCS_FUNCPTR)(int);

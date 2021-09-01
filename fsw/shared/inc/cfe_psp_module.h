@@ -41,7 +41,7 @@ typedef enum
 } CFE_PSP_ModuleType_t;
 
 /**
- * Protoype for a PSP module initialization function
+ * Prototype for a PSP module initialization function
  */
 typedef void (*CFE_PSP_ModuleInitFunc_t)(uint32 PspModuleId);
 
@@ -77,7 +77,7 @@ typedef const struct
  *
  * This function should only be called during PSP initialization before the
  * system is operational.  It is not intended to be called from application code after
- * CFE has started.  The function is not necessarily be thread-safe and should be called
+ * CFE has started.  The function is not necessarily thread-safe and should be called
  * before any child threads are created.
  *
  * Note that this does _not_ return any status --

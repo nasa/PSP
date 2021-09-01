@@ -128,7 +128,7 @@ int32 CFE_PSP_SetupEEPROM(uint32 EEPROMSize, cpuaddr *EEPROMAddress)
 
 /* For read/write - As this is mmap'ed we dereference the pointer directly.
  * Hopefully the caller didn't get it wrong.
- * No need to anything special for 8/16/32 width access in this mode.
+ * No need to do anything special for 8/16/32 width access in this mode.
  */
 int32 CFE_PSP_EepromWrite32(cpuaddr MemoryAddress, uint32 uint32Value)
 {
