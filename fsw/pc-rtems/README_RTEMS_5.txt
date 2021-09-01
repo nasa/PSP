@@ -20,9 +20,9 @@ I. Setting up and compiling RTEMS BSP
 
 1) install RTEMS toolchain for i386-rtems5 (or relevant target arch) into ${HOME}/rtems5
 
-The RTEMS official docs have instructions for this, which should supercede anything here.
+The RTEMS official docs have instructions for this, which should supersede anything here.
 
-Basic use of the the "rtems source builder" tool which works at the time of this writing:
+Basic use of the "rtems source builder" tool which works at the time of this writing:
 OFFICIAL RTEMS SOURCE BUILDER CLONE URL: git://git.rtems.org/rtems-source-builder.git
 
 
@@ -37,7 +37,7 @@ cd rtems-source-builder/rtems
 Note - at the time of this writing 5.1 is the current "stable" branch and
 5.1 represents the latest point release tag on that branch. We are going to
 use the "5" branch, which will eventually be released as 5.2. The latest
-5 branch has a bux fix for the RFS file system needed by the cFS for this target.
+5 branch has a bug fix for the RFS file system needed by the cFS for this target.
 If you use the 5.1 release tag (or tarball) you will most likely not be able
 to run the cFS without an error.
 
