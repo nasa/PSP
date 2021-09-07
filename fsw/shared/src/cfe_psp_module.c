@@ -64,7 +64,7 @@ void CFE_PSP_ModuleInitList(CFE_StaticModuleLoadEntry_t *ListPtr)
         while (Entry->Name != NULL)
         {
             ApiPtr = (CFE_PSP_ModuleApi_t *)Entry->Api;
-            if ((uint32)ApiPtr->ModuleType == CFE_PSP_MODULE_TYPE_SIMPLE && ApiPtr->Init != NULL)
+            if ((uint32)ApiPtr->ModuleType != CFE_PSP_MODULE_TYPE_INVALID && ApiPtr->Init != NULL)
             {
                 (*ApiPtr->Init)(CFE_PSP_MODULE_BASE | CFE_PSP_ModuleCount);
             }
