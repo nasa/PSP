@@ -9,6 +9,13 @@ This is a collection of APIs abstracting platform specific functionality to be l
 
 ## Version History
 
+
+### Development Build: v1.5.0-rc1+dev124
+
+- Relax strict of check before calling "Init" function of module, only check that module type is not invalid
+- Remove override of `add_psp_module` for coverage test
+- See <https://github.com/nasa/PSP/pull/307> and <https://github.com/nasa/cFS/pull/351>
+
 ### Development Build: v1.5.0-rc1+dev118
 
 - Implement Coding Standards in CodeQL
