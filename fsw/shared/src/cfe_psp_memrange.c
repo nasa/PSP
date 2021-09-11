@@ -205,7 +205,7 @@ uint32 CFE_PSP_MemRanges(void)
 ** Global Outputs: Changes CFE_PSP_MemoryTable
 **
 ** Return Values:
-**   CFE_PSP_SUCCESS -- Memory range set successfuly.
+**   CFE_PSP_SUCCESS -- Memory range set successfully.
 **   CFE_PSP_INVALID_MEM_RANGE -- The index into the table is invalid
 **   CFE_PSP_INVALID_MEM_ADDR -- Starting address is not valid
 **   CFE_PSP_INVALID_MEM_TYPE -- Memory type associated with the range does not match the passed in type.
@@ -262,7 +262,7 @@ int32 CFE_PSP_MemRangeSet(uint32 RangeNum, uint32 MemoryType, cpuaddr StartAddr,
 **		This function retrieves one of the records in the CFE_PSP_MemoryTable.
 **
 ** Assumptions and Notes:
-**    Becasue the table is fixed size, the entries are accessed by using the integer index.
+**    Because the table is fixed size, the entries are accessed by using the integer index.
 **
 ** Parameters:
 **    RangeNum --   A 32 bit integer ( starting with 0 ) specifying the MemoryTable entry.
@@ -272,7 +272,7 @@ int32 CFE_PSP_MemRangeSet(uint32 RangeNum, uint32 MemoryType, cpuaddr StartAddr,
 **                   is stored.
 **    *Size    --    A pointer to the 32 bit integer where the 32 bit size of the memory range
 **                   is stored.
-**    *WordSize --   A pointer to the 32 bit integer where the the minimum addressable size of the range:
+**    *WordSize --   A pointer to the 32 bit integer where the minimum addressable size of the range:
 **                     ( CFE_PSP_MEM_SIZE_BYTE, CFE_PSP_MEM_SIZE_WORD, CFE_PSP_MEM_SIZE_DWORD )
 **    Attributes -- The attributes of the Memory Range:
 **                     (CFE_PSP_MEM_ATTR_WRITE, CFE_PSP_MEM_ATTR_READ, CFE_PSP_MEM_ATTR_READWRITE)
@@ -282,7 +282,7 @@ int32 CFE_PSP_MemRangeSet(uint32 RangeNum, uint32 MemoryType, cpuaddr StartAddr,
 ** Global Outputs: Changes CFE_PSP_MemoryTable
 **
 ** Return Values:
-**   CFE_PSP_SUCCESS -- Memory range returned successfuly.
+**   CFE_PSP_SUCCESS -- Memory range returned successfully.
 **   CFE_PSP_INVALID_POINTER   -- Parameter error
 **   CFE_PSP_INVALID_MEM_RANGE -- The index into the table is invalid
 */

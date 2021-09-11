@@ -19,9 +19,9 @@ I. Setting up and compiling RTEMS BSP
 
 1) install RTEMS toolchain for i386-rtems4.11 (or relevant target arch) into /opt/rtems-4.11
 
-The RTEMS official docs have instructions for this, which should supercede anything here.
+The RTEMS official docs have instructions for this, which should supersede anything here.
 
-Basic use of the the "rtems source builder" tool which works at the time of this writing:
+Basic use of the "rtems source builder" tool which works at the time of this writing:
 OFFICIAL RTEMS SOURCE BUILDER CLONE URL: git://git.rtems.org/rtems-source-builder.git
 
 

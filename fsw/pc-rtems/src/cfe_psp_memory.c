@@ -26,7 +26,7 @@
 ** Purpose:
 **   cFE PSP Memory related functions. This is the implementation of the cFE
 **   memory areas that have to be preserved, and the API that is designed to allow
-**   acccess to them. It also contains memory related routines to return the
+**   access to them. It also contains memory related routines to return the
 **   address of the kernel code used in the cFE checksum.
 **
 ** History:
@@ -373,7 +373,7 @@ void CFE_PSP_SetupReservedMemoryMap(void)
     RequiredSize += CDSSize;
     RequiredSize += UserReservedSize;
 
-    OS_printf("Sizeof BSP reserved memory = %u bytes\n", (unsigned int)RequiredSize);
+    OS_printf("Size of BSP reserved memory = %u bytes\n", (unsigned int)RequiredSize);
 
     PcRtems_ReservedMemBlock.BlockPtr = malloc(RequiredSize);
 
@@ -421,7 +421,7 @@ void CFE_PSP_SetupReservedMemoryMap(void)
 
     /*
      * Set up the "RAM" entry in the memory table.
-     * On RTEMS this is just encompasses the entire memory space, but an entry needs
+     * On RTEMS this just encompasses the entire memory space, but an entry needs
      * to exist so that CFE_PSP_ValidateMemRange() works as intended.
      */
     CFE_PSP_MemRangeSet(0, CFE_PSP_MEM_RAM, 0, SIZE_MAX, CFE_PSP_MEM_SIZE_DWORD, CFE_PSP_MEM_ATTR_READWRITE);
@@ -480,7 +480,7 @@ int32 CFE_PSP_GetKernelTextSegmentInfo(cpuaddr *PtrToKernelSegment, uint32 *Size
         /*
         ** Get the kernel start and end
         ** addresses from the BSP, because the
-        ** symbol table does not contain the symbls we need for this
+        ** symbol table does not contain the symbols we need for this
         */
         StartAddress = (cpuaddr)0x0;
         EndAddress   = (cpuaddr)0x1024;
@@ -522,7 +522,7 @@ int32 CFE_PSP_GetCFETextSegmentInfo(cpuaddr *PtrToCFESegment, uint32 *SizeOfCFES
         /*
         ** Get the kernel start and end
         ** addresses from the BSP, because the
-        ** symbol table does not contain the symbls we need for this
+        ** symbol table does not contain the symbols we need for this
         */
         StartAddress = (cpuaddr)0x0;
         EndAddress   = (cpuaddr)0x1024;

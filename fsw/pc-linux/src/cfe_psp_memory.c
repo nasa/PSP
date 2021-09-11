@@ -26,7 +26,7 @@
 ** Purpose:
 **   cFE PSP Memory related functions. This is the implementation of the cFE
 **   memory areas that have to be preserved, and the API that is designed to allow
-**   acccess to them. It also contains memory related routines to return the
+**   access to them. It also contains memory related routines to return the
 **   address of the kernel code used in the cFE checksum.
 **
 ** History:
