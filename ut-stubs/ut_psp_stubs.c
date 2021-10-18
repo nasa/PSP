@@ -557,7 +557,7 @@ int32 CFE_PSP_GetCFETextSegmentInfo(cpuaddr *PtrToCFESegment, uint32 *SizeOfCFES
     if (status >= 0)
     {
         UT_GetDataBuffer(UT_KEY(CFE_PSP_GetCFETextSegmentInfo), &TempAddr, &TempSize, NULL);
-        if (*PtrToCFESegment == 0)
+        if (TempAddr == NULL)
         {
             /* Backup -- Set the pointer and size to anything */
             *PtrToCFESegment  = (cpuaddr)&LocalTextSegment;
@@ -602,7 +602,7 @@ int32 CFE_PSP_GetKernelTextSegmentInfo(cpuaddr *PtrToKernelSegment, uint32 *Size
     if (status >= 0)
     {
         UT_GetDataBuffer(UT_KEY(CFE_PSP_GetKernelTextSegmentInfo), &TempAddr, &TempSize, NULL);
-        if (*PtrToKernelSegment == 0)
+        if (TempAddr == NULL)
         {
             /* Backup -- Set the pointer and size to anything */
             *PtrToKernelSegment  = (cpuaddr)&LocalTextSegment;
