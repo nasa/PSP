@@ -10,6 +10,13 @@ This is a collection of APIs abstracting platform specific functionality to be l
 ## Version History
 
 
+### Development Build: v1.6.0-rc4+dev6
+
+- Sleep before exit when printing
+- Check the address in PSP get segment stubs
+- Set Build Baseline for cFS-Caelum-rc4: v1.6.0-rc4
+- See <https://github.com/nasa/PSP/pull/318> and <https://github.com/nasa/cFS/pull/390>
+
 ### Development Build: v1.5.0-rc1+dev124
 
 - Relax strict of check before calling "Init" function of module, only check that module type is not invalid

@@ -142,8 +142,8 @@ void CFE_PSP_InitCDS(void)
     */
     if ((key = ftok(CFE_PSP_CDS_KEY_FILE, 'R')) == -1)
     {
-        OS_printf("CFE_PSP: Cannot Create CDS Shared memory key!\n");
-        exit(-1);
+        perror("CFE_PSP - Cannot Create CDS Shared memory key");
+        CFE_PSP_Panic(CFE_PSP_ERROR);
     }
 
     /*
@@ -151,8 +151,8 @@ void CFE_PSP_InitCDS(void)
     */
     if ((CDSShmId = shmget(key, CFE_PSP_CDS_SIZE, 0644 | IPC_CREAT)) == -1)
     {
-        OS_printf("CFE_PSP: Cannot shmget CDS Shared memory Segment!\n");
-        exit(-1);
+        perror("CFE_PSP - Cannot shmget CDS Shared memory Segment");
+        CFE_PSP_Panic(CFE_PSP_ERROR);
     }
 
     /*
@@ -161,8 +161,8 @@ void CFE_PSP_InitCDS(void)
     CFE_PSP_ReservedMemoryMap.CDSMemory.BlockPtr = shmat(CDSShmId, (void *)0, 0);
     if (CFE_PSP_ReservedMemoryMap.CDSMemory.BlockPtr == (void *)(-1))
     {
-        OS_printf("CFE_PSP: Cannot shmat to CDS Shared memory Segment!\n");
-        exit(-1);
+        perror("CFE_PSP - Cannot shmat to CDS Shared memory Segment");
+        CFE_PSP_Panic(CFE_PSP_ERROR);
     }
 
     CFE_PSP_ReservedMemoryMap.CDSMemory.BlockSize = CFE_PSP_CDS_SIZE;
@@ -346,8 +346,8 @@ void CFE_PSP_InitResetArea(void)
     */
     if ((key = ftok(CFE_PSP_RESET_KEY_FILE, 'R')) == -1)
     {
-        OS_printf("CFE_PSP: Cannot Create Reset Area Shared memory key!\n");
-        exit(-1);
+        perror("CFE_PSP - Cannot Create Reset Area Shared memory key");
+        CFE_PSP_Panic(CFE_PSP_ERROR);
     }
 
     /*
@@ -368,8 +368,8 @@ void CFE_PSP_InitResetArea(void)
     */
     if ((ResetAreaShmId = shmget(key, total_size, 0644 | IPC_CREAT)) == -1)
     {
-        OS_printf("CFE_PSP: Cannot shmget Reset Area Shared memory Segment!\n");
-        exit(-1);
+        perror("CFE_PSP - Cannot shmget Reset Area Shared memory Segment");
+        CFE_PSP_Panic(CFE_PSP_ERROR);
     }
 
     /*
@@ -378,8 +378,8 @@ void CFE_PSP_InitResetArea(void)
     block_addr = (cpuaddr)shmat(ResetAreaShmId, (void *)0, 0);
     if (block_addr == (cpuaddr)(-1))
     {
-        OS_printf("CFE_PSP: Cannot shmat to Reset Area Shared memory Segment!\n");
-        exit(-1);
+        perror("CFE_PSP - Cannot shmat to Reset Area Shared memory Segment");
+        CFE_PSP_Panic(CFE_PSP_ERROR);
     }
 
     FixedBlocksPtr = (CFE_PSP_LinuxReservedAreaFixedLayout_t *)block_addr;
@@ -484,8 +484,8 @@ void CFE_PSP_InitUserReservedArea(void)
     */
     if ((key = ftok(CFE_PSP_RESERVED_KEY_FILE, 'R')) == -1)
     {
-        OS_printf("CFE_PSP: Cannot Create User Reserved Area Shared memory key!\n");
-        exit(-1);
+        perror("CFE_PSP - Cannot Create User Reserved Area Shared memory key");
+        CFE_PSP_Panic(CFE_PSP_ERROR);
     }
 
     /*
@@ -493,8 +493,8 @@ void CFE_PSP_InitUserReservedArea(void)
     */
     if ((UserShmId = shmget(key, CFE_PSP_USER_RESERVED_SIZE, 0644 | IPC_CREAT)) == -1)
     {
-        OS_printf("CFE_PSP: Cannot shmget User Reserved Area Shared memory Segment!\n");
-        exit(-1);
+        perror("CFE_PSP - Cannot shmget User Reserved Area Shared memory Segment");
+        CFE_PSP_Panic(CFE_PSP_ERROR);
     }
 
     /*
@@ -503,8 +503,8 @@ void CFE_PSP_InitUserReservedArea(void)
     CFE_PSP_ReservedMemoryMap.UserReservedMemory.BlockPtr = shmat(UserShmId, (void *)0, 0);
     if (CFE_PSP_ReservedMemoryMap.UserReservedMemory.BlockPtr == (void *)(-1))
     {
-        OS_printf("CFE_PSP: Cannot shmat to User Reserved Area Shared memory Segment!\n");
-        exit(-1);
+        perror("CFE_PSP - Cannot shmat to User Reserved Area Shared memory Segment");
+        CFE_PSP_Panic(CFE_PSP_ERROR);
     }
 
     CFE_PSP_ReservedMemoryMap.UserReservedMemory.BlockSize = CFE_PSP_USER_RESERVED_SIZE;

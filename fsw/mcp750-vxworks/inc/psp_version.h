@@ -29,8 +29,8 @@
 /*
  * Development Build Macro Definitions
  */
-#define CFE_PSP_IMPL_BUILD_NUMBER   124
-#define CFE_PSP_IMPL_BUILD_BASELINE "v1.5.0-rc1"
+#define CFE_PSP_IMPL_BUILD_NUMBER   4
+#define CFE_PSP_IMPL_BUILD_BASELINE "v1.6.0-rc1"
 
 /*
  * Version Macro Definitions
@@ -38,11 +38,16 @@
 #define CFE_PSP_IMPL_MAJOR_VERSION 1 /*!< @brief ONLY APPLY for OFFICIAL releases. Major version number. */
 #define CFE_PSP_IMPL_MINOR_VERSION 4 /*!< @brief ONLY APPLY for OFFICIAL releases. Minor version number. */
 #define CFE_PSP_IMPL_REVISION      0 /*!< @brief ONLY APPLY for OFFICIAL releases. Revision number. */
-#define CFE_PSP_IMPL_MISSION_REV                                                                                      \
-    99 /*!< @brief ONLY APPLY for OFFICIAL releases. Revision version number. A value of "99" indicates an unreleased \
-          development version.  */
 
-#define CFE_PSP_IMPL_CODENAME "Bootes"
+/*!
+ * @brief Mission revision.
+ *
+ * Set to 0 on OFFICIAL releases, and set to 255 (0xFF) on development versions.
+ * Values 1-254 are reserved for mission use to denote patches/customizations as needed.
+ */
+#define CFE_PSP_IMPL_MISSION_REV 0xFF
+
+#define CFE_PSP_IMPL_CODENAME "Draco"
 
 /*
  * Tools to construct version string
@@ -61,8 +66,8 @@
  *  @details Reports the current development build's baseline, number, and name. Also includes a note about the latest
  * official version. @n See @ref cfsversions for format differences between development and release versions.
  */
-#define CFE_PSP_IMPL_VERSION_STRING                                                       \
-    " PSP Development Build " CFE_PSP_IMPL_VERSION /* Codename for current development */ \
-    ", Last Official Release: psp v1.4.0"          /* For full support please use this version */
+#define CFE_PSP_IMPL_VERSION_STRING                \
+    " PSP DEVELOPMENT BUILD " CFE_PSP_IMPL_VERSION \
+    ", Last Official Release: psp v1.4.0" /* For full support please use this version */
 
 #endif /* _psp_version_ */
