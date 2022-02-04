@@ -11,14 +11,14 @@
  */
 
 /**
- * \file     PCS_vxWorks.h
+ * \file
  * \ingroup  ut-stubs
  * \author   joseph.p.hickey@nasa.gov
  * PSP coverage stub replacement for vxWorks.h
  */
 
-#ifndef INCLUDE_OCS_VXWORKS_H_
-#define INCLUDE_OCS_VXWORKS_H_
+#ifndef PCS_VXWORKS_H
+#define PCS_VXWORKS_H
 
 #include "PCS_basetypes.h"
 
@@ -68,4 +68,4 @@ typedef void (*PCS_VOIDFUNCPTR)(void);
 /* prototypes normally declared in vxWorks.h */
 /* ----------------------------------------- */
 
-#endif /* INCLUDE_OCS_VXWORKS_H_ */
+#endif

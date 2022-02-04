@@ -1,6 +1,6 @@
 /* PSP coverage stub replacement for esfPpc.h */
-#ifndef _PSP_STUB_ESFPPC_H_
-#define _PSP_STUB_ESFPPC_H_
+#ifndef PCS_ARCH_PPC_ESFPPC_H
+#define PCS_ARCH_PPC_ESFPPC_H
 
 #include "PCS_basetypes.h"
 
@@ -21,4 +21,4 @@ typedef struct
     uint32_t pad[32];
 } PCS_ESFPPC;
 
-#endif /* _PSP_STUB_ESFPPC_H_ */
+#endif

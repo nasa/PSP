@@ -9,8 +9,8 @@
  */
 
 /* PSP coverage stub replacement for usrLib.h */
-#ifndef _PSP_OVERRIDE_USRLIB_H_
-#define _PSP_OVERRIDE_USRLIB_H_
+#ifndef OVERRIDE_USRLIB_H
+#define OVERRIDE_USRLIB_H
 
 #include "PCS_usrLib.h"
 #include <vxWorks.h>
@@ -19,4 +19,4 @@
 /* mappings for declarations in usrLib.h */
 /* ----------------------------------------- */
 
-#endif /* _PSP_OVERRIDE_USRLIB_H_ */
+#endif

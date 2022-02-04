@@ -9,8 +9,8 @@
  */
 
 /* PSP coverage stub replacement for drv/hdisk/ataDrv.h */
-#ifndef _PSP_OVERRIDE_DRV_HDISK_ATADRV_H_
-#define _PSP_OVERRIDE_DRV_HDISK_ATADRV_H_
+#ifndef OVERRIDE_DRV_HDISK_ATADRV_H
+#define OVERRIDE_DRV_HDISK_ATADRV_H
 
 #include "PCS_drv_hdisk_ataDrv.h"
 #include <vxWorks.h>
@@ -22,4 +22,4 @@
 #define ataDevCreate    PCS_ataDevCreate
 #define ataXbdDevCreate PCS_ataXbdDevCreate
 
-#endif /* _PSP_OVERRIDE_DRV_HDISK_ATADRV_H_ */
+#endif

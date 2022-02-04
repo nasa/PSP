@@ -9,8 +9,8 @@
  */
 
 /* PSP coverage stub replacement for errnoLib.h */
-#ifndef _PSP_OVERRIDE_ERRNOLIB_H_
-#define _PSP_OVERRIDE_ERRNOLIB_H_
+#ifndef OVERRIDE_ERRNOLIB_H
+#define OVERRIDE_ERRNOLIB_H
 
 #include "PCS_errnoLib.h"
 #include <vxWorks.h>
@@ -20,4 +20,4 @@
 /* -----------------------------------------  */
 #define errnoGet PCS_errnoGet
 
-#endif /* _PSP_OVERRIDE_ERRNOLIB_H_ */
+#endif

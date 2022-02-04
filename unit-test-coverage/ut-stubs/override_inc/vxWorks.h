@@ -11,14 +11,14 @@
  */
 
 /**
- * \file     vxWorks.h
+ * \file
  * \ingroup  ut-stubs
  * \author   joseph.p.hickey@nasa.gov
  *
  */
 
-#ifndef INCLUDE_VXWORKS_H_
-#define INCLUDE_VXWORKS_H_
+#ifndef OVERRIDE_VXWORKS_H
+#define OVERRIDE_VXWORKS_H
 
 #include "PCS_vxWorks.h"
 
@@ -47,4 +47,4 @@
 
 #define _Vx_usr_arg_t PCS_Vx_usr_arg_t
 
-#endif /* INCLUDE_VXWORKS_H_ */
+#endif

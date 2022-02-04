@@ -11,14 +11,14 @@
  */
 
 /**
- * \file     ut-adaptor-bootrec.h
+ * \file
  * \ingroup  adaptors
  * \author   joseph.p.hickey@nasa.gov
  *
  */
 
-#ifndef INCLUDE_UT_ADAPTOR_BOOTREC_H_
-#define INCLUDE_UT_ADAPTOR_BOOTREC_H_
+#ifndef UT_ADAPTOR_BOOTREC_H
+#define UT_ADAPTOR_BOOTREC_H
 
 #include "common_types.h"
 
@@ -26,4 +26,4 @@ void   UT_Setup_ReservedMem_BootRec(void);
 uint32 UT_Get_ReservedMem_BootType(void);
 void   UT_Set_ReservedMem_BootType(uint32 reset_type);
 
-#endif /* INCLUDE_UT_ADAPTOR_BOOTREC_H_ */
+#endif

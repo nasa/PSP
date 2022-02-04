@@ -9,8 +9,8 @@
  */
 
 /* PSP coverage stub replacement for sysLib.h */
-#ifndef _PSP_OVERRIDE_SYSLIB_H_
-#define _PSP_OVERRIDE_SYSLIB_H_
+#ifndef OVERRIDE_SYSLIB_H
+#define OVERRIDE_SYSLIB_H
 
 #include "PCS_sysLib.h"
 #include <vxWorks.h>
@@ -35,4 +35,4 @@
 #define GetWrsKernelTextStart PCS_GetWrsKernelTextStart
 #define GetWrsKernelTextEnd   PCS_GetWrsKernelTextEnd
 
-#endif /* _PSP_OVERRIDE_SYSLIB_H_ */
+#endif

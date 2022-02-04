@@ -9,8 +9,8 @@
  */
 
 /* PSP coverage stub replacement for stdio.h */
-#ifndef _PSP_OVERRIDE_STDIO_H_
-#define _PSP_OVERRIDE_STDIO_H_
+#ifndef OVERRIDE_STDIO_H
+#define OVERRIDE_STDIO_H
 
 #include "PCS_stdio.h"
 
@@ -34,4 +34,4 @@
 #define stdout PCS_stdout
 #define stderr PCS_stderr
 
-#endif /* _PSP_OVERRIDE_STDIO_H_ */
+#endif

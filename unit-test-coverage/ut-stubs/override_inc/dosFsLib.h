@@ -9,8 +9,8 @@
  */
 
 /* PSP coverage stub replacement for dosFsLib.h */
-#ifndef _PSP_OVERRIDE_DOSFSLIB_H_
-#define _PSP_OVERRIDE_DOSFSLIB_H_
+#ifndef OVERRIDE_DOSFSLIB_H
+#define OVERRIDE_DOSFSLIB_H
 
 #include "PCS_dosFsLib.h"
 #include <vxWorks.h>
@@ -26,4 +26,4 @@
 
 #define dosFsVolFormat PCS_dosFsVolFormat
 
-#endif /* _PSP_OVERRIDE_DOSFSLIB_H_ */
+#endif

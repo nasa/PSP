@@ -17,8 +17,8 @@
  * Stub for "cfe_psp_config.h" to use with coverage testing
  */
 
-#ifndef COVERAGETEST_CFE_PSP_CONFIG_H
-#define COVERAGETEST_CFE_PSP_CONFIG_H
+#ifndef CFE_PSP_CONFIG_H
+#define CFE_PSP_CONFIG_H
 
 #define CFE_PSP_VX_TIMEBASE_PERIOD_NUMERATOR   (UT_PSP_TIMEBASE_VXWORKS_TESTCONFIG.PeriodNumerator)
 #define CFE_PSP_VX_TIMEBASE_PERIOD_DENOMINATOR (UT_PSP_TIMEBASE_VXWORKS_TESTCONFIG.PeriodDenominator)
@@ -32,4 +32,4 @@ typedef struct
 
 extern UT_PSP_TimeBase_VxWorks_TestConfig_t UT_PSP_TIMEBASE_VXWORKS_TESTCONFIG;
 
-#endif /* COVERAGETEST_CFE_PSP_CONFIG_H */
+#endif

@@ -9,8 +9,8 @@
  */
 
 /* PSP coverage stub replacement for excLib.h */
-#ifndef _PSP_OVERRIDE_EXCLIB_H_
-#define _PSP_OVERRIDE_EXCLIB_H_
+#ifndef OVERRIDE_EXCLIB_H
+#define OVERRIDE_EXCLIB_H
 
 #include <vxWorks.h>
 #include "PCS_excLib.h"
@@ -20,4 +20,4 @@
 /* -----------------------------------------  */
 #define excHookAdd PCS_excHookAdd
 
-#endif /* _PSP_OVERRIDE_EXCLIB_H_ */
+#endif

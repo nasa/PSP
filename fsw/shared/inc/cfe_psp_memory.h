@@ -19,8 +19,6 @@
 */
 
 /*
-**  File Name:  cfe_psp_memory.h
-**
 **  Author:  A. Cudmore
 **
 **  Purpose:  This file contains PSP support routine internal prototypes
@@ -31,8 +29,8 @@
 **
 */
 
-#ifndef _cfe_psp_memory_
-#define _cfe_psp_memory_
+#ifndef CFE_PSP_MEMORY_H
+#define CFE_PSP_MEMORY_H
 
 /*
 ** Include Files
@@ -120,4 +118,4 @@ extern void CFE_PSP_DeleteProcessorReservedMemory(void);
 */
 extern CFE_PSP_ReservedMemoryMap_t CFE_PSP_ReservedMemoryMap;
 
-#endif /* _cfe_psp_memory_ */
+#endif

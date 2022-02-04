@@ -11,14 +11,14 @@
  */
 
 /**
- * \file     psp-shared-coveragetest.h
+ * \file
  * \ingroup  vxworks
  * \author   joseph.p.hickey@nasa.gov
  *
  */
 
-#ifndef INCLUDE_PSP_SHARED_COVERAGETEST_H_
-#define INCLUDE_PSP_SHARED_COVERAGETEST_H_
+#ifndef COVERAGETEST_PSP_SHARED_H
+#define COVERAGETEST_PSP_SHARED_H
 
 #include "utassert.h"
 #include "uttest.h"
@@ -29,4 +29,4 @@ void Test_CFE_PSP_Exception_GetNextContextBuffer(void);
 void Test_CFE_PSP_Exception_GetSummary(void);
 void Test_CFE_PSP_Exception_CopyContext(void);
 
-#endif /* INCLUDE_PSP_SHARED_COVERAGETEST_H_ */
+#endif

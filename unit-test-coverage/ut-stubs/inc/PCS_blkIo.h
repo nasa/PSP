@@ -9,8 +9,8 @@
  */
 
 /* PSP coverage stub basic data types */
-#ifndef _PSP_STUB_BLKIO_H_
-#define _PSP_STUB_BLKIO_H_
+#ifndef PCS_BLKIO_H
+#define PCS_BLKIO_H
 
 #include "PCS_basetypes.h"
 #include "PCS_vxWorks.h"
@@ -22,4 +22,4 @@ typedef struct PCS_BLK_DEV
 } PCS_BLK_DEV;
 typedef PCS_BLK_DEV *PCS_BLK_DEV_ID;
 
-#endif /* _PSP_STUB_BLKIO_H_ */
+#endif

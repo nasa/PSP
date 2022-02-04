@@ -1,6 +1,6 @@
 /* PSP coverage stub replacement for sys/types.h */
-#ifndef _PSP_STUB_SYS_TYPES_H_
-#define _PSP_STUB_SYS_TYPES_H_
+#ifndef PCS_SYS_TYPES_H
+#define PCS_SYS_TYPES_H
 
 #include "PCS_basetypes.h"
 
@@ -23,4 +23,4 @@ typedef int          PCS_uid_t;
 /* prototypes normally declared in sys/types.h */
 /* ----------------------------------------- */
 
-#endif /* _PSP_STUB_SYS_TYPES_H_ */
+#endif

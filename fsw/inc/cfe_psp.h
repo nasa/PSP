@@ -19,8 +19,6 @@
 */
 
 /*
-**  File Name:  cfe_psp.h
-**
 **  Author:  A. Cudmore
 **
 **  Purpose:  This file contains the cFE Platform Support Package(PSP)
@@ -33,8 +31,8 @@
 **
 */
 
-#ifndef _cfe_psp_
-#define _cfe_psp_
+#ifndef CFE_PSP_H
+#define CFE_PSP_H
 
 /*
 ** Include Files
@@ -490,4 +488,4 @@ void CFE_PSP_GetVersionNumber(uint8 VersionNumbers[4]);
  */
 uint32 CFE_PSP_GetBuildNumber(void);
 
-#endif /* _cfe_psp_ */
+#endif

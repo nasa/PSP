@@ -1,6 +1,6 @@
 /* PSP coverage stub replacement for rebootLib.h */
-#ifndef _PSP_STUB_REBOOTLIB_H_
-#define _PSP_STUB_REBOOTLIB_H_
+#ifndef PCS_REBOOTLIB_H
+#define PCS_REBOOTLIB_H
 
 #include "PCS_basetypes.h"
 
@@ -19,4 +19,4 @@
 /* ----------------------------------------- */
 extern void PCS_reboot(int);
 
-#endif /* _PSP_STUB_REBOOTLIB_H_ */
+#endif

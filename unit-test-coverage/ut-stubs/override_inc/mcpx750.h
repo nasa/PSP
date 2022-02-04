@@ -9,8 +9,8 @@
  */
 
 /* PSP coverage stub replacement for mcpx750.h */
-#ifndef _PSP_OVERRIDE_MCPX750_H_
-#define _PSP_OVERRIDE_MCPX750_H_
+#ifndef OVERRIDE_MCPX750_H
+#define OVERRIDE_MCPX750_H
 
 #include "PCS_mcpx750.h"
 
@@ -30,4 +30,4 @@
 #define sysPciWrite32 PCS_sysPciWrite32
 #define sysPciRead32  PCS_sysPciRead32
 
-#endif /* _PSP_OVERRIDE_MCPX750_H_ */
+#endif

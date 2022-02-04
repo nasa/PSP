@@ -1,6 +1,6 @@
 /* PSP coverage stub replacement for usrLib.h */
-#ifndef _PSP_STUB_USRLIB_H_
-#define _PSP_STUB_USRLIB_H_
+#ifndef PCS_USRLIB_H
+#define PCS_USRLIB_H
 
 #include "PCS_basetypes.h"
 #include "PCS_vxWorks.h"
@@ -17,4 +17,4 @@
 /* prototypes normally declared in usrLib.h */
 /* ----------------------------------------- */
 
-#endif /* _PSP_STUB_USRLIB_H_ */
+#endif

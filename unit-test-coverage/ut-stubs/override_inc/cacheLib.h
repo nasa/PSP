@@ -9,8 +9,8 @@
  */
 
 /* PSP coverage stub replacement for cacheLib.h */
-#ifndef _PSP_OVERRIDE_CACHELIB_H_
-#define _PSP_OVERRIDE_CACHELIB_H_
+#ifndef OVERRIDE_CACHELIB_H
+#define OVERRIDE_CACHELIB_H
 
 #include "PCS_cacheLib.h"
 
@@ -19,4 +19,4 @@
 /* ----------------------------------------- */
 #define cacheTextUpdate PCS_cacheTextUpdate
 
-#endif /* _PSP_OVERRIDE_CACHELIB_H_ */
+#endif

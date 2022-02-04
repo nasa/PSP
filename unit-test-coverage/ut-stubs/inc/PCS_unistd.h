@@ -1,6 +1,6 @@
 /* PSP coverage stub replacement for unistd.h */
-#ifndef _PSP_STUB_UNISTD_H_
-#define _PSP_STUB_UNISTD_H_
+#ifndef PCS_UNISTD_H
+#define PCS_UNISTD_H
 
 #include "PCS_basetypes.h"
 #include "PCS_sys_types.h"
@@ -36,4 +36,4 @@ extern int         PCS_rmdir(const char *path);
 extern long int    PCS_sysconf(int name);
 extern PCS_ssize_t PCS_write(int fd, const void *buf, size_t n);
 
-#endif /* _PSP_STUB_UNISTD_H_ */
+#endif
