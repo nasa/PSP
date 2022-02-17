@@ -11,7 +11,7 @@
  */
 
 /**
- * \file     vxWorks.h
+ * \file
  * \ingroup  ut-stubs
  * \author   joseph.p.hickey@nasa.gov
  *

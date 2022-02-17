@@ -11,7 +11,7 @@
  */
 
 /**
- * \file     PCS_vxWorks.h
+ * \file
  * \ingroup  ut-stubs
  * \author   joseph.p.hickey@nasa.gov
  * PSP coverage stub replacement for vxWorks.h

@@ -11,7 +11,7 @@
  */
 
 /**
- * \file     psp-mcp750-vxworks-coveragetest.h
+ * \file
  * \ingroup  vxworks
  * \author   joseph.p.hickey@nasa.gov
  *

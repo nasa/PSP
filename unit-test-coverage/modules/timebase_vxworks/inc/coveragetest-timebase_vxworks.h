@@ -11,7 +11,7 @@
  */
 
 /**
- * \file     psp-shared-coveragetest.h
+ * \file
  * \ingroup  vxworks
  * \author   joseph.p.hickey@nasa.gov
  *

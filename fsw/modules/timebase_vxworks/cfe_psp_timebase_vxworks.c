@@ -19,7 +19,7 @@
 */
 
 /**
- * \file cfe_psp_timebase_vxworks.c
+ * \file
  *
  * A PSP module to implement the PSP time API via the VxWorks
  * vxTimeBaseGet() routine.  The VxWorks timebase is a 64 bit

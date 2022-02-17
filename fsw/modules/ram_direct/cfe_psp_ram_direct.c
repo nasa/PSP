@@ -19,7 +19,7 @@
 */
 
 /**
- * \file cfe_psp_ram_direct.c
+ * \file
  *
  * A PSP module to satisfy the "RAM" API on systems which
  * can access physical memory directly.

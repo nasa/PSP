@@ -19,7 +19,7 @@
 */
 
 /**
- * \file cfe_psp_port_notimpl.c
+ * \file
  *
  * A PSP module to satisfy the "Port" API on systems which
  * do not have or otherwise cannot access I/O ports.

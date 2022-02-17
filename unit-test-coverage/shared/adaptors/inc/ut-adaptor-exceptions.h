@@ -11,7 +11,7 @@
  */
 
 /**
- * \file     ut-adaptor-exceptions.h
+ * \file
  * \ingroup  adaptors
  * \author   joseph.p.hickey@nasa.gov
  *
