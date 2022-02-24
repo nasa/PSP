@@ -19,7 +19,7 @@
 */
 
 /**
- * \file cfe_psp_ram_notimpl.c
+ * \file
  *
  * A PSP module to satisfy the "RAM" API on systems which
  * cannot access physical memory directly.

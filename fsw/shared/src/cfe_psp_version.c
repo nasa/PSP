@@ -19,7 +19,7 @@
 */
 
 /**
- * \file cfe_psp_version.c
+ * \file
  *
  * Defines API that obtains the values of the various version identifiers
  */

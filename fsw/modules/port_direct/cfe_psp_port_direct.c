@@ -19,7 +19,7 @@
 */
 
 /**
- * \file cfe_psp_port_direct.c
+ * \file
  *
  * A PSP module to satisfy the "PORT" API on systems which
  * can access I/O ports directly via memory mapped addresses.

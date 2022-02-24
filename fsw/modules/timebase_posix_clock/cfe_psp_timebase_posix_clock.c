@@ -19,7 +19,7 @@
 */
 
 /**
- * \file cfe_psp_timebase_posix_clock.c
+ * \file
  *
  * A PSP module to satisfy the PSP time API on systems which
  * do not have a hardware clock register, but do provide a POSIX

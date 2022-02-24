@@ -19,7 +19,7 @@
 */
 
 /**
- * \file cfe_psp_module.h
+ * \file
  *
  *  Created on: Jul 17, 2015
  *      Author: joseph.p.hickey@nasa.gov

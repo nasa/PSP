@@ -19,7 +19,7 @@
 */
 
 /**
- * \file cfe_psp_soft_timebase.c
+ * \file
  *
  * A PSP module that instantiates an RTOS-backed OSAL timebase to provide
  * various timing services.  This in turn may be used to drive CFE TIME 1Hz

@@ -19,7 +19,7 @@
 */
 
 /**
- * \file cfe_psp_exceptionstorage_types.h
+ * \file
  *
  * Provides a generic storage buffer ring for exceptions
  */
