@@ -1,6 +1,6 @@
 /* PSP coverage stub replacement for errnoLib.h */
-#ifndef _PSP_STUB_ERRNOLIB_H_
-#define _PSP_STUB_ERRNOLIB_H_
+#ifndef PCS_ERRNOLIB_H
+#define PCS_ERRNOLIB_H
 
 #include "PCS_basetypes.h"
 #include "PCS_vxWorks.h"
@@ -19,4 +19,4 @@
 
 extern int PCS_errnoGet(void);
 
-#endif /* _PSP_STUB_ERRNOLIB_H_ */
+#endif

@@ -18,13 +18,8 @@
 **  limitations under the License.
 */
 
-/*
-** cfe_psp_config.h
-**
-*/
-
-#ifndef _cfe_psp_config_
-#define _cfe_psp_config_
+#ifndef CFE_PSP_CONFIG_H
+#define CFE_PSP_CONFIG_H
 
 #include "common_types.h"
 #include <rtems.h>

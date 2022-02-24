@@ -18,13 +18,13 @@
 **  limitations under the License.
 */
 
-/*! @file pc-linux/inc/psp_version.h
+/*! @file
  *  @brief Purpose:
  *  @details Provide version identifiers for the cFE Platform Support Packages (PSP).
  *  See @ref cfsversions for version and build number and description
  */
-#ifndef _psp_version_
-#define _psp_version_
+#ifndef PSP_VERSION_H
+#define PSP_VERSION_H
 
 /*
  * Development Build Macro Definitions
@@ -70,4 +70,4 @@
     " PSP DEVELOPMENT BUILD " CFE_PSP_IMPL_VERSION \
     ", Last Official Release: psp v1.4.0" /* For full support please use this version */
 
-#endif /* _psp_version_ */
+#endif

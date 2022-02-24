@@ -9,8 +9,8 @@
  */
 
 /* PSP coverage stub replacement for vxPpcLib.h */
-#ifndef _PSP_OVERRIDE_VXPPCLIB_H_
-#define _PSP_OVERRIDE_VXPPCLIB_H_
+#ifndef OVERRIDE_VXPPCLIB_H
+#define OVERRIDE_VXPPCLIB_H
 
 #include "PCS_arch_ppc_vxPpcLib.h"
 
@@ -48,4 +48,4 @@
 #define vxFpscrGet PCS_vxFpscrGet
 #define vxDecGet   PCS_vxDecGet
 
-#endif /* _PSP_OVERRIDE_VXPPCLIB_H_ */
+#endif

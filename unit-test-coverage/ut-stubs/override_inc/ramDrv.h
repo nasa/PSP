@@ -9,8 +9,8 @@
  */
 
 /* PSP coverage stub replacement for ramDrv.h */
-#ifndef _PSP_OVERRIDE_RAMDRV_H_
-#define _PSP_OVERRIDE_RAMDRV_H_
+#ifndef OVERRIDE_RAMDRV_H
+#define OVERRIDE_RAMDRV_H
 
 #include "PCS_ramDrv.h"
 #include <vxWorks.h>
@@ -22,4 +22,4 @@
 
 #define ramDevCreate PCS_ramDevCreate
 
-#endif /* _PSP_OVERRIDE_RAMDRV_H_ */
+#endif

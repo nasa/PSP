@@ -1,6 +1,6 @@
 /* PSP coverage stub replacement for moduleLib.h */
-#ifndef _PSP_STUB_MODULELIB_H_
-#define _PSP_STUB_MODULELIB_H_
+#ifndef PCS_MODULELIB_H
+#define PCS_MODULELIB_H
 
 #include "PCS_basetypes.h"
 #include "PCS_vxWorks.h"
@@ -39,4 +39,4 @@ typedef struct PCS_MODULE_INFO
 extern PCS_STATUS    PCS_moduleInfoGet(PCS_MODULE_ID moduleId, PCS_MODULE_INFO *pModuleInfo);
 extern PCS_MODULE_ID PCS_moduleFindByName(const char *moduleName);
 
-#endif /* _PSP_STUB_MODULELIB_H_ */
+#endif

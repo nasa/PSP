@@ -9,8 +9,8 @@
  */
 
 /* PSP coverage stub replacement for unistd.h */
-#ifndef _PSP_OVERRIDE_UNISTD_H_
-#define _PSP_OVERRIDE_UNISTD_H_
+#ifndef OVERRIDE_UNISTD_H
+#define OVERRIDE_UNISTD_H
 
 #include "PCS_unistd.h"
 
@@ -37,4 +37,4 @@
 #define sysconf     PCS_sysconf
 #define write       PCS_write
 
-#endif /* _PSP_OVERRIDE_UNISTD_H_ */
+#endif

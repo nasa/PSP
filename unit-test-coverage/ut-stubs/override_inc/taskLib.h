@@ -9,8 +9,8 @@
  */
 
 /* PSP coverage stub replacement for taskLib.h */
-#ifndef _PSP_OVERRIDE_TASKLIB_H_
-#define _PSP_OVERRIDE_TASKLIB_H_
+#ifndef OVERRIDE_TASKLIB_H
+#define OVERRIDE_TASKLIB_H
 
 #include "PCS_taskLib.h"
 #include <vxWorks.h>
@@ -43,4 +43,4 @@
 #define taskInit        PCS_taskInit
 #define taskTcb         PCS_taskTcb
 
-#endif /* _PSP_OVERRIDE_TASKLIB_H_ */
+#endif

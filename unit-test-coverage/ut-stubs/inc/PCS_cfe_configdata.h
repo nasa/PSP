@@ -1,5 +1,5 @@
-#ifndef _PSP_STUB_CFE_CONFIGDATA_H_
-#define _PSP_STUB_CFE_CONFIGDATA_H_
+#ifndef PCS_CFE_CONFIGDATA_H
+#define PCS_CFE_CONFIGDATA_H
 
 #include "PCS_basetypes.h"
 
@@ -28,4 +28,4 @@ void PCS_System1HzISR(void);
  */
 void PCS_SystemNotify(void);
 
-#endif /* _PSP_STUB_CFE_CONFIGDATA_H_ */
+#endif

@@ -1,6 +1,6 @@
 /* PSP coverage stub replacement for vxLib.h */
-#ifndef _PSP_STUB_VXLIB_H_
-#define _PSP_STUB_VXLIB_H_
+#ifndef PCS_VXLIB_H
+#define PCS_VXLIB_H
 
 #include "PCS_basetypes.h"
 
@@ -16,4 +16,4 @@
 /* prototypes normally declared in vxLib.h */
 /* ----------------------------------------- */
 
-#endif /* _PSP_STUB_VXLIB_H_ */
+#endif

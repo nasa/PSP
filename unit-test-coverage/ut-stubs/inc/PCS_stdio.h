@@ -1,6 +1,6 @@
 /* PSP coverage stub replacement for stdio.h */
-#ifndef _PSP_STUB_STDIO_H_
-#define _PSP_STUB_STDIO_H_
+#ifndef PCS_STDIO_H
+#define PCS_STDIO_H
 
 #include "PCS_basetypes.h"
 #include "PCS_stdarg.h"
@@ -33,4 +33,4 @@ extern PCS_FILE *PCS_stdin;
 extern PCS_FILE *PCS_stdout;
 extern PCS_FILE *PCS_stderr;
 
-#endif /* _PSP_STUB_STDIO_H_ */
+#endif

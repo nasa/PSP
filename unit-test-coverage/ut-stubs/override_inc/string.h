@@ -9,8 +9,8 @@
  */
 
 /* PSP coverage stub replacement for string.h */
-#ifndef _PSP_OVERRIDE_STRING_H_
-#define _PSP_OVERRIDE_STRING_H_
+#ifndef OVERRIDE_STRING_H
+#define OVERRIDE_STRING_H
 
 #include "PCS_string.h"
 
@@ -30,4 +30,4 @@
 #define strncat  PCS_strncat
 #define strerror PCS_strerror
 
-#endif /* _PSP_OVERRIDE_STRING_H_ */
+#endif

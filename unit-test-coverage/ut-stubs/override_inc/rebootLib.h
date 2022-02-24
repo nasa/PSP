@@ -9,8 +9,8 @@
  */
 
 /* PSP coverage stub replacement for rebootLib.h */
-#ifndef _PSP_OVERRIDE_REBOOTLIB_H_
-#define _PSP_OVERRIDE_REBOOTLIB_H_
+#ifndef OVERRIDE_REBOOTLIB_H
+#define OVERRIDE_REBOOTLIB_H
 
 #include "PCS_rebootLib.h"
 
@@ -22,4 +22,4 @@
 
 #define reboot PCS_reboot
 
-#endif /* _PSP_OVERRIDE_REBOOTLIB_H_ */
+#endif

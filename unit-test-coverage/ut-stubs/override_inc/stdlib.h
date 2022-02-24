@@ -9,8 +9,8 @@
  */
 
 /* PSP coverage stub replacement for stdlib.h */
-#ifndef _PSP_OVERRIDE_STDLIB_H_
-#define _PSP_OVERRIDE_STDLIB_H_
+#ifndef OVERRIDE_STDLIB_H
+#define OVERRIDE_STDLIB_H
 
 #include "PCS_stdlib.h"
 
@@ -26,4 +26,4 @@
 #define malloc       PCS_malloc
 #define free         PCS_free
 
-#endif /* _PSP_OVERRIDE_STDLIB_H_ */
+#endif

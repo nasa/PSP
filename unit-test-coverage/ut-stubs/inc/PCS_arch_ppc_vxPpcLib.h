@@ -1,6 +1,6 @@
 /* PSP coverage stub replacement for vxPpcLib.h */
-#ifndef _PSP_STUB_VXPPCLIB_H_
-#define _PSP_STUB_VXPPCLIB_H_
+#ifndef PCS_ARCH_PPC_VXPPCLIB_H
+#define PCS_ARCH_PPC_VXPPCLIB_H
 
 #include "PCS_basetypes.h"
 
@@ -61,4 +61,4 @@ extern void     PCS_vxFpscrSet(uint32_t);
 extern uint32_t PCS_vxFpscrGet(void);
 extern uint32_t PCS_vxDecGet(void);
 
-#endif /* _PSP_STUB_VXPPCLIB_H_ */
+#endif

@@ -1,6 +1,6 @@
 /* PSP coverage stub replacement for fppLib.h */
-#ifndef _PSP_STUB_FPPLIB_H_
-#define _PSP_STUB_FPPLIB_H_
+#ifndef PCS_FPPLIB_H
+#define PCS_FPPLIB_H
 
 #include "PCS_basetypes.h"
 
@@ -22,4 +22,4 @@ typedef struct
 /* ----------------------------------------- */
 extern void PCS_fppSave(PCS_FP_CONTEXT *fpc);
 
-#endif /* _PSP_STUB_FPPLIB_H_ */
+#endif

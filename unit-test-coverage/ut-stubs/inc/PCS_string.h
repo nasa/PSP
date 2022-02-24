@@ -1,6 +1,6 @@
 /* PSP coverage stub replacement for string.h */
-#ifndef _PSP_STUB_STRING_H_
-#define _PSP_STUB_STRING_H_
+#ifndef PCS_STRING_H
+#define PCS_STRING_H
 
 #include "PCS_basetypes.h"
 
@@ -29,4 +29,4 @@ extern char * PCS_strcat(char *dest, const char *src);
 extern char * PCS_strncat(char *dest, const char *src, size_t n);
 extern char * PCS_strerror(int errnum);
 
-#endif /* _PSP_STUB_STRING_H_ */
+#endif

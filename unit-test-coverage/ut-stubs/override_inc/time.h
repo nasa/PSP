@@ -9,9 +9,9 @@
  */
 
 /* PSP coverage stub replacement for time.h */
-#ifndef _PSP_OVERRIDE_TIME_H_
-#define _PSP_OVERRIDE_TIME_H_
+#ifndef OVERRIDE_TIME_H
+#define OVERRIDE_TIME_H
 
 #include "PCS_time.h"
 
-#endif /* _PSP_OVERRIDE_TIME_H_ */
+#endif

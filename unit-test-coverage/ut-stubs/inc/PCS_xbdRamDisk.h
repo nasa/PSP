@@ -1,6 +1,6 @@
 /* PSP coverage stub replacement for xbdRamDisk.h */
-#ifndef _PSP_STUB_XBDRAMDISK_H_
-#define _PSP_STUB_XBDRAMDISK_H_
+#ifndef PCS_XBDRAMDISK_H
+#define PCS_XBDRAMDISK_H
 
 #include "PCS_basetypes.h"
 #include "PCS_vxWorks.h"
@@ -17,4 +17,4 @@
 /* prototypes normally declared in xbdRamDisk.h */
 /* ----------------------------------------- */
 
-#endif /* _PSP_STUB_XBDRAMDISK_H_ */
+#endif

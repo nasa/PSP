@@ -9,8 +9,8 @@
  */
 
 /* PSP coverage stub replacement for moduleLib.h */
-#ifndef _PSP_OVERRIDE_MODULELIB_H_
-#define _PSP_OVERRIDE_MODULELIB_H_
+#ifndef OVERRIDE_MODULELIB_H
+#define OVERRIDE_MODULELIB_H
 
 #include "PCS_moduleLib.h"
 #include <vxWorks.h>
@@ -25,4 +25,4 @@
 #define moduleInfoGet    PCS_moduleInfoGet
 #define moduleFindByName PCS_moduleFindByName
 
-#endif /* _PSP_OVERRIDE_MODULELIB_H_ */
+#endif

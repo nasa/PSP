@@ -1,6 +1,6 @@
 /* PSP coverage stub replacement for time.h */
-#ifndef PSP_STUB_TIME_H
-#define PSP_STUB_TIME_H
+#ifndef PCS_TIME_H
+#define PCS_TIME_H
 
 #include "PCS_basetypes.h"
 
@@ -16,4 +16,4 @@
 /* prototypes normally declared in time.h */
 /* ----------------------------------------- */
 
-#endif /* PSP_STUB_TIME_H */
+#endif
