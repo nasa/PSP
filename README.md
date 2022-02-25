@@ -9,6 +9,12 @@ This is a collection of APIs abstracting platform specific functionality to be l
 
 ## Version History
 
+### Development Build: v1.6.0-rc4+dev14
+
+- Remove explicit filename doxygen comments
+- Apply header guard standard
+- See <https://github.com/nasa/PSP/pull/326> and <https://github.com/nasa/cFS/pull/432>
+
 
 ### Development Build: v1.6.0-rc4+dev6
 
