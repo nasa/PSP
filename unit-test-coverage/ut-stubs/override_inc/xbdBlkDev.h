@@ -9,8 +9,8 @@
  */
 
 /* PSP coverage stub replacement for xbdBlkDev.h */
-#ifndef _PSP_OVERRIDE_XBDBLKDEV_H_
-#define _PSP_OVERRIDE_XBDBLKDEV_H_
+#ifndef OVERRIDE_XBDBLKDEV_H
+#define OVERRIDE_XBDBLKDEV_H
 
 #include "PCS_xbdBlkDev.h"
 #include <vxWorks.h>
@@ -25,4 +25,4 @@
 #define xbdBlkDevCreateSync PCS_xbdBlkDevCreateSync
 #define xbdBlkDevDelete     PCS_xbdBlkDevDelete
 
-#endif /* _PSP_OVERRIDE_XBDBLKDEV_H_ */
+#endif

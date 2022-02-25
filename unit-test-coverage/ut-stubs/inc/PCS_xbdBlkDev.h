@@ -1,6 +1,6 @@
 /* PSP coverage stub replacement for xbdBlkDev.h */
-#ifndef _PSP_STUB_XBDBLKDEV_H_
-#define _PSP_STUB_XBDBLKDEV_H_
+#ifndef PCS_XBDBLKDEV_H
+#define PCS_XBDBLKDEV_H
 
 #include "PCS_basetypes.h"
 #include "PCS_vxWorks.h"
@@ -22,4 +22,4 @@ typedef int PCS_device_t;
 extern PCS_device_t PCS_xbdBlkDevCreateSync(PCS_BLK_DEV *bd, const char *name);
 extern PCS_STATUS   PCS_xbdBlkDevDelete(PCS_device_t dev, PCS_BLK_DEV **ppbd);
 
-#endif /* _PSP_STUB_XBDBLKDEV_H_ */
+#endif

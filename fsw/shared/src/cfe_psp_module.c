@@ -19,7 +19,7 @@
 */
 
 /**
- * \file cfe_psp_module.c
+ * \file
  *
  *  Created on: Jul 25, 2014
  *      Author: jphickey

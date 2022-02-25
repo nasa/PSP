@@ -9,8 +9,8 @@
  */
 
 /* PSP coverage stub basic data types */
-#ifndef _PSP_STUB_BASETYPES_H_
-#define _PSP_STUB_BASETYPES_H_
+#ifndef PCS_BASETYPES_H
+#define PCS_BASETYPES_H
 
 /*
  * NOTE: These header files are intentionally _not_ overridden
@@ -26,4 +26,4 @@
 #include <limits.h>  /* for correct INT_MAX, etc. */
 #include <stdbool.h> /* for correct boolean semantics */
 
-#endif /* _PSP_STUB_BASETYPES_H_ */
+#endif

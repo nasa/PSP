@@ -9,8 +9,8 @@
  */
 
 /* PSP coverage stub replacement for fppLib.h */
-#ifndef _PSP_OVERRIDE_FPPLIB_H_
-#define _PSP_OVERRIDE_FPPLIB_H_
+#ifndef OVERRIDE_FPPLIB_H
+#define OVERRIDE_FPPLIB_H
 
 #include "PCS_fppLib.h"
 
@@ -20,4 +20,4 @@
 #define FP_CONTEXT PCS_FP_CONTEXT
 #define fppSave    PCS_fppSave
 
-#endif /* _PSP_OVERRIDE_FPPLIB_H_ */
+#endif

@@ -9,8 +9,8 @@
  */
 
 /* PSP coverage stub replacement for xbdRamDisk.h */
-#ifndef _PSP_OVERRIDE_XBDRAMDISK_H_
-#define _PSP_OVERRIDE_XBDRAMDISK_H_
+#ifndef OVERRIDE_XBDRAMDISK_H
+#define OVERRIDE_XBDRAMDISK_H
 
 #include "PCS_xbdRamDisk.h"
 #include <vxWorks.h>
@@ -19,4 +19,4 @@
 /* mappings for declarations in xbdRamDisk.h */
 /* ----------------------------------------- */
 
-#endif /* _PSP_OVERRIDE_XBDRAMDISK_H_ */
+#endif

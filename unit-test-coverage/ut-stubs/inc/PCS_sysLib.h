@@ -1,6 +1,6 @@
 /* PSP coverage stub replacement for sysLib.h */
-#ifndef _PSP_STUB_SYSLIB_H_
-#define _PSP_STUB_SYSLIB_H_
+#ifndef PCS_SYSLIB_H
+#define PCS_SYSLIB_H
 
 #include "PCS_basetypes.h"
 #include "PCS_vxWorks.h"
@@ -27,4 +27,4 @@ extern void PCS_sysPciRead32(uint32_t address, uint32_t *data);
 extern unsigned int PCS_GetWrsKernelTextStart(void);
 extern unsigned int PCS_GetWrsKernelTextEnd(void);
 
-#endif /* _PSP_STUB_SYSLIB_H_ */
+#endif

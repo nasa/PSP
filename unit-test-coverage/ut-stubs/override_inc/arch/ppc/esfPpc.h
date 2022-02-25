@@ -9,8 +9,8 @@
  */
 
 /* PSP coverage stub replacement for fenv.h */
-#ifndef _PSP_OVERRIDE_ESFPPC_H_
-#define _PSP_OVERRIDE_ESFPPC_H_
+#ifndef OVERRIDE_ESFPPC_H
+#define OVERRIDE_ESFPPC_H
 
 #include "PCS_arch_ppc_esfPpc.h"
 
@@ -19,4 +19,4 @@
 /* ----------------------------------------- */
 #define ESFPPC PCS_ESFPPC
 
-#endif /* _PSP_OVERRIDE_ESFPPC_H_ */
+#endif

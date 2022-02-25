@@ -19,7 +19,7 @@
 */
 
 /**
- * \file cfe_psp_eeprom_notimpl.c
+ * \file
  *
  * A PSP module to satisfy the "EEPROM" API on systems which
  * do not have an EEPROM or otherwise cannot access it.

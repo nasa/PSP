@@ -1,6 +1,6 @@
 /* PSP coverage stub replacement for stdarg.h */
-#ifndef _PSP_STUB_STDARG_H_
-#define _PSP_STUB_STDARG_H_
+#ifndef PCS_STDARG_H
+#define PCS_STDARG_H
 
 #include "PCS_basetypes.h"
 
@@ -23,4 +23,4 @@ typedef struct
 #define PCS_va_start(ap, last) ap.p = &last
 #define PCS_va_end(ap)
 
-#endif /* _PSP_STUB_STDARG_H_ */
+#endif

@@ -1,6 +1,6 @@
 /* PSP coverage stub replacement for taskLib.h */
-#ifndef _PSP_STUB_TASKLIB_H_
-#define _PSP_STUB_TASKLIB_H_
+#ifndef PCS_TASKLIB_H
+#define PCS_TASKLIB_H
 
 #include "PCS_basetypes.h"
 #include "PCS_vxWorks.h"
@@ -59,4 +59,4 @@ PCS_STATUS PCS_taskInit(PCS_WIND_TCB *pTcb, char *name, int priority, int option
 
 PCS_WIND_TCB *PCS_taskTcb(PCS_TASK_ID tid);
 
-#endif /* _PSP_STUB_TASKLIB_H_ */
+#endif

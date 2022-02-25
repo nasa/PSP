@@ -11,14 +11,14 @@
  */
 
 /**
- * \file     ut-adaptor-exceptions.h
+ * \file
  * \ingroup  adaptors
  * \author   joseph.p.hickey@nasa.gov
  *
  */
 
-#ifndef INCLUDE_UT_ADAPTOR_EXCEPTIONS_H_
-#define INCLUDE_UT_ADAPTOR_EXCEPTIONS_H_
+#ifndef UT_ADAPTOR_EXCEPTIONS_H
+#define UT_ADAPTOR_EXCEPTIONS_H
 
 #include "common_types.h"
 #include "cfe_psp_exceptionstorage_api.h"
@@ -28,4 +28,4 @@ size_t UT_Get_Exception_Size(void);
 uint32 UT_Get_Exception_Id(struct CFE_PSP_Exception_LogData *Buffer);
 void   UT_Generate_Exception_Context(struct CFE_PSP_Exception_LogData *Buffer, size_t Size);
 
-#endif /* INCLUDE_UT_ADAPTOR_EXCEPTIONS_H_ */
+#endif

@@ -11,14 +11,14 @@
  */
 
 /**
- * \file     psp-shared-coveragetest.h
+ * \file
  * \ingroup  vxworks
  * \author   joseph.p.hickey@nasa.gov
  *
  */
 
-#ifndef INCLUDE_PSP_SHARED_COVERAGETEST_H_
-#define INCLUDE_PSP_SHARED_COVERAGETEST_H_
+#ifndef COVERAGETEST_TIMEBASE_VXWORKS_H
+#define COVERAGETEST_TIMEBASE_VXWORKS_H
 
 #include "utassert.h"
 #include "uttest.h"
@@ -26,4 +26,4 @@
 
 void Test_CFE_PSP_Timebase_Vxworks_Init(void);
 
-#endif /* INCLUDE_PSP_SHARED_COVERAGETEST_H_ */
+#endif

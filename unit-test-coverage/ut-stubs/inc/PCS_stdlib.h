@@ -1,6 +1,6 @@
 /* PSP coverage stub replacement for stdlib.h */
-#ifndef _PSP_STUB_STDLIB_H_
-#define _PSP_STUB_STDLIB_H_
+#ifndef PCS_STDLIB_H
+#define PCS_STDLIB_H
 
 #include "PCS_basetypes.h"
 
@@ -25,4 +25,4 @@ extern int               PCS_system(const char *command);
 extern void *            PCS_malloc(size_t sz);
 extern void              PCS_free(void *ptr);
 
-#endif /* _PSP_STUB_STDLIB_H_ */
+#endif

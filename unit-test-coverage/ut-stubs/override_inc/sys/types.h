@@ -9,8 +9,8 @@
  */
 
 /* PSP coverage stub replacement for sys/types.h */
-#ifndef _PSP_OVERRIDE_SYS_TYPES_H_
-#define _PSP_OVERRIDE_SYS_TYPES_H_
+#ifndef OVERRIDE_SYS_TYPES_H
+#define OVERRIDE_SYS_TYPES_H
 
 #include "PCS_sys_types.h"
 
@@ -24,4 +24,4 @@
 #define gid_t   PCS_gid_t
 #define uid_t   PCS_uid_t
 
-#endif /* _PSP_OVERRIDE_SYS_TYPES_H_ */
+#endif

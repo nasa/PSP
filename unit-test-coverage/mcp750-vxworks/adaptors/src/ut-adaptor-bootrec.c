@@ -11,7 +11,7 @@
  */
 
 /**
- * \file     ut-adaptor-bootrec.c
+ * \file
  * \ingroup  adaptors
  * \author   joseph.p.hickey@nasa.gov
  *

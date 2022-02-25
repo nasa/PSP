@@ -1,6 +1,6 @@
 /* PSP coverage stub replacement for dosFsLib.h */
-#ifndef _PSP_STUB_DOSFSLIB_H_
-#define _PSP_STUB_DOSFSLIB_H_
+#ifndef PCS_DOSFSLIB_H
+#define PCS_DOSFSLIB_H
 
 #include "PCS_basetypes.h"
 #include "PCS_vxWorks.h"
@@ -23,4 +23,4 @@
 /* ----------------------------------------- */
 extern PCS_STATUS PCS_dosFsVolFormat(char *path, int opt, PCS_FUNCPTR pPromptFunc);
 
-#endif /* _PSP_STUB_DOSFSLIB_H_ */
+#endif

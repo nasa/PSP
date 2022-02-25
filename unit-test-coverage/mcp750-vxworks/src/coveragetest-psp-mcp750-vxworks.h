@@ -11,14 +11,14 @@
  */
 
 /**
- * \file     psp-mcp750-vxworks-coveragetest.h
+ * \file
  * \ingroup  vxworks
  * \author   joseph.p.hickey@nasa.gov
  *
  */
 
-#ifndef INCLUDE_PSP_MCP750_VXWORKS_COVERAGETEST_H_
-#define INCLUDE_PSP_MCP750_VXWORKS_COVERAGETEST_H_
+#ifndef COVERAGETEST_PSP_MCP750_VXWORKS_H
+#define COVERAGETEST_PSP_MCP750_VXWORKS_H
 
 #include "utassert.h"
 #include "uttest.h"
@@ -48,4 +48,4 @@ void Test_CFE_PSP_GetSpacecraftId(void);
 void Test_OS_Application_Startup(void);
 void Test_OS_Application_Run(void);
 
-#endif /* INCLUDE_PSP_MCP750_VXWORKS_COVERAGETEST_H_ */
+#endif

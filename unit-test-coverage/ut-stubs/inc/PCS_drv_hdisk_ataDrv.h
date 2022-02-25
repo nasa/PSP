@@ -1,6 +1,6 @@
 /* PSP coverage stub replacement for drv/hdisk/ataDrv.h */
-#ifndef _PSP_STUB_DRV_HDISK_ATADRV_H_
-#define _PSP_STUB_DRV_HDISK_ATADRV_H_
+#ifndef PCS_DRV_HDISK_ATADRV_H
+#define PCS_DRV_HDISK_ATADRV_H
 
 #include "PCS_basetypes.h"
 #include "PCS_vxWorks.h"
@@ -20,4 +20,4 @@
 /* ----------------------------------------- */
 extern PCS_device_t PCS_ataXbdDevCreate(int ctrl, int drive, unsigned int nBlks, unsigned int offset, const char *);
 
-#endif /* _PSP_STUB_DRV_HDISK_ATADRV_H_ */
+#endif

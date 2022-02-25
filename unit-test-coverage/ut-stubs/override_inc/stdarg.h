@@ -9,8 +9,8 @@
  */
 
 /* PSP coverage stub replacement for stdarg.h */
-#ifndef _PSP_OVERRIDE_STDARG_H_
-#define _PSP_OVERRIDE_STDARG_H_
+#ifndef OVERRIDE_STDARG_H
+#define OVERRIDE_STDARG_H
 
 #include "PCS_stdarg.h"
 
@@ -22,4 +22,4 @@
 #define va_start(ap, last) PCS_va_start(ap, last)
 #define va_end(ap)         PCS_va_end(ap)
 
-#endif /* _PSP_OVERRIDE_STDARG_H_ */
+#endif

@@ -1,6 +1,6 @@
 /* PSP coverage stub replacement for mcpx750.h */
-#ifndef _PSP_STUB_MCPX750_H_
-#define _PSP_STUB_MCPX750_H_
+#ifndef PCS_MCPX750_H
+#define PCS_MCPX750_H
 
 #include "PCS_basetypes.h"
 
@@ -24,4 +24,4 @@ extern uint32_t *PCS_SYS_REG_BLRR;
 /* prototypes normally declared in mcpx750.h */
 /* ----------------------------------------- */
 
-#endif /* _PSP_STUB_MCPX750_H_ */
+#endif
