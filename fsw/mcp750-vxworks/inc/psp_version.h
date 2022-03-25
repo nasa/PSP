@@ -27,15 +27,15 @@
 /*
  * Development Build Macro Definitions
  */
-#define CFE_PSP_IMPL_BUILD_NUMBER   14
+#define CFE_PSP_IMPL_BUILD_NUMBER   21
 #define CFE_PSP_IMPL_BUILD_BASELINE "v1.6.0-rc4"
 
 /*
  * Version Macros, see \ref cfsversions for definitions.
  */
-#define CFE_PSP_IMPL_MAJOR_VERSION 1  /**< @brief Major version number */
-#define CFE_PSP_IMPL_MINOR_VERSION 4  /**< @brief Minor version number */
-#define CFE_PSP_IMPL_REVISION      99 /**< @brief Revision version number. Value of 99 indicates a development version.*/
+#define CFE_PSP_IMPL_MAJOR_VERSION 1  /*!< @brief Major version number */
+#define CFE_PSP_IMPL_MINOR_VERSION 4  /*!< @brief Minor version number */
+#define CFE_PSP_IMPL_REVISION      99 /*!< @brief Revision version number. Value of 99 indicates a development version.*/
 
 /*!
  * @brief Mission revision.
