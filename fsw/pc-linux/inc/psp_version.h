@@ -28,20 +28,21 @@
  * Development Build Macro Definitions
  */
 #define CFE_PSP_IMPL_BUILD_NUMBER   14
-#define CFE_PSP_IMPL_BUILD_BASELINE "v1.6.0-rc1"
+#define CFE_PSP_IMPL_BUILD_BASELINE "v1.6.0-rc4"
 
 /*
- * Version Macro Definitions
+ * Version Macros, see \ref cfsversions for definitions.
  */
-#define CFE_PSP_IMPL_MAJOR_VERSION 1 /*!< @brief ONLY APPLY for OFFICIAL releases. Major version number. */
-#define CFE_PSP_IMPL_MINOR_VERSION 4 /*!< @brief ONLY APPLY for OFFICIAL releases. Minor version number. */
-#define CFE_PSP_IMPL_REVISION      0 /*!< @brief ONLY APPLY for OFFICIAL releases. Revision number. */
+#define CFE_PSP_IMPL_MAJOR_VERSION 1  /**< @brief Major version number */
+#define CFE_PSP_IMPL_MINOR_VERSION 4  /**< @brief Minor version number */
+#define CFE_PSP_IMPL_REVISION      99 /**< @brief Revision version number. Value of 99 indicates a development version.*/
 
 /*!
  * @brief Mission revision.
  *
- * Set to 0 on OFFICIAL releases, and set to 255 (0xFF) on development versions.
- * Values 1-254 are reserved for mission use to denote patches/customizations as needed.
+ * Reserved for mission use to denote patches/customizations as needed.
+ * Values 1-254 are reserved for mission use to denote patches/customizations as needed. NOTE: Reserving 0 and 0xFF for
+ * cFS open-source development use (pending resolution of nasa/cFS#440)
  */
 #define CFE_PSP_IMPL_MISSION_REV 0xFF
 
