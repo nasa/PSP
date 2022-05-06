@@ -24,20 +24,16 @@ set(CMAKE_SHARED_LIBRARY_CXX_FLAGS "")
 set(CMAKE_SHARED_MODULE_C_FLAGS "")
 set(CMAKE_SHARED_MODULE_CXX_FLAGS "")
 
-# Set the CMAKE_EXE_EXPORTS_C_FLAG which is for executables
-# using dynamic loading/linking
-set(CMAKE_EXE_EXPORTS_C_FLAG "-Wl,--export-dynamic")
-
-
 # Include the system specs directly within the COMPILE_OBJECT definitions
 # This way it does not need to be done via CMAKE_C_FLAGS and it simplifies
 # the process in general.
-set(RTEMS_SYS_SPECS_FLAGS    "-B${RTEMS_TARGET_PATH}/${RTEMS_BSP}/lib -specs bsp_specs -qrtems")
+# Note that the specs vary between RTEMS 5, RTEMS 6, and the Gaisler RCC version of RTEMS 5
+#  These differences are accounted for in the toolchain file in the RTEMS_BSP_SPECS macro
+set(RTEMS_SYS_SPECS_FLAGS    "-B${RTEMS_TARGET_PATH}/${RTEMS_BSP}/lib ${RTEMS_BSP_SPECS_FLAGS} -qrtems")
 
 # Basic command templates for compiling C and C++ code
 set(CMAKE_C_COMPILE_OBJECT   "<CMAKE_C_COMPILER>   <DEFINES> ${RTEMS_SYS_SPECS_FLAGS} ${RTEMS_BSP_C_FLAGS}   <INCLUDES> <FLAGS> -o <OBJECT> -c <SOURCE>")
 set(CMAKE_CXX_COMPILE_OBJECT "<CMAKE_CXX_COMPILER> <DEFINES> ${RTEMS_SYS_SPECS_FLAGS} ${RTEMS_BSP_CXX_FLAGS} <INCLUDES> <FLAGS> -o <OBJECT> -c <SOURCE>")
-
 
 # This creates a simple relocatable object file, not a shared library
 set(CMAKE_SHARED_OBJECT_LINKER_FLAGS -r)
@@ -46,23 +42,36 @@ set(CMAKE_CXX_CREATE_SHARED_MODULE ${CMAKE_C_CREATE_SHARED_MODULE})
 set(CMAKE_C_CREATE_SHARED_LIBRARY ${CMAKE_C_CREATE_SHARED_MODULE})
 set(CMAKE_CXX_CREATE_SHARED_LIBRARY ${CMAKE_C_CREATE_SHARED_MODULE})
 
-# Additional link flags for entry point and relocation address
-# RTEMS uses "Init" rather than "main" as its entry point
-# This flag ensures that the Init symbol is not dropped at link time.
-set(RTEMS_SYS_LINKFLAGS "-u Init")
-if (RTEMS_RELOCADDR)
-    set(RTEMS_SYS_LINKFLAGS "${RTEMS_SYS_LINKFLAGS} -Wl,-Ttext,${RTEMS_RELOCADDR}")
-endif (RTEMS_RELOCADDR)
+# If RTEMS_DYNAMIC_LOAD is defined in the toolchain file, the executable will be a loadable object
+#  similar to vxWorks. This allows the system to be built, then loaded on an RTEMS runtime image using
+#  the RTEMS dynamic loader
+# If RTEMS_DYNAMIC_LOAD is not defined, then a traditional linked executable will be created.
+if(RTEMS_DYNAMIC_LOAD)
+   # Dynamic load is just a shared library
+   set(CMAKE_C_LINK_EXECUTABLE "<CMAKE_LINKER> <LINK_FLAGS> -o <TARGET> ${CMAKE_SHARED_OBJECT_LINKER_FLAGS} <OBJECTS> <LINK_LIBRARIES>")
+else()
+   # Set the CMAKE_EXE_EXPORTS_C_FLAG which is for executables
+   # using dynamic loading/linking
+   set(CMAKE_EXE_EXPORTS_C_FLAG "-Wl,--export-dynamic")
 
-# The link procedure to support dynamic loading using the RTEMS dlopen()
-# First create a "prelink" executable using a typical link procedure
-# Then run "rtems-syms" and re-link the output into a final executable
-set(CMAKE_C_LINK_EXECUTABLE
-    "<CMAKE_C_COMPILER> ${RTEMS_SYS_SPECS_FLAGS} ${RTEMS_BSP_C_FLAGS} <FLAGS> ${RTEMS_SYS_LINKFLAGS} -o <TARGET>-prelink <OBJECTS> <CMAKE_C_LINK_FLAGS> <LINK_FLAGS> <LINK_LIBRARIES>"
-    "${RTEMS_TOOLS_PREFIX}/bin/rtems-syms -v -e -c ${RTEMS_BSP_C_FLAGS} -C <CMAKE_C_COMPILER> -o <TARGET>-dl-sym.o <TARGET>-prelink"
-    "<CMAKE_C_COMPILER> ${RTEMS_SYS_SPECS_FLAGS} ${RTEMS_BSP_C_FLAGS} <FLAGS> ${RTEMS_SYS_LINKFLAGS} -o <TARGET> <TARGET>-dl-sym.o <OBJECTS> <CMAKE_C_LINK_FLAGS> <LINK_FLAGS> <LINK_LIBRARIES>")
+   # Additional link flags for entry point and relocation address
+   # RTEMS uses "Init" rather than "main" as its entry point
+   # This flag ensures that the Init symbol is not dropped at link time.
+   set(RTEMS_SYS_LINKFLAGS "-u Init")
+   if (RTEMS_RELOCADDR)
+       set(RTEMS_SYS_LINKFLAGS "${RTEMS_SYS_LINKFLAGS} -Wl,-Ttext,${RTEMS_RELOCADDR}")
+   endif (RTEMS_RELOCADDR)
 
-set(RTEMS_TARGET_PATH
+   # The link procedure to support dynamic loading using the RTEMS dlopen()
+   # First create a "prelink" executable using a typical link procedure
+   # Then run "rtems-syms" and re-link the output into a final executable
+   set(CMAKE_C_LINK_EXECUTABLE
+       "<CMAKE_C_COMPILER> ${RTEMS_SYS_SPECS_FLAGS} ${RTEMS_BSP_C_FLAGS} <FLAGS> ${RTEMS_SYS_LINKFLAGS} -o <TARGET>-prelink <OBJECTS> <CMAKE_C_LINK_FLAGS> <LINK_FLAGS> <LINK_LIBRARIES>"
+       "${RTEMS_TOOLS_PREFIX}/bin/rtems-syms -v -e -c ${RTEMS_BSP_C_FLAGS} -C <CMAKE_C_COMPILER> -o <TARGET>-dl-sym.o <TARGET>-prelink"
+       "<CMAKE_C_COMPILER> ${RTEMS_SYS_SPECS_FLAGS} ${RTEMS_BSP_C_FLAGS} <FLAGS> ${RTEMS_SYS_LINKFLAGS} -o <TARGET> <TARGET>-dl-sym.o <OBJECTS> <CMAKE_C_LINK_FLAGS> <LINK_FLAGS> <LINK_LIBRARIES>")
+endif(RTEMS_DYNAMIC_LOAD)
+
+SET(RTEMS_TARGET_PATH
     "${RTEMS_BSP_PREFIX}/${CMAKE_SYSTEM_PROCESSOR}-rtems${CMAKE_SYSTEM_VERSION}")
 
 set(RTEMS_TOOLS_PATH
