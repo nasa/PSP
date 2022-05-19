@@ -151,7 +151,8 @@ static const struct option longOpts[] = {{"reset", required_argument, NULL, 'R'}
 */
 int32 CFE_PSP_OS_EventHandler(OS_Event_t event, osal_id_t object_id, void *data)
 {
-    char taskname[OS_MAX_API_NAME];
+    char      taskname[OS_MAX_API_NAME];
+    cpu_set_t cpuset;
 
     switch (event)
     {
@@ -170,6 +171,21 @@ int32 CFE_PSP_OS_EventHandler(OS_Event_t event, osal_id_t object_id, void *data)
             /* Get the name from OSAL and propagate to the pthread/system layer */
             if (OS_GetResourceName(object_id, taskname, sizeof(taskname)) == OS_SUCCESS)
             {
+                /*
+                 * Example mechanism for setting thread affinity
+                 *
+                 * Could assign based on task name, pattern within name (CFE_* on 0,
+                 * *_CN where N is desired core), round robin or whatever the requrements are.
+                 *
+                 * Just assigning all "CFE_*" tasks to core zero and let the rest float.
+                 */
+                if (strncmp(taskname, "CFE_", 4) == 0)
+                {
+                    CPU_ZERO(&cpuset);
+                    CPU_SET(0, &cpuset);
+                    pthread_setaffinity_np(pthread_self(), sizeof(cpuset), &cpuset);
+                }
+
                 /*
                  * glibc/kernel has an internal limit for this name.
                  * If the OSAL name is longer, just truncate it.

@@ -9,6 +9,14 @@ This is a collection of APIs abstracting platform specific functionality to be l
 
 ## Version History
 
+
+### Development Build: v1.6.0-rc4+34
+
+- Update codeql workflow for reusable updates
+- Add cpu affinity example
+- Update RTEMS CMake Platform File
+- See <https://github.com/nasa/PSP/pull/343> and <https://github.com/nasa/cFS/pull/471>
+
 ### Development Build: v1.6.0-rc4+dev21
 
 - Standardize version.h
