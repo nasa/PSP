@@ -154,6 +154,8 @@ int32 CFE_PSP_OS_EventHandler(OS_Event_t event, osal_id_t object_id, void *data)
     char      taskname[OS_MAX_API_NAME];
     cpu_set_t cpuset;
 
+    memset(taskname, 0, sizeof(taskname));
+
     switch (event)
     {
         case OS_EVENT_RESOURCE_ALLOCATED:

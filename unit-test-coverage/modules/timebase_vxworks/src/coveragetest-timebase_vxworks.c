@@ -82,6 +82,8 @@ void Test_Nominal(void)
     OS_time_t                 OsTime;
     PSP_VxWorks_TimeBaseVal_t VxTime;
 
+    memset(&OsTime, 0, sizeof(OsTime));
+
     /* Nominal test with a simple 1:1 ratio */
     UT_PSP_TIMEBASE_VXWORKS_TESTCONFIG.PeriodNumerator   = 1;
     UT_PSP_TIMEBASE_VXWORKS_TESTCONFIG.PeriodDenominator = 1;
@@ -102,6 +104,8 @@ void Test_Non_Reducible(void)
     OS_time_t                 OsTime;
     PSP_VxWorks_TimeBaseVal_t VxTime;
     int64                     TestTime;
+
+    memset(&OsTime, 0, sizeof(OsTime));
 
     /* Use an oddball ratio of of some primes, will not be reducible */
     /* Ratio is 43*3 / 53*2  => 129/106 */
@@ -136,6 +140,8 @@ void Test_Reducible_1(void)
     PSP_VxWorks_TimeBaseVal_t VxTime;
     int64                     TestTime;
 
+    memset(&OsTime, 0, sizeof(OsTime));
+
     /* Test with a ratio that is also 1:1, but can be reduced */
     UT_PSP_TIMEBASE_VXWORKS_TESTCONFIG.PeriodNumerator   = 1000;
     UT_PSP_TIMEBASE_VXWORKS_TESTCONFIG.PeriodDenominator = 1000;
@@ -163,6 +169,8 @@ void Test_Reducible_2(void)
     OS_time_t                 OsTime;
     PSP_VxWorks_TimeBaseVal_t VxTime;
     int64                     TestTime;
+
+    memset(&OsTime, 0, sizeof(OsTime));
 
     /* Test with a ratio that can be reduced */
     /* Final reduced ratio should be 12:5 with 100ns OS ticks */

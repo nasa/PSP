@@ -9,8 +9,12 @@ This is a collection of APIs abstracting platform specific functionality to be l
 
 ## Version History
 
+### Development Build: v1.6.0-rc4+dev38
 
-### Development Build: v1.6.0-rc4+34
+- Resolve uninit var static analysis warning
+- See <https://github.com/nasa/PSP/pull/346> and <https://github.com/nasa/cFS/pull/492>
+
+### Development Build: v1.6.0-rc4+dev34
 
 - Update codeql workflow for reusable updates
 - Add cpu affinity example
