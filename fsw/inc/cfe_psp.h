@@ -39,29 +39,11 @@
 #include "common_types.h"
 #include "osapi.h"
 
+#include "cfe_psp_error.h"
+
 /*
 ** Macro Definitions
 */
-
-/*
-** Error and return codes
-*/
-#define CFE_PSP_SUCCESS                  (0)
-#define CFE_PSP_ERROR                    (-1)
-#define CFE_PSP_INVALID_POINTER          (-2)
-#define CFE_PSP_ERROR_ADDRESS_MISALIGNED (-3)
-#define CFE_PSP_ERROR_TIMEOUT            (-4)
-#define CFE_PSP_INVALID_INT_NUM          (-5)
-#define CFE_PSP_INVALID_MEM_ADDR         (-21)
-#define CFE_PSP_INVALID_MEM_TYPE         (-22)
-#define CFE_PSP_INVALID_MEM_RANGE        (-23)
-#define CFE_PSP_INVALID_MEM_WORDSIZE     (-24)
-#define CFE_PSP_INVALID_MEM_SIZE         (-25)
-#define CFE_PSP_INVALID_MEM_ATTR         (-26)
-#define CFE_PSP_ERROR_NOT_IMPLEMENTED    (-27)
-#define CFE_PSP_INVALID_MODULE_NAME      (-28)
-#define CFE_PSP_INVALID_MODULE_ID        (-29)
-#define CFE_PSP_NO_EXCEPTION_DATA        (-30)
 
 /*
 ** Definitions for PSP PANIC types
