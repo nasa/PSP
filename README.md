@@ -7,7 +7,12 @@ This repository contains NASA's Platform Support Package (PSP), which is a frame
 
 This is a collection of APIs abstracting platform specific functionality to be located in the `psp` subdirectory of a cFS Mission Tree. The Core Flight System is bundled at <https://github.com/nasa/cFS>, which includes build and execution instructions.
 
-## Version History
+## Changelog
+
+### Development Build: v1.6.0-rc4+dev41
+
+- Add CFE_PSP_StatusToString and CFE_PSP_STATUS_C
+- See <https://github.com/nasa/cFS/pull/505>
 
 ### Development Build: v1.6.0-rc4+dev38
 
