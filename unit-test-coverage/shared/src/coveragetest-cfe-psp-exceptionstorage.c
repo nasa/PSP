@@ -42,13 +42,6 @@
 #include "cfe_psp.h"
 #include "cfe_psp_exceptionstorage_api.h"
 
-#ifdef jphfix
-#include "PCS_stdlib.h"
-#include "PCS_rebootLib.h"
-#include "PCS_cacheLib.h"
-#include "PCS_cfe_configdata.h"
-#endif
-
 void Test_CFE_PSP_Exception_GetBuffer(void)
 {
     /*
