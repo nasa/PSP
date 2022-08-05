@@ -9,6 +9,10 @@ This is a collection of APIs abstracting platform specific functionality to be l
 
 ## Changelog
 
+### Development Build: v1.6.0-rc4+dev47
+- correct PSP module IDs and lookups
+- See <https://github.com/nasa/PSP/pull/354>
+
 ### Development Build: v1.6.0-rc4+dev43
 
 - remove commented out code
