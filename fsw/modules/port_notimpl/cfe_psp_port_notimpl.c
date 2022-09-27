@@ -38,30 +38,30 @@ void port_notimpl_Init(uint32 PspModuleId)
 
 int32 CFE_PSP_PortRead8(cpuaddr PortAddress, uint8 *ByteValue)
 {
-    return (CFE_PSP_ERROR_NOT_IMPLEMENTED);
+    return CFE_PSP_ERROR_NOT_IMPLEMENTED;
 }
 
 int32 CFE_PSP_PortWrite8(cpuaddr PortAddress, uint8 ByteValue)
 {
-    return (CFE_PSP_ERROR_NOT_IMPLEMENTED);
+    return CFE_PSP_ERROR_NOT_IMPLEMENTED;
 }
 
 int32 CFE_PSP_PortRead16(cpuaddr PortAddress, uint16 *uint16Value)
 {
-    return (CFE_PSP_ERROR_NOT_IMPLEMENTED);
+    return CFE_PSP_ERROR_NOT_IMPLEMENTED;
 }
 
 int32 CFE_PSP_PortWrite16(cpuaddr PortAddress, uint16 uint16Value)
 {
-    return (CFE_PSP_ERROR_NOT_IMPLEMENTED);
+    return CFE_PSP_ERROR_NOT_IMPLEMENTED;
 }
 
 int32 CFE_PSP_PortRead32(cpuaddr PortAddress, uint32 *uint32Value)
 {
-    return (CFE_PSP_ERROR_NOT_IMPLEMENTED);
+    return CFE_PSP_ERROR_NOT_IMPLEMENTED;
 }
 
 int32 CFE_PSP_PortWrite32(cpuaddr PortAddress, uint32 uint32Value)
 {
-    return (CFE_PSP_ERROR_NOT_IMPLEMENTED);
+    return CFE_PSP_ERROR_NOT_IMPLEMENTED;
 }

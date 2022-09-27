@@ -38,30 +38,30 @@ void ram_notimpl_Init(uint32 PspModuleId)
 
 int32 CFE_PSP_MemRead8(cpuaddr MemoryAddress, uint8 *ByteValue)
 {
-    return (CFE_PSP_ERROR_NOT_IMPLEMENTED);
+    return CFE_PSP_ERROR_NOT_IMPLEMENTED;
 }
 
 int32 CFE_PSP_MemWrite8(cpuaddr MemoryAddress, uint8 ByteValue)
 {
-    return (CFE_PSP_ERROR_NOT_IMPLEMENTED);
+    return CFE_PSP_ERROR_NOT_IMPLEMENTED;
 }
 
 int32 CFE_PSP_MemRead16(cpuaddr MemoryAddress, uint16 *uint16Value)
 {
-    return (CFE_PSP_ERROR_NOT_IMPLEMENTED);
+    return CFE_PSP_ERROR_NOT_IMPLEMENTED;
 }
 
 int32 CFE_PSP_MemWrite16(cpuaddr MemoryAddress, uint16 uint16Value)
 {
-    return (CFE_PSP_ERROR_NOT_IMPLEMENTED);
+    return CFE_PSP_ERROR_NOT_IMPLEMENTED;
 }
 
 int32 CFE_PSP_MemRead32(cpuaddr MemoryAddress, uint32 *uint32Value)
 {
-    return (CFE_PSP_ERROR_NOT_IMPLEMENTED);
+    return CFE_PSP_ERROR_NOT_IMPLEMENTED;
 }
 
 int32 CFE_PSP_MemWrite32(cpuaddr MemoryAddress, uint32 uint32Value)
 {
-    return (CFE_PSP_ERROR_NOT_IMPLEMENTED);
+    return CFE_PSP_ERROR_NOT_IMPLEMENTED;
 }

@@ -172,7 +172,7 @@ void CFE_PSP_FlushCaches(uint32 type, void *address, uint32 size)
 */
 uint32 CFE_PSP_GetProcessorId(void)
 {
-    return (CFE_PSP_CpuId);
+    return CFE_PSP_CpuId;
 }
 
 /*
@@ -192,7 +192,7 @@ uint32 CFE_PSP_GetProcessorId(void)
 */
 uint32 CFE_PSP_GetSpacecraftId(void)
 {
-    return (CFE_PSP_SpacecraftId);
+    return CFE_PSP_SpacecraftId;
 }
 
 /*
@@ -212,5 +212,5 @@ uint32 CFE_PSP_GetSpacecraftId(void)
 */
 const char *CFE_PSP_GetProcessorName(void)
 {
-    return (CFE_PSP_CpuName);
+    return CFE_PSP_CpuName;
 }

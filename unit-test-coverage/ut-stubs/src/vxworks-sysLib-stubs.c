@@ -25,7 +25,7 @@
 
 int PCS_sysClkRateGet(void)
 {
-    return (UT_DEFAULT_IMPL_RC(PCS_sysClkRateGet, 10000));
+    return UT_DEFAULT_IMPL_RC(PCS_sysClkRateGet, 10000);
 }
 char *PCS_sysMemTop(void)
 {
@@ -61,10 +61,10 @@ void PCS_sysPciRead32(uint32_t address, uint32_t *data)
 
 unsigned int PCS_GetWrsKernelTextStart(void)
 {
-    return (UT_DEFAULT_IMPL(PCS_GetWrsKernelTextStart));
+    return UT_DEFAULT_IMPL(PCS_GetWrsKernelTextStart);
 }
 
 unsigned int PCS_GetWrsKernelTextEnd(void)
 {
-    return (UT_DEFAULT_IMPL(PCS_GetWrsKernelTextEnd));
+    return UT_DEFAULT_IMPL(PCS_GetWrsKernelTextEnd);
 }

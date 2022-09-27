@@ -67,7 +67,7 @@ int32 CFE_PSP_SetupEEPROM(uint32 EEPROMSize, cpuaddr *EEPROMAddress)
         if (FileDescriptor == -1)
         {
             OS_printf("CFE_PSP: Cannot open EEPROM File: %s\n", EEPROM_FILE);
-            return (-1);
+            return -1;
         }
         else
         {
@@ -78,7 +78,7 @@ int32 CFE_PSP_SetupEEPROM(uint32 EEPROMSize, cpuaddr *EEPROMAddress)
             {
                 OS_printf("CFE_PSP: Cannot Seek to end of EEPROM file.\n");
                 close(FileDescriptor);
-                return (-1);
+                return -1;
             }
 
             /*
@@ -88,7 +88,7 @@ int32 CFE_PSP_SetupEEPROM(uint32 EEPROMSize, cpuaddr *EEPROMAddress)
             {
                 OS_printf("CFE_PSP: Cannot write to EEPROM file\n");
                 close(FileDescriptor);
-                return (-1);
+                return -1;
             }
         }
     }
@@ -102,7 +102,7 @@ int32 CFE_PSP_SetupEEPROM(uint32 EEPROMSize, cpuaddr *EEPROMAddress)
         {
             OS_printf("CFE_PSP: Cannot open EEPROM File: %s\n", EEPROM_FILE);
             perror("CFE_PSP: open");
-            return (-1);
+            return -1;
         }
     }
 
@@ -113,7 +113,7 @@ int32 CFE_PSP_SetupEEPROM(uint32 EEPROMSize, cpuaddr *EEPROMAddress)
     {
         OS_printf("CFE_PSP: mmap to EEPROM File failed\n");
         close(FileDescriptor);
-        return (-1);
+        return -1;
     }
 
     /*
@@ -121,7 +121,7 @@ int32 CFE_PSP_SetupEEPROM(uint32 EEPROMSize, cpuaddr *EEPROMAddress)
     */
     *EEPROMAddress = (cpuaddr)DataBuffer;
 
-    return (0);
+    return 0;
 }
 
 /* For read/write - As this is mmap'ed we dereference the pointer directly.
@@ -131,39 +131,39 @@ int32 CFE_PSP_SetupEEPROM(uint32 EEPROMSize, cpuaddr *EEPROMAddress)
 int32 CFE_PSP_EepromWrite32(cpuaddr MemoryAddress, uint32 uint32Value)
 {
     *((uint32 *)MemoryAddress) = uint32Value;
-    return (CFE_PSP_SUCCESS);
+    return CFE_PSP_SUCCESS;
 }
 
 int32 CFE_PSP_EepromWrite16(cpuaddr MemoryAddress, uint16 uint16Value)
 {
     *((uint16 *)MemoryAddress) = uint16Value;
-    return (CFE_PSP_SUCCESS);
+    return CFE_PSP_SUCCESS;
 }
 
 int32 CFE_PSP_EepromWrite8(cpuaddr MemoryAddress, uint8 ByteValue)
 {
     *((uint8 *)MemoryAddress) = ByteValue;
-    return (CFE_PSP_SUCCESS);
+    return CFE_PSP_SUCCESS;
 }
 
 int32 CFE_PSP_EepromWriteEnable(uint32 Bank)
 {
-    return (CFE_PSP_ERROR_NOT_IMPLEMENTED);
+    return CFE_PSP_ERROR_NOT_IMPLEMENTED;
 }
 
 int32 CFE_PSP_EepromWriteDisable(uint32 Bank)
 {
-    return (CFE_PSP_ERROR_NOT_IMPLEMENTED);
+    return CFE_PSP_ERROR_NOT_IMPLEMENTED;
 }
 
 int32 CFE_PSP_EepromPowerUp(uint32 Bank)
 {
-    return (CFE_PSP_SUCCESS);
+    return CFE_PSP_SUCCESS;
 }
 
 int32 CFE_PSP_EepromPowerDown(uint32 Bank)
 {
-    return (CFE_PSP_SUCCESS);
+    return CFE_PSP_SUCCESS;
 }
 
 void eeprom_mmap_file_Init(uint32 PspModuleId)
