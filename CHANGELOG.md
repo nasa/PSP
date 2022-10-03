@@ -1,5 +1,11 @@
 # Changelog
 
+## Development Build: v1.6.0-rc4+dev55
+- Create Changelog File
+- Remove unnecessary parentheses around return values.
+- Remove 'return;' from last line of void function.
+- See <https://github.com/nasa/PSP/pull/361>, <https://github.com/nasa/PSP/pull/358>, and <https://github.com/nasa/PSP/pull/360>
+
 ## Development Build: v1.6.0-rc4+dev47
 - correct PSP module IDs and lookups
 - See <https://github.com/nasa/PSP/pull/354>
