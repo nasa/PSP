@@ -95,7 +95,7 @@ int startCfeCore(char *cfevolume, char *cfepath)
     if (cfevolume == NULL || cfepath == NULL)
     {
         printf("Error: No cFE volume or path/filename given.\n");
-        return (-1);
+        return -1;
     }
 
     /*
@@ -113,7 +113,7 @@ int startCfeCore(char *cfevolume, char *cfepath)
     if (fd < 0)
     {
         printf("Error: Cannot open cFE core file: %s!\n", cfeCorePath);
-        return (-1);
+        return -1;
     }
     else
     {
@@ -128,7 +128,7 @@ int startCfeCore(char *cfevolume, char *cfepath)
     {
         printf("Error: Cannot load cFE core module.\n");
         close(fd);
-        return (-1);
+        return -1;
     }
     else
     {
@@ -151,7 +151,7 @@ int startCfeCore(char *cfevolume, char *cfepath)
         if (status == ERROR)
         {
             printf("Error: Cannot locate CFE_PSP_Main or OS_BSPMain symbols.\n");
-            return (-1);
+            return -1;
         }
     }
 
@@ -164,7 +164,7 @@ int startCfeCore(char *cfevolume, char *cfepath)
     /*
     ** Return to the vxWorks shell
     */
-    return (0);
+    return 0;
 }
 
 /******************************************************************************
@@ -248,5 +248,5 @@ int CFE_PSP_InitFlashDisk(void)
 
     } /* end if */
 
-    return (Status);
+    return Status;
 }

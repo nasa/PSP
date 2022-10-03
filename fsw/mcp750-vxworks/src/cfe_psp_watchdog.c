@@ -191,7 +191,7 @@ void CFE_PSP_WatchdogService(void)
 */
 uint32 CFE_PSP_WatchdogGet(void)
 {
-    return (CFE_PSP_WatchdogValue);
+    return CFE_PSP_WatchdogValue;
 }
 
 /******************************************************************************

@@ -119,7 +119,7 @@ int32 CFE_PSP_GetCDSSize(uint32 *SizeOfCDS)
         *SizeOfCDS  = CFE_PSP_ReservedMemoryMap.CDSMemory.BlockSize;
         return_code = OS_SUCCESS;
     }
-    return (return_code);
+    return return_code;
 }
 
 /******************************************************************************
@@ -161,7 +161,7 @@ int32 CFE_PSP_WriteToCDS(const void *PtrToDataToWrite, uint32 CDSOffset, uint32 
 
     } /* end if PtrToDataToWrite == NULL */
 
-    return (return_code);
+    return return_code;
 }
 
 /******************************************************************************
@@ -204,7 +204,7 @@ int32 CFE_PSP_ReadFromCDS(void *PtrToDataToRead, uint32 CDSOffset, uint32 NumByt
 
     } /* end if PtrToDataToWrite == NULL */
 
-    return (return_code);
+    return return_code;
 }
 
 /*
@@ -242,7 +242,7 @@ int32 CFE_PSP_GetResetArea(cpuaddr *PtrToResetArea, uint32 *SizeOfResetArea)
         return_code      = OS_SUCCESS;
     }
 
-    return (return_code);
+    return return_code;
 }
 
 /*
@@ -279,7 +279,7 @@ int32 CFE_PSP_GetUserReservedArea(cpuaddr *PtrToUserArea, uint32 *SizeOfUserArea
         return_code     = OS_SUCCESS;
     }
 
-    return (return_code);
+    return return_code;
 }
 
 /*
@@ -316,7 +316,7 @@ int32 CFE_PSP_GetVolatileDiskMem(cpuaddr *PtrToVolDisk, uint32 *SizeOfVolDisk)
         return_code    = OS_SUCCESS;
     }
 
-    return (return_code);
+    return return_code;
 }
 
 /*
@@ -489,7 +489,7 @@ int32 CFE_PSP_GetKernelTextSegmentInfo(cpuaddr *PtrToKernelSegment, uint32 *Size
         return_code = OS_SUCCESS;
     }
 
-    return (return_code);
+    return return_code;
 }
 
 /******************************************************************************
@@ -531,5 +531,5 @@ int32 CFE_PSP_GetCFETextSegmentInfo(cpuaddr *PtrToCFESegment, uint32 *SizeOfCFES
         return_code = OS_SUCCESS;
     }
 
-    return (return_code);
+    return return_code;
 }

@@ -77,12 +77,12 @@ int32 CFE_PSP_MemValidateRange(cpuaddr Address, size_t Size, uint32 MemoryType)
     */
     if (MemoryType != CFE_PSP_MEM_ANY && MemoryType != CFE_PSP_MEM_RAM && MemoryType != CFE_PSP_MEM_EEPROM)
     {
-        return (CFE_PSP_INVALID_MEM_TYPE);
+        return CFE_PSP_INVALID_MEM_TYPE;
     }
 
     if (EndAddressToTest < StartAddressToTest)
     {
-        return (CFE_PSP_INVALID_MEM_RANGE);
+        return CFE_PSP_INVALID_MEM_RANGE;
     }
 
     SysMemPtr = CFE_PSP_ReservedMemoryMap.SysMemoryTable;
@@ -150,7 +150,7 @@ int32 CFE_PSP_MemValidateRange(cpuaddr Address, size_t Size, uint32 MemoryType)
         ++SysMemPtr;
 
     } /* End for */
-    return (ReturnCode);
+    return ReturnCode;
 }
 
 /*
@@ -173,7 +173,7 @@ int32 CFE_PSP_MemValidateRange(cpuaddr Address, size_t Size, uint32 MemoryType)
 */
 uint32 CFE_PSP_MemRanges(void)
 {
-    return (CFE_PSP_MEM_TABLE_SIZE);
+    return CFE_PSP_MEM_TABLE_SIZE;
 }
 
 /*
@@ -219,24 +219,24 @@ int32 CFE_PSP_MemRangeSet(uint32 RangeNum, uint32 MemoryType, cpuaddr StartAddr,
 
     if (RangeNum >= CFE_PSP_MEM_TABLE_SIZE)
     {
-        return (CFE_PSP_INVALID_MEM_RANGE);
+        return CFE_PSP_INVALID_MEM_RANGE;
     }
 
     if ((MemoryType != CFE_PSP_MEM_RAM) && (MemoryType != CFE_PSP_MEM_EEPROM))
     {
-        return (CFE_PSP_INVALID_MEM_TYPE);
+        return CFE_PSP_INVALID_MEM_TYPE;
     }
 
     if ((WordSize != CFE_PSP_MEM_SIZE_BYTE) && (WordSize != CFE_PSP_MEM_SIZE_WORD) &&
         (WordSize != CFE_PSP_MEM_SIZE_DWORD))
     {
-        return (CFE_PSP_INVALID_MEM_WORDSIZE);
+        return CFE_PSP_INVALID_MEM_WORDSIZE;
     }
 
     if ((Attributes != CFE_PSP_MEM_ATTR_READ) && (Attributes != CFE_PSP_MEM_ATTR_WRITE) &&
         (Attributes != CFE_PSP_MEM_ATTR_READWRITE))
     {
-        return (CFE_PSP_INVALID_MEM_ATTR);
+        return CFE_PSP_INVALID_MEM_ATTR;
     }
 
     /*
@@ -250,7 +250,7 @@ int32 CFE_PSP_MemRangeSet(uint32 RangeNum, uint32 MemoryType, cpuaddr StartAddr,
     SysMemPtr->WordSize   = WordSize;
     SysMemPtr->Attributes = Attributes;
 
-    return (CFE_PSP_SUCCESS);
+    return CFE_PSP_SUCCESS;
 }
 
 /*
@@ -291,12 +291,12 @@ int32 CFE_PSP_MemRangeGet(uint32 RangeNum, uint32 *MemoryType, cpuaddr *StartAdd
 
     if (MemoryType == NULL || StartAddr == NULL || Size == NULL || WordSize == NULL || Attributes == NULL)
     {
-        return (CFE_PSP_INVALID_POINTER);
+        return CFE_PSP_INVALID_POINTER;
     }
 
     if (RangeNum >= CFE_PSP_MEM_TABLE_SIZE)
     {
-        return (CFE_PSP_INVALID_MEM_RANGE);
+        return CFE_PSP_INVALID_MEM_RANGE;
     }
 
     SysMemPtr = &CFE_PSP_ReservedMemoryMap.SysMemoryTable[RangeNum];
@@ -307,5 +307,5 @@ int32 CFE_PSP_MemRangeGet(uint32 RangeNum, uint32 *MemoryType, cpuaddr *StartAdd
     *WordSize   = SysMemPtr->WordSize;
     *Attributes = SysMemPtr->Attributes;
 
-    return (CFE_PSP_SUCCESS);
+    return CFE_PSP_SUCCESS;
 }
