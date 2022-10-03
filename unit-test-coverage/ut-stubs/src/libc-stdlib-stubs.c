@@ -153,7 +153,7 @@ void *PCS_malloc(size_t sz)
     Rec->Magic     = MPOOL_BLOCK_SIGNATURE;
     Rec->Size      = sz;
 
-    return ((void *)NextBlock);
+    return (void *)NextBlock;
 }
 
 void PCS_free(void *ptr)

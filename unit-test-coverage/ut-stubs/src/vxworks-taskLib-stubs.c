@@ -51,7 +51,7 @@ PCS_TASK_ID PCS_taskIdSelf(void)
     Status = UT_DEFAULT_IMPL(PCS_taskIdSelf);
     if (Status != 0)
     {
-        return ((PCS_TASK_ID)PCS_ERROR);
+        return (PCS_TASK_ID)PCS_ERROR;
     }
 
     return &PCS_LOCAL_TASK;
@@ -63,41 +63,41 @@ PCS_TASK_ID PCS_taskNameToId(const char *name)
     Status = UT_DEFAULT_IMPL(PCS_taskNameToId);
     if (Status != 0)
     {
-        return ((PCS_TASK_ID)PCS_ERROR);
+        return (PCS_TASK_ID)PCS_ERROR;
     }
 
     return &PCS_LOCAL_TASK;
 }
 PCS_STATUS PCS_taskDelay(int ticks)
 {
-    return (UT_DEFAULT_IMPL(PCS_taskDelay));
+    return UT_DEFAULT_IMPL(PCS_taskDelay);
 }
 PCS_STATUS PCS_taskDelete(PCS_TASK_ID tid)
 {
-    return (UT_DEFAULT_IMPL(PCS_taskDelete));
+    return UT_DEFAULT_IMPL(PCS_taskDelete);
 }
 PCS_STATUS PCS_taskDeleteForce(PCS_TASK_ID tid)
 {
-    return (UT_DEFAULT_IMPL(PCS_taskDeleteForce));
+    return UT_DEFAULT_IMPL(PCS_taskDeleteForce);
 }
 PCS_STATUS PCS_taskSuspend(PCS_TASK_ID tid)
 {
-    return (UT_DEFAULT_IMPL(PCS_taskSuspend));
+    return UT_DEFAULT_IMPL(PCS_taskSuspend);
 }
 PCS_STATUS PCS_taskResume(PCS_TASK_ID tid)
 {
-    return (UT_DEFAULT_IMPL(PCS_taskResume));
+    return UT_DEFAULT_IMPL(PCS_taskResume);
 }
 PCS_STATUS PCS_taskPrioritySet(PCS_TASK_ID tid, int newPriority)
 {
-    return (UT_DEFAULT_IMPL(PCS_taskPrioritySet));
+    return UT_DEFAULT_IMPL(PCS_taskPrioritySet);
 }
 
 PCS_STATUS PCS_taskInit(PCS_WIND_TCB *pTcb, char *name, int priority, int options, char *pStackBase, int stackSize,
                         PCS_FUNCPTR entryPt, int arg1, int arg2, int arg3, int arg4, int arg5, int arg6, int arg7,
                         int arg8, int arg9, int arg10)
 {
-    return (UT_DEFAULT_IMPL(PCS_taskInit));
+    return UT_DEFAULT_IMPL(PCS_taskInit);
 }
 
 PCS_TASK_ID PCS_taskSpawn(char *name, int priority, int options, int stackSize, PCS_FUNCPTR entryPt, int arg1, int arg2,
@@ -109,7 +109,7 @@ PCS_TASK_ID PCS_taskSpawn(char *name, int priority, int options, int stackSize, 
     Status = UT_DEFAULT_IMPL(PCS_taskSpawn);
     if (Status != 0)
     {
-        return ((PCS_TASK_ID)PCS_ERROR);
+        return (PCS_TASK_ID)PCS_ERROR;
     }
 
     return &PCS_LOCAL_TASK;
@@ -132,7 +132,7 @@ PCS_WIND_TCB *PCS_taskTcb(PCS_TASK_ID tid)
     Status = UT_DEFAULT_IMPL(PCS_taskTcb);
     if (Status != 0)
     {
-        return (NULL);
+        return NULL;
     }
 
     if (UT_Stub_CopyToLocal(UT_KEY(PCS_taskTcb), &LocalTcb, sizeof(LocalTcb)) < sizeof(LocalTcb))
