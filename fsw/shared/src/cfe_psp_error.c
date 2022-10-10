@@ -27,8 +27,6 @@
 
 /*----------------------------------------------------------------
  *
- * Function: CFE_PSP_StatusToString
- *
  *  Purpose: Implemented per public PSP API
  *           See description in API and header file for detail
  *

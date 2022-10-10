@@ -40,10 +40,12 @@ const char *PCS_taskName(PCS_TASK_ID task_id)
 
     return retval;
 }
+
 void PCS_taskExit(int code)
 {
     UT_DEFAULT_IMPL(PCS_taskExit);
 }
+
 PCS_TASK_ID PCS_taskIdSelf(void)
 {
     int32 Status;
@@ -56,6 +58,7 @@ PCS_TASK_ID PCS_taskIdSelf(void)
 
     return &PCS_LOCAL_TASK;
 }
+
 PCS_TASK_ID PCS_taskNameToId(const char *name)
 {
     int32 Status;
@@ -68,26 +71,32 @@ PCS_TASK_ID PCS_taskNameToId(const char *name)
 
     return &PCS_LOCAL_TASK;
 }
+
 PCS_STATUS PCS_taskDelay(int ticks)
 {
     return UT_DEFAULT_IMPL(PCS_taskDelay);
 }
+
 PCS_STATUS PCS_taskDelete(PCS_TASK_ID tid)
 {
     return UT_DEFAULT_IMPL(PCS_taskDelete);
 }
+
 PCS_STATUS PCS_taskDeleteForce(PCS_TASK_ID tid)
 {
     return UT_DEFAULT_IMPL(PCS_taskDeleteForce);
 }
+
 PCS_STATUS PCS_taskSuspend(PCS_TASK_ID tid)
 {
     return UT_DEFAULT_IMPL(PCS_taskSuspend);
 }
+
 PCS_STATUS PCS_taskResume(PCS_TASK_ID tid)
 {
     return UT_DEFAULT_IMPL(PCS_taskResume);
 }
+
 PCS_STATUS PCS_taskPrioritySet(PCS_TASK_ID tid, int newPriority)
 {
     return UT_DEFAULT_IMPL(PCS_taskPrioritySet);

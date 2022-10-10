@@ -118,7 +118,6 @@ CFE_PSP_ReservedMemoryMap_t CFE_PSP_ReservedMemoryMap;
 **
 */
 /******************************************************************************
-**  Function: CFE_PSP_InitCDS
 **
 **  Purpose: This function is used by the ES startup code to initialize the
 **            Critical Data store area
@@ -167,7 +166,6 @@ void CFE_PSP_InitCDS(void)
 }
 
 /******************************************************************************
-**  Function: CFE_PSP_DeleteCDS
 **
 **  Purpose:
 **   This is an internal function to delete the CDS Shared memory segment.
@@ -180,7 +178,6 @@ void CFE_PSP_InitCDS(void)
 */
 void CFE_PSP_DeleteCDS(void)
 {
-
     int             ReturnCode;
     struct shmid_ds ShmCtrl;
 
@@ -198,7 +195,6 @@ void CFE_PSP_DeleteCDS(void)
 }
 
 /******************************************************************************
-**  Function: CFE_PSP_GetCDSSize
 **
 **  Purpose:
 **    This function fetches the size of the OS Critical Data Store area.
@@ -228,7 +224,6 @@ int32 CFE_PSP_GetCDSSize(uint32 *SizeOfCDS)
 }
 
 /******************************************************************************
-**  Function: CFE_PSP_WriteToCDS
 **
 **  Purpose:
 **    This function writes to the CDS Block.
@@ -270,7 +265,6 @@ int32 CFE_PSP_WriteToCDS(const void *PtrToDataToWrite, uint32 CDSOffset, uint32 
 }
 
 /******************************************************************************
-**  Function: CFE_PSP_ReadFromCDS
 **
 **  Purpose:
 **   This function reads from the CDS Block
@@ -318,7 +312,6 @@ int32 CFE_PSP_ReadFromCDS(void *PtrToDataToRead, uint32 CDSOffset, uint32 NumByt
 */
 
 /******************************************************************************
-**  Function: CFE_PSP_InitESResetArea
 **
 **  Purpose:
 **    This function is used by the ES startup code to initialize the
@@ -332,7 +325,6 @@ int32 CFE_PSP_ReadFromCDS(void *PtrToDataToRead, uint32 CDSOffset, uint32 NumByt
 */
 void CFE_PSP_InitResetArea(void)
 {
-
     key_t                                   key;
     size_t                                  total_size;
     size_t                                  reset_offset;
@@ -391,7 +383,6 @@ void CFE_PSP_InitResetArea(void)
 }
 
 /******************************************************************************
-**  Function: CFE_PSP_DeleteResetArea
 **
 **  Purpose:
 **   This is an internal function to delete the Reset Area Shared memory segment.
@@ -423,7 +414,6 @@ void CFE_PSP_DeleteResetArea(void)
 /*
  */
 /******************************************************************************
-**  Function: CFE_PSP_GetResetArea
 **
 **  Purpose:
 **     This function returns the location and size of the ES Reset information area.
@@ -461,7 +451,6 @@ int32 CFE_PSP_GetResetArea(cpuaddr *PtrToResetArea, uint32 *SizeOfResetArea)
 */
 
 /******************************************************************************
-**  Function: CFE_PSP_InitUserReservedArea
 **
 **  Purpose:
 **    This function is used by the ES startup code to initialize the
@@ -509,7 +498,6 @@ void CFE_PSP_InitUserReservedArea(void)
 }
 
 /******************************************************************************
-**  Function: CFE_PSP_DeleteUserReservedArea
 **
 **  Purpose:
 **   This is an internal function to delete the User Reserved Shared memory segment.
@@ -539,7 +527,6 @@ void CFE_PSP_DeleteUserReservedArea(void)
 }
 
 /******************************************************************************
-**  Function: CFE_PSP_GetUserReservedArea
 **
 **  Purpose:
 **    This function returns the location and size of the memory used for the cFE
@@ -576,7 +563,6 @@ int32 CFE_PSP_GetUserReservedArea(cpuaddr *PtrToUserArea, uint32 *SizeOfUserArea
 */
 
 /******************************************************************************
-**  Function: CFE_PSP_InitVolatileDiskMem
 **
 **  Purpose:
 **   This function is used by the ES startup code to initialize the memory
@@ -598,7 +584,6 @@ void CFE_PSP_InitVolatileDiskMem(void)
 }
 
 /******************************************************************************
-**  Function: CFE_PSP_GetVolatileDiskMem
 **
 **  Purpose:
 **    This function returns the location and size of the memory used for the cFE
@@ -635,7 +620,6 @@ int32 CFE_PSP_GetVolatileDiskMem(cpuaddr *PtrToVolDisk, uint32 *SizeOfVolDisk)
 */
 
 /******************************************************************************
-**  Function: CFE_PSP_InitProcessorReservedMemory
 **
 **  Purpose:
 **    This function performs the top level reserved memory initialization.
@@ -683,7 +667,6 @@ void CFE_PSP_SetupReservedMemoryMap(void)
 
 int32 CFE_PSP_InitProcessorReservedMemory(uint32 RestartType)
 {
-
     /*
      * Clear the segments only on a POWER ON reset
      *
@@ -736,7 +719,6 @@ int32 CFE_PSP_InitProcessorReservedMemory(uint32 RestartType)
 }
 
 /******************************************************************************
-**  Function: CFE_PSP_DeleteProcessorReservedMemory
 **
 **  Purpose:
 **    This function cleans up all of the shared memory segments in the
@@ -750,7 +732,6 @@ int32 CFE_PSP_InitProcessorReservedMemory(uint32 RestartType)
 */
 void CFE_PSP_DeleteProcessorReservedMemory(void)
 {
-
     CFE_PSP_DeleteCDS();
     CFE_PSP_DeleteResetArea();
     CFE_PSP_DeleteUserReservedArea();
@@ -763,7 +744,6 @@ void CFE_PSP_DeleteProcessorReservedMemory(void)
 */
 
 /******************************************************************************
-**  Function: CFE_PSP_GetKernelTextSegmentInfo
 **
 **  Purpose:
 **    This function returns the start and end address of the kernel text segment.
@@ -789,7 +769,6 @@ int32 CFE_PSP_GetKernelTextSegmentInfo(cpuaddr *PtrToKernelSegment, uint32 *Size
 }
 
 /******************************************************************************
-**  Function: CFE_PSP_GetCFETextSegmentInfo
 **
 **  Purpose:
 **    This function returns the start and end address of the CFE text segment.

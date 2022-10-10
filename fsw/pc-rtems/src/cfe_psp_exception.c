@@ -60,8 +60,6 @@
 
 /*
 **
-**   Name: CFE_PSP_AttachExceptions
-**
 **   Purpose: No-op on this platform, implemented for API compatibility.
 **
 */
@@ -72,8 +70,6 @@ void CFE_PSP_AttachExceptions(void)
 }
 
 /*
- * Name: CFE_PSP_ExceptionGetSummary_Impl
- *
  * Purpose: Translate a stored exception log entry into a summary string
  */
 int32 CFE_PSP_ExceptionGetSummary_Impl(const CFE_PSP_Exception_LogData_t *Buffer, char *ReasonBuf, uint32 ReasonSize)
@@ -84,13 +80,9 @@ int32 CFE_PSP_ExceptionGetSummary_Impl(const CFE_PSP_Exception_LogData_t *Buffer
 
 /*
 **
-**   Name: CFE_PSP_SetDefaultExceptionEnvironment
-**
 **   Purpose: This function sets a default exception environment that can be used
 **
 **   Notes: The exception environment is local to each task Therefore this must be
 **          called for each task that that wants to do floating point and catch exceptions
 */
-void CFE_PSP_SetDefaultExceptionEnvironment(void)
-{
-}
+void CFE_PSP_SetDefaultExceptionEnvironment(void) {}

@@ -54,7 +54,6 @@
 static uint32 CFE_PSP_ConfigPspModuleListLength = 0;
 
 /***************************************************
- * Function Name: CFE_PSP_ModuleInitList
  *
  * Helper function to initialize a list of modules (not externally called)
  * Returns the number of modules initialized
@@ -91,7 +90,6 @@ uint32_t CFE_PSP_ModuleInitList(uint32 BaseId, CFE_StaticModuleLoadEntry_t *List
 }
 
 /***************************************************
- * Function Name: CFE_PSP_ModuleInit
  *
  * See prototype for full description
  */
@@ -106,7 +104,6 @@ void CFE_PSP_ModuleInit(void)
 }
 
 /***************************************************
- * Function Name: CFE_PSP_Module_GetAPIEntry
  *
  * See prototype for full description
  */
@@ -130,7 +127,6 @@ int32 CFE_PSP_Module_GetAPIEntry(uint32 PspModuleId, CFE_PSP_ModuleApi_t **API)
 }
 
 /***************************************************
- * Function Name: CFE_PSP_Module_FindByName
  *
  * See prototype for full description
  */

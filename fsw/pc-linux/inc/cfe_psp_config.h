@@ -88,7 +88,6 @@ typedef struct
 {
     uint32 ValidityFlag;
     uint32 NextResetType;
-
 } CFE_PSP_ReservedMemoryBootRecord_t;
 
 /*

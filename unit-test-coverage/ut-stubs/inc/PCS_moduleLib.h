@@ -47,7 +47,6 @@ typedef struct PCS_MODULE_INFO
         unsigned long bssAddr;
         unsigned long bssSize;
     } segInfo;
-
 } PCS_MODULE_INFO;
 
 /* ----------------------------------------- */

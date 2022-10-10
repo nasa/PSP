@@ -81,7 +81,6 @@ CFE_PSP_MemoryBlock_t MCP750_ReservedMemBlock;
 */
 
 /******************************************************************************
-**  Function: CFE_PSP_GetCDSSize
 **
 **  Purpose:
 **    This function fetches the size of the OS Critical Data Store area.
@@ -110,7 +109,6 @@ int32 CFE_PSP_GetCDSSize(uint32 *SizeOfCDS)
 }
 
 /******************************************************************************
-**  Function: CFE_PSP_WriteToCDS
 **
 **  Purpose:
 **    This function writes to the CDS Block.
@@ -152,7 +150,6 @@ int32 CFE_PSP_WriteToCDS(const void *PtrToDataToWrite, uint32 CDSOffset, uint32 
 }
 
 /******************************************************************************
-**  Function: CFE_PSP_ReadFromCDS
 **
 **  Purpose:
 **   This function reads from the CDS Block
@@ -201,7 +198,6 @@ int32 CFE_PSP_ReadFromCDS(void *PtrToDataToRead, uint32 CDSOffset, uint32 NumByt
 */
 
 /******************************************************************************
-**  Function: CFE_PSP_GetResetArea
 **
 **  Purpose:
 **     This function returns the location and size of the ES Reset information area.
@@ -239,7 +235,6 @@ int32 CFE_PSP_GetResetArea(cpuaddr *PtrToResetArea, uint32 *SizeOfResetArea)
 */
 
 /******************************************************************************
-**  Function: CFE_PSP_GetUserReservedArea
 **
 **  Purpose:
 **    This function returns the location and size of the memory used for the cFE
@@ -276,7 +271,6 @@ int32 CFE_PSP_GetUserReservedArea(cpuaddr *PtrToUserArea, uint32 *SizeOfUserArea
 */
 
 /******************************************************************************
-**  Function: CFE_PSP_GetVolatileDiskMem
 **
 **  Purpose:
 **    This function returns the location and size of the memory used for the cFE
@@ -313,7 +307,6 @@ int32 CFE_PSP_GetVolatileDiskMem(cpuaddr *PtrToVolDisk, uint32 *SizeOfVolDisk)
 */
 
 /******************************************************************************
-**  Function: CFE_PSP_InitProcessorReservedMemory
 **
 **  Purpose:
 **    This function performs the top level reserved memory initialization.
@@ -343,7 +336,6 @@ int32 CFE_PSP_InitProcessorReservedMemory(uint32 RestartType)
 }
 
 /******************************************************************************
-**  Function: CFE_PSP_SetupReservedMemoryMap
 **
 **  Purpose:
 **    Set up the CFE_PSP_ReservedMemoryMap global data structure
@@ -414,7 +406,6 @@ void CFE_PSP_SetupReservedMemoryMap(void)
 }
 
 /******************************************************************************
- * Function: CFE_PSP_DeleteProcessorReservedMemory
  *
  * No action on MCP750 - reserved block is statically allocated at sysMemTop.
  * Implemented for API consistency with other PSPs.
@@ -428,7 +419,6 @@ void CFE_PSP_DeleteProcessorReservedMemory(void) {}
 */
 
 /******************************************************************************
-**  Function: CFE_PSP_GetKernelTextSegmentInfo
 **
 **  Purpose:
 **    This function returns the start and end address of the kernel text segment.
@@ -470,7 +460,6 @@ int32 CFE_PSP_GetKernelTextSegmentInfo(cpuaddr *PtrToKernelSegment, uint32 *Size
 }
 
 /******************************************************************************
-**  Function: CFE_PSP_GetCFETextSegmentInfo
 **
 **  Purpose:
 **    This function returns the start and end address of the CFE text segment.

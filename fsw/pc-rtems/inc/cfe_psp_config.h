@@ -56,7 +56,6 @@ typedef struct
 {
     /* not currently used in PC-RTEMS */
     uint32 reserved;
-
 } CFE_PSP_ReservedMemoryBootRecord_t;
 
 /**

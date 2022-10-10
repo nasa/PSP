@@ -48,7 +48,6 @@
 #include "cfe_psp_memory.h"
 
 /******************************************************************************
-**  Function:  CFE_PSP_InitSSR
 **
 **  Purpose:
 **    Initializes the Solid State Recorder device. Dummy function for this

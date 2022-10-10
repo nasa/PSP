@@ -51,7 +51,6 @@ void eeprom_direct_Init(uint32 PspModuleId)
 */
 
 /*
- ** Name: CFE_PSP_EepromWrite32
  **
  ** Purpose:
  **
@@ -88,7 +87,6 @@ int32 CFE_PSP_EepromWrite32(cpuaddr MemoryAddress, uint32 uint32Value)
 }
 
 /*
- ** Name: CFE_PSP_EepromWrite16
  **
  ** Purpose:
  **
@@ -183,7 +181,6 @@ int32 CFE_PSP_EepromWrite16(cpuaddr MemoryAddress, uint16 uint16Value)
 }
 
 /*
- ** Name: CFE_PSP_EepromWrite8
  **
  ** Purpose:
  **
@@ -268,7 +265,6 @@ int32 CFE_PSP_EepromWrite8(cpuaddr MemoryAddress, uint8 ByteValue)
 }
 
 /*
-** Name: CFE_PSP_EepromWriteEnable
 **
 ** Purpose:
 **		Enable the eeprom for write operation
@@ -292,7 +288,6 @@ int32 CFE_PSP_EepromWriteEnable(uint32 Bank)
 }
 
 /*
-** Name: CFE_PSP_EepromWriteDisable
 **
 ** Purpose:
 **		Disable  the eeprom from write operation
@@ -316,7 +311,6 @@ int32 CFE_PSP_EepromWriteDisable(uint32 Bank)
 }
 
 /*
-** Name: CFE_PSP_EepromPowerUp
 **
 ** Purpose:
 **		Power up the eeprom
@@ -339,7 +333,6 @@ int32 CFE_PSP_EepromPowerUp(uint32 Bank)
 }
 
 /*
-** Name: CFE_PSP_EepromPowerDown
 **
 ** Purpose:
 **		Power down the eeprom

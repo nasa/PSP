@@ -46,7 +46,6 @@ CFE_PSP_MODULE_DECLARE_SIMPLE(eeprom_mmap_file);
 */
 int32 CFE_PSP_SetupEEPROM(uint32 EEPROMSize, cpuaddr *EEPROMAddress)
 {
-
     int         FileDescriptor;
     int         ReturnStatus;
     char *      DataBuffer;
