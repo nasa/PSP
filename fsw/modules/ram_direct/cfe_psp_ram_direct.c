@@ -39,7 +39,6 @@ void ram_direct_Init(uint32 PspModuleId)
 */
 
 /*
- ** Name: CFE_PSP_MemRead8
  **
  ** Purpose:
  **         Read one byte of memory.
@@ -59,14 +58,12 @@ void ram_direct_Init(uint32 PspModuleId)
  */
 int32 CFE_PSP_MemRead8(cpuaddr MemoryAddress, uint8 *ByteValue)
 {
-
     (*ByteValue) = *((uint8 *)MemoryAddress);
 
     return CFE_PSP_SUCCESS;
 }
 
 /*
- ** Name: CFE_PSP_MemWrite8
  **
  ** Purpose:
  **         Write one byte of memory.
@@ -92,7 +89,6 @@ int32 CFE_PSP_MemWrite8(cpuaddr MemoryAddress, uint8 ByteValue)
 }
 
 /*
- ** Name: CFE_PSP_MemRead16
  **
  ** Purpose:
  **         Read  2 bytes of memory.
@@ -124,8 +120,8 @@ int32 CFE_PSP_MemRead16(cpuaddr MemoryAddress, uint16 *uint16Value)
     (*uint16Value) = *((uint16 *)MemoryAddress);
     return CFE_PSP_SUCCESS;
 }
+
 /*
- ** Name: CFE_PSP_MemWrite16
  **
  ** Purpose:
  **         Write 2 byte of memory.
@@ -157,8 +153,8 @@ int32 CFE_PSP_MemWrite16(cpuaddr MemoryAddress, uint16 uint16Value)
     *((uint16 *)MemoryAddress) = uint16Value;
     return CFE_PSP_SUCCESS;
 }
+
 /*
- ** Name: CFE_PSP_MemRead32
  **
  ** Purpose:
  **         Read 4 bytes of memory.
@@ -193,7 +189,6 @@ int32 CFE_PSP_MemRead32(cpuaddr MemoryAddress, uint32 *uint32Value)
 }
 
 /*
- ** Name: CFE_PSP_MemWrite32
  **
  ** Purpose:
  **         Write 4 byte of memory.
@@ -217,7 +212,6 @@ int32 CFE_PSP_MemRead32(cpuaddr MemoryAddress, uint32 *uint32Value)
  */
 int32 CFE_PSP_MemWrite32(cpuaddr MemoryAddress, uint32 uint32Value)
 {
-
     /* check 32 bit alignment  */
     if (MemoryAddress & 0x00000003)
     {

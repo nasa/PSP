@@ -105,7 +105,6 @@ typedef struct
 
     uint32 SpacecraftId;    /* Spacecraft ID */
     uint32 GotSpacecraftId; /* Did we get a Spacecraft ID */
-
 } CFE_PSP_CommandData_t;
 
 /*
@@ -142,7 +141,6 @@ static const struct option longOpts[] = {{"reset", required_argument, NULL, 'R'}
                                          {NULL, no_argument, NULL, 0}};
 
 /******************************************************************************
-**  Function:  CFE_PSP_OS_EventHandler()
 **
 **  Purpose:
 **    Linux Task creation event handler.
@@ -211,7 +209,6 @@ int32 CFE_PSP_OS_EventHandler(OS_Event_t event, osal_id_t object_id, void *data)
 }
 
 /******************************************************************************
-**  Function:  main()
 **
 **  Purpose:
 **    BSP Application entry point.
@@ -491,7 +488,6 @@ void OS_Application_Run(void)
 }
 
 /******************************************************************************
-**  Function:  CFE_PSP_DisplayUsage
 **
 **  Purpose:
 **    Display program usage, and exit.
@@ -504,7 +500,6 @@ void OS_Application_Run(void)
 */
 void CFE_PSP_DisplayUsage(char *Name)
 {
-
     printf("usage : %s [-R <value>] [-S <value>] [-C <value] [-N <value] [-I <value] [-h] \n", Name);
     printf("\n");
     printf("        All parameters are optional and can be used in any order\n");
@@ -538,8 +533,8 @@ void CFE_PSP_DisplayUsage(char *Name)
 
     exit(1);
 }
+
 /******************************************************************************
-**  Function: CFE_PSP_ProcessArgumentDefaults
 **
 **  Purpose:
 **    This function assigns defaults to parameters and checks to make sure

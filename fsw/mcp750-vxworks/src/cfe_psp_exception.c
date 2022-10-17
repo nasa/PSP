@@ -72,8 +72,6 @@ void CFE_PSP_ExceptionHook(TASK_ID task_id, int vector, void *vpEsf);
 
 /*
 **
-**   Name: CFE_PSP_AttachExceptions
-**
 **   Purpose: This function Initializes the task exceptions and adds a hook
 **              into the VxWorks exception handling.  The below hook is called
 **              for every exception that VxWorks catches.
@@ -92,7 +90,6 @@ void CFE_PSP_AttachExceptions(void)
 }
 
 /*
-** Name: CFE_PSP_ExceptionHook
 **
 ** Purpose: Make the proper call to CFE_ES_EXCEPTION_FUNCTION (defined in
 **          cfe_es_platform.cfg)
@@ -153,12 +150,9 @@ void CFE_PSP_ExceptionHook(TASK_ID task_id, int vector, void *vpEsf)
         /* notify the CFE of the event */
         GLOBAL_CFE_CONFIGDATA.SystemNotify();
     }
-
-} /* end function */
+}
 
 /*
-**
-**   Name: CFE_PSP_SetDefaultExceptionEnvironment
 **
 **   Purpose: This function sets a default exception environment that can be used
 **
@@ -184,8 +178,6 @@ void CFE_PSP_SetDefaultExceptionEnvironment(void)
 }
 
 /*
- * Name: CFE_PSP_ExceptionGetSummary_Impl
- *
  * Purpose: Translate a stored exception log entry into a summary string
  */
 int32 CFE_PSP_ExceptionGetSummary_Impl(const CFE_PSP_Exception_LogData_t *Buffer, char *ReasonBuf, uint32 ReasonSize)

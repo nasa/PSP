@@ -58,7 +58,6 @@ extern SYMTAB_ID sysSymTbl;
 extern int DriveNum;
 
 /*
-** Function: GetWrsKernelTextStart
 ** Purpose:  This function returns the start address of the kernel code.
 **
 */
@@ -68,7 +67,6 @@ unsigned int GetWrsKernelTextStart(void)
 }
 
 /*
-** Function: GetWrsKernelTextEnd
 ** Purpose:  This function returns the end address of the kernel code.
 **
 */
@@ -78,7 +76,6 @@ unsigned int GetWrsKernelTextEnd(void)
 }
 
 /*
-** Function: loadCfeCore
 ** Purpose:  This function unzips ( if needed ) , loads, and starts the cFE core.
 **
 */
@@ -168,7 +165,6 @@ int startCfeCore(char *cfevolume, char *cfepath)
 }
 
 /******************************************************************************
-**  Function:  CFE_PSP_InitFlashDisk()
 **
 **  Purpose:
 **    Initialize the Compact flash disk in vxWorks

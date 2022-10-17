@@ -202,7 +202,6 @@ void Test_Rollover(void)
 }
 
 /******************************************************************************
-**  Function:  CFE_PSP_Get_Timebase()
 **
 **  Purpose:
 **    Provides a common interface to system timebase. This routine

@@ -83,7 +83,6 @@ typedef struct
     uint32 spare1;
     uint32 spare2;
     uint32 spare3;
-
 } CFE_PSP_ReservedMemoryBootRecord_t;
 
 /**
@@ -101,7 +100,6 @@ typedef struct
     int        vector;         /* vector number */
     ESFPPC     esf;            /* Exception stack frame */
     FP_CONTEXT fp;             /* floating point registers */
-
 } CFE_PSP_Exception_ContextDataEntry_t;
 
 /*

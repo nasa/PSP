@@ -46,7 +46,6 @@
 */
 
 /*
-** Name: CFE_PSP_MemCpy
 **
 ** Purpose:
 **	Copies 'size' byte from memory address pointed by 'src' to memory
@@ -74,7 +73,6 @@ int32 CFE_PSP_MemCpy(void *dst, const void *src, uint32 size)
 }
 
 /*
-** Name: CFE_PSP_MemSet
 **
 ** Purpose:
 **	Copies 'size' number of byte of value 'value' to memory address pointed

@@ -45,7 +45,6 @@ typedef struct
 {
     unsigned long PeriodNumerator;
     unsigned long PeriodDenominator;
-
 } UT_PSP_TimeBase_VxWorks_TestConfig_t;
 
 extern UT_PSP_TimeBase_VxWorks_TestConfig_t UT_PSP_TIMEBASE_VXWORKS_TESTCONFIG;

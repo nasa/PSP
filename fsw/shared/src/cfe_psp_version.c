@@ -27,8 +27,6 @@
 
 /*----------------------------------------------------------------
  *
- * Function: CFE_PSP_GetVersionString
- *
  *  Purpose: Implemented per public OSAL API
  *           See description in API and header file for detail
  *
@@ -40,8 +38,6 @@ const char *CFE_PSP_GetVersionString(void)
 
 /*----------------------------------------------------------------
  *
- * Function: CFE_PSP_GetVersionCodeName
- *
  *  Purpose: Implemented per public OSAL API
  *           See description in API and header file for detail
  *
@@ -52,8 +48,6 @@ const char *CFE_PSP_GetVersionCodeName(void)
 }
 
 /*----------------------------------------------------------------
- *
- * Function: CFE_PSP_GetVersionNumber
  *
  *  Purpose: Implemented per public OSAL API
  *           See description in API and header file for detail
@@ -68,8 +62,6 @@ void CFE_PSP_GetVersionNumber(uint8 VersionNumbers[4])
 }
 
 /*----------------------------------------------------------------
- *
- * Function: CFE_PSP_GetBuildNumber
  *
  *  Purpose: Implemented per public OSAL API
  *           See description in API and header file for detail

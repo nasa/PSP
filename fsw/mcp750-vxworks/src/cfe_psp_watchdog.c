@@ -72,7 +72,7 @@
 */
 uint32 CFE_PSP_WatchdogValue = CFE_PSP_WATCHDOG_MAX;
 
-/*  Function:  CFE_PSP_WatchdogInit()
+/******************************************************************************
 **
 **  Purpose:
 **    To setup the timer resolution and/or other settings custom to this platform.
@@ -83,7 +83,6 @@ uint32 CFE_PSP_WatchdogValue = CFE_PSP_WATCHDOG_MAX;
 */
 void CFE_PSP_WatchdogInit(void)
 {
-
     /*
     ** Just set it to a value right now
     ** The pc-linux desktop platform does not actually implement a watchdog
@@ -93,7 +92,6 @@ void CFE_PSP_WatchdogInit(void)
 }
 
 /******************************************************************************
-**  Function:  CFE_PSP_WatchdogEnable()
 **
 **  Purpose:
 **    Enable the watchdog timer
@@ -112,7 +110,6 @@ void CFE_PSP_WatchdogEnable(void)
 }
 
 /******************************************************************************
-**  Function:  CFE_PSP_WatchdogDisable()
 **
 **  Purpose:
 **    Disable the watchdog timer
@@ -131,7 +128,6 @@ void CFE_PSP_WatchdogDisable(void)
 }
 
 /******************************************************************************
-**  Function:  CFE_PSP_WatchdogService()
 **
 **  Purpose:
 **    Load the watchdog timer with a count that corresponds to the millisecond
@@ -174,8 +170,8 @@ void CFE_PSP_WatchdogService(void)
         PCI_OUT_LONG(0xFEFF0068, 0xFFFFFFAA);
     }
 }
+
 /******************************************************************************
-**  Function:  CFE_PSP_WatchdogGet
 **
 **  Purpose:
 **    Get the current watchdog value.
@@ -195,7 +191,6 @@ uint32 CFE_PSP_WatchdogGet(void)
 }
 
 /******************************************************************************
-**  Function:  CFE_PSP_WatchdogSet
 **
 **  Purpose:
 **    Get the current watchdog value.
