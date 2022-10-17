@@ -1,5 +1,10 @@
 # Changelog
 
+## Development Build: v1.6.0-rc4+dev61
+- Stop empty function catching CI workflow format checks
+- Remove redundant/inconsistent comments (/* end of function */, /* end if */ etc.) and clean up empty lines.
+- See <https://github.com/nasa/PSP/pull/365> and <https://github.com/nasa/PSP/pull/368>
+
 ## Development Build: v1.6.0-rc4+dev55
 - Create Changelog File
 - Remove unnecessary parentheses around return values.
