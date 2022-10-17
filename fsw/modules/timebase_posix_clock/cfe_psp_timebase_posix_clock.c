@@ -116,7 +116,6 @@ void CFE_PSP_GetTime(OS_time_t *LocalTime)
 }
 
 /******************************************************************************
-**  Function:  CFE_PSP_GetTimerTicksPerSecond()
 **
 **  Purpose:
 **    Provides the resolution of the least significant 32 bits of the 64 bit
@@ -137,7 +136,6 @@ uint32 CFE_PSP_GetTimerTicksPerSecond(void)
 }
 
 /******************************************************************************
-**  Function:  CFE_PSP_GetTimerLow32Rollover()
 **
 **  Purpose:
 **    Provides the number that the least significant 32 bits of the 64 bit

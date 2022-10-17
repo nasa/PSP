@@ -60,7 +60,6 @@ sigset_t CFE_PSP_AsyncMask;
  ***************************************************************************/
 
 /*
-** Name: CFE_PSP_ExceptionSigHandler
 **
 ** Installed as a signal handler to log exception events.
 **
@@ -111,7 +110,6 @@ void CFE_PSP_ExceptionSigHandler(int signo, siginfo_t *si, void *ctxt)
 }
 
 /*
-** Name: CFE_PSP_ExceptionSigHandlerSuspend
 **
 ** An extension of CFE_PSP_ExceptionSigHandler that also
 ** suspends the calling task and prevents returning to the
@@ -139,8 +137,7 @@ void CFE_PSP_ExceptionSigHandlerSuspend(int signo, siginfo_t *si, void *ctxt)
      * will be deleted by the CFE/OSAL.
      */
     sigsuspend(&CFE_PSP_AsyncMask);
-
-} /* end function */
+}
 
 /*
  * Helper function to call sigaction() to attach a signal handler
@@ -183,7 +180,6 @@ void CFE_PSP_AttachSigHandler(int signo)
 }
 
 /*
-**   Name: CFE_PSP_AttachExceptions
 **
 **   This is called from the CFE Main task, before any other threads
 **   are started.  Use this opportunity to install the handler for
@@ -249,8 +245,6 @@ void CFE_PSP_AttachExceptions(void)
 }
 
 /*
-**
-**   Name: CFE_PSP_SetDefaultExceptionEnvironment
 **
 **   Purpose: This function sets a default exception environment that can be used
 **

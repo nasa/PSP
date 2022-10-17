@@ -49,7 +49,6 @@
 #include <unistd.h>
 
 /******************************************************************************
-**  Function:  CFE_PSP_InitSSR
 **
 **  Purpose:
 **    Initializes the Solid State Recorder device. This can be filled in for the platform.

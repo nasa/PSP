@@ -72,7 +72,6 @@
 extern CFE_PSP_MemoryBlock_t MCP750_ReservedMemBlock;
 
 /******************************************************************************
-**  Function:  CFE_PSP_Restart()
 **
 **  Purpose:
 **    Provides a common interface to the processor reset.
@@ -86,7 +85,6 @@ extern CFE_PSP_MemoryBlock_t MCP750_ReservedMemBlock;
 
 void CFE_PSP_Restart(uint32 reset_type)
 {
-
     if (reset_type == CFE_PSP_RST_TYPE_POWERON)
     {
         CFE_PSP_ReservedMemoryMap.BootPtr->bsp_reset_type = CFE_PSP_RST_TYPE_POWERON;
@@ -102,7 +100,6 @@ void CFE_PSP_Restart(uint32 reset_type)
 }
 
 /******************************************************************************
-**  Function:  CFE_PSP_Panic()
 **
 **  Purpose:
 **    Provides a common interface to abort the cFE startup process and return
@@ -122,7 +119,6 @@ void CFE_PSP_Panic(int32 ErrorCode)
 }
 
 /******************************************************************************
-**  Function:  CFE_PSP_FlushCaches()
 **
 **  Purpose:
 **    Provides a common interface to flush the processor caches. This routine
@@ -144,7 +140,6 @@ void CFE_PSP_FlushCaches(uint32 type, void *address, uint32 size)
 }
 
 /*
-** Name: CFE_PSP_GetProcessorId
 **
 ** Purpose:
 **         return the processor ID.
@@ -166,7 +161,6 @@ uint32 CFE_PSP_GetProcessorId(void)
 }
 
 /*
-** Name: CFE_PSP_GetSpacecraftId
 **
 ** Purpose:
 **         return the spacecraft ID.
@@ -186,7 +180,6 @@ uint32 CFE_PSP_GetSpacecraftId(void)
 }
 
 /*
-** Name: CFE_PSP_GetProcessorName
 **
 ** Purpose:
 **         return the processor name.

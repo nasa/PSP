@@ -27,6 +27,7 @@ int PCS_sysClkRateGet(void)
 {
     return UT_DEFAULT_IMPL_RC(PCS_sysClkRateGet, 10000);
 }
+
 char *PCS_sysMemTop(void)
 {
     int32 Status;
@@ -46,14 +47,17 @@ void PCS_PciOutByte(uint32_t address, uint8_t data)
 {
     UT_DEFAULT_IMPL(PCS_PciOutByte);
 }
+
 void PCS_PciOutLong(uint32_t address, uint32_t data)
 {
     UT_DEFAULT_IMPL(PCS_PciOutLong);
 }
+
 void PCS_sysPciWrite32(uint32_t address, uint32_t data)
 {
     UT_DEFAULT_IMPL(PCS_sysPciWrite32);
 }
+
 void PCS_sysPciRead32(uint32_t address, uint32_t *data)
 {
     UT_DEFAULT_IMPL(PCS_sysPciRead32);

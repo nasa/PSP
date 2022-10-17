@@ -59,6 +59,7 @@ void Test_CFE_PSP_Exception_GetBuffer(void)
     UtAssert_True(Ptr0 != Ptr1, "CFE_PSP_Exception_GetBuffer(0) (%p) != CFE_PSP_Exception_GetBuffer(1) (%p)",
                   (void *)Ptr0, (void *)Ptr1);
 }
+
 void Test_CFE_PSP_Exception_GetNextContextBuffer(void)
 {
     /*

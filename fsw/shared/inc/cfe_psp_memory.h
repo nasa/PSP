@@ -54,7 +54,6 @@ typedef struct
 {
     void * BlockPtr;
     size_t BlockSize;
-
 } CFE_PSP_MemoryBlock_t;
 
 typedef struct
@@ -75,7 +74,6 @@ typedef struct
      */
 
     CFE_PSP_MemTable_t SysMemoryTable[CFE_PSP_MEM_TABLE_SIZE];
-
 } CFE_PSP_ReservedMemoryMap_t;
 
 /**

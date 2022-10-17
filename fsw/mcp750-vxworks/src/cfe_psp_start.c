@@ -75,7 +75,6 @@ IMPORT void sysPciWrite32(UINT32, UINT32);
 #define CFE_PSP_NONVOL_STARTUP_FILE (GLOBAL_CONFIGDATA.CfeConfig->NonvolStartupFile)
 
 /******************************************************************************
-**  Function:  OS_Application_Startup()
 **
 **  Purpose:
 **    Application startup entry point from OSAL BSP.
@@ -187,7 +186,6 @@ void OS_Application_Startup(void)
     }
     else if (reset_register & SYS_REG_BLRR_SWHRST)
     {
-
         /*
         ** For a Software hard reset, we want to look at the special
         ** BSP reset variable to determine if we wanted a
