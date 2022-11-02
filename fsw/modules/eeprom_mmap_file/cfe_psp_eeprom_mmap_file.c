@@ -120,6 +120,8 @@ int32 CFE_PSP_SetupEEPROM(uint32 EEPROMSize, cpuaddr *EEPROMAddress)
     */
     *EEPROMAddress = (cpuaddr)DataBuffer;
 
+    close(FileDescriptor);
+
     return 0;
 }
 
