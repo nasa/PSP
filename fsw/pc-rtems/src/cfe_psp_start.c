@@ -33,8 +33,9 @@
 #include <errno.h>
 #include <rtems.h>
 #include <rtems/rtems_bsdnet.h>
-#include <rtems/rtems_dhcp_failsafe.h>
-#include <bsp.h>
+/* TODO Only needed for network setup, move? */
+//#include <rtems/rtems_dhcp_failsafe.h>
+//#include <bsp.h>
 
 extern int rtems_fxp_attach(struct rtems_bsdnet_ifconfig *config, int attaching);
 
@@ -63,6 +64,8 @@ extern int rtems_fxp_attach(struct rtems_bsdnet_ifconfig *config, int attaching)
 
 rtems_id RtemsTimerId;
 
+/* TODO in pc but not in generic... might be the only unique stuff? */
+#if 0
 static unsigned char ethernet_address[6] = {0x00, 0x04, 0x9F, 0x00, 0x27, 0x61};
 static char          net_name_str[]      = "fxp1";
 static char          ip_addr_str[]       = "10.0.2.17";
@@ -78,9 +81,11 @@ static struct rtems_bsdnet_ifconfig netdriver_config = {
     /* more options can follow */
 };
 
+
 struct rtems_bsdnet_config rtems_bsdnet_config = {
     .ifconfig = &netdriver_config, .bootp = rtems_bsdnet_do_dhcp_failsafe, /* fill if DHCP is used*/
 };
+#endif
 
 /*
 ** 1 HZ Timer "ISR"
@@ -200,7 +205,9 @@ void CFE_PSP_Main(void)
     /*
     ** Set up the virtual FS mapping for the "/cf" directory
     */
-    Status = OS_FileSysAddFixedMap(&fs_id, "/mnt/eeprom", "/cf");
+    /* TODO maybe make this into a config... or just switch to nonvol */
+    // Status = OS_FileSysAddFixedMap(&fs_id, "/mnt/eeprom", "/cf");
+    Status = OS_FileSysAddFixedMap(&fs_id, "/nonvol", "/cf");
     if (Status != OS_SUCCESS)
     {
         /* Print for informational purposes --
