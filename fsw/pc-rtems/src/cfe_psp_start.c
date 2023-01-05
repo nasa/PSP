@@ -117,6 +117,8 @@ int timer_count = 0;
 */
 int CFE_PSP_Setup(void)
 {
+    /* TODO this hangs the dev board when using rki2 since network is already set up */
+#if 0
     rtems_status_code status;
 
     /*
@@ -128,6 +130,7 @@ int CFE_PSP_Setup(void)
     {
         printf("Network init not successful: %s / %s (continuing)\n", rtems_status_text(status), strerror(errno));
     }
+#endif
 
     return RTEMS_SUCCESSFUL;
 }

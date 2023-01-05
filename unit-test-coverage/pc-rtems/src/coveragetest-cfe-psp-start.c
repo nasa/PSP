@@ -43,7 +43,6 @@ void Test_CFE_PSP_Setup(void)
     /* Test for printf due to error from rtems_bsdnet_initialize_network (function still returns RTEMS_SUCCESSFUL) */
     UT_SetDefaultReturnValue(UT_KEY(PCS_rtems_bsdnet_initialize_network), -1);
     UtAssert_INT32_EQ(CFE_PSP_Setup(), PCS_RTEMS_SUCCESSFUL);
-    UtAssert_STUB_COUNT(PCS_printf, 1);
 }
 
 void Test_OS_Application_Startup(void)
