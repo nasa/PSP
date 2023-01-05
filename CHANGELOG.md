@@ -1,5 +1,10 @@
 # Changelog
 
+## Development Build: v1.6.0-rc4+dev67
+- Squash constParameter warning in linux cfe_psp_memory.c
+- Remove obsolete _USING_RTEMS_INCLUDES_
+- See <https://github.com/nasa/PSP/pull/374> and <https://github.com/nasa/PSP/pull/372>
+
 ## Development Build: v1.6.0-rc4+dev61
 - Stop empty function catching CI workflow format checks
 - Remove redundant/inconsistent comments (/* end of function */, /* end if */ etc.) and clean up empty lines.

@@ -757,13 +757,15 @@ void CFE_PSP_DeleteProcessorReservedMemory(void)
 */
 int32 CFE_PSP_GetKernelTextSegmentInfo(cpuaddr *PtrToKernelSegment, uint32 *SizeOfKernelSegment)
 {
-    /*
-    ** Prevent warnings by referencing parameters
-    */
+    /* Check pointers */
     if (PtrToKernelSegment == NULL || SizeOfKernelSegment == NULL)
     {
         return CFE_PSP_ERROR;
     }
+
+    /* Set to known values */
+    *PtrToKernelSegment  = (cpuaddr)0x0;
+    *SizeOfKernelSegment = 0;
 
     return CFE_PSP_ERROR_NOT_IMPLEMENTED;
 }
