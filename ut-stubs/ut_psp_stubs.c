@@ -345,10 +345,10 @@ int32 CFE_PSP_GetVolatileDiskMem(cpuaddr *PtrToVolDisk, uint32 *SizeOfVolDisk)
 **        This function does not return a value.
 **
 ******************************************************************************/
-void CFE_PSP_Restart(uint32 reset_type)
+void CFE_PSP_Restart(uint32 resetType)
 {
     UT_DEFAULT_IMPL(CFE_PSP_Restart);
-    UT_Stub_CopyFromLocal(UT_KEY(CFE_PSP_Restart), (uint8 *)&reset_type, sizeof(reset_type));
+    UT_Stub_CopyFromLocal(UT_KEY(CFE_PSP_Restart), (uint8 *)&resetType, sizeof(resetType));
 }
 
 /*****************************************************************************/
@@ -668,7 +668,7 @@ int32 CFE_PSP_MemValidateRange(cpuaddr Address, size_t Size, uint32 MemoryType)
 **        Returns OS_SUCCESS.
 **
 ******************************************************************************/
-int32 CFE_PSP_MemCpy(void *dst, const void *src, uint32 size)
+int32 CFE_PSP_MemCpy(void *dest, const void *src, uint32 n)
 {
     int32 status;
 
@@ -677,7 +677,7 @@ int32 CFE_PSP_MemCpy(void *dst, const void *src, uint32 size)
     if (status >= 0)
     {
         /* this is not actually a stub; it actually has to _do_ the intended function */
-        memcpy(dst, src, size);
+        memcpy(dest, src, n);
     }
 
     return status;
@@ -698,7 +698,7 @@ int32 CFE_PSP_MemCpy(void *dst, const void *src, uint32 size)
 **        Returns OS_SUCCESS.
 **
 ******************************************************************************/
-int32 CFE_PSP_MemSet(void *dst, uint8 value, uint32 size)
+int32 CFE_PSP_MemSet(void *dest, uint8 value, uint32 n)
 {
     int32 status;
 
@@ -707,7 +707,7 @@ int32 CFE_PSP_MemSet(void *dst, uint8 value, uint32 size)
     if (status >= 0)
     {
         /* this is not actually a stub; it actually has to _do_ the intended function */
-        memset(dst, (int)value, (size_t)size);
+        memset(dest, (int)value, (size_t)n);
     }
 
     return status;

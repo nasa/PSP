@@ -71,7 +71,7 @@ extern CFE_PSP_MemoryBlock_t PcRtems_ReservedMemBlock;
  * See description in header file for argument/return detail
  *
  *-----------------------------------------------------------------*/
-void CFE_PSP_Restart(uint32 reset_type)
+void CFE_PSP_Restart(uint32 resetType)
 {
     CFE_PSP_FlushCaches(1, PcRtems_ReservedMemBlock.BlockPtr, PcRtems_ReservedMemBlock.BlockSize);
     OS_printf("%s is not implemented on this platform ( yet ! )\n", __func__);
