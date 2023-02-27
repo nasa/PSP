@@ -35,31 +35,12 @@
 #include "cfe_psp.h"
 #include "cfe_psp_memory.h"
 
-/*
-**
-** Purpose:
-**		Validate the memory range and type using the global CFE_PSP_MemoryTable
-**
-** Assumptions and Notes:
-**
-** Parameters:
-**    Address -- A 32 bit starting address of the memory range
-**    Size    -- A 32 bit size of the memory range ( Address + Size = End Address )
-**    MemoryType -- The memory type to validate, including but not limited to:
-**              CFE_PSP_MEM_RAM, CFE_PSP_MEM_EEPROM, or CFE_PSP_MEM_ANY
-**              Any defined CFE_PSP_MEM_* enumeration can be specified
-**
-** Global Inputs: None
-**
-** Global Outputs: None
-**
-** Return Values:
-**   CFE_PSP_SUCCESS -- Memory range and type information is valid and can be used.
-**   CFE_PSP_INVALID_MEM_ADDR -- Starting address is not valid
-**   CFE_PSP_INVALID_MEM_TYPE -- Memory type associated with the range does not match the passed in type.
-**   CFE_PSP_INVALID_MEM_RANGE -- The Memory range associated with the address is not large enough to contain
-**                            Address + Size.
-*/
+/*----------------------------------------------------------------
+ *
+ * Implemented per public API
+ * See description in header file for argument/return detail
+ *
+ *-----------------------------------------------------------------*/
 int32 CFE_PSP_MemValidateRange(cpuaddr Address, size_t Size, uint32 MemoryType)
 {
     cpuaddr             StartAddressToTest = Address;
@@ -152,63 +133,23 @@ int32 CFE_PSP_MemValidateRange(cpuaddr Address, size_t Size, uint32 MemoryType)
     return ReturnCode;
 }
 
-/*
-**
-** Purpose:
-**		Return the number of memory ranges in the CFE_PSP_MemoryTable
-**
-** Assumptions and Notes:
-**
-** Parameters:
-**    None
-**
-** Global Inputs: None
-**
-** Global Outputs: None
-**
-** Return Values:
-**   Positive integer number of entries in the memory range table
-*/
+/*----------------------------------------------------------------
+ *
+ * Implemented per public API
+ * See description in header file for argument/return detail
+ *
+ *-----------------------------------------------------------------*/
 uint32 CFE_PSP_MemRanges(void)
 {
     return CFE_PSP_MEM_TABLE_SIZE;
 }
 
-/*
-**
-** Purpose:
-**		This function populates one of the records in the CFE_PSP_MemoryTable.
-**
-** Assumptions and Notes:
-**    Because the table is fixed size, the entries are set by using the integer index.
-**    No validation is done with the address or size.
-**
-** Parameters:
-**    RangeNum --   A 32 bit integer ( starting with 0 ) specifying the MemoryTable entry.
-**    MemoryType -- The memory type to validate, including but not limited to:
-**              CFE_PSP_MEM_RAM, CFE_PSP_MEM_EEPROM, or CFE_PSP_MEM_ANY
-**              Any defined CFE_PSP_MEM_* enumeration can be specified
-**    Address --    A 32 bit starting address of the memory range
-**    Size    --    A 32 bit size of the memory range ( Address + Size = End Address )
-**    WordSize --   The minimum addressable size of the range:
-**                     ( CFE_PSP_MEM_SIZE_BYTE, CFE_PSP_MEM_SIZE_WORD, CFE_PSP_MEM_SIZE_DWORD )
-**    Attributes -- The attributes of the Memory Range:
-**                     (CFE_PSP_MEM_ATTR_WRITE, CFE_PSP_MEM_ATTR_READ, CFE_PSP_MEM_ATTR_READWRITE)
-**
-** Global Inputs: Reads CFE_PSP_MemoryTable
-**
-** Global Outputs: Changes CFE_PSP_MemoryTable
-**
-** Return Values:
-**   CFE_PSP_SUCCESS -- Memory range set successfully.
-**   CFE_PSP_INVALID_MEM_RANGE -- The index into the table is invalid
-**   CFE_PSP_INVALID_MEM_ADDR -- Starting address is not valid
-**   CFE_PSP_INVALID_MEM_TYPE -- Memory type associated with the range does not match the passed in type.
-**   OP_INVALID_MEM_SIZE -- The Memory range associated with the address is not large enough to contain
-**                            Address + Size.
-**   CFE_PSP_INVALID_MEM_WORDSIZE -- The WordSIze parameter is not one of the predefined types.
-**   CFE_PSP_INVALID_MEM_ATTR -- The Attributes parameter is not one of the predefined types.
-*/
+/*----------------------------------------------------------------
+ *
+ * Implemented per public API
+ * See description in header file for argument/return detail
+ *
+ *-----------------------------------------------------------------*/
 int32 CFE_PSP_MemRangeSet(uint32 RangeNum, uint32 MemoryType, cpuaddr StartAddr, size_t Size, size_t WordSize,
                           uint32 Attributes)
 {
@@ -250,36 +191,12 @@ int32 CFE_PSP_MemRangeSet(uint32 RangeNum, uint32 MemoryType, cpuaddr StartAddr,
     return CFE_PSP_SUCCESS;
 }
 
-/*
-**
-** Purpose:
-**		This function retrieves one of the records in the CFE_PSP_MemoryTable.
-**
-** Assumptions and Notes:
-**    Because the table is fixed size, the entries are accessed by using the integer index.
-**
-** Parameters:
-**    RangeNum --   A 32 bit integer ( starting with 0 ) specifying the MemoryTable entry.
-**    *MemoryType -- A pointer to the 32 bit integer where the Memory Type is stored.
-**                   Any defined CFE_PSP_MEM_* enumeration can be specified
-**    *Address --    A pointer to the 32 bit integer where the 32 bit starting address of the memory range
-**                   is stored.
-**    *Size    --    A pointer to the 32 bit integer where the 32 bit size of the memory range
-**                   is stored.
-**    *WordSize --   A pointer to the 32 bit integer where the minimum addressable size of the range:
-**                     ( CFE_PSP_MEM_SIZE_BYTE, CFE_PSP_MEM_SIZE_WORD, CFE_PSP_MEM_SIZE_DWORD )
-**    Attributes -- The attributes of the Memory Range:
-**                     (CFE_PSP_MEM_ATTR_WRITE, CFE_PSP_MEM_ATTR_READ, CFE_PSP_MEM_ATTR_READWRITE)
-**
-** Global Inputs: Reads CFE_PSP_MemoryTable
-**
-** Global Outputs: Changes CFE_PSP_MemoryTable
-**
-** Return Values:
-**   CFE_PSP_SUCCESS -- Memory range returned successfully.
-**   CFE_PSP_INVALID_POINTER   -- Parameter error
-**   CFE_PSP_INVALID_MEM_RANGE -- The index into the table is invalid
-*/
+/*----------------------------------------------------------------
+ *
+ * Implemented per public API
+ * See description in header file for argument/return detail
+ *
+ *-----------------------------------------------------------------*/
 int32 CFE_PSP_MemRangeGet(uint32 RangeNum, uint32 *MemoryType, cpuaddr *StartAddr, size_t *Size, size_t *WordSize,
                           uint32 *Attributes)
 {

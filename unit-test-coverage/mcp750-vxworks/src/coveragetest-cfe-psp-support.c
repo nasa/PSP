@@ -92,7 +92,7 @@ void Test_CFE_PSP_GetProcessorId(void)
 {
     /*
      * Test Case For:
-     * uint32 CFE_PSP_GetProcessorId    (void)
+     * uint32 CFE_PSP_GetProcessorId (void)
      */
 
     /*
@@ -106,7 +106,7 @@ void Test_CFE_PSP_GetSpacecraftId(void)
 {
     /*
      * Test Case For:
-     * uint32 CFE_PSP_GetSpacecraftId   (void)
+     * uint32 CFE_PSP_GetSpacecraftId (void)
      */
 
     /*

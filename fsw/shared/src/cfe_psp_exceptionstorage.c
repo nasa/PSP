@@ -137,20 +137,24 @@ void CFE_PSP_Exception_WriteComplete(void)
  **                   (Functions used by CFE or PSP)
  ***************************************************************************/
 
-/*---------------------------------------------------------------------------
- * CFE_PSP_Exception_GetCount
- * See description in PSP API
- *---------------------------------------------------------------------------*/
+/*----------------------------------------------------------------
+ *
+ * Implemented per public API
+ * See description in header file for argument/return detail
+ *
+ *-----------------------------------------------------------------*/
 uint32 CFE_PSP_Exception_GetCount(void)
 {
     return (CFE_PSP_ReservedMemoryMap.ExceptionStoragePtr->NumWritten -
             CFE_PSP_ReservedMemoryMap.ExceptionStoragePtr->NumRead);
 }
 
-/*---------------------------------------------------------------------------
- * CFE_PSP_Exception_GetSummary
- * See description in PSP API
- *---------------------------------------------------------------------------*/
+/*----------------------------------------------------------------
+ *
+ * Implemented per public API
+ * See description in header file for argument/return detail
+ *
+ *-----------------------------------------------------------------*/
 int32 CFE_PSP_Exception_GetSummary(uint32 *ContextLogId, osal_id_t *TaskId, char *ReasonBuf, uint32 ReasonSize)
 {
     const CFE_PSP_Exception_LogData_t *Buffer;
@@ -210,10 +214,12 @@ int32 CFE_PSP_Exception_GetSummary(uint32 *ContextLogId, osal_id_t *TaskId, char
     return CFE_PSP_SUCCESS;
 }
 
-/*---------------------------------------------------------------------------
- * CFE_PSP_Exception_CopyContext
- * See description in PSP API
- *---------------------------------------------------------------------------*/
+/*----------------------------------------------------------------
+ *
+ * Implemented per public API
+ * See description in header file for argument/return detail
+ *
+ *-----------------------------------------------------------------*/
 int32 CFE_PSP_Exception_CopyContext(uint32 ContextLogId, void *ContextBuf, uint32 ContextSize)
 {
     const CFE_PSP_Exception_LogData_t *Buffer;
