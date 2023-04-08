@@ -65,7 +65,7 @@
 */
 void CFE_PSP_AttachExceptions(void)
 {
-    OS_printf("CFE_PSP: CFE_PSP_AttachExceptions Called\n");
+    OS_printf("CFE_PSP: %s called\n", __func__);
     CFE_PSP_Exception_Reset();
 }
 

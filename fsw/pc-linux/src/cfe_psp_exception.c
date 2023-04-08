@@ -208,7 +208,7 @@ void CFE_PSP_AttachExceptions(void)
      */
     backtrace(Addr, 1);
 
-    OS_printf("CFE_PSP: CFE_PSP_AttachExceptions Called\n");
+    OS_printf("CFE_PSP: %s called\n", __func__);
 
     /*
      * Block most other signals during handler execution.
