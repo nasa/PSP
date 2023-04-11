@@ -6,22 +6,21 @@
  */
 
 /**
- * \file cfe_psp_iodriver.c
+ * \file
  *
- *  Created on: Sep 29, 2015
- *  Created by: joseph.p.hickey@nasa.gov
- *
+ * Generic abstraction API for on-board devices.  This is the implementation
+ * of functions declared in iodriver_base.h
  */
 
 #include "cfe_psp_module.h"
 #include "iodriver_base.h"
 #include "iodriver_impl.h"
 
-#define CFE_PSP_IODriver_LOCK_TABLE_SIZE 7
+#define CFE_PSP_IODRIVER_LOCK_TABLE_SIZE 7
 
 CFE_PSP_MODULE_DECLARE_SIMPLE(iodriver);
 
-static osal_id_t CFE_PSP_IODriver_Mutex_Table[CFE_PSP_IODriver_LOCK_TABLE_SIZE];
+static osal_id_t CFE_PSP_IODriver_Mutex_Table[CFE_PSP_IODRIVER_LOCK_TABLE_SIZE];
 
 const CFE_PSP_IODriver_API_t CFE_PSP_IODriver_DEFAULT_API = {.DeviceCommand = NULL, .DeviceMutex = NULL};
 
@@ -30,7 +29,7 @@ void iodriver_Init(uint32 PspModuleId)
     uint32 i;
     char   TempName[OS_MAX_PATH_LEN];
 
-    for (i = 0; i < CFE_PSP_IODriver_LOCK_TABLE_SIZE; ++i)
+    for (i = 0; i < CFE_PSP_IODRIVER_LOCK_TABLE_SIZE; ++i)
     {
         snprintf(TempName, sizeof(TempName), "DriverMutex-%02u", (unsigned int)(i + 1));
         OS_MutSemCreate(&CFE_PSP_IODriver_Mutex_Table[i], TempName, 0);
@@ -80,7 +79,7 @@ osal_id_t CFE_PSP_IODriver_GetMutex(uint32 PspModuleId, int32 DeviceHash)
         {
             LookupId ^= PspModuleId;
         }
-        ResultId = CFE_PSP_IODriver_Mutex_Table[LookupId % CFE_PSP_IODriver_LOCK_TABLE_SIZE];
+        ResultId = CFE_PSP_IODriver_Mutex_Table[LookupId % CFE_PSP_IODRIVER_LOCK_TABLE_SIZE];
     }
 
     return ResultId;

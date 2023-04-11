@@ -8,7 +8,22 @@
 /**
  * \file
  *
- * I/O Driver base header file
+ * Generic abstraction API for on-board devices
+ *
+ * The design of this interface is similar to the POSIX "ioctl()" in concept -
+ * A single interface function, with 3 basic arguments:
+ *  - A device/target identifier
+ *  - A command "opcode"
+ *  - A generic argument containing the I/O parameter for that opcode
+ *
+ * Note that the last argument may in fact be a structure for opcodes that
+ * require multiple parameters.
+ *
+ * This type of interface makes it fairly simple to swap one hardware device
+ * for another, as long as they both implement a common set of opcodes, while
+ * also being extendable/customizable by adding additional opcodes to expose
+ * device-specific functionality, as long as those extension opcodes do not
+ * interfere or overlap with the common set.
  */
 
 #ifndef IODRIVER_BASE_H

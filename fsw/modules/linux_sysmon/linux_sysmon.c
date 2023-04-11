@@ -552,28 +552,24 @@ int32_t linux_sysmon_cpu_load_dispatch(uint32_t CommandCode, uint16_t Subchannel
 }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-/*    linux_sysmonDevCmd()                                         */
+/*    linux_sysmon_DevCmd()                                         */
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 /**
- ** \brief This function is called by IO_Driver to run the linux_sysmon module.
- **
- ** \par Description
- **          This function is called by IO_Driver to run the linux_sysmon module.
- ** \par Assumptions, External Events, and Notes:
- **          None
- **
- ** \param[in] CommandCode  The CFE_PSP_IODriver_xxx command.
- ** \param[in] Instance     Board instance. Set to 1 if there is only one serial card.
- ** \param[in] SubChannel   Subchannel number. Set to 0 for devices that do not have multiple channels.
- ** \param[in] Arg          The arguments for the corresponding command.
- **
- ** \returns
- ** \retcode #CFE_SUCCESS        \retdesc \copydoc CFE_SUCCESS       \endcode
- ** \retcode #CFE_ES_APP_ERROR   \retdesc \copydoc CFE_ES_APP_ERROR  \endcode
- ** \endreturns
- **
- **/
-/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+ * \brief Main entry point for API.
+ *
+ * This function is called through iodriver to invoke the linux_sysmon module.
+ *
+ * \par Assumptions, External Events, and Notes:
+ *          None
+ *
+ * \param[in] CommandCode  The CFE_PSP_IODriver_xxx command.
+ * \param[in] SubsystemId  The monitor subsystem identifier
+ * \param[in] SubchannelId The monitor subchannel identifier
+ * \param[in] Arg          The arguments for the corresponding command.
+ *
+ * \returns Status code
+ * \retval #CFE_PSP_SUCCESS if successful
+ */
 int32_t linux_sysmon_DevCmd(uint32_t CommandCode, uint16_t SubsystemId, uint16_t SubchannelId,
                             CFE_PSP_IODriver_Arg_t Arg)
 {
