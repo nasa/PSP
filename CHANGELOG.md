@@ -1,5 +1,9 @@
 # Changelog
 
+## Development Build: v1.6.0-rc4+dev72
+- adds generic driver interface and Linux sysmon module
+- See <https://github.com/nasa/PSP/pull/386>
+
 ## Development Build: v1.6.0-rc4+dev67
 - Squash constParameter warning in linux cfe_psp_memory.c
 - Remove obsolete _USING_RTEMS_INCLUDES_

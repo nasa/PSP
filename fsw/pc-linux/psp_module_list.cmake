@@ -6,3 +6,5 @@ timebase_posix_clock
 eeprom_mmap_file
 ram_notimpl
 port_notimpl
+iodriver
+linux_sysmon
