@@ -34,7 +34,8 @@
 typedef enum
 {
     CFE_PSP_MODULE_TYPE_INVALID = 0,
-    CFE_PSP_MODULE_TYPE_SIMPLE
+    CFE_PSP_MODULE_TYPE_SIMPLE,
+    CFE_PSP_MODULE_TYPE_DEVICEDRIVER,
     /* May be extended in the future */
 } CFE_PSP_ModuleType_t;
 
@@ -52,6 +53,7 @@ typedef const struct
     uint32                   OperationFlags;
     CFE_PSP_ModuleInitFunc_t Init;
     /* More API calls may be added for other module types */
+    const void *ExtendedApi;
 } CFE_PSP_ModuleApi_t;
 
 /**
