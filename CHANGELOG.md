@@ -1,5 +1,9 @@
 # Changelog
 
+## Development Build: v1.6.0-rc4+dev76
+- Create Workflow for IC Bundle Generation
+- See <https://github.com/nasa/PSP/pull/391>
+
 ## Development Build: v1.6.0-rc4+dev72
 - adds generic driver interface and Linux sysmon module
 - See <https://github.com/nasa/PSP/pull/386>
