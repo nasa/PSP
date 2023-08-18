@@ -1,5 +1,10 @@
 # Changelog
 
+## Development Build: v1.6.0-rc4+dev82
+- Implement RTEMS Sysmons
+- find psp standard module
+- See <https://github.com/nasa/PSP/pull/397> and <https://github.com/nasa/PSP/pull/402>
+
 ## Development Build: v1.6.0-rc4+dev76
 - Create Workflow for IC Bundle Generation
 - See <https://github.com/nasa/PSP/pull/391>
