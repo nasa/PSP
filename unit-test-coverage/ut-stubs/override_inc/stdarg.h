@@ -29,5 +29,6 @@
 #define va_list            PCS_va_list
 #define va_start(ap, last) PCS_va_start(ap, last)
 #define va_end(ap)         PCS_va_end(ap)
+#define va_arg(ap, type)   PCS_va_arg(ap, type)
 
 #endif

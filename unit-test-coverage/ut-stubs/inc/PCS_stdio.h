@@ -46,6 +46,7 @@ extern int       PCS_snprintf(char *s, size_t maxlen, const char *format, ...);
 extern int       PCS_vsnprintf(char *s, size_t maxlen, const char *format, PCS_va_list arg);
 extern int       PCS_printf(const char *format, ...);
 extern int       PCS_putchar(int c);
+extern void      PCS_perror(const char *str);
 
 extern PCS_FILE *PCS_stdin;
 extern PCS_FILE *PCS_stdout;

@@ -37,6 +37,7 @@
 #define vsnprintf   PCS_vsnprintf
 #define printf(...) PCS_printf(__VA_ARGS__)
 #define putchar     PCS_putchar
+#define perror      PCS_perror
 
 #define stdin  PCS_stdin
 #define stdout PCS_stdout
