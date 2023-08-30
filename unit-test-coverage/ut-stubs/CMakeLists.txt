@@ -49,6 +49,8 @@ add_library(ut_psp_libc_stubs STATIC EXCLUDE_FROM_ALL
     src/vxworks-rebootLib-stubs.c
     src/vxworks-sysLib-stubs.c
     src/vxworks-vxLib-stubs.c
+    src/vxworks-spyLib-stubs.c
+    src/vxworks-spyLibP-stubs.c
 )
     
 target_include_directories(ut_libc_stubs PUBLIC 
