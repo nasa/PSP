@@ -20,7 +20,6 @@
 /************************************************************************
  * Includes
  ************************************************************************/
-
 #include "cfe_psp.h"
 
 #include "iodriver_impl.h"
@@ -28,86 +27,12 @@
 #include <stdarg.h>
 #include <spyLib.h>
 #include <private/spyLibP.h>
-
-/********************************************************************
- * Local Defines
- ********************************************************************/
-#ifdef OS_MAXIMUM_PROCESSORS
-    #define VXWORKS_SYSMON_MAX_CPUS  OS_MAXIMUM_PROCESSORS
-#else
-    #define VXWORKS_SYSMON_MAX_CPUS  1
-#endif
-
-#define VXWORKS_SYSMON_AGGREGATE_SUBSYS   0
-#define VXWORKS_SYSMON_CPULOAD_SUBSYS     1
-#define VXWORKS_SYSMON_AGGR_CPULOAD_SUBCH 0
-#define VXWORKS_SYSMON_SAMPLE_DELAY       1000
-#define VXWORKS_SYSMON_TASK_PRIORITY      100
-#define VXWORKS_SYSMON_STACK_SIZE         4096
-#define VXWORKS_AUX_CLOCK_INTERRUPT_FREQ  100  /* Frequency to collect data (interrupts per second) */
-#define VXWORKS_SYSMON_MAX_SCALE          100
-#define VXWORKS_SYSMON_TASK_NAME          "VXWORKS SYSMON"
-#define VXWORKS_SYSMON_MAX_SPY_TASKS      100 /* Max number of tasks to spy on */
-
-#ifdef DEBUG_BUILD
-#define VXWORKS_SYSMON_DEBUG(...) OS_printf(__VA_ARGS__)
-#else
-#define VXWORKS_SYSMON_DEBUG(...)
-#endif
-
-/********************************************************************
- * Local Type Definitions
- ********************************************************************/
-typedef struct vxworks_sysmon_va_arg
-{
-    char *name;
-    char *placeholder; /* empty */
-    int  total_idle_percent;
-    int  total_idle_ticks;
-    int  idle_percent_since_last_report;
-    int  idle_ticks_since_last_report;
-
-} vxworks_sysmon_va_arg_t;
-
-typedef struct vxworks_sysmon_cpuload_core
-{
-    CFE_PSP_IODriver_AdcCode_t avg_load;
-
-    vxworks_sysmon_va_arg_t idle_state;
-} vxworks_sysmon_cpuload_core_t;
-
-typedef struct vxworks_sysmon_cpuload_state
-{
-    volatile bool is_running;
-    volatile bool should_run;
-
-    osal_id_t   task_id;
-
-    uint8_t    num_cpus;
-
-    vxworks_sysmon_cpuload_core_t per_core[VXWORKS_SYSMON_MAX_CPUS];
-
-} vxworks_sysmon_cpuload_state_t;
-
-typedef struct vxworks_sysmon_state
-{
-    uint32_t                     local_module_id;
-    vxworks_sysmon_cpuload_state_t cpu_load;
-} vxworks_sysmon_state_t;
+#include "vxworks_sysmon.h"
 
 /********************************************************************
  * Local Function Prototypes
  ********************************************************************/
-static void    vxworks_sysmon_Init(uint32_t local_module_id);
-static int32_t vxworks_sysmon_Start(vxworks_sysmon_cpuload_state_t *state);
-static int32_t vxworks_sysmon_Stop(vxworks_sysmon_cpuload_state_t *state);
-
-int32_t vxworks_sysmon_aggregate_dispatch(uint32_t CommandCode, uint16_t Subchannel, CFE_PSP_IODriver_Arg_t Arg);
-int32_t vxworks_sysmon_calc_aggregate_cpu(vxworks_sysmon_cpuload_state_t *state, CFE_PSP_IODriver_AdcCode_t *Val);
-
-/* Function that starts up vxworks_sysmon driver. */
-static int32_t vxworks_sysmon_DevCmd(uint32_t CommandCode, uint16_t SubsystemId, uint16_t SubchannelId,
-                                   CFE_PSP_IODriver_Arg_t Arg);
+static void vxworks_sysmon_Init(uint32_t local_module_id);
 
 /********************************************************************
  * Global Data
@@ -117,7 +42,7 @@ CFE_PSP_IODriver_API_t vxworks_sysmon_DevApi = {.DeviceCommand = vxworks_sysmon_
 
 CFE_PSP_MODULE_DECLARE_IODEVICEDRIVER(vxworks_sysmon);
 
-static vxworks_sysmon_state_t vxworks_sysmon_global;
+vxworks_sysmon_state_t vxworks_sysmon_global;
 
 static const char *vxworks_sysmon_subsystem_names[]  = {"aggregate", "per-cpu", NULL};
 static const char *vxworks_sysmon_subchannel_names[] = {"cpu-load", NULL};
@@ -240,7 +165,7 @@ void vxworks_sysmon_Task(void)
  *  Starts the cpu load watcher function
  *
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-static int32_t vxworks_sysmon_Start(vxworks_sysmon_cpuload_state_t *state)
+int32_t vxworks_sysmon_Start(vxworks_sysmon_cpuload_state_t *state)
 {
     uint32_t  StatusCode;
 
@@ -440,6 +365,11 @@ int32_t vxworks_sysmon_cpu_load_dispatch(uint32_t CommandCode, uint16_t Subchann
                 {
                     RdWr->Samples[ch] = state->per_core[ch].avg_load;
                 }
+                StatusCode = CFE_PSP_SUCCESS;
+            }
+            else
+            {
+                StatusCode = CFE_PSP_ERROR;
             }
 
             break;
