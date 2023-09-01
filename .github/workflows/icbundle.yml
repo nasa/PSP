@@ -15,19 +15,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Install Dependencies
-        run: sudo apt update
-        run: sudo apt install -y w3m
+        run: |
+          sudo apt update
+          sudo apt install -y w3m
       - name: Checkout IC Branch
         uses: actions/checkout@v3
         with:
           fetch-depth: '0'
           ref: main
       - name: Rebase IC Branch
-        run: git config user.name "GitHub Actions"
-        run: git config user.email "cfs-program@list.nasa.gov"
-        run: git pull
-        run: git checkout integration-candidate
-        run: git rebase main
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "cfs-program@list.nasa.gov"
+          git pull
+          git checkout integration-candidate
+          git rebase main
       - name: Merge each PR
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -59,21 +61,21 @@ jobs:
           sed -ir "s|# Changelog|$changelog_entry|" CHANGELOG.md
           
           buildnumber_entry=$'#define CFE_PSP_IMPL_BUILD_NUMBER   '${rev_num}
-          sed -ir "s|define CFE_PSP_IMPL_BUILD_NUMBER.*|$buildnumber_entry|" fsw/mcp750-vxworks/inc/psp_version.h
+          sed -ir "s|#define CFE_PSP_IMPL_BUILD_NUMBER.*|$buildnumber_entry|" fsw/mcp750-vxworks/inc/psp_version.h
           
           buildnumber_entry=$'#define CFE_PSP_IMPL_BUILD_NUMBER   '${rev_num}
-          sed -ir "s|define CFE_PSP_IMPL_BUILD_NUMBER.*|$buildnumber_entry|" fsw/pc-linux/inc/psp_version.h
+          sed -ir "s|#define CFE_PSP_IMPL_BUILD_NUMBER.*|$buildnumber_entry|" fsw/pc-linux/inc/psp_version.h
           
           buildnumber_entry=$'#define CFE_PSP_IMPL_BUILD_NUMBER   '${rev_num}
-          sed -ir "s|define CFE_PSP_IMPL_BUILD_NUMBER.*|$buildnumber_entry|" fsw/pc-rtems/inc/psp_version.h
+          sed -ir "s|#define CFE_PSP_IMPL_BUILD_NUMBER.*|$buildnumber_entry|" fsw/pc-rtems/inc/psp_version.h
       - name: Commit and Push Updates to IC Branch
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: git add CHANGELOG.md
-        run: git add fsw/mcp750-vxworks/inc/psp_version.h
-        run: git add fsw/pc-linux/inc/psp_version.h
-        run: git add fsw/pc-rtems/inc/psp_version.h
         run: |
           rev_num=$(git rev-list v1.6.0-rc4.. --count)
+          git add CHANGELOG.md
+          git add fsw/mcp750-vxworks/inc/psp_version.h
+          git add fsw/pc-linux/inc/psp_version.h
+          git add fsw/pc-rtems/inc/psp_version.h
           git commit -m "Updating documentation and version numbers for v1.6.0-rc4+dev${rev_num}"
-        run: git push -v origin integration-candidate
+          git push -v origin integration-candidate
