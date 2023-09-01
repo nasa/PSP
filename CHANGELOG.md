@@ -1,5 +1,10 @@
 # Changelog
 
+## Development Build: v1.6.0-rc4+dev90
+- RTEMS.cmake: add quotes around ${RTEMS_BSP_C_FLAGS}.
+- Fixes errors in IC Bundle workflow file
+- See <https://github.com/nasa/PSP/pull/395> and <https://github.com/nasa/PSP/pull/400>
+
 ## Development Build: v1.6.0-rc4+dev82
 - Implement RTEMS Sysmons
 - find psp standard module
