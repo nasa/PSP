@@ -67,7 +67,7 @@ else()
    # Then run "rtems-syms" and re-link the output into a final executable
    set(CMAKE_C_LINK_EXECUTABLE
        "<CMAKE_C_COMPILER> ${RTEMS_SYS_SPECS_FLAGS} ${RTEMS_BSP_C_FLAGS} <FLAGS> ${RTEMS_SYS_LINKFLAGS} -o <TARGET>-prelink <OBJECTS> <CMAKE_C_LINK_FLAGS> <LINK_FLAGS> <LINK_LIBRARIES>"
-       "${RTEMS_TOOLS_PREFIX}/bin/rtems-syms -v -e -c ${RTEMS_BSP_C_FLAGS} -C <CMAKE_C_COMPILER> -o <TARGET>-dl-sym.o <TARGET>-prelink"
+       "${RTEMS_TOOLS_PREFIX}/bin/rtems-syms -v -e -c \"${RTEMS_BSP_C_FLAGS}\" -C <CMAKE_C_COMPILER> -o <TARGET>-dl-sym.o <TARGET>-prelink"
        "<CMAKE_C_COMPILER> ${RTEMS_SYS_SPECS_FLAGS} ${RTEMS_BSP_C_FLAGS} <FLAGS> ${RTEMS_SYS_LINKFLAGS} -o <TARGET> <TARGET>-dl-sym.o <OBJECTS> <CMAKE_C_LINK_FLAGS> <LINK_FLAGS> <LINK_LIBRARIES>")
 endif(RTEMS_DYNAMIC_LOAD)
 
