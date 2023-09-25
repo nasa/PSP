@@ -61,7 +61,7 @@ function(add_psp_covtest MODULE_NAME TESTCASE_SRC UT_SRCS)
         install(TARGETS ${RUNNER_TARGET} DESTINATION ${TGT}/${UT_INSTALL_SUBDIR})
     endforeach()
 
-endfunction(add_psp_covtest)
+endfunction()
 
 
 # a list of modules for which there is a coverage test implemented

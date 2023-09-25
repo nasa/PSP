@@ -16,23 +16,16 @@
  * limitations under the License.
  ************************************************************************/
 
-/* PSP coverage stub replacement for stdlib.h */
-#ifndef OVERRIDE_STDLIB_H
-#define OVERRIDE_STDLIB_H
+#include "coveragetest-psp-pc-rtems.h"
 
-#include "PCS_stdlib.h"
+#include "cfe_psp.h"
 
-/* ----------------------------------------- */
-/* mappings for declarations in stdlib.h */
-/* ----------------------------------------- */
+void Test_CFE_PSP_InitSSR(void)
+{
+    uint32 bus          = 1;
+    uint32 device       = 1;
+    char   DeviceName[] = "TestDevice";
 
-#define EXIT_SUCCESS PCS_EXIT_SUCCESS
-#define EXIT_FAILURE PCS_EXIT_FAILURE
-#define exit         PCS_exit
-#define strtoul      PCS_strtoul
-#define system       PCS_system
-#define malloc       PCS_malloc
-#define free         PCS_free
-#define abort        PCS_abort
-
-#endif
+    /* Placeholder test to exercise function - amend tests if/when function is fully implemented */
+    UtAssert_INT32_EQ(CFE_PSP_InitSSR(bus, device, DeviceName), CFE_PSP_SUCCESS);
+}

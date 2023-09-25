@@ -16,23 +16,45 @@
  * limitations under the License.
  ************************************************************************/
 
-/* PSP coverage stub replacement for stdlib.h */
-#ifndef OVERRIDE_STDLIB_H
-#define OVERRIDE_STDLIB_H
+#include "coveragetest-psp-pc-rtems.h"
 
-#include "PCS_stdlib.h"
+#include "cfe_psp.h"
 
-/* ----------------------------------------- */
-/* mappings for declarations in stdlib.h */
-/* ----------------------------------------- */
+extern uint32 CFE_PSP_WatchdogValue;
 
-#define EXIT_SUCCESS PCS_EXIT_SUCCESS
-#define EXIT_FAILURE PCS_EXIT_FAILURE
-#define exit         PCS_exit
-#define strtoul      PCS_strtoul
-#define system       PCS_system
-#define malloc       PCS_malloc
-#define free         PCS_free
-#define abort        PCS_abort
+/* Placeholder coverage test */
+void Test_CFE_PSP_WatchdogInit(void)
+{
+    CFE_PSP_WatchdogInit();
+}
 
-#endif
+/* Placeholder coverage test */
+void Test_CFE_PSP_WatchdogEnable(void)
+{
+    CFE_PSP_WatchdogEnable();
+}
+
+/* Placeholder coverage test */
+void Test_CFE_PSP_WatchdogDisable(void)
+{
+    CFE_PSP_WatchdogDisable();
+}
+
+/* Placeholder coverage test */
+void Test_CFE_PSP_WatchdogService(void)
+{
+    CFE_PSP_WatchdogService();
+}
+
+void Test_CFE_PSP_WatchdogGet(void)
+{
+    UtAssert_INT32_EQ(CFE_PSP_WatchdogGet(), CFE_PSP_WatchdogValue);
+}
+
+void Test_CFE_PSP_WatchdogSet(void)
+{
+    uint32 WatchdogValueToSet = 42;
+
+    CFE_PSP_WatchdogSet(WatchdogValueToSet);
+    UtAssert_INT32_EQ(CFE_PSP_WatchdogValue, WatchdogValueToSet);
+}

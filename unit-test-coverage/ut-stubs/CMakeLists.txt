@@ -51,22 +51,23 @@ add_library(ut_psp_libc_stubs STATIC EXCLUDE_FROM_ALL
     src/vxworks-vxLib-stubs.c
     src/vxworks-spyLib-stubs.c
     src/vxworks-spyLibP-stubs.c
+    src/rtems-bsdnet-stubs.c
 )
-    
-target_include_directories(ut_libc_stubs PUBLIC 
+
+target_include_directories(ut_libc_stubs PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/inc
 )
 
-target_link_libraries(ut_psp_libc_stubs PRIVATE 
+target_link_libraries(ut_psp_libc_stubs PRIVATE
     psp_module_api
-    ut_assert 
+    ut_assert
 )
-    
+
 add_library(ut_psp_cfe_stubs STATIC EXCLUDE_FROM_ALL
     src/cfe-configdata-stubs.c
 )
 
-target_link_libraries(ut_psp_cfe_stubs PRIVATE 
+target_link_libraries(ut_psp_cfe_stubs PRIVATE
     psp_module_api
-    ut_assert 
+    ut_assert
 )

@@ -203,13 +203,7 @@ void CFE_PSP_GetTime(OS_time_t *LocalTime)
 **
 ** \par Description
 **        This function is used to mimic the response of the PSP function
-**        CFE_PSP_WriteToCDS.  The user can adjust the response by setting
-**        the values in the BSPWriteCDSRtn structure prior to this function
-**        being called.  If the value BSPWriteCDSRtn.count is greater than
-**        zero then the counter is decremented; if it then equals zero the
-**        return value is set to the user-defined value BSPWriteCDSRtn.value.
-**        Otherwise, the value of the user-defined variable UT_BSP_Fail
-**        determines the status returned by the function.
+**        CFE_PSP_WriteToCDS.
 **
 ** \par Assumptions, External Events, and Notes:
 **        None
@@ -245,13 +239,7 @@ int32 CFE_PSP_WriteToCDS(const void *PtrToDataToWrite, uint32 CDSOffset, uint32 
 **
 ** \par Description
 **        This function is used to mimic the response of the PSP function
-**        CFE_PSP_ReadFromCDS.  The user can adjust the response by setting
-**        the values in the BSPReadCDSRtn structure prior to this function
-**        being called.  If the value BSPReadCDSRtn.count is greater than
-**        zero then the counter is decremented; if it then equals zero the
-**        return value is set to the user-defined value BSPReadCDSRtn.value.
-**        Otherwise, the value of the user-defined variable UT_BSP_Fail
-**        determines the status returned by the function.
+**        CFE_PSP_ReadFromCDS.
 **
 ** \par Assumptions, External Events, and Notes:
 **        None
@@ -287,8 +275,7 @@ int32 CFE_PSP_ReadFromCDS(void *PtrToDataToRead, uint32 CDSOffset, uint32 NumByt
 **
 ** \par Description
 **        This function is used to mimic the response of the PSP function
-**        CFE_PSP_GetCDSSize.  The user can adjust the response by
-**        setting the value of UT_BSP_Fail prior to this function being called.
+**        CFE_PSP_GetCDSSize.
 **
 ** \par Assumptions, External Events, and Notes:
 **        None
@@ -319,8 +306,7 @@ int32 CFE_PSP_GetCDSSize(uint32 *SizeOfCDS)
 **
 ** \par Description
 **        This function is used to mimic the response of the PSP function
-**        CFE_PSP_GetVolatileDiskMem.  The user can adjust the response by
-**        setting the value of UT_BSP_Fail prior to this function being called.
+**        CFE_PSP_GetVolatileDiskMem.
 **
 ** \par Assumptions, External Events, and Notes:
 **        None

@@ -16,23 +16,38 @@
  * limitations under the License.
  ************************************************************************/
 
-/* PSP coverage stub replacement for stdlib.h */
-#ifndef OVERRIDE_STDLIB_H
-#define OVERRIDE_STDLIB_H
+/* PSP coverage stub replacement for rtems_bsdnet.h */
+#include <stdlib.h>
+#include "utstubs.h"
 
-#include "PCS_stdlib.h"
+#include "PCS_bsdnet.h"
+#include "PCS_rtems.h"
 
-/* ----------------------------------------- */
-/* mappings for declarations in stdlib.h */
-/* ----------------------------------------- */
+void PCS_rtems_bsdnet_do_dhcp_failsafe(void)
+{
+    UT_DEFAULT_IMPL(PCS_rtems_bsdnet_do_dhcp_failsafe);
+}
 
-#define EXIT_SUCCESS PCS_EXIT_SUCCESS
-#define EXIT_FAILURE PCS_EXIT_FAILURE
-#define exit         PCS_exit
-#define strtoul      PCS_strtoul
-#define system       PCS_system
-#define malloc       PCS_malloc
-#define free         PCS_free
-#define abort        PCS_abort
+const char *PCS_rtems_status_text(PCS_rtems_status_code code)
+{
+    const char *ReturnCode = NULL;
+    int32       Status;
 
-#endif
+    Status = UT_DEFAULT_IMPL(PCS_rtems_status_text);
+    if (Status == 0)
+    {
+        UT_Stub_CopyToLocal(UT_KEY(PCS_rtems_status_text), &ReturnCode, sizeof(ReturnCode));
+    }
+
+    return ReturnCode;
+}
+
+int PCS_rtems_bsdnet_initialize_network(void)
+{
+    return UT_DEFAULT_IMPL(PCS_rtems_bsdnet_initialize_network);
+}
+
+int PCS_rtems_fxp_attach(struct PCS_rtems_bsdnet_ifconfig *config, int attaching)
+{
+    return UT_DEFAULT_IMPL(PCS_rtems_fxp_attach);
+}

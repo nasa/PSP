@@ -16,23 +16,34 @@
  * limitations under the License.
  ************************************************************************/
 
-/* PSP coverage stub replacement for stdlib.h */
-#ifndef OVERRIDE_STDLIB_H
-#define OVERRIDE_STDLIB_H
+/* PSP coverage stub replacement for rtems.h */
+#ifndef PCS_RTEMS_H
+#define PCS_RTEMS_H
 
-#include "PCS_stdlib.h"
+#include "PCS_basetypes.h"
 
-/* ----------------------------------------- */
-/* mappings for declarations in stdlib.h */
-/* ----------------------------------------- */
+typedef uint32_t PCS_rtems_task_priority;
+typedef uint32_t PCS_rtems_id;
 
-#define EXIT_SUCCESS PCS_EXIT_SUCCESS
-#define EXIT_FAILURE PCS_EXIT_FAILURE
-#define exit         PCS_exit
-#define strtoul      PCS_strtoul
-#define system       PCS_system
-#define malloc       PCS_malloc
-#define free         PCS_free
-#define abort        PCS_abort
+struct PCS_rtems_bsdnet_ifconfig
+{
+    char *name;
+    int (*attach)(struct PCS_rtems_bsdnet_ifconfig *conf, int attaching);
+    struct PCS_rtems_bsdnet_ifconfig *next;
+    char *                            ip_address;
+    char *                            ip_netmask;
+    void *                            hardware_address;
+};
+
+struct PCS_rtems_bsdnet_config
+{
+    struct PCS_rtems_bsdnet_ifconfig *ifconfig;
+    void (*bootp)(void);
+};
+
+typedef enum
+{
+    PCS_RTEMS_SUCCESSFUL = 0,
+} PCS_rtems_status_code;
 
 #endif
