@@ -1,7 +1,7 @@
 /************************************************************************
  * NASA Docket No. GSC-18,719-1, and identified as “core Flight System: Bootes”
  *
- * Copyright (c) 2020 United States Government as represented by the
+ * Copyright (c) 2023 United States Government as represented by the
  * Administrator of the National Aeronautics and Space Administration.
  * All Rights Reserved.
  *
@@ -16,18 +16,24 @@
  * limitations under the License.
  ************************************************************************/
 
-/* PSP coverage stub replacement for stdarg.h */
-#ifndef OVERRIDE_STDARG_H
-#define OVERRIDE_STDARG_H
+/* PSP coverage stub replacement for spyLib.h */
+#ifndef PCS_SPYLIB_H
+#define PCS_SPYLIB_H
 
-#include "PCS_stdarg.h"
+#include "PCS_basetypes.h"
+#include "PCS_vxWorks.h"
 
 /* ----------------------------------------- */
-/* mappings for declarations in stdarg.h */
+/* constants normally defined in spyLib.h */
 /* ----------------------------------------- */
 
-#define va_list            PCS_va_list
-#define va_start(ap, last) PCS_va_start(ap, last)
-#define va_end(ap)         PCS_va_end(ap)
+/* ----------------------------------------- */
+/* types normally defined in spyLib.h */
+/* ----------------------------------------- */
+
+/* ----------------------------------------- */
+/* prototypes normally declared in spyLib.h */
+/* ----------------------------------------- */
+void PCS_spyLibInit(int maxTasks);
 
 #endif

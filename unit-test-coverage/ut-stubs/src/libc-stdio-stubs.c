@@ -194,6 +194,11 @@ int PCS_printf(const char *format, ...)
     return UT_DEFAULT_IMPL(PCS_printf);
 }
 
+void PCS_perror(const char * str)
+{
+    /* No implmentation */
+}
+
 static PCS_FILE LOCAL_FP[3] = {{10}, {11}, {12}};
 
 PCS_FILE *PCS_stdin  = &LOCAL_FP[0];
