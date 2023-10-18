@@ -1,5 +1,10 @@
 # Changelog
 
+## Development Build: v1.6.0-rc4+dev96
+- update rtems_sysmon banner
+- unit test for vxworks sysmon
+- See <https://github.com/nasa/PSP/pull/406> and <https://github.com/nasa/PSP/pull/410>
+
 ## Development Build: v1.6.0-rc4+dev90
 - RTEMS.cmake: add quotes around ${RTEMS_BSP_C_FLAGS}.
 - Fixes errors in IC Bundle workflow file
