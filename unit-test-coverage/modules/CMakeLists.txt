@@ -66,3 +66,4 @@ endfunction(add_psp_covtest)
 
 # a list of modules for which there is a coverage test implemented
 add_subdirectory(timebase_vxworks)
+add_subdirectory(vxworks_sysmon)
