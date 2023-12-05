@@ -143,7 +143,7 @@ void *PCS_malloc(size_t sz)
         return NULL;
     }
 
-    NextSize  = (NextSize + MPOOL_ALIGN - 1) & ~((size_t)MPOOL_ALIGN);
+    NextSize  = (NextSize + MPOOL_ALIGN - 1) & ~((size_t)MPOOL_ALIGN - 1);
     NextBlock = Rec->BlockAddr + MPOOL_ALIGN;
     Rec->BlockAddr += NextSize;
     Rec->Size += NextSize;

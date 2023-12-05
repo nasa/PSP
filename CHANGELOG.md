@@ -1,5 +1,9 @@
 # Changelog
 
+## Development Build: v1.6.0-rc4+dev102
+- malloc stub memalign calculation
+- See <https://github.com/nasa/PSP/pull/419>
+
 ## Development Build: v1.6.0-rc4+dev96
 - update rtems_sysmon banner
 - unit test for vxworks sysmon
