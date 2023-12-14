@@ -60,20 +60,12 @@
 #include "cfe_psp.h"
 #include "cfe_psp_memory.h"
 
-/******************************************************************************
-**
-**  Purpose:
-**    Initializes the Solid State Recorder device. For the MCP750, this simply
-**    initializes the Hard disk device.
-
-**
-**  Arguments:
-**    bus, device, device name
-**
-**  Return:
-**    (none)
-*/
-
+/*----------------------------------------------------------------
+ *
+ * Implemented per public API
+ * See description in header file for argument/return detail
+ *
+ *-----------------------------------------------------------------*/
 int32 CFE_PSP_InitSSR(uint32 bus, uint32 device, char *DeviceName)
 {
     int32    ReturnCode;

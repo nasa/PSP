@@ -72,15 +72,12 @@
 */
 uint32 CFE_PSP_WatchdogValue = CFE_PSP_WATCHDOG_MAX;
 
-/******************************************************************************
-**
-**  Purpose:
-**    To setup the timer resolution and/or other settings custom to this platform.
-**
-**  Arguments:
-**
-**  Return:
-*/
+/*----------------------------------------------------------------
+ *
+ * Implemented per public API
+ * See description in header file for argument/return detail
+ *
+ *-----------------------------------------------------------------*/
 void CFE_PSP_WatchdogInit(void)
 {
     /*
@@ -91,15 +88,12 @@ void CFE_PSP_WatchdogInit(void)
     CFE_PSP_WatchdogValue = CFE_PSP_WATCHDOG_MAX;
 }
 
-/******************************************************************************
-**
-**  Purpose:
-**    Enable the watchdog timer
-**
-**  Arguments:
-**
-**  Return:
-*/
+/*----------------------------------------------------------------
+ *
+ * Implemented per public API
+ * See description in header file for argument/return detail
+ *
+ *-----------------------------------------------------------------*/
 void CFE_PSP_WatchdogEnable(void)
 {
     /* Arm the WDT2 control register */
@@ -109,15 +103,12 @@ void CFE_PSP_WatchdogEnable(void)
     PCI_OUT_LONG(0xFEFF0068, 0xFFFFFFAA);
 }
 
-/******************************************************************************
-**
-**  Purpose:
-**    Disable the watchdog timer
-**
-**  Arguments:
-**
-**  Return:
-*/
+/*----------------------------------------------------------------
+ *
+ * Implemented per public API
+ * See description in header file for argument/return detail
+ *
+ *-----------------------------------------------------------------*/
 void CFE_PSP_WatchdogDisable(void)
 {
     /* Arm the WDT2 control register */
@@ -127,23 +118,12 @@ void CFE_PSP_WatchdogDisable(void)
     PCI_OUT_LONG(0xFEFF0068, 0xFFFF7FAA);
 }
 
-/******************************************************************************
-**
-**  Purpose:
-**    Load the watchdog timer with a count that corresponds to the millisecond
-**    time given in the parameter.
-**
-**  Arguments:
-**    None.
-**
-**  Return:
-**    None
-**
-**  Note:
-**    Currently an ExpireTime value of zero will result in the minimum reset time
-**    of 4.5 seconds. All other ExpireTime values will result in a reset time of
-**    5.5 seconds. See comments below.
-*/
+/*----------------------------------------------------------------
+ *
+ * Implemented per public API
+ * See description in header file for argument/return detail
+ *
+ *-----------------------------------------------------------------*/
 void CFE_PSP_WatchdogService(void)
 {
     /* Arm the WDT2 control register */
@@ -171,39 +151,23 @@ void CFE_PSP_WatchdogService(void)
     }
 }
 
-/******************************************************************************
-**
-**  Purpose:
-**    Get the current watchdog value.
-**
-**  Arguments:
-**    none
-**
-**  Return:
-**    the current watchdog value
-**
-**  Notes:
-**
-*/
+/*----------------------------------------------------------------
+ *
+ * Implemented per public API
+ * See description in header file for argument/return detail
+ *
+ *-----------------------------------------------------------------*/
 uint32 CFE_PSP_WatchdogGet(void)
 {
     return CFE_PSP_WatchdogValue;
 }
 
-/******************************************************************************
-**
-**  Purpose:
-**    Get the current watchdog value.
-**
-**  Arguments:
-**    The new watchdog value
-**
-**  Return:
-**    nothing
-**
-**  Notes:
-**
-*/
+/*----------------------------------------------------------------
+ *
+ * Implemented per public API
+ * See description in header file for argument/return detail
+ *
+ *-----------------------------------------------------------------*/
 void CFE_PSP_WatchdogSet(uint32 WatchdogValue)
 {
     CFE_PSP_WatchdogValue = WatchdogValue;

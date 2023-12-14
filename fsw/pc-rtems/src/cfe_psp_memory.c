@@ -93,18 +93,12 @@ CFE_PSP_MemoryBlock_t PcRtems_ReservedMemBlock;
 *********************************************************************************
 */
 
-/******************************************************************************
-**
-**  Purpose:
-**    This function fetches the size of the OS Critical Data Store area.
-**
-**  Arguments:
-**    (none)
-**
-**  Return:
-**    (none)
-*/
-
+/*----------------------------------------------------------------
+ *
+ * Implemented per public API
+ * See description in header file for argument/return detail
+ *
+ *-----------------------------------------------------------------*/
 int32 CFE_PSP_GetCDSSize(uint32 *SizeOfCDS)
 {
     int32 return_code;
@@ -121,17 +115,12 @@ int32 CFE_PSP_GetCDSSize(uint32 *SizeOfCDS)
     return return_code;
 }
 
-/******************************************************************************
-**
-**  Purpose:
-**    This function writes to the CDS Block.
-**
-**  Arguments:
-**    (none)
-**
-**  Return:
-**    (none)
-*/
+/*----------------------------------------------------------------
+ *
+ * Implemented per public API
+ * See description in header file for argument/return detail
+ *
+ *-----------------------------------------------------------------*/
 int32 CFE_PSP_WriteToCDS(const void *PtrToDataToWrite, uint32 CDSOffset, uint32 NumBytes)
 {
     uint8 *CopyPtr;
@@ -162,18 +151,12 @@ int32 CFE_PSP_WriteToCDS(const void *PtrToDataToWrite, uint32 CDSOffset, uint32 
     return return_code;
 }
 
-/******************************************************************************
-**
-**  Purpose:
-**   This function reads from the CDS Block
-**
-**  Arguments:
-**    (none)
-**
-**  Return:
-**    (none)
-*/
-
+/*----------------------------------------------------------------
+ *
+ * Implemented per public API
+ * See description in header file for argument/return detail
+ *
+ *-----------------------------------------------------------------*/
 int32 CFE_PSP_ReadFromCDS(void *PtrToDataToRead, uint32 CDSOffset, uint32 NumBytes)
 {
     uint8 *CopyPtr;
@@ -210,19 +193,12 @@ int32 CFE_PSP_ReadFromCDS(void *PtrToDataToRead, uint32 CDSOffset, uint32 NumByt
 *********************************************************************************
 */
 
-/******************************************************************************
-**
-**  Purpose:
-**     This function returns the location and size of the ES Reset information area.
-**     This area is preserved during a processor reset and is used to store the
-**     ER Log, System Log and reset related variables
-**
-**  Arguments:
-**    (none)
-**
-**  Return:
-**    (none)
-*/
+/*----------------------------------------------------------------
+ *
+ * Implemented per public API
+ * See description in header file for argument/return detail
+ *
+ *-----------------------------------------------------------------*/
 int32 CFE_PSP_GetResetArea(cpuaddr *PtrToResetArea, uint32 *SizeOfResetArea)
 {
     int32 return_code;
@@ -247,18 +223,12 @@ int32 CFE_PSP_GetResetArea(cpuaddr *PtrToResetArea, uint32 *SizeOfResetArea)
 *********************************************************************************
 */
 
-/******************************************************************************
-**
-**  Purpose:
-**    This function returns the location and size of the memory used for the cFE
-**     User reserved area.
-**
-**  Arguments:
-**    (none)
-**
-**  Return:
-**    (none)
-*/
+/*----------------------------------------------------------------
+ *
+ * Implemented per public API
+ * See description in header file for argument/return detail
+ *
+ *-----------------------------------------------------------------*/
 int32 CFE_PSP_GetUserReservedArea(cpuaddr *PtrToUserArea, uint32 *SizeOfUserArea)
 {
     int32 return_code;
@@ -283,18 +253,12 @@ int32 CFE_PSP_GetUserReservedArea(cpuaddr *PtrToUserArea, uint32 *SizeOfUserArea
 *********************************************************************************
 */
 
-/******************************************************************************
-**
-**  Purpose:
-**    This function returns the location and size of the memory used for the cFE
-**     volatile disk.
-**
-**  Arguments:
-**    (none)
-**
-**  Return:
-**    (none)
-*/
+/*----------------------------------------------------------------
+ *
+ * Implemented per public API
+ * See description in header file for argument/return detail
+ *
+ *-----------------------------------------------------------------*/
 int32 CFE_PSP_GetVolatileDiskMem(cpuaddr *PtrToVolDisk, uint32 *SizeOfVolDisk)
 {
     int32 return_code;
@@ -442,18 +406,12 @@ int32 CFE_PSP_InitProcessorReservedMemory(uint32 RestartType)
 *********************************************************************************
 */
 
-/******************************************************************************
-**
-**  Purpose:
-**    This function returns the start and end address of the kernel text segment.
-**     It may not be implemented on all architectures.
-**
-**  Arguments:
-**    (none)
-**
-**  Return:
-**    (none)
-*/
+/*----------------------------------------------------------------
+ *
+ * Implemented per public API
+ * See description in header file for argument/return detail
+ *
+ *-----------------------------------------------------------------*/
 int32 CFE_PSP_GetKernelTextSegmentInfo(cpuaddr *PtrToKernelSegment, uint32 *SizeOfKernelSegment)
 {
     int32   return_code;
@@ -483,18 +441,12 @@ int32 CFE_PSP_GetKernelTextSegmentInfo(cpuaddr *PtrToKernelSegment, uint32 *Size
     return return_code;
 }
 
-/******************************************************************************
-**
-**  Purpose:
-**    This function returns the start and end address of the CFE text segment.
-**     It may not be implemented on all architectures.
-**
-**  Arguments:
-**    (none)
-**
-**  Return:
-**    (none)
-*/
+/*----------------------------------------------------------------
+ *
+ * Implemented per public API
+ * See description in header file for argument/return detail
+ *
+ *-----------------------------------------------------------------*/
 int32 CFE_PSP_GetCFETextSegmentInfo(cpuaddr *PtrToCFESegment, uint32 *SizeOfCFESegment)
 {
     int32   return_code;

@@ -51,18 +51,12 @@ extern uint32 CFE_PSP_SpacecraftId;
 extern uint32 CFE_PSP_CpuId;
 extern char   CFE_PSP_CpuName[];
 
-/******************************************************************************
-**
-**  Purpose:
-**    Provides a common interface to the processor reset.
-**
-**  Arguments:
-**    reset_type  : Type of reset.
-**
-**  Return:
-**    (none)
-*/
-
+/*----------------------------------------------------------------
+ *
+ * Implemented per public API
+ * See description in header file for argument/return detail
+ *
+ *-----------------------------------------------------------------*/
 void CFE_PSP_Restart(uint32 reset_type)
 {
     if (reset_type == CFE_PSP_RST_TYPE_POWERON)
@@ -113,97 +107,58 @@ void CFE_PSP_Restart(uint32 reset_type)
     abort();
 }
 
-/******************************************************************************
-**
-**  Purpose:
-**    Provides a common interface to abort the cFE startup process and return
-**    back to the OS.
-**
-**  Arguments:
-**    ErrorCode  : Reason for Exiting.
-**
-**  Return:
-**    (none)
-*/
-
+/*----------------------------------------------------------------
+ *
+ * Implemented per public API
+ * See description in header file for argument/return detail
+ *
+ *-----------------------------------------------------------------*/
 void CFE_PSP_Panic(int32 ErrorCode)
 {
-    OS_printf("CFE_PSP_Panic Called with error code = 0x%08X. Exiting.\n", (unsigned int)ErrorCode);
+    OS_printf("%s called with error code = 0x%08X. Exiting.\n", __func__, (unsigned int)ErrorCode);
     OS_printf("The cFE could not start.\n");
     abort(); /* abort() is preferable to exit(EXIT_FAILURE), as it may create a core file for debug */
 }
 
-/******************************************************************************
-**
-**  Purpose:
-**    Provides a common interface to flush the processor caches. This routine
-**    is in the BSP because it is sometimes implemented in hardware and
-**    sometimes taken care of by the RTOS.
-**
-**  Arguments:
-**
-**  Return:
-**    (none)
-*/
+/*----------------------------------------------------------------
+ *
+ * Implemented per public API
+ * See description in header file for argument/return detail
+ *
+ *-----------------------------------------------------------------*/
 void CFE_PSP_FlushCaches(uint32 type, void *address, uint32 size)
 {
-    printf("CFE_PSP_FlushCaches called -- Currently no Linux/OSX/Cygwin implementation\n");
+    printf("%s called -- Currently no Linux/OSX/Cygwin implementation\n", __func__);
 }
 
-/*
-**
-** Purpose:
-**         return the processor ID.
-**
-**
-** Parameters:
-**
-** Global Inputs: None
-**
-** Global Outputs: None
-**
-**
-**
-** Return Values: Processor ID
-*/
+/*----------------------------------------------------------------
+ *
+ * Implemented per public API
+ * See description in header file for argument/return detail
+ *
+ *-----------------------------------------------------------------*/
 uint32 CFE_PSP_GetProcessorId(void)
 {
     return CFE_PSP_CpuId;
 }
 
-/*
-**
-** Purpose:
-**         return the spacecraft ID.
-**
-** Parameters:
-**
-** Global Inputs: None
-**
-** Global Outputs: None
-**
-**
-** Return Values: Spacecraft ID
-*/
+/*----------------------------------------------------------------
+ *
+ * Implemented per public API
+ * See description in header file for argument/return detail
+ *
+ *-----------------------------------------------------------------*/
 uint32 CFE_PSP_GetSpacecraftId(void)
 {
     return CFE_PSP_SpacecraftId;
 }
 
-/*
-**
-** Purpose:
-**         return the processor name.
-**
-** Parameters:
-**
-** Global Inputs: None
-**
-** Global Outputs: None
-**
-**
-** Return Values: Processor name
-*/
+/*----------------------------------------------------------------
+ *
+ * Implemented per public API
+ * See description in header file for argument/return detail
+ *
+ *-----------------------------------------------------------------*/
 const char *CFE_PSP_GetProcessorName(void)
 {
     return CFE_PSP_CpuName;

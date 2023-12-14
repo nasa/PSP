@@ -152,13 +152,12 @@ void CFE_PSP_ExceptionHook(TASK_ID task_id, int vector, void *vpEsf)
     }
 }
 
-/*
-**
-**   Purpose: This function sets a default exception environment that can be used
-**
-**   Notes: The exception environment is local to each task Therefore this must be
-**          called for each task that that wants to do floating point and catch exceptions
-*/
+/*----------------------------------------------------------------
+ *
+ * Implemented per public API
+ * See description in header file for argument/return detail
+ *
+ *-----------------------------------------------------------------*/
 void CFE_PSP_SetDefaultExceptionEnvironment(void)
 {
     vxMsrSet(vxMsrGet() | _PPC_MSR_EE | /* enable the external interrupt */

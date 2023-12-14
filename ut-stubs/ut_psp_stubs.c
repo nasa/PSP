@@ -66,11 +66,7 @@ Target_ConfigData GLOBAL_CONFIGDATA = {.MissionVersion       = "MissionUnitTest"
 **
 ** \par Description
 **        This function is used to mimic the response of the OS API function
-**        CFE_PSP_Panic.  The variable PSPPanicRtn.value is set equal to the
-**        input variable ErrorCode and the variable PSPPanicRtn.count is
-**        incremented each time this function is called.  The unit tests
-**        compare these values to expected results to verify proper system
-**        response.
+**        CFE_PSP_Panic.
 **
 ** \par Assumptions, External Events, and Notes:
 **        None
@@ -168,7 +164,7 @@ const char *CFE_PSP_GetProcessorName(void)
 
 /*****************************************************************************/
 /**
-v** \brief CFE_PSP_GetTime stub function
+** \brief CFE_PSP_GetTime stub function
 **
 ** \par Description
 **        This function is used as a placeholder for the PSP function
@@ -203,13 +199,7 @@ void CFE_PSP_GetTime(OS_time_t *LocalTime)
 **
 ** \par Description
 **        This function is used to mimic the response of the PSP function
-**        CFE_PSP_WriteToCDS.  The user can adjust the response by setting
-**        the values in the BSPWriteCDSRtn structure prior to this function
-**        being called.  If the value BSPWriteCDSRtn.count is greater than
-**        zero then the counter is decremented; if it then equals zero the
-**        return value is set to the user-defined value BSPWriteCDSRtn.value.
-**        Otherwise, the value of the user-defined variable UT_BSP_Fail
-**        determines the status returned by the function.
+**        CFE_PSP_WriteToCDS.
 **
 ** \par Assumptions, External Events, and Notes:
 **        None
@@ -245,13 +235,7 @@ int32 CFE_PSP_WriteToCDS(const void *PtrToDataToWrite, uint32 CDSOffset, uint32 
 **
 ** \par Description
 **        This function is used to mimic the response of the PSP function
-**        CFE_PSP_ReadFromCDS.  The user can adjust the response by setting
-**        the values in the BSPReadCDSRtn structure prior to this function
-**        being called.  If the value BSPReadCDSRtn.count is greater than
-**        zero then the counter is decremented; if it then equals zero the
-**        return value is set to the user-defined value BSPReadCDSRtn.value.
-**        Otherwise, the value of the user-defined variable UT_BSP_Fail
-**        determines the status returned by the function.
+**        CFE_PSP_ReadFromCDS.
 **
 ** \par Assumptions, External Events, and Notes:
 **        None
@@ -354,11 +338,7 @@ int32 CFE_PSP_GetVolatileDiskMem(cpuaddr *PtrToVolDisk, uint32 *SizeOfVolDisk)
 **
 ** \par Description
 **        This function is used as a placeholder for the PSP function
-**        CFE_PSP_Restart.  The variable PSPRestartRtn.value is set to the
-**        value passed to the function, reset_type, and the variable
-**        PSPRestartRtn.count is incremented each time this function is called.
-**        The unit tests compare these values to expected results to verify
-**        proper system response.
+**        CFE_PSP_Restart.
 **
 ** \par Assumptions, External Events, and Notes:
 **        None

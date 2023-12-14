@@ -208,7 +208,7 @@ void CFE_PSP_AttachExceptions(void)
      */
     backtrace(Addr, 1);
 
-    OS_printf("CFE_PSP: CFE_PSP_AttachExceptions Called\n");
+    OS_printf("CFE_PSP: %s called\n", __func__);
 
     /*
      * Block most other signals during handler execution.
@@ -244,14 +244,12 @@ void CFE_PSP_AttachExceptions(void)
     CFE_PSP_Exception_Reset();
 }
 
-/*
-**
-**   Purpose: This function sets a default exception environment that can be used
-**
-**   Notes: The exception environment is local to each task Therefore this must be
-**          called for each task that that wants to do floating point and catch exceptions
-*/
-
+/*----------------------------------------------------------------
+ *
+ * Implemented per public API
+ * See description in header file for argument/return detail
+ *
+ *-----------------------------------------------------------------*/
 void CFE_PSP_SetDefaultExceptionEnvironment(void)
 {
     /*
