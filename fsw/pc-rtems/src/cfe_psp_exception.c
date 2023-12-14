@@ -78,11 +78,10 @@ int32 CFE_PSP_ExceptionGetSummary_Impl(const CFE_PSP_Exception_LogData_t *Buffer
     return CFE_PSP_ERROR_NOT_IMPLEMENTED;
 }
 
-/*
-**
-**   Purpose: This function sets a default exception environment that can be used
-**
-**   Notes: The exception environment is local to each task Therefore this must be
-**          called for each task that that wants to do floating point and catch exceptions
-*/
+/*----------------------------------------------------------------
+ *
+ * Implemented per public API
+ * See description in header file for argument/return detail
+ *
+ *-----------------------------------------------------------------*/
 void CFE_PSP_SetDefaultExceptionEnvironment(void) {}

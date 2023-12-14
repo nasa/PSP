@@ -48,18 +48,12 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-/******************************************************************************
-**
-**  Purpose:
-**    Initializes the Solid State Recorder device. This can be filled in for the platform.
-**
-**  Arguments:
-**    bus, device, device name
-**
-**  Return:
-**    (none)
-*/
-
+/*----------------------------------------------------------------
+ *
+ * Implemented per public API
+ * See description in header file for argument/return detail
+ *
+ *-----------------------------------------------------------------*/
 int32 CFE_PSP_InitSSR(uint32 bus, uint32 device, char *DeviceName)
 {
     int32 Status;

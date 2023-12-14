@@ -38,24 +38,12 @@ void ram_direct_Init(uint32 PspModuleId)
 ** global memory
 */
 
-/*
- **
- ** Purpose:
- **         Read one byte of memory.
- **
- **
- ** Parameters:
- **	MemoryAddress : Address to be read
- **  ByteValue  : The address content will be copied to the location pointed by this argument
- **
- ** Global Inputs: None
- **
- ** Global Outputs: None
- **
- **
- **
- ** Return Values: CFE_PSP_SUCCESS
- */
+/*----------------------------------------------------------------
+ *
+ * Implemented per public API
+ * See description in header file for argument/return detail
+ *
+ *-----------------------------------------------------------------*/
 int32 CFE_PSP_MemRead8(cpuaddr MemoryAddress, uint8 *ByteValue)
 {
     (*ByteValue) = *((uint8 *)MemoryAddress);
@@ -63,53 +51,24 @@ int32 CFE_PSP_MemRead8(cpuaddr MemoryAddress, uint8 *ByteValue)
     return CFE_PSP_SUCCESS;
 }
 
-/*
- **
- ** Purpose:
- **         Write one byte of memory.
- **
- **
- ** Parameters:
- **	MemoryAddress : Address to be written to
- **  ByteValue  : The content pointed by this argument will be copied to the address
- **
- ** Global Inputs: None
- **
- ** Global Outputs: None
- **
- **
- **
- ** Return Values:
- **		CFE_PSP_SUCCESS
- */
+/*----------------------------------------------------------------
+ *
+ * Implemented per public API
+ * See description in header file for argument/return detail
+ *
+ *-----------------------------------------------------------------*/
 int32 CFE_PSP_MemWrite8(cpuaddr MemoryAddress, uint8 ByteValue)
 {
     *((uint8 *)MemoryAddress) = ByteValue;
     return CFE_PSP_SUCCESS;
 }
 
-/*
- **
- ** Purpose:
- **         Read  2 bytes of memory.
- **
- **
- ** Parameters:
- **	MemoryAddress : Address to be read
- **  uint16Value : The address content will be copied to the location pointed by
- **            this argument
- **
- ** Global Inputs: None
- **
- ** Global Outputs: None
- **
- **
- **
- ** Return Values:
- **		CFE_PSP_SUCCESS
- **		CFE_PSP_ERROR_ADD_MISALIGNED The Address is not aligned to 16 bit
- **      addressing scheme.
- */
+/*----------------------------------------------------------------
+ *
+ * Implemented per public API
+ * See description in header file for argument/return detail
+ *
+ *-----------------------------------------------------------------*/
 int32 CFE_PSP_MemRead16(cpuaddr MemoryAddress, uint16 *uint16Value)
 {
     /* check 16 bit alignment  , check the 1st lsb */
@@ -121,28 +80,12 @@ int32 CFE_PSP_MemRead16(cpuaddr MemoryAddress, uint16 *uint16Value)
     return CFE_PSP_SUCCESS;
 }
 
-/*
- **
- ** Purpose:
- **         Write 2 byte of memory.
- **
- **
- ** Parameters:
- **	MemoryAddress : Address to be written to
- **  uint16Value : The content pointed by this argument will be copied to the
- **            address
- **
- ** Global Inputs: None
- **
- ** Global Outputs: None
- **
- **
- **
- ** Return Values:
- **      CFE_PSP_SUCCESS
- **		CFE_PSP_ERROR_ADD_MISALIGNED The MemoryAddress is not aligned to 16 bit
- **      addressing scheme.
- */
+/*----------------------------------------------------------------
+ *
+ * Implemented per public API
+ * See description in header file for argument/return detail
+ *
+ *-----------------------------------------------------------------*/
 int32 CFE_PSP_MemWrite16(cpuaddr MemoryAddress, uint16 uint16Value)
 {
     /* check 16 bit alignment  , check the 1st lsb */
@@ -154,28 +97,12 @@ int32 CFE_PSP_MemWrite16(cpuaddr MemoryAddress, uint16 uint16Value)
     return CFE_PSP_SUCCESS;
 }
 
-/*
- **
- ** Purpose:
- **         Read 4 bytes of memory.
- **
- **
- ** Parameters:
- **	MemoryAddress : Address to be read
- **  uint32Value : The address content will be copied to the location pointed by
- **            this argument
- **
- ** Global Inputs: None
- **
- ** Global Outputs: None
- **
- **
- **
- ** Return Values:
- **		CFE_PSP_SUCCESS
- **		CFE_PSP_ERROR_ADD_MISALIGNED The Address is not aligned to 16 bit
- **      addressing scheme.
- */
+/*----------------------------------------------------------------
+ *
+ * Implemented per public API
+ * See description in header file for argument/return detail
+ *
+ *-----------------------------------------------------------------*/
 int32 CFE_PSP_MemRead32(cpuaddr MemoryAddress, uint32 *uint32Value)
 {
     /* check 32 bit alignment  */
@@ -188,28 +115,12 @@ int32 CFE_PSP_MemRead32(cpuaddr MemoryAddress, uint32 *uint32Value)
     return CFE_PSP_SUCCESS;
 }
 
-/*
- **
- ** Purpose:
- **         Write 4 byte of memory.
- **
- **
- ** Parameters:
- **	MemoryAddress : Address to be written to
- **  uint32Value : The content pointed by this argument will be copied to the
- **            address
- **
- ** Global Inputs: None
- **
- ** Global Outputs: None
- **
- **
- **
- ** Return Values:
- **		CFE_PSP_SUCCESS
- **		CFE_PSP_ERROR_ADD_MISALIGNED The Address is not aligned to 16 bit
- **      addressing scheme.
- */
+/*----------------------------------------------------------------
+ *
+ * Implemented per public API
+ * See description in header file for argument/return detail
+ *
+ *-----------------------------------------------------------------*/
 int32 CFE_PSP_MemWrite32(cpuaddr MemoryAddress, uint32 uint32Value)
 {
     /* check 32 bit alignment  */
