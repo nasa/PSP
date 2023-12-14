@@ -80,7 +80,7 @@ extern CFE_PSP_MemoryBlock_t PcRtems_ReservedMemBlock;
 void CFE_PSP_Restart(uint32 reset_type)
 {
     CFE_PSP_FlushCaches(1, PcRtems_ReservedMemBlock.BlockPtr, PcRtems_ReservedMemBlock.BlockSize);
-    OS_printf("CFE_PSP_Restart is not implemented on this platform ( yet ! )\n");
+    OS_printf("%s is not implemented on this platform ( yet ! )\n", __func__);
     exit(-1);
 }
 
@@ -99,7 +99,7 @@ void CFE_PSP_Restart(uint32 reset_type)
 
 void CFE_PSP_Panic(int32 ErrorCode)
 {
-    printf("CFE_PSP_Panic Called with error code = 0x%08X. Exiting.\n", (unsigned int)ErrorCode);
+    printf("%s called with error code = 0x%08X. Exiting.\n", __func__, (unsigned int)ErrorCode);
     OS_ApplicationExit(ErrorCode);
 }
 

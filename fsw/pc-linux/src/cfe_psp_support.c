@@ -128,7 +128,7 @@ void CFE_PSP_Restart(uint32 reset_type)
 
 void CFE_PSP_Panic(int32 ErrorCode)
 {
-    OS_printf("CFE_PSP_Panic Called with error code = 0x%08X. Exiting.\n", (unsigned int)ErrorCode);
+    OS_printf("%s called with error code = 0x%08X. Exiting.\n", __func__, (unsigned int)ErrorCode);
     OS_printf("The cFE could not start.\n");
     abort(); /* abort() is preferable to exit(-1), as it may create a core file for debug */
 }
@@ -147,7 +147,7 @@ void CFE_PSP_Panic(int32 ErrorCode)
 */
 void CFE_PSP_FlushCaches(uint32 type, void *address, uint32 size)
 {
-    printf("CFE_PSP_FlushCaches called -- Currently no Linux/OSX/Cygwin implementation\n");
+    printf("%s called -- Currently no Linux/OSX/Cygwin implementation\n", __func__);
 }
 
 /*

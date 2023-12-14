@@ -114,7 +114,7 @@ void CFE_PSP_Restart(uint32 reset_type)
 
 void CFE_PSP_Panic(int32 ErrorCode)
 {
-    printf("CFE_PSP_Panic Called with error code = 0x%08X. Exiting.\n", (unsigned int)ErrorCode);
+    printf("%s called with error code = 0x%08X. Exiting.\n", __func__, (unsigned int)ErrorCode);
     exit(-1); /* Need to improve this */
 }
 
