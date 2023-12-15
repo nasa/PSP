@@ -42,5 +42,6 @@ extern unsigned long int PCS_strtoul(const char *nptr, char **endptr, int base);
 extern int               PCS_system(const char *command);
 extern void *            PCS_malloc(size_t sz);
 extern void              PCS_free(void *ptr);
+extern void              PCS_abort(void);
 
 #endif

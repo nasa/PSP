@@ -16,23 +16,19 @@
  * limitations under the License.
  ************************************************************************/
 
-/* PSP coverage stub replacement for stdlib.h */
-#ifndef OVERRIDE_STDLIB_H
-#define OVERRIDE_STDLIB_H
+/* PSP coverage stub replacement for rtems.h */
+#ifndef OVERRIDE_RTEMS_H
+#define OVERRIDE_RTEMS_H
 
-#include "PCS_stdlib.h"
+#include "PCS_rtems.h"
 
-/* ----------------------------------------- */
-/* mappings for declarations in stdlib.h */
-/* ----------------------------------------- */
+#define rtems_task_priority PCS_rtems_task_priority
+#define rtems_id            PCS_rtems_id
 
-#define EXIT_SUCCESS PCS_EXIT_SUCCESS
-#define EXIT_FAILURE PCS_EXIT_FAILURE
-#define exit         PCS_exit
-#define strtoul      PCS_strtoul
-#define system       PCS_system
-#define malloc       PCS_malloc
-#define free         PCS_free
-#define abort        PCS_abort
+#define rtems_status_code PCS_rtems_status_code
+#define RTEMS_SUCCESSFUL  PCS_RTEMS_SUCCESSFUL
+
+#define rtems_bsdnet_ifconfig PCS_rtems_bsdnet_ifconfig
+#define rtems_bsdnet_config   PCS_rtems_bsdnet_config
 
 #endif

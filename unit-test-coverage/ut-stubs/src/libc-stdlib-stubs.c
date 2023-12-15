@@ -57,6 +57,11 @@ void PCS_exit(int c)
      */
 }
 
+void PCS_abort(void)
+{
+    UT_DEFAULT_IMPL(PCS_abort);
+}
+
 unsigned long int PCS_strtoul(const char *nptr, char **endptr, int base)
 {
     int32         Status;

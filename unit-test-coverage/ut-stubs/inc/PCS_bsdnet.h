@@ -16,23 +16,16 @@
  * limitations under the License.
  ************************************************************************/
 
-/* PSP coverage stub replacement for stdlib.h */
-#ifndef OVERRIDE_STDLIB_H
-#define OVERRIDE_STDLIB_H
+/* PSP coverage stub replacement for bsdnet.h */
+#ifndef PCS_BSDNET_H
+#define PCS_BSDNET_H
 
-#include "PCS_stdlib.h"
+#include "PCS_basetypes.h"
+#include "PCS_rtems.h"
 
-/* ----------------------------------------- */
-/* mappings for declarations in stdlib.h */
-/* ----------------------------------------- */
-
-#define EXIT_SUCCESS PCS_EXIT_SUCCESS
-#define EXIT_FAILURE PCS_EXIT_FAILURE
-#define exit         PCS_exit
-#define strtoul      PCS_strtoul
-#define system       PCS_system
-#define malloc       PCS_malloc
-#define free         PCS_free
-#define abort        PCS_abort
+extern int         PCS_rtems_fxp_attach(struct PCS_rtems_bsdnet_ifconfig *, int);
+extern void        PCS_rtems_bsdnet_do_dhcp_failsafe(void);
+extern int         PCS_rtems_bsdnet_initialize_network(void);
+extern const char *PCS_rtems_status_text(PCS_rtems_status_code);
 
 #endif

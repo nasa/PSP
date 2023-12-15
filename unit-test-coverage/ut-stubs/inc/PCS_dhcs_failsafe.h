@@ -16,23 +16,11 @@
  * limitations under the License.
  ************************************************************************/
 
-/* PSP coverage stub replacement for stdlib.h */
-#ifndef OVERRIDE_STDLIB_H
-#define OVERRIDE_STDLIB_H
+/* PSP coverage stub replacement for rtems_dhcs_failsafe.h */
+#ifndef PCS_DHCP_FAILSAFE_H
+#define PCS_DHCP_FAILSAFE_H
 
-#include "PCS_stdlib.h"
-
-/* ----------------------------------------- */
-/* mappings for declarations in stdlib.h */
-/* ----------------------------------------- */
-
-#define EXIT_SUCCESS PCS_EXIT_SUCCESS
-#define EXIT_FAILURE PCS_EXIT_FAILURE
-#define exit         PCS_exit
-#define strtoul      PCS_strtoul
-#define system       PCS_system
-#define malloc       PCS_malloc
-#define free         PCS_free
-#define abort        PCS_abort
+#include "PCS_basetypes.h"
+#include "PCS_rtems.h"
 
 #endif

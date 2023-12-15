@@ -36,8 +36,6 @@
 #include <rtems/rtems_dhcp_failsafe.h>
 #include <bsp.h>
 
-extern int rtems_fxp_attach(struct rtems_bsdnet_ifconfig *config, int attaching);
-
 /*
 ** cFE includes
 */
@@ -145,7 +143,7 @@ void OS_Application_Startup(void)
 {
     if (CFE_PSP_Setup() != RTEMS_SUCCESSFUL)
     {
-        CFE_PSP_Panic(CFE_PSP_ERROR);
+        CFE_PSP_Panic(CFE_PSP_ERROR); /* Unreachable currently - CFE_PSP_Setup always returns RTEMS_SUCCESSFUL */
     }
 
     /*
