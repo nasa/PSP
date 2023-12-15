@@ -117,7 +117,7 @@ void CFE_PSP_Panic(int32 ErrorCode)
 {
     OS_printf("%s called with error code = 0x%08X. Exiting.\n", __func__, (unsigned int)ErrorCode);
     OS_printf("The cFE could not start.\n");
-    abort(); /* abort() is preferable to exit(-1), as it may create a core file for debug */
+    abort(); /* abort() is preferable to exit(EXIT_FAILURE), as it may create a core file for debug */
 }
 
 /*----------------------------------------------------------------

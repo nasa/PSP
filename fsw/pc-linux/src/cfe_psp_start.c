@@ -531,7 +531,7 @@ void CFE_PSP_DisplayUsage(char *Name)
     printf("       %s --reset PO --subtype 1 --cpuid 1 --cpuname CPU1 --scid 32\n", Name);
     printf(" \n");
 
-    exit(1);
+    exit(EXIT_FAILURE);
 }
 
 /******************************************************************************

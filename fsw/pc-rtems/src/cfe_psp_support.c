@@ -75,7 +75,7 @@ void CFE_PSP_Restart(uint32 reset_type)
 {
     CFE_PSP_FlushCaches(1, PcRtems_ReservedMemBlock.BlockPtr, PcRtems_ReservedMemBlock.BlockSize);
     OS_printf("%s is not implemented on this platform ( yet ! )\n", __func__);
-    exit(-1);
+    exit(EXIT_FAILURE);
 }
 
 /*----------------------------------------------------------------
