@@ -44,7 +44,7 @@ const char *CFE_PSP_GetVersionString(void)
  *-----------------------------------------------------------------*/
 const char *CFE_PSP_GetVersionCodeName(void)
 {
-    return CFE_PSP_IMPL_CODENAME;
+    return CFE_PSP_BUILD_CODENAME;
 }
 
 /*----------------------------------------------------------------
