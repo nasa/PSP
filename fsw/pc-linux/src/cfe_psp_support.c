@@ -57,9 +57,9 @@ extern char   CFE_PSP_CpuName[];
  * See description in header file for argument/return detail
  *
  *-----------------------------------------------------------------*/
-void CFE_PSP_Restart(uint32 reset_type)
+void CFE_PSP_Restart(uint32 resetType)
 {
-    if (reset_type == CFE_PSP_RST_TYPE_POWERON)
+    if (resetType == CFE_PSP_RST_TYPE_POWERON)
     {
         OS_printf("CFE_PSP: Exiting cFE with POWERON Reset status.\n");
 
@@ -75,7 +75,7 @@ void CFE_PSP_Restart(uint32 reset_type)
     /*
      * Record the reset type for the next boot.
      */
-    CFE_PSP_ReservedMemoryMap.BootPtr->NextResetType = reset_type;
+    CFE_PSP_ReservedMemoryMap.BootPtr->NextResetType = resetType;
     CFE_PSP_ReservedMemoryMap.BootPtr->ValidityFlag  = CFE_PSP_BOOTRECORD_VALID;
 
     /*

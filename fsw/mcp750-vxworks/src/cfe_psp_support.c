@@ -77,9 +77,9 @@ extern CFE_PSP_MemoryBlock_t MCP750_ReservedMemBlock;
  * See description in header file for argument/return detail
  *
  *-----------------------------------------------------------------*/
-void CFE_PSP_Restart(uint32 reset_type)
+void CFE_PSP_Restart(uint32 resetType)
 {
-    if (reset_type == CFE_PSP_RST_TYPE_POWERON)
+    if (resetType == CFE_PSP_RST_TYPE_POWERON)
     {
         CFE_PSP_ReservedMemoryMap.BootPtr->bsp_reset_type = CFE_PSP_RST_TYPE_POWERON;
         CFE_PSP_FlushCaches(1, MCP750_ReservedMemBlock.BlockPtr, MCP750_ReservedMemBlock.BlockSize);

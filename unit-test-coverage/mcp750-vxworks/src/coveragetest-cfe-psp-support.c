@@ -49,7 +49,7 @@ void Test_CFE_PSP_Restart(void)
 {
     /*
      * Test Case For:
-     * void CFE_PSP_Restart(uint32 reset_type)
+     * void CFE_PSP_Restart(uint32 resetType)
      */
 
     UT_Setup_ReservedMem_BootRec();
