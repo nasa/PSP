@@ -28,6 +28,7 @@ target_include_directories(psp_module_api INTERFACE
 
 # Translate the CFE_PSP_TARGETNAME to a set of additional modules to build
 file(STRINGS "${CMAKE_CURRENT_LIST_DIR}/fsw/${CFE_PSP_TARGETNAME}/psp_module_list.cmake" PSP_TARGET_MODULE_LIST REGEX "^[a-zA-Z]")
+include("${CMAKE_CURRENT_LIST_DIR}/fsw/${CFE_PSP_TARGETNAME}/psp_conditional_modules.cmake" OPTIONAL)
 
 # The PSP is currently built in modular parts, consisting of a platform-specific
 # module(s) combined with a shared component which is built for multiple targets.
@@ -72,4 +73,3 @@ if (ENABLE_UNIT_TESTS)
     add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/ut-stubs)
     add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/unit-test-coverage)
 endif ()
-
