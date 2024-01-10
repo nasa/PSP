@@ -36,6 +36,8 @@
 #include <rtems/rtems_dhcp_failsafe.h>
 #include <bsp.h>
 
+extern int rtems_fxp_attach(struct rtems_bsdnet_ifconfig *config, int attaching);
+
 /*
 ** cFE includes
 */
