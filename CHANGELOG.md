@@ -1,5 +1,9 @@
 # Changelog
 
+## Development Build: v1.6.0-rc4+dev117
+- Align mismatched function prototype/implem. parameter names
+- See <https://github.com/nasa/PSP/pull/380>
+
 ## Development Build: v1.6.0-rc4+dev102
 - malloc stub memalign calculation
 - See <https://github.com/nasa/PSP/pull/419>

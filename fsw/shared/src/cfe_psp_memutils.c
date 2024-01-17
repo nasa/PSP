@@ -51,9 +51,9 @@
  * See description in header file for argument/return detail
  *
  *-----------------------------------------------------------------*/
-int32 CFE_PSP_MemCpy(void *dst, const void *src, uint32 size)
+int32 CFE_PSP_MemCpy(void *dest, const void *src, uint32 n)
 {
-    memcpy(dst, src, size);
+    memcpy(dest, src, n);
     return CFE_PSP_SUCCESS;
 }
 
@@ -63,8 +63,8 @@ int32 CFE_PSP_MemCpy(void *dst, const void *src, uint32 size)
  * See description in header file for argument/return detail
  *
  *-----------------------------------------------------------------*/
-int32 CFE_PSP_MemSet(void *dst, uint8 value, uint32 size)
+int32 CFE_PSP_MemSet(void *dest, uint8 value, uint32 n)
 {
-    memset(dst, (int)value, (size_t)size);
+    memset(dest, (int)value, (size_t)n);
     return CFE_PSP_SUCCESS;
 }
