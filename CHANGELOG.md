@@ -1,5 +1,10 @@
 # Changelog
 
+## Development Build: equuleus-rc1+dev38
+- updating PSP to use new versioning system
+- conditional module inclusion
+- See <https://github.com/nasa/PSP/pull/422> and <https://github.com/nasa/PSP/pull/427>
+
 ## Development Build: v1.6.0-rc4+dev117
 - Align mismatched function prototype/implem. parameter names
 - See <https://github.com/nasa/PSP/pull/380>

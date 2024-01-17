@@ -27,7 +27,7 @@
 /*
  * Development Build Macro Definitions
  */
-#define CFE_PSP_IMPL_BUILD_NUMBER   115
+#define CFE_PSP_IMPL_BUILD_NUMBER   38
 #define CFE_PSP_IMPL_BUILD_BASELINE "equuleus-rc1"
 #define CFE_PSP_BUILD_DEV_CYCLE     "equuleus-rc2" /**< @brief Development: Release name for current development cycle */
 #define CFE_PSP_BUILD_CODENAME      "Equuleus" /**< @brief: Development: Code name for the current build */
