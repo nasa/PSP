@@ -87,6 +87,46 @@ struct rtems_bsdnet_config rtems_bsdnet_config = {
 };
 #endif
 
+#if RTEMS_INCLUDE_TARFS /* TODO Is there a better networking-related define we can use here? */
+
+#include <grlib/network_interface_add.h>
+
+/* TODO Remove these pragmas and fix warnings generated */
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdiscarded-qualifiers"
+#pragma GCC diagnostic ignored "-Woverflow"
+
+/*
+ * Network configuration
+ */
+
+/* Set default IP and MAC if not defined */
+#ifndef CONFIG_ETH_IP
+#define CONFIG_ETH_IP "192.168.1.67"
+#endif
+#ifndef CONFIG_ETH_MAC
+#define CONFIG_ETH_MAC {0x00, 0x80, 0x7F, 0x22, 0x61, 0x7A}
+#endif
+
+/* Table used by network interfaces that register themselves using the
+ * network_interface_add routine. From this table the IP address, netmask
+ * and Ethernet MAC address of an interface is taken.
+ *
+ * The network_interface_add routine puts the interface into the
+ * rtems_bsnet_config.ifconfig list.
+ *
+ * Set IP Address and Netmask to NULL to select BOOTP.
+ */
+struct ethernet_config interface_configs[] =
+{
+	{ CONFIG_ETH_IP, "255.255.255.0", CONFIG_ETH_MAC}
+};
+#define INTERFACE_CONFIG_CNT (sizeof(interface_configs)/sizeof(struct ethernet_config) - 1)
+
+#pragma GCC diagnostic pop
+
+#endif
+
 /*
 ** 1 HZ Timer "ISR"
 */
@@ -117,8 +157,10 @@ int timer_count = 0;
 */
 int CFE_PSP_Setup(void)
 {
-    /* TODO this hangs the dev board when using rki2 since network is already set up */
-#if 0
+
+/* Only initialize the network if not using the rki2 */
+#if RTEMS_INCLUDE_TARFS /* TODO Is there a better networking-related define? */
+
     rtems_status_code status;
 
     /*
@@ -130,6 +172,14 @@ int CFE_PSP_Setup(void)
     {
         printf("Network init not successful: %s / %s (continuing)\n", rtems_status_text(status), strerror(errno));
     }
+    else
+    {
+        printf("Network initialized\n\n");
+    }
+    rtems_bsdnet_show_inet_routes();
+    printf("\n");
+    rtems_bsdnet_show_if_stats();
+    printf("\n");
 #endif
 
     return RTEMS_SUCCESSFUL;
