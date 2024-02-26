@@ -51,3 +51,13 @@ int PCS_rtems_fxp_attach(struct PCS_rtems_bsdnet_ifconfig *config, int attaching
 {
     return UT_DEFAULT_IMPL(PCS_rtems_fxp_attach);
 }
+
+void PCS_rtems_bsdnet_show_inet_routes(void)
+{
+    UT_DEFAULT_IMPL(PCS_rtems_bsdnet_show_inet_routes);
+}
+
+void PCS_rtems_bsdnet_show_if_stats(void)
+{
+    UT_DEFAULT_IMPL(PCS_rtems_bsdnet_show_if_stats);
+}
