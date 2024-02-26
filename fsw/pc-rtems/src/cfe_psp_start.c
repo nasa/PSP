@@ -99,6 +99,27 @@ struct rtems_bsdnet_config rtems_bsdnet_config = {
 /*
  * Network configuration
  */
+/* TODO move to a separate file */
+#include <rtems.h>
+#include <bsp.h>
+
+#include "bsp_rtems_cfg.h"
+
+#include <drvmgr/drvmgr.h>
+
+/* Configure Driver manager */
+#if defined(RTEMS_DRVMGR_STARTUP) && defined(LEON3) /* if --drvmgr was given to configure */
+ /* Add Timer and UART Driver for this example */
+ #ifdef CONFIGURE_APPLICATION_NEEDS_CLOCK_DRIVER
+  #define CONFIGURE_DRIVER_AMBAPP_GAISLER_GPTIMER
+ #endif
+ #ifdef CONFIGURE_APPLICATION_NEEDS_CONSOLE_DRIVER
+  #define CONFIGURE_DRIVER_AMBAPP_GAISLER_APBUART
+ #endif
+#endif
+#define CONFIGURE_DRIVER_AMBAPP_GAISLER_GRETH /* TODO make dependent on OSAL NETWORK config */
+
+#include <drvmgr/drvmgr_confdefs.h>
 
 /* Set default IP and MAC if not defined */
 #ifndef CONFIG_ETH_IP
