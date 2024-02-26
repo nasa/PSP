@@ -16,17 +16,8 @@
  * limitations under the License.
  ************************************************************************/
 
-/* PSP coverage stub replacement for rtems_bsdnet.h */
-#ifndef OVERRIDE_BSDNET_H
-#define OVERRIDE_BSDNET_H
-
-#include "PCS_bsdnet.h"
-
-#define rtems_status_text               PCS_rtems_status_text
-#define rtems_bsdnet_do_dhcp_failsafe   PCS_rtems_bsdnet_do_dhcp_failsafe
-#define rtems_bsdnet_initialize_network PCS_rtems_bsdnet_initialize_network
-#define rtems_fxp_attach                PCS_rtems_fxp_attach
-#define rtems_bsdnet_show_inet_routes   PCS_rtems_bsdnet_show_inet_routes
-#define rtems_bsdnet_show_if_stats      PCS_rtems_bsdnet_show_if_stats
+/* PSP coverage stub replacement for drvmgr.h */
+#ifndef OVERRIDE_DRVMGR_H
+#define OVERRIDE_DRVMGR_H
 
 #endif
