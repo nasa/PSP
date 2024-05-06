@@ -1,5 +1,9 @@
 # Changelog
 
+## Development Build: equuleus-rc1+dev42
+- Adds node20 compatible github actions
+- See <https://github.com/nasa/PSP/pull/430>
+
 ## Development Build: equuleus-rc1+dev38
 - updating PSP to use new versioning system
 - conditional module inclusion
