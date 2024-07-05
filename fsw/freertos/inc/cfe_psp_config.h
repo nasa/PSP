@@ -9,4 +9,8 @@
 #include "freertos/queue.h"
 
 
+// Watchdog
+#define CFE_PSP_WATCHDOG_MIN 0
+#define CFE_PSP_WATCHDOG_MAX 0xFFFFFFFF
+
 #endif

@@ -23,30 +23,6 @@
 #define CFE_PSP_SPACECRAFT_ID	(GLOBAL_CONFIGDATA.SpacecraftId)
 
 
-// TODO: Fully implement after specifying the structure of the reserved memory map
-void CFE_PSP_Restart(uint32 resetType)
-{
-	if (resetType == CFE_PSP_RST_TYPE_POWERON) 
-	{
-		/* set bootptr of reserved memory map */
-		/* flush caches */
-		/* reboot clear */
-	}
-	else
-	{
-		/* set bootptr of reserved memory map */
-		/* flush caches */
-		/* reboot normal */
-	}
-}
-
-// TODO
-void CFE_PSP_Panic(int32 errorCode)
-{
-	/* exit with a failure code */
-}
-
-
 // TODO
 void CFE_PSP_FlushCaches(uint32 type, void *address, uint32 size)
 {

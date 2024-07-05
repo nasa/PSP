@@ -9,3 +9,8 @@ uint32 CFE_PSP_GetTimerLow32Rollover(void)
 {
 	return 0;
 }
+
+void CFE_PSP_Get_Timebase(uint32 *Tbu, uint32 *Tbl)
+{
+	/* TODO */
+}
