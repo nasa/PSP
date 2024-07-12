@@ -1,3 +1,5 @@
+#include "cmsis_os.h"
+
 #include "cfe_psp.h"
 #include "cfe_psp_config.h"
 
@@ -8,20 +10,20 @@
 #define CFE_PSP_NONVOL_STARTUP_FILE (GLOBAL_CONFIGDATA.CfeConfig->NonvolStartupFile)
 
 
-// TODO: Fully implement after specifying the structure of the reserved memory map
 void CFE_PSP_Restart(uint32 resetType)
 {
 	if (resetType == CFE_PSP_RST_TYPE_POWERON) 
 	{
 		CFE_PSP_ReservedMemoryMap.BootPtr->bsp_reset_type = CFE_PSP_RST_TYPE_POWERON;
 		CFE_PSP_FlushCaches(1, ReservedMemBlock.BlockPtr, ReservedMemBlock.BlockSize);
-		/* TODO: reboot clear */
+		
+		NVIC_SystemReset();
 	}
 	else
 	{
 		CFE_PSP_ReservedMemoryMap.BootPtr->bsp_reset_type = CFE_PSP_RST_TYPE_PROCESSOR;
 		CFE_PSP_FlushCaches(1, ReservedMemBlock.BlockPtr, ReservedMemBlock.BlockSize);
-		/* TODO: reboot normal */
+		/* FIXME: reboot without wiping memory */
 	}
 }
 

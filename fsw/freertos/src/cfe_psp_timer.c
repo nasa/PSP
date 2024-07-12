@@ -12,5 +12,6 @@ uint32 CFE_PSP_GetTimerLow32Rollover(void)
 
 void CFE_PSP_Get_Timebase(uint32 *Tbu, uint32 *Tbl)
 {
-	/* TODO */
+	// SysTick is set up in HAL_Init
+	return xTaskGetTickCount;
 }

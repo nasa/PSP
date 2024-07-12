@@ -16,6 +16,8 @@
  * limitations under the License.
  ************************************************************************/
 
+#include "cmsis_os.h"
+
 #include "target_config.h"
 
 #define CFE_PSP_CPU_ID		(GLOBAL_CONFIGDATA.CpuId)
@@ -26,9 +28,21 @@
 // TODO
 void CFE_PSP_FlushCaches(uint32 type, void *address, uint32 size)
 {
-	/* flush cache of size at address */
-}
+	if (type != 1)
+	{
+		return;
+	}
+	uint32_t startAddr = (uint32_t) address;
+	uint32_t endAddr = startAddr + size;
 
+	startAddr &= ~31;
+	endAddr = (endAddr + 31) & ~31;
+
+	SCB_CleanInvalidateDCache_by_Addr((uint32_t *)startAddr, endAddr - startAddr);
+
+	__DSB();
+	__ISB();
+}
 
 uint32 CFE_PSP_GetProcessorId(void)
 {
