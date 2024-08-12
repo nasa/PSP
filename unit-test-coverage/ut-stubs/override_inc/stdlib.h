@@ -34,5 +34,6 @@
 #define malloc       PCS_malloc
 #define free         PCS_free
 #define abort        PCS_abort
+#define abs          PCS_abs
 
 #endif

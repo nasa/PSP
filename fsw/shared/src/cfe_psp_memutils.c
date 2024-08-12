@@ -17,18 +17,6 @@
  ************************************************************************/
 
 /*
-** File   :	cfe_psp_memutils.c
-**
-** Author :	Ezra Yeheskeli
-**
-** Purpose:
-**		   This file  contains some of the cFE Platform Support Layer.
-**        It contains the processor architecture specific calls.
-**
-**
-*/
-
-/*
 ** Include section
 */
 
@@ -53,8 +41,15 @@
  *-----------------------------------------------------------------*/
 int32 CFE_PSP_MemCpy(void *dest, const void *src, uint32 n)
 {
-    memcpy(dest, src, n);
-    return CFE_PSP_SUCCESS;
+    int32 iReturnValue = CFE_PSP_ERROR;
+
+    if (dest != NULL && src != NULL)
+    {
+        memcpy(dest, src, n);
+        iReturnValue = CFE_PSP_SUCCESS;
+    }
+
+    return iReturnValue;
 }
 
 /*----------------------------------------------------------------
@@ -65,6 +60,13 @@ int32 CFE_PSP_MemCpy(void *dest, const void *src, uint32 n)
  *-----------------------------------------------------------------*/
 int32 CFE_PSP_MemSet(void *dest, uint8 value, uint32 n)
 {
-    memset(dest, (int)value, (size_t)n);
-    return CFE_PSP_SUCCESS;
+    int32 iReturnValue = CFE_PSP_ERROR;
+
+    if (dest != NULL)
+    {
+        memset(dest, value, n);
+        iReturnValue = CFE_PSP_SUCCESS;
+    }
+
+    return iReturnValue;
 }

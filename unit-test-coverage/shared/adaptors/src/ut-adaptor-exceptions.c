@@ -42,6 +42,17 @@
 #define CFE_PSP_MAX_EXCEPTION_ENTRIES        4
 #define CFE_PSP_MAX_EXCEPTION_BACKTRACE_SIZE 16
 
+void UT_Set_Exception_StoragePtr(void *Ptr)
+{
+    CFE_PSP_ReservedMemoryMap.ExceptionStoragePtr = Ptr;
+}
+
+void UT_Set_Exception_StorageReadWrite(uint32 rd, uint32 wr)
+{
+    CFE_PSP_ReservedMemoryMap.ExceptionStoragePtr->NumRead    = rd;
+    CFE_PSP_ReservedMemoryMap.ExceptionStoragePtr->NumWritten = wr;
+}
+
 uint32 UT_Get_Exception_MaxEntries(void)
 {
     return CFE_PSP_MAX_EXCEPTION_ENTRIES;
@@ -50,6 +61,11 @@ uint32 UT_Get_Exception_MaxEntries(void)
 size_t UT_Get_Exception_Size(void)
 {
     return sizeof(CFE_PSP_Exception_ContextDataEntry_t);
+}
+
+size_t UT_Get_Exception_TotalStorageSize(void)
+{
+    return sizeof(CFE_PSP_ExceptionStorage_t);
 }
 
 void UT_Generate_Exception_Context(struct CFE_PSP_Exception_LogData *Buffer, size_t Size)

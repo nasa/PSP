@@ -35,6 +35,6 @@
 /* ----------------------------------------- */
 /* prototypes normally declared in rebootLib.h */
 /* ----------------------------------------- */
-extern void PCS_reboot(int);
+extern void PCS_reboot(int x);
 
 #endif

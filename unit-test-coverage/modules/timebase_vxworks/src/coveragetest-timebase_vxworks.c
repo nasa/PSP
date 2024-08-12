@@ -230,6 +230,30 @@ void Test_Get_Timebase(void)
     UtAssert_UINT32_EQ(tbl, VxTime.l);
 }
 
+void Test_PSP_Get_Timebase_NullUpperRegister(void)
+{
+    /* Arrange */
+    uint32 tbl;
+
+    /* Act */
+    UtAssert_VOIDCALL(CFE_PSP_Get_Timebase(NULL, &tbl));
+}
+
+void Test_PSP_Get_Timebase_NullLowerRegister(void)
+{
+    /* Arrange */
+    uint32 tbu;
+
+    /* Act */
+    UtAssert_VOIDCALL(CFE_PSP_Get_Timebase(&tbu, NULL));
+}
+
+void Test_PSP_GetTimeNullLocalTime(void)
+{
+    /* Act */
+    UtAssert_VOIDCALL(CFE_PSP_GetTime(NULL));
+}
+
 /*
  * Macro to add a test case to the list of tests to execute
  */
@@ -246,4 +270,7 @@ void UtTest_Setup(void)
     ADD_TEST(Test_Reducible_2);
     ADD_TEST(Test_Rollover);
     ADD_TEST(Test_Get_Timebase);
+    ADD_TEST(Test_PSP_Get_Timebase_NullUpperRegister);
+    ADD_TEST(Test_PSP_Get_Timebase_NullLowerRegister);
+    ADD_TEST(Test_PSP_GetTimeNullLocalTime);
 }

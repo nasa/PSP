@@ -9,6 +9,7 @@
 add_library(ut-adaptor-${CFE_PSP_TARGETNAME} STATIC
     src/ut-adaptor-bootrec.c
     ${PSPCOVERAGE_SOURCE_DIR}/shared/adaptors/src/ut-adaptor-exceptions.c
+    ${PSPCOVERAGE_SOURCE_DIR}/shared/adaptors/src/ut-adaptor-memrange.c
 )
 
 # the "override_inc" dir contains replacement versions of the C-library include files.

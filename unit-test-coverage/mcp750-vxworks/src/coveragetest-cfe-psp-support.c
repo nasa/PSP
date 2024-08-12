@@ -52,15 +52,15 @@ void Test_CFE_PSP_Restart(void)
      * void CFE_PSP_Restart(uint32 resetType)
      */
 
-    UT_Setup_ReservedMem_BootRec();
+    UT_BootRecAdaptor_InitDefault();
     CFE_PSP_Restart(CFE_PSP_RST_TYPE_PROCESSOR);
-    UtAssert_INT32_EQ(UT_Get_ReservedMem_BootType(), CFE_PSP_RST_TYPE_PROCESSOR);
+    UtAssert_INT32_EQ(UT_BootRecAdaptor_Get_BootType(), CFE_PSP_RST_TYPE_PROCESSOR);
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(PCS_cacheTextUpdate)), 1);
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(PCS_reboot)), 1);
 
-    UT_Setup_ReservedMem_BootRec();
+    UT_BootRecAdaptor_InitDefault();
     CFE_PSP_Restart(CFE_PSP_RST_TYPE_POWERON);
-    UtAssert_INT32_EQ(UT_Get_ReservedMem_BootType(), CFE_PSP_RST_TYPE_POWERON);
+    UtAssert_INT32_EQ(UT_BootRecAdaptor_Get_BootType(), CFE_PSP_RST_TYPE_POWERON);
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(PCS_cacheTextUpdate)), 2);
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(PCS_reboot)), 2);
 }
@@ -114,4 +114,19 @@ void Test_CFE_PSP_GetSpacecraftId(void)
      * there is no way to modify the value at runtime, even in unit test.
      */
     UtAssert_INT32_EQ(CFE_PSP_GetSpacecraftId(), PCS_CONFIG_SPACECRAFT);
+}
+
+void Test_CFE_PSP_GetProcessorName(void)
+{
+    /*
+     * Test Case For:
+     * char* CFE_PSP_GetProcessorName   (void)
+     */
+
+    /*
+     * Note - the data structure used here is declared as "const" internally so
+     * there is no way to modify the value at runtime, even in unit test.
+     */
+
+    UtAssert_StrCmp(CFE_PSP_GetProcessorName(), PCS_CONFIG_CPUNAME, "CFE_PSP_GetProcessorName - 1/1 Nominal");
 }

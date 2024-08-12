@@ -128,7 +128,11 @@ void Test_CFE_PSP_Exception_GetSummary(void)
 
     UtAssert_NOT_NULL(CFE_PSP_Exception_GetNextContextBuffer());
     CFE_PSP_Exception_WriteComplete();
-    UtAssert_INT32_EQ(CFE_PSP_Exception_GetSummary(&LogId, &TaskId, NULL, 0), CFE_PSP_SUCCESS);
+    UtAssert_INT32_EQ(CFE_PSP_Exception_GetSummary(&LogId, &TaskId, NULL, sizeof(ReasonBuf)), CFE_PSP_SUCCESS);
+
+    UtAssert_NOT_NULL(CFE_PSP_Exception_GetNextContextBuffer());
+    CFE_PSP_Exception_WriteComplete();
+    UtAssert_INT32_EQ(CFE_PSP_Exception_GetSummary(&LogId, &TaskId, ReasonBuf, 0), CFE_PSP_SUCCESS);
 
     UtAssert_NOT_NULL(CFE_PSP_Exception_GetNextContextBuffer());
     CFE_PSP_Exception_WriteComplete();
@@ -147,8 +151,13 @@ void Test_CFE_PSP_Exception_CopyContext(void)
     uint32                            Count;
     uint32                            SmallBuf[1];
     uint32                            LargeBuf[4];
+    uint32                            CFE_PSP_EXCEPTION_ID_BASE;
 
     CFE_PSP_Exception_Reset();
+    CFE_PSP_EXCEPTION_ID_BASE = ((OS_OBJECT_TYPE_USER + 0x101) << OS_OBJECT_TYPE_SHIFT);
+    LogId                     = OS_OBJECT_INDEX_MASK + OS_OBJECT_INDEX_MASK + CFE_PSP_EXCEPTION_ID_BASE;
+    UtAssert_INT32_EQ(CFE_PSP_Exception_CopyContext(LogId, SmallBuf, sizeof(SmallBuf)), CFE_PSP_NO_EXCEPTION_DATA);
+    UtAssert_INT32_EQ(CFE_PSP_Exception_CopyContext(0, NULL, sizeof(SmallBuf)), CFE_PSP_INVALID_POINTER);
     UtAssert_INT32_EQ(CFE_PSP_Exception_CopyContext(0, SmallBuf, sizeof(SmallBuf)), CFE_PSP_NO_EXCEPTION_DATA);
 
     Ptr = CFE_PSP_Exception_GetNextContextBuffer();

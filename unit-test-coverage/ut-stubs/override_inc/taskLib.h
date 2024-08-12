@@ -21,6 +21,7 @@
 #define OVERRIDE_TASKLIB_H
 
 #include "PCS_taskLib.h"
+#include <taskLibCommon.h>
 #include <vxWorks.h>
 
 /* ----------------------------------------- */
@@ -47,6 +48,7 @@
 #define taskSuspend     PCS_taskSuspend
 #define taskResume      PCS_taskResume
 #define taskPrioritySet PCS_taskPrioritySet
+#define taskPriorityGet PCS_taskPriorityGet
 #define taskSpawn       PCS_taskSpawn
 #define taskInit        PCS_taskInit
 #define taskTcb         PCS_taskTcb

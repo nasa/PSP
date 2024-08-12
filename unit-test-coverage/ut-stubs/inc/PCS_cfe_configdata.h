@@ -34,7 +34,7 @@
 /**
  * Stub for the main system entry function implemented in CFE ES
  */
-void PCS_SystemMain(uint32 StartType, uint32 StartSubtype, uint32 ModeId, const char *StartFilePath);
+void PCS_SystemMain(uint32_t StartType, uint32_t StartSubtype, uint32_t ModeId, const char *StartFilePath);
 
 /**
  * Stub for 1Hz ISR function implemented in CFE TIME

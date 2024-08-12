@@ -41,7 +41,12 @@ add_executable(coverage-${CFE_PSP_TARGETNAME}-testrunner
     src/coveragetest-psp-mcp750-vxworks.c
     src/coveragetest-cfe-psp-start.c
     src/coveragetest-cfe-psp-support.c
+    ${PSPCOVERAGE_SOURCE_DIR}/shared/src/coveragetest-cfe-psp-error.c
     ${PSPCOVERAGE_SOURCE_DIR}/shared/src/coveragetest-cfe-psp-exceptionstorage.c
+    ${PSPCOVERAGE_SOURCE_DIR}/shared/src/coveragetest-cfe-psp-memrange.c
+    ${PSPCOVERAGE_SOURCE_DIR}/shared/src/coveragetest-cfe-psp-memutils.c
+    ${PSPCOVERAGE_SOURCE_DIR}/shared/src/coveragetest-cfe-psp-module.c
+    ${PSPCOVERAGE_SOURCE_DIR}/shared/src/coveragetest-cfe-psp-version.c
     $<TARGET_OBJECTS:psp-${CFE_PSP_TARGETNAME}-shared>
     $<TARGET_OBJECTS:psp-${CFE_PSP_TARGETNAME}-impl>
 )
@@ -61,4 +66,3 @@ add_test(coverage-${CFE_PSP_TARGETNAME} coverage-${CFE_PSP_TARGETNAME}-testrunne
 foreach(TGT ${INSTALL_TARGET_LIST})
     install(TARGETS coverage-${CFE_PSP_TARGETNAME}-testrunner DESTINATION ${TGT}/${UT_INSTALL_SUBDIR})
 endforeach()
-

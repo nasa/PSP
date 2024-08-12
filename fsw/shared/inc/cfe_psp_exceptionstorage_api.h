@@ -47,7 +47,7 @@ struct CFE_PSP_Exception_LogData;
  * \param   seq     Sequence number
  * \returns pointer to buffer.
  */
-extern struct CFE_PSP_Exception_LogData *CFE_PSP_Exception_GetBuffer(uint32 seq);
+struct CFE_PSP_Exception_LogData *CFE_PSP_Exception_GetBuffer(uint32 seq);
 
 /**
  * \brief Get the next buffer for exception context storage
@@ -58,7 +58,7 @@ extern struct CFE_PSP_Exception_LogData *CFE_PSP_Exception_GetBuffer(uint32 seq)
  *
  * \returns pointer to buffer, or NULL if storage is full.
  */
-extern struct CFE_PSP_Exception_LogData *CFE_PSP_Exception_GetNextContextBuffer(void);
+struct CFE_PSP_Exception_LogData *CFE_PSP_Exception_GetNextContextBuffer(void);
 
 /**
  * \brief Finish storage of exception data
@@ -67,14 +67,14 @@ extern struct CFE_PSP_Exception_LogData *CFE_PSP_Exception_GetNextContextBuffer(
  * once the exception context capture is complete.  This should be invoked after a successful
  * call to CFE_PSP_Exception_GetNextContextBuffer() to commit the information to the log.
  */
-extern void CFE_PSP_Exception_WriteComplete(void);
+void CFE_PSP_Exception_WriteComplete(void);
 
 /**
  * \brief Reset the exception storage buffer
  *
  * Marks any pending exceptions as "read".  This resets the state of exception processing.
  */
-extern void CFE_PSP_Exception_Reset(void);
+void CFE_PSP_Exception_Reset(void);
 
 /* -------------------------------------------------------------
  * Functions implemented in impl layer, invoked by shared layer.
@@ -91,7 +91,7 @@ extern void CFE_PSP_Exception_Reset(void);
  *
  * \returns CFE_PSP_SUCCESS on success
  */
-extern int32 CFE_PSP_ExceptionGetSummary_Impl(const struct CFE_PSP_Exception_LogData *Buffer, char *ReasonBuf,
-                                              uint32 ReasonSize);
+int32 CFE_PSP_ExceptionGetSummary_Impl(const struct CFE_PSP_Exception_LogData *Buffer, char *ReasonBuf,
+                                       uint32 ReasonSize);
 
 #endif /* CFE_PSP_EXCEPTIONSTORAGE_API_H_ */

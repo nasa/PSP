@@ -23,9 +23,9 @@
 #include "PCS_basetypes.h"
 #include "PCS_rtems.h"
 
-extern int         PCS_rtems_fxp_attach(struct PCS_rtems_bsdnet_ifconfig *, int);
+extern int         PCS_rtems_fxp_attach(struct PCS_rtems_bsdnet_ifconfig *cfg, int x);
 extern void        PCS_rtems_bsdnet_do_dhcp_failsafe(void);
 extern int         PCS_rtems_bsdnet_initialize_network(void);
-extern const char *PCS_rtems_status_text(PCS_rtems_status_code);
+extern const char *PCS_rtems_status_text(PCS_rtems_status_code sc);
 
 #endif
