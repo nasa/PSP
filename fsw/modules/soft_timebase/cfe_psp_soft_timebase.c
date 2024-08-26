@@ -56,6 +56,17 @@ void soft_timebase_Init(uint32 PspModuleId)
         /* Set the timebase to trigger with desired resolution */
         status = OS_TimeBaseSet(PSP_SoftTimebase_Global.sys_timebase_id, CFE_PSP_SOFT_TIMEBASE_PERIOD,
                                 CFE_PSP_SOFT_TIMEBASE_PERIOD);
+        if (status == OS_SUCCESS) {
+
+        }
+        else {
+            printf("CFE_PSP: *** Failed to set trigger resolution for software timebase \'%s\', status = %d! ***\n",
+                CFE_PSP_SOFT_TIMEBASE_NAME, (int)status);
+        }
+    }
+    else {
+        printf("CFE_PSP: *** Failed to create software timebase \'%s\', status = %d! ***\n",
+               CFE_PSP_SOFT_TIMEBASE_NAME, (int)status);
     }
 
     /*
