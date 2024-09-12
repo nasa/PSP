@@ -297,17 +297,16 @@ void Test_UpdateStat_Nominal(void)
     UtAssert_True(vxworks_sysmon_global.cpu_load.per_core[0].avg_load == AvgLoad, "Nominal Case: 100 percents cpuload");
 
     /* Nominal Case: Max Cpu Num */
-    IdleTaskLoad = 0;
-    vxworks_sysmon_global.cpu_load.num_cpus = 1;
+    IdleTaskLoad                            = 0;
+    vxworks_sysmon_global.cpu_load.poll_core_no = 1 + VXWORKS_SYSMON_MAX_CPUS;
     vxworks_sysmon_update_stat(fmt, "IDLE", "", "", "", 95, 7990, IdleTaskLoad, 1998); /* Function under test */
-    UtAssert_True(vxworks_sysmon_global.cpu_load.num_cpus == 1, "Nominal Case: Max Cpu Nums");
+    UtAssert_UINT8_EQ(vxworks_sysmon_global.cpu_load.poll_core_no, 1);
 
     /* Nominal Case: Not Idle String */
     memset(&vxworks_sysmon_global, 0, sizeof(vxworks_sysmon_global));
     vxworks_sysmon_update_stat(fmt, "KERNEL", "", "", "", 95, 7990, 95, 1998); /* Function under test */
-    UtAssert_True(vxworks_sysmon_global.cpu_load.per_core[0].avg_load  == 0  && vxworks_sysmon_global.cpu_load.num_cpus == 0, 
-                  "Nominal Case: Not Idle String");
-
+    UtAssert_ZERO(vxworks_sysmon_global.cpu_load.per_core[0].avg_load);
+    UtAssert_UINT8_EQ(vxworks_sysmon_global.cpu_load.poll_core_no, 1);
 }
 
 void Test_Task_Nominal(void)
@@ -329,7 +328,6 @@ void Test_Task_Error(void)
 
     vxworks_sysmon_Task();
     UtAssert_True(vxworks_sysmon_global.cpu_load.should_run == false, "Error Case: Cannot Start Auxillary Clock");
-
 }
 
 /*
@@ -351,5 +349,4 @@ void UtTest_Setup(void)
     ADD_TEST(Test_UpdateStat_Nominal);
     ADD_TEST(Test_Task_Nominal);
     ADD_TEST(Test_Task_Error);
-
 }
