@@ -94,7 +94,7 @@ void UT_DefaultHandler_PCS_malloc(void *UserObj, UT_EntryKey_t FuncKey, const UT
             Rec       = (struct MPOOL_REC *)PoolStart;
             NextBlock = PoolStart + MPOOL_ALIGN;
             PoolSize -= MPOOL_ALIGN;
-            if (CallCnt == 0)
+            if (CallCnt == 1)
             {
                 Rec->Magic     = MPOOL_START_SIGNATURE;
                 Rec->Size      = 0;
