@@ -25,8 +25,10 @@
 /* ----------------------------------------- */
 /* mappings for declarations in string.h */
 /* ----------------------------------------- */
+#define memcmp   PCS_memcmp
 #define memcpy   PCS_memcpy
 #define memset   PCS_memset
+#define memchr   PCS_memchr
 #define strcmp   PCS_strcmp
 #define strcpy   PCS_strcpy
 #define strlen   PCS_strlen

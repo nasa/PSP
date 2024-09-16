@@ -19,18 +19,50 @@
 /**
  * \file
  *
- *  Created on: Jul 17, 2015
- *      Author: joseph.p.hickey@nasa.gov
- *
- * Placeholder for file content description
+ * PSP Module Header
  */
 
-#ifndef CFE_PSP_MODULE_H_
-#define CFE_PSP_MODULE_H_
+#ifndef CFE_PSP_MODULE_H
+#define CFE_PSP_MODULE_H
 
 #include "cfe_psp.h"
 #include "target_config.h"
 
+/**
+ * \brief Combines the basic information about a module list
+ *
+ * This is the info typically needed when finding a module
+ *  - pointer to first module
+ *  - length of list
+ *  - "id" space used for list (base value)
+ */
+typedef struct CFE_PSP_ModuleListWrapper
+{
+    CFE_StaticModuleLoadEntry_t *BasePtr;
+    uint32                       ListLen;
+    uint32                       BaseId;
+} CFE_PSP_ModuleListWrapper_t;
+
+/**
+ * \brief Combines the fixed and user-selected module lists
+ *
+ * This allows the complete set of modules to be expressed
+ * in a single structure
+ */
+typedef struct CFE_PSP_ModuleListGlobal
+{
+    /** The "Std" list has the basic set of modules that must always be present */
+    CFE_PSP_ModuleListWrapper_t Std;
+
+    /** The "Ext" list has any additional optional modules that the user has selected */
+    CFE_PSP_ModuleListWrapper_t Ext;
+
+} CFE_PSP_ModuleListGlobal_t;
+
+/**
+ ** \brief Enum Module Type
+ ** May be extended in the future
+ */
 typedef enum
 {
     CFE_PSP_MODULE_TYPE_INVALID = 0,
@@ -89,6 +121,32 @@ typedef const struct
  * In short, if this function returns, then it means the system is good enough to continue.
  */
 void CFE_PSP_ModuleInit(void);
+
+/**
+ * Search for a specific module name within a module list
+ *
+ * This is an internal helper function, but declared in a header for unit testing purposes.
+ * This facilitates CFE_PSP_Module_FindByName and not intended to be called directly.
+ *
+ * \param WrapPtr    List to search
+ * \param ModuleName Name to search for
+ *
+ * \returns Module ID of matching entry
+ * \retval  0 if name does not appear in list
+ */
+uint32 CFE_PSP_Module_SearchNameInList(const CFE_PSP_ModuleListWrapper_t *WrapPtr, const char *ModuleName);
+
+/**
+ * Initialze a module list
+ *
+ * This is an internal helper function, but declared in a header for unit testing purposes.
+ * This facilitates CFE_PSP_ModuleInit and not intended to be called directly.
+ *
+ * \param WrapPtr    Wrapper to initialize
+ * \param BaseId     Module ID base to use for entries in list
+ * \param ListPtr    Pointer to list.  Must be terminated with NULL name entry.
+ */
+void CFE_PSP_ModuleInitList(CFE_PSP_ModuleListWrapper_t *WrapPtr, uint32 BaseId, CFE_StaticModuleLoadEntry_t *ListPtr);
 
 /**
  * Obtain the ID for a named module.

@@ -73,9 +73,9 @@
 /* prototypes normally declared in vxPpcLib.h */
 /* ----------------------------------------- */
 extern void     PCS_vxTimeBaseGet(uint32_t *u, uint32_t *l);
-extern void     PCS_vxMsrSet(uint32_t);
+extern void     PCS_vxMsrSet(uint32_t r);
 extern uint32_t PCS_vxMsrGet(void);
-extern void     PCS_vxFpscrSet(uint32_t);
+extern void     PCS_vxFpscrSet(uint32_t r);
 extern uint32_t PCS_vxFpscrGet(void);
 extern uint32_t PCS_vxDecGet(void);
 

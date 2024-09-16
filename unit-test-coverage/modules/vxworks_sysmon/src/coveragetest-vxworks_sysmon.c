@@ -1,5 +1,5 @@
 /************************************************************************
- * NASA Docket No. GSC-18,719-1, and identified as “core Flight System: 
+ * NASA Docket No. GSC-18,719-1, and identified as “core Flight System:
  * Draco
  *
  * Copyright (c) 2023 United States Government as represented by the
@@ -52,18 +52,17 @@
 /*
  * Reference to the API entry point for the module
  */
-extern CFE_PSP_ModuleApi_t CFE_PSP_vxworks_sysmon_API;
+extern CFE_PSP_ModuleApi_t    CFE_PSP_vxworks_sysmon_API;
 extern vxworks_sysmon_state_t vxworks_sysmon_global;
-const CFE_PSP_ModuleApi_t *TgtAPI = &CFE_PSP_vxworks_sysmon_API;
+const CFE_PSP_ModuleApi_t *   TgtAPI = &CFE_PSP_vxworks_sysmon_API;
 
 /* Hook */
-void  UT_TaskDelay_Hook(void *UserObj)
+void UT_TaskDelay_Hook(void *UserObj)
 {
-    int *DelayCounter = UserObj;
+    int *DelayCounter                         = UserObj;
     vxworks_sysmon_global.cpu_load.should_run = false;
-    
-    (*DelayCounter)++;
 
+    (*DelayCounter)++;
 }
 
 void ModuleTest_ResetState(void)
@@ -75,35 +74,36 @@ void Test_Init_Nominal(void)
 {
     TgtAPI->Init(1); /* Init Vxworks Sysmon */
     UtAssert_True(vxworks_sysmon_global.local_module_id == 1, "Nominal Case: Init Vxworks Sysmon");
-
 }
 
 void Test_Entry_Nominal(void)
 {
-    int32 StatusCode;
+    int32                   StatusCode;
     CFE_PSP_IODriver_API_t *EntryAPI = TgtAPI->ExtendedApi;
 
     /* Nominal Case: Aggregate Subsystem */
-    StatusCode = EntryAPI->DeviceCommand(CFE_PSP_IODriver_NOOP, 0, 0, CFE_PSP_IODriver_U32ARG(0)); 
+    StatusCode = EntryAPI->DeviceCommand(CFE_PSP_IODriver_NOOP, 0, 0, CFE_PSP_IODriver_U32ARG(0));
     UtAssert_True(StatusCode == CFE_PSP_ERROR_NOT_IMPLEMENTED, "Nominal Case: Aggregate Subsystem");
 
     /* Nominal Case: Cpuload Subsystem */
-    StatusCode = EntryAPI->DeviceCommand(CFE_PSP_IODriver_NOOP, 1, 0, CFE_PSP_IODriver_U32ARG(0)); 
+    StatusCode = EntryAPI->DeviceCommand(CFE_PSP_IODriver_NOOP, 1, 0, CFE_PSP_IODriver_U32ARG(0));
     UtAssert_True(StatusCode == CFE_PSP_SUCCESS, "Nominal Case: Cpuload Subsystem");
 
     /* Nominal Case: No Subsystem */
-    StatusCode = EntryAPI->DeviceCommand(CFE_PSP_IODriver_NOOP, 2, 0, CFE_PSP_IODriver_U32ARG(0)); 
+    StatusCode = EntryAPI->DeviceCommand(CFE_PSP_IODriver_NOOP, 2, 0, CFE_PSP_IODriver_U32ARG(0));
     UtAssert_True(StatusCode == CFE_PSP_ERROR_NOT_IMPLEMENTED, "Nominal Case: No Subsystem");
 }
 
 void Test_Aggregate_Nominal(void)
 {
     int32 StatusCode;
-    int32 IsRunningStatus;;
-    CFE_PSP_IODriver_AdcCode_t     Sample;
-    CFE_PSP_IODriver_AnalogRdWr_t  RdWr = {.NumChannels = 1, .Samples = &Sample};;    
+    int32 IsRunningStatus;
+    ;
+    CFE_PSP_IODriver_AdcCode_t    Sample;
+    CFE_PSP_IODriver_AnalogRdWr_t RdWr = {.NumChannels = 1, .Samples = &Sample};
+    ;
     CFE_PSP_IODriver_Direction_t QueryDirArg;
-    CFE_PSP_IODriver_API_t *EntryAPI = TgtAPI->ExtendedApi;
+    CFE_PSP_IODriver_API_t *     EntryAPI = TgtAPI->ExtendedApi;
 
     /* Nominal Case: Aggregate Dispatch Noop CMD (Not Impl) */
     StatusCode = EntryAPI->DeviceCommand(CFE_PSP_IODriver_NOOP, 0, 0, CFE_PSP_IODriver_U32ARG(0)); /* Entry Point */
@@ -114,82 +114,81 @@ void Test_Aggregate_Nominal(void)
     UtAssert_True(StatusCode == CFE_PSP_ERROR_NOT_IMPLEMENTED, "Nominal Case:  ANALOG IO NOOP");
 
     /* Nominal Case: Start Vxworks Sysmon */
-    StatusCode = EntryAPI->DeviceCommand(CFE_PSP_IODriver_SET_RUNNING, 0, 0, CFE_PSP_IODriver_U32ARG(1));
+    StatusCode      = EntryAPI->DeviceCommand(CFE_PSP_IODriver_SET_RUNNING, 0, 0, CFE_PSP_IODriver_U32ARG(1));
     IsRunningStatus = EntryAPI->DeviceCommand(CFE_PSP_IODriver_GET_RUNNING, 0, 0, CFE_PSP_IODriver_U32ARG(1));
     UtAssert_True(StatusCode == CFE_PSP_SUCCESS, "Nominal Case: Start Vxworks Sysmon");
     UtAssert_True(IsRunningStatus == true, "Nominal Case: Vxworks Sysmon running status set");
 
     /* Nominal Case: VxWorks Sysmon already running */
-    StatusCode = EntryAPI->DeviceCommand(CFE_PSP_IODriver_SET_RUNNING, 0, 0, CFE_PSP_IODriver_U32ARG(1));
+    StatusCode      = EntryAPI->DeviceCommand(CFE_PSP_IODriver_SET_RUNNING, 0, 0, CFE_PSP_IODriver_U32ARG(1));
     IsRunningStatus = EntryAPI->DeviceCommand(CFE_PSP_IODriver_GET_RUNNING, 0, 0, CFE_PSP_IODriver_U32ARG(1));
     UtAssert_True(StatusCode == CFE_PSP_SUCCESS, "Nominal Case: Vxworks Sysmon Already Running");
     UtAssert_True(IsRunningStatus == true, "Nominal Case: Vxworks Sysmon running status already set");
 
     /* Nominal Case: Stop Vxworks Sysmon */
-    StatusCode = EntryAPI->DeviceCommand(CFE_PSP_IODriver_SET_RUNNING, 0, 0, CFE_PSP_IODriver_U32ARG(0));
+    StatusCode      = EntryAPI->DeviceCommand(CFE_PSP_IODriver_SET_RUNNING, 0, 0, CFE_PSP_IODriver_U32ARG(0));
     IsRunningStatus = EntryAPI->DeviceCommand(CFE_PSP_IODriver_GET_RUNNING, 0, 0, CFE_PSP_IODriver_U32ARG(1));
     UtAssert_True(StatusCode == CFE_PSP_SUCCESS, "Nominal Case: Stop Vxworks Sysmon");
-    UtAssert_True(IsRunningStatus == false, "Nominal Case: Vxworks Sysmon running status disabled");   
+    UtAssert_True(IsRunningStatus == false, "Nominal Case: Vxworks Sysmon running status disabled");
 
     /* Nominal Case: Vxworks Sysmon already stop */
-    StatusCode = EntryAPI->DeviceCommand(CFE_PSP_IODriver_SET_RUNNING, 0, 0, CFE_PSP_IODriver_U32ARG(0));
+    StatusCode      = EntryAPI->DeviceCommand(CFE_PSP_IODriver_SET_RUNNING, 0, 0, CFE_PSP_IODriver_U32ARG(0));
     IsRunningStatus = EntryAPI->DeviceCommand(CFE_PSP_IODriver_GET_RUNNING, 0, 0, CFE_PSP_IODriver_U32ARG(1));
     UtAssert_True(StatusCode == CFE_PSP_SUCCESS, "Nominal Case: Vxworks Sysmon already stopped");
-    UtAssert_True(IsRunningStatus == false, "Nominal Case: Vxworks Sysmon running status already disabled"); 
-    
+    UtAssert_True(IsRunningStatus == false, "Nominal Case: Vxworks Sysmon running status already disabled");
+
     /* Nominal Case: Set Configuration (Not Impl) */
-    StatusCode = EntryAPI->DeviceCommand(CFE_PSP_IODriver_SET_CONFIGURATION, 0, 0, CFE_PSP_IODriver_U32ARG(0)); 
+    StatusCode = EntryAPI->DeviceCommand(CFE_PSP_IODriver_SET_CONFIGURATION, 0, 0, CFE_PSP_IODriver_U32ARG(0));
     UtAssert_True(StatusCode == CFE_PSP_ERROR_NOT_IMPLEMENTED, "Nominal Case: Set Configuration");
 
     /* Nominal Case: Get Configuration (Not Impl) */
-    StatusCode = EntryAPI->DeviceCommand(CFE_PSP_IODriver_GET_CONFIGURATION, 0, 0, CFE_PSP_IODriver_U32ARG(0)); 
+    StatusCode = EntryAPI->DeviceCommand(CFE_PSP_IODriver_GET_CONFIGURATION, 0, 0, CFE_PSP_IODriver_U32ARG(0));
     UtAssert_True(StatusCode == CFE_PSP_ERROR_NOT_IMPLEMENTED, "Nominal Case: Get Configuration");
 
     /* Nominal Case: Look Up per-cpu Subsystem */
-    StatusCode = EntryAPI->DeviceCommand(CFE_PSP_IODriver_LOOKUP_SUBSYSTEM, 0, 0, 
-                                           CFE_PSP_IODriver_CONST_STR("per-cpu"));
+    StatusCode =
+        EntryAPI->DeviceCommand(CFE_PSP_IODriver_LOOKUP_SUBSYSTEM, 0, 0, CFE_PSP_IODriver_CONST_STR("per-cpu"));
     UtAssert_True(StatusCode == 1, "Nominal Case: Look up per-cpu subsytem");
 
     /* Nominal Case: Look Up aggregate Subsystem */
-    StatusCode = EntryAPI->DeviceCommand(CFE_PSP_IODriver_LOOKUP_SUBSYSTEM, 0, 0, 
-                                           CFE_PSP_IODriver_CONST_STR("aggregate"));
+    StatusCode =
+        EntryAPI->DeviceCommand(CFE_PSP_IODriver_LOOKUP_SUBSYSTEM, 0, 0, CFE_PSP_IODriver_CONST_STR("aggregate"));
     UtAssert_True(StatusCode == 0, "Nominal Case: Look up aggregate subsytem");
 
     /* Nominal Case: Look Up cpu-load subchannel */
-    StatusCode = EntryAPI->DeviceCommand(CFE_PSP_IODriver_LOOKUP_SUBCHANNEL, 0, 0, 
-                                           CFE_PSP_IODriver_CONST_STR("cpu-load"));
+    StatusCode =
+        EntryAPI->DeviceCommand(CFE_PSP_IODriver_LOOKUP_SUBCHANNEL, 0, 0, CFE_PSP_IODriver_CONST_STR("cpu-load"));
     UtAssert_True(StatusCode == 0, "Nominal Case: Look up cpu-load subchannel");
 
     /* Nominal Case: Query Direction */
     QueryDirArg = CFE_PSP_IODriver_Direction_DISABLED;
-    StatusCode = EntryAPI->DeviceCommand(CFE_PSP_IODriver_QUERY_DIRECTION, 0, 0, CFE_PSP_IODriver_VPARG(&QueryDirArg));
+    StatusCode  = EntryAPI->DeviceCommand(CFE_PSP_IODriver_QUERY_DIRECTION, 0, 0, CFE_PSP_IODriver_VPARG(&QueryDirArg));
     UtAssert_True(StatusCode == CFE_PSP_SUCCESS, "Nominal Case: VxWorks Sysmon Driver Query Direction Status Code");
-    UtAssert_True(QueryDirArg == CFE_PSP_IODriver_Direction_INPUT_ONLY, "Nominal Case: VxWorks Sysmon Direction (INPUT ONLY)");
+    UtAssert_True(QueryDirArg == CFE_PSP_IODriver_Direction_INPUT_ONLY,
+                  "Nominal Case: VxWorks Sysmon Direction (INPUT ONLY)");
 
     /* Nominal Case: Analog IO Read Channel */
-    Sample = -1;
+    Sample     = -1;
     StatusCode = EntryAPI->DeviceCommand(CFE_PSP_IODriver_ANALOG_IO_READ_CHANNELS, 0, 0, CFE_PSP_IODriver_VPARG(&RdWr));
     UtAssert_True(StatusCode == CFE_PSP_SUCCESS, "Nominal Case: VxWorks Sysmon Aggregate CPU Load Status Code");
     UtAssert_True(Sample == 0, "Nominal Case: VxWorks Sysmon Aggregate CPU");
-
 }
 
 void Test_Aggregate_Error(void)
 {
-    CFE_PSP_IODriver_API_t *EntryAPI = TgtAPI->ExtendedApi;
-    int32 StatusCode;
-    int32 IsRunningStatus;
-    CFE_PSP_IODriver_AdcCode_t     Sample;
-    CFE_PSP_IODriver_AnalogRdWr_t  RdWr = {.NumChannels = 1, .Samples = &Sample};; 
+    CFE_PSP_IODriver_API_t *      EntryAPI = TgtAPI->ExtendedApi;
+    int32                         StatusCode;
+    int32                         IsRunningStatus;
+    CFE_PSP_IODriver_AdcCode_t    Sample;
+    CFE_PSP_IODriver_AnalogRdWr_t RdWr = {.NumChannels = 1, .Samples = &Sample};
+    ;
 
     /* Error Case: Look Up Subsystem Not Found */
-    StatusCode = EntryAPI->DeviceCommand(CFE_PSP_IODriver_LOOKUP_SUBSYSTEM, 0, 0, 
-                                           CFE_PSP_IODriver_CONST_STR("Empty"));
+    StatusCode = EntryAPI->DeviceCommand(CFE_PSP_IODriver_LOOKUP_SUBSYSTEM, 0, 0, CFE_PSP_IODriver_CONST_STR("Empty"));
     UtAssert_True(StatusCode == CFE_PSP_ERROR_NOT_IMPLEMENTED, "Error Case: Subsystem Not Found");
 
     /* Error Case: Look Up Subchannel Not Found */
-    StatusCode = EntryAPI->DeviceCommand(CFE_PSP_IODriver_LOOKUP_SUBCHANNEL, 0, 0, 
-                                           CFE_PSP_IODriver_CONST_STR("Empty"));
+    StatusCode = EntryAPI->DeviceCommand(CFE_PSP_IODriver_LOOKUP_SUBCHANNEL, 0, 0, CFE_PSP_IODriver_CONST_STR("Empty"));
     UtAssert_True(StatusCode == CFE_PSP_ERROR_NOT_IMPLEMENTED, "Error Case: Subchannel Not Found");
 
     /* Error Case: NULL Query Direction */
@@ -197,24 +196,24 @@ void Test_Aggregate_Error(void)
     UtAssert_True(StatusCode == CFE_PSP_ERROR_NOT_IMPLEMENTED, "Error Case: NULL Query Direction Status Code");
 
     /* Error Case: Analog IO Read, Wrong Channel Number */
-    Sample = -1;
+    Sample           = -1;
     RdWr.NumChannels = 0;
     StatusCode = EntryAPI->DeviceCommand(CFE_PSP_IODriver_ANALOG_IO_READ_CHANNELS, 0, 0, CFE_PSP_IODriver_VPARG(&RdWr));
     UtAssert_True(StatusCode == CFE_PSP_ERROR_NOT_IMPLEMENTED, "Error Case: Analog IO Read, Wrong Channel Number");
 
     /* Error Case: Analog IO Read, Wrong Channel Subchannel */
-    Sample = -1;
+    Sample           = -1;
     RdWr.NumChannels = 1;
     StatusCode = EntryAPI->DeviceCommand(CFE_PSP_IODriver_ANALOG_IO_READ_CHANNELS, 0, 5, CFE_PSP_IODriver_VPARG(&RdWr));
     UtAssert_True(StatusCode == CFE_PSP_ERROR_NOT_IMPLEMENTED, "Error Case: Analog IO Read, Wrong Subchannel");
 
     /* Error Case: Command Code Not Found */
-    StatusCode = EntryAPI->DeviceCommand(40, 0, 0, CFE_PSP_IODriver_U32ARG(0)); 
+    StatusCode = EntryAPI->DeviceCommand(40, 0, 0, CFE_PSP_IODriver_U32ARG(0));
     UtAssert_True(StatusCode == CFE_PSP_ERROR_NOT_IMPLEMENTED, "Error Case: Aggregated Substem, Bad Command Code");
 
     /* Error Case: Unable To Start Child Process */
     UT_SetDeferredRetcode(UT_KEY(OS_TaskCreate), 1, OS_ERROR);
-    StatusCode = EntryAPI->DeviceCommand(CFE_PSP_IODriver_SET_RUNNING, 0, 0, CFE_PSP_IODriver_U32ARG(1));
+    StatusCode      = EntryAPI->DeviceCommand(CFE_PSP_IODriver_SET_RUNNING, 0, 0, CFE_PSP_IODriver_U32ARG(1));
     IsRunningStatus = EntryAPI->DeviceCommand(CFE_PSP_IODriver_GET_RUNNING, 0, 0, CFE_PSP_IODriver_U32ARG(1));
     UtAssert_True(StatusCode == CFE_PSP_ERROR, "Error Case: Creating Child Process, Status Code");
     UtAssert_True(IsRunningStatus == false, "Error Case: Creating Child Process, Running Status");
@@ -222,10 +221,10 @@ void Test_Aggregate_Error(void)
 
 void Test_Dispatch_Nominal(void)
 {
-    CFE_PSP_IODriver_API_t *EntryAPI = TgtAPI->ExtendedApi;
-    CFE_PSP_IODriver_AdcCode_t     Sample[2];
-    CFE_PSP_IODriver_AnalogRdWr_t  RdWr = {.NumChannels = 1, .Samples = Sample};
-    int32 StatusCode;
+    CFE_PSP_IODriver_API_t *      EntryAPI = TgtAPI->ExtendedApi;
+    CFE_PSP_IODriver_AdcCode_t    Sample[2];
+    CFE_PSP_IODriver_AnalogRdWr_t RdWr = {.NumChannels = 1, .Samples = Sample};
+    int32                         StatusCode;
 
     /* Nominal Case: Dispatch IO Driver NOOP */
     StatusCode = EntryAPI->DeviceCommand(CFE_PSP_IODriver_NOOP, 1, 0, CFE_PSP_IODriver_U32ARG(1));
@@ -236,30 +235,32 @@ void Test_Dispatch_Nominal(void)
     UtAssert_True(StatusCode == CFE_PSP_SUCCESS, "Nominal Case: Dispatch Analog IO NOOP");
 
     /* Nominal Case: Dispatch Analog Read Channels */
-    Sample[0] = -1;
-    Sample[1] = -1;
+    Sample[0]  = -1;
+    Sample[1]  = -1;
     StatusCode = EntryAPI->DeviceCommand(CFE_PSP_IODriver_ANALOG_IO_READ_CHANNELS, 1, 0, CFE_PSP_IODriver_VPARG(&RdWr));
     UtAssert_True(StatusCode == CFE_PSP_SUCCESS && Sample[0] == 0 && Sample[1] == -1, "Nominal Case: Dispatch cpuload");
 }
 
 void Test_Dispatch_Error(void)
 {
-    CFE_PSP_IODriver_API_t *EntryAPI = TgtAPI->ExtendedApi;
-    CFE_PSP_IODriver_AdcCode_t     Sample[2];
-    CFE_PSP_IODriver_AnalogRdWr_t  RdWr = {.NumChannels = 1, .Samples = Sample};
-    int StatusCode;
+    CFE_PSP_IODriver_API_t *      EntryAPI = TgtAPI->ExtendedApi;
+    CFE_PSP_IODriver_AdcCode_t    Sample[2];
+    CFE_PSP_IODriver_AnalogRdWr_t RdWr = {.NumChannels = 1, .Samples = Sample};
+    int                           StatusCode;
 
     /* Error Case: Dispatch Analog Read Channels, Subchannel >= Max Cpu */
     /* Default max cpu == 1 */
-    Sample[0] = -1;
-    Sample[1] = -1;
+    Sample[0]  = -1;
+    Sample[1]  = -1;
     StatusCode = EntryAPI->DeviceCommand(CFE_PSP_IODriver_ANALOG_IO_READ_CHANNELS, 1, 2, CFE_PSP_IODriver_VPARG(&RdWr));
-    UtAssert_True(Sample[0] == -1 && Sample[1] == -1 && StatusCode == CFE_PSP_ERROR,  "Error Case: Dispatch cpuload, subchannel >= max cpu");
+    UtAssert_True(Sample[0] == -1 && Sample[1] == -1 && StatusCode == CFE_PSP_ERROR,
+                  "Error Case: Dispatch cpuload, subchannel >= max cpu");
 
     /* Error Case: Dispatch Analog Read Channels, NumChannels > max cpu */
     RdWr.NumChannels = 2;
-    StatusCode =EntryAPI->DeviceCommand(CFE_PSP_IODriver_ANALOG_IO_READ_CHANNELS, 1, 0, CFE_PSP_IODriver_VPARG(&RdWr));
-    UtAssert_True(StatusCode == CFE_PSP_ERROR && Sample[0] == -1 && Sample[1] == -1, "Error Case: Dispatch cpuload, NumChannels > max cpu");
+    StatusCode = EntryAPI->DeviceCommand(CFE_PSP_IODriver_ANALOG_IO_READ_CHANNELS, 1, 0, CFE_PSP_IODriver_VPARG(&RdWr));
+    UtAssert_True(StatusCode == CFE_PSP_ERROR && Sample[0] == -1 && Sample[1] == -1,
+                  "Error Case: Dispatch cpuload, NumChannels > max cpu");
 
     /* Error Case: Command Code Not Found */
     StatusCode = EntryAPI->DeviceCommand(10, 1, 0, CFE_PSP_IODriver_U32ARG(1));
@@ -268,16 +269,16 @@ void Test_Dispatch_Error(void)
 
 void Test_UpdateStat_Nominal(void)
 {
-    const char * fmt = "%s      %s        %s      %s              %d (    %d)   %d (    %d)";
-    uint32 AvgLoad;
-    uint32 IdleTaskLoad;
+    const char *fmt = "%s      %s        %s      %s              %d (    %d)   %d (    %d)";
+    uint32      AvgLoad;
+    uint32      IdleTaskLoad;
 
     /* Nominal Case: Idle String 3 percents load */
     IdleTaskLoad = 97;
     vxworks_sysmon_update_stat(fmt, "IDLE", "", "", "", 95, 7990, IdleTaskLoad, 1998); /* Function under test */
 
-    AvgLoad = ( (0x1000 * (100 - IdleTaskLoad) ) / 100 );
-    AvgLoad |= (AvgLoad << 12);  
+    AvgLoad = ((0x1000 * (100 - IdleTaskLoad)) / 100);
+    AvgLoad |= (AvgLoad << 12);
     UtAssert_True(vxworks_sysmon_global.cpu_load.per_core[0].avg_load == AvgLoad, "Nominal Case: 3 percents cpuload");
 
     /* Nominal Case: Idle String 0 percents load */
@@ -324,7 +325,7 @@ void Test_Task_Nominal(void)
 void Test_Task_Error(void)
 {
     vxworks_sysmon_global.cpu_load.should_run = true;
-    UT_SetDeferredRetcode(UT_KEY(PCS_spyClkStartCommon), 1, OS_ERROR); 
+    UT_SetDeferredRetcode(UT_KEY(PCS_spyClkStartCommon), 1, OS_ERROR);
 
     vxworks_sysmon_Task();
     UtAssert_True(vxworks_sysmon_global.cpu_load.should_run == false, "Error Case: Cannot Start Auxillary Clock");

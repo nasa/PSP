@@ -1,0 +1,12 @@
+eeprom_notimpl
+iodriver
+rtems_sysmon
+ram_notimpl
+timebase_posix_clock
+ram_direct
+eeprom_direct
+port_notimpl
+eeprom_mmap_file
+port_direct
+linux_sysmon
+soft_timebase

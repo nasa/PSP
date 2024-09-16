@@ -43,7 +43,11 @@
 
 uint32 UT_Get_Exception_MaxEntries(void);
 size_t UT_Get_Exception_Size(void);
+size_t UT_Get_Exception_TotalStorageSize(void);
 uint32 UT_Get_Exception_Id(struct CFE_PSP_Exception_LogData *Buffer);
 void   UT_Generate_Exception_Context(struct CFE_PSP_Exception_LogData *Buffer, size_t Size);
+
+void UT_Set_Exception_StoragePtr(void *Ptr);
+void UT_Set_Exception_StorageReadWrite(uint32 rd, uint32 wr);
 
 #endif

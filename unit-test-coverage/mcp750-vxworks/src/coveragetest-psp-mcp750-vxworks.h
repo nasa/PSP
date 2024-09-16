@@ -62,6 +62,7 @@ void Test_CFE_PSP_Panic(void);
 void Test_CFE_PSP_FlushCaches(void);
 void Test_CFE_PSP_GetProcessorId(void);
 void Test_CFE_PSP_GetSpacecraftId(void);
+void Test_CFE_PSP_GetProcessorName(void);
 
 void Test_OS_Application_Startup(void);
 void Test_OS_Application_Run(void);

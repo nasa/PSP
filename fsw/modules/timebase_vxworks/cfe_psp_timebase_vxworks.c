@@ -44,7 +44,6 @@
 #include <vxWorks.h>
 #include <sysLib.h>
 #include <vxLib.h>
-#include <arch/ppc/vxPpcLib.h>
 
 #include "osapi-clock.h"
 
@@ -61,6 +60,12 @@
  */
 #define CFE_PSP_TIMER_LOW32_ROLLOVER 0
 
+/**
+ ** \brief Timebase structure for VxWorks
+ **
+ ** This is the structure holding the global values configuring the VxWorks
+ ** timebase
+ */
 typedef struct
 {
     uint32 TicksPerSecond;
@@ -68,10 +73,16 @@ typedef struct
     uint32 OSTimeConvDenominator;
 } PSP_VxWorks_Timebase_Global_t;
 
+/** \brief Timebase global structure */
 PSP_VxWorks_Timebase_Global_t PSP_VxWorks_Timebase_Global;
 
 CFE_PSP_MODULE_DECLARE_SIMPLE(timebase_vxworks);
 
+/*----------------------------------------------------------------
+ *
+ * Module Initialization
+ *
+ *-----------------------------------------------------------------*/
 void timebase_vxworks_Init(uint32 PspModuleId)
 {
     uint64 TicksPerSec;
@@ -162,7 +173,7 @@ uint32 CFE_PSP_GetTimerTicksPerSecond(void)
  *-----------------------------------------------------------------*/
 uint32 CFE_PSP_GetTimerLow32Rollover(void)
 {
-    return 0;
+    return CFE_PSP_TIMER_LOW32_ROLLOVER;
 }
 
 /*----------------------------------------------------------------
@@ -173,7 +184,10 @@ uint32 CFE_PSP_GetTimerLow32Rollover(void)
  *-----------------------------------------------------------------*/
 void CFE_PSP_Get_Timebase(uint32 *Tbu, uint32 *Tbl)
 {
-    vxTimeBaseGet((UINT32 *)Tbu, (UINT32 *)Tbl);
+    if ((Tbu != NULL) && (Tbl != NULL))
+    {
+        vxTimeBaseGet((UINT32 *)Tbu, (UINT32 *)Tbl);
+    }
 }
 
 /******************************************************************************
@@ -193,28 +207,31 @@ void CFE_PSP_GetTime(OS_time_t *LocalTime)
     uint32 RegUpper;
     uint32 RegLower;
 
-    vxTimeBaseGet(&RegUpper, &RegLower);
+    if (LocalTime != NULL)
+    {
+        vxTimeBaseGet(&RegUpper, &RegLower);
 
-    /*
-     * Convert to a uint64 value.  Per the Power ISA definition, this
-     * register wraps at (2^60)-1.  However at the tick rate implemented
-     * here this would require running continuously (without a power
-     * cycle or reset) for over 2000 years to reach that point, so
-     * for all practical purposes it does not roll over.
-     */
-    NormalizedTicks = RegUpper;
-    NormalizedTicks <<= 32;
-    NormalizedTicks |= RegLower;
+        /*
+         * Convert to a uint64 value.  Per the Power ISA definition, this
+         * register wraps at (2^60)-1.  However at the tick rate implemented
+         * here this would require running continuously (without a power
+         * cycle or reset) for over 2000 years to reach that point, so
+         * for all practical purposes it does not roll over.
+         */
+        NormalizedTicks = RegUpper;
+        NormalizedTicks <<= 32;
+        NormalizedTicks |= RegLower;
 
-    /*
-     * Apply the pre-computed conversion to OS_time_t.
-     *
-     * This ratio has been reduced during init such that it should minimize
-     * the impact on overall range of the 64-bit value.
-     */
-    NormalizedTicks *= PSP_VxWorks_Timebase_Global.OSTimeConvNumerator;
-    NormalizedTicks /= PSP_VxWorks_Timebase_Global.OSTimeConvDenominator;
+        /*
+         * Apply the pre-computed conversion to OS_time_t.
+         *
+         * This ratio has been reduced during init such that it should minimize
+         * the impact on overall range of the 64-bit value.
+         */
+        NormalizedTicks *= PSP_VxWorks_Timebase_Global.OSTimeConvNumerator;
+        NormalizedTicks /= PSP_VxWorks_Timebase_Global.OSTimeConvDenominator;
 
-    /* Output the value as an OS_time_t */
-    *LocalTime = (OS_time_t) {NormalizedTicks};
+        /* Output the value as an OS_time_t */
+        *LocalTime = (OS_time_t) {NormalizedTicks};
+    }
 }

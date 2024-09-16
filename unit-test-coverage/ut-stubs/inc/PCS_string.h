@@ -34,8 +34,10 @@
 /* prototypes normally declared in string.h */
 /* ----------------------------------------- */
 
+extern int    PCS_memcmp(void *dest, const void *src, size_t n);
 extern void * PCS_memcpy(void *dest, const void *src, size_t n);
 extern void * PCS_memset(void *s, int c, size_t n);
+extern void * PCS_memchr(const void *s, int c, size_t n);
 extern int    PCS_strcmp(const char *s1, const char *s2);
 extern char * PCS_strcpy(char *dest, const char *src);
 extern size_t PCS_strlen(const char *s);

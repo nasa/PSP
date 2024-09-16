@@ -17,18 +17,6 @@
  ************************************************************************/
 
 /*
-** File   :	cfe_psp_memrange.c
-**
-** Author :	Alan Cudmore
-**
-** Purpose:
-**		   This file contains the memory range functions for the cFE Platform Support Package.
-**       The memory range is a table of valid memory address ranges maintained by the cFE.
-**
-**
-*/
-
-/*
 ** Include section
 */
 
@@ -44,7 +32,7 @@
 int32 CFE_PSP_MemValidateRange(cpuaddr Address, size_t Size, uint32 MemoryType)
 {
     cpuaddr             StartAddressToTest = Address;
-    cpuaddr             EndAddressToTest   = Address + Size - 1;
+    cpuaddr             EndAddressToTest   = Address + Size;
     cpuaddr             StartAddressInTable;
     cpuaddr             EndAddressInTable;
     uint32              TypeInTable;
@@ -74,13 +62,13 @@ int32 CFE_PSP_MemValidateRange(cpuaddr Address, size_t Size, uint32 MemoryType)
         if (SysMemPtr->MemoryType != CFE_PSP_MEM_INVALID)
         {
             StartAddressInTable = SysMemPtr->StartAddr;
-            EndAddressInTable   = SysMemPtr->StartAddr + SysMemPtr->Size - 1;
+            EndAddressInTable   = SysMemPtr->StartAddr + SysMemPtr->Size;
             TypeInTable         = SysMemPtr->MemoryType;
 
             /*
             ** Step 1: Get the Address to Fit within the range
             */
-            if ((StartAddressToTest >= StartAddressInTable) && (StartAddressToTest <= EndAddressInTable))
+            if ((StartAddressToTest >= StartAddressInTable) && (StartAddressToTest < EndAddressInTable))
             {
                 /*
                 ** Step 2: Does the End Address Fit within the Range?

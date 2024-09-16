@@ -16,21 +16,6 @@
  * limitations under the License.
  ************************************************************************/
 
-/******************************************************************************
-**
-** File:  cfe_psp_exception.c
-**
-**      MCP750 vxWorks 6.2 Version
-**
-** Purpose:
-**   cFE PSP Exception related functions.
-**
-** History:
-**   2007/05/29  A. Cudmore      | vxWorks 6.2 MCP750 version
-**   2016/04/07  M.Grubb         | Updated for PSP version 1.3
-**
-******************************************************************************/
-
 /*
 **  Include Files
 */
@@ -196,11 +181,8 @@ int32 CFE_PSP_Exception_GetSummary(uint32 *ContextLogId, osal_id_t *TaskId, char
      */
     if (ReasonBuf != NULL && ReasonSize > 0)
     {
-        Status = CFE_PSP_ExceptionGetSummary_Impl(Buffer, ReasonBuf, ReasonSize);
-        if (Status != CFE_PSP_SUCCESS)
-        {
-            ReasonBuf[0] = 0; /* failed to get a reason, so return empty string */
-        }
+        ReasonBuf[0] = 0; /* pre-initialize to empty string, will be overwritten */
+        CFE_PSP_ExceptionGetSummary_Impl(Buffer, ReasonBuf, ReasonSize);
     }
 
     ++CFE_PSP_ReservedMemoryMap.ExceptionStoragePtr->NumRead;
@@ -226,6 +208,18 @@ int32 CFE_PSP_Exception_CopyContext(uint32 ContextLogId, void *ContextBuf, uint3
     uint32                             SeqId;
     uint32                             ActualSize;
 
+    if (ContextBuf == NULL)
+    {
+        /* Invalid Context Buffer Pointer */
+        return CFE_PSP_INVALID_POINTER;
+    }
+
+    if (ContextLogId < CFE_PSP_EXCEPTION_ID_BASE)
+    {
+        /* Supplied ID is not valid */
+        return CFE_PSP_NO_EXCEPTION_DATA;
+    }
+
     SeqId = ContextLogId - CFE_PSP_EXCEPTION_ID_BASE;
     if (SeqId > OS_OBJECT_INDEX_MASK)
     {
@@ -248,7 +242,7 @@ int32 CFE_PSP_Exception_CopyContext(uint32 ContextLogId, void *ContextBuf, uint3
     }
     else
     {
-        /* this will truncate, not ideal, but no alternative.
+        /* This will truncate, not ideal, but no alternative.
          * If this happens it generally indicates a misconfiguration between CFE and PSP,
          * where the CFE platform configuration has not allocated enough space for context logs.
          * Generate a warning message to raise awareness. */
