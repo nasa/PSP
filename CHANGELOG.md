@@ -1,5 +1,10 @@
 # Changelog
 
+## Development Build: equuleus-rc1+dev49
+- buffer error in the VxWorks sysmon module
+- add coverage tests for PSP modules
+- See <https://github.com/nasa/PSP/pull/439> and <https://github.com/nasa/PSP/pull/436>
+
 ## Development Build: equuleus-rc1+dev42
 - Adds node20 compatible github actions
 - See <https://github.com/nasa/PSP/pull/430>
