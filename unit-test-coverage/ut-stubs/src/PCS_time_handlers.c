@@ -27,7 +27,7 @@ void UT_DefaultHandler_PCS_clock_gettime(void *UserObj, UT_EntryKey_t FuncKey, c
 {
     /* int PCS_clock_gettime(int clk_id, struct PCS_timespec *t) */
     struct PCS_timespec *t = UT_Hook_GetArgValueByName(Context, "t", struct PCS_timespec *);
-    int32                 iStatus;
+    int32                iStatus;
 
     UT_Stub_GetInt32StatusCode(Context, &iStatus);
 
