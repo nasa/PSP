@@ -43,18 +43,18 @@ static CFE_PSP_ReservedMemoryBootRecord_t UT_BOOTREC;
 
 static const CFE_PSP_ReservedMemoryBootRecord_t UT_DEFAULT_BOOTREC = {0};
 
-void UT_Setup_ReservedMem_BootRec(void)
+void UT_BootRecAdaptor_InitDefault(void)
 {
     UT_BOOTREC                        = UT_DEFAULT_BOOTREC;
     CFE_PSP_ReservedMemoryMap.BootPtr = &UT_BOOTREC;
 }
 
-uint32 UT_Get_ReservedMem_BootType(void)
+uint32 UT_BootRecAdaptor_Get_BootType(void)
 {
     return UT_BOOTREC.bsp_reset_type;
 }
 
-void UT_Set_ReservedMem_BootType(uint32 reset_type)
+void UT_BootRecAdaptor_Set_BootType(uint32 reset_type)
 {
     UT_BOOTREC.bsp_reset_type = reset_type;
 }

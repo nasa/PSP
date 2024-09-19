@@ -17,20 +17,6 @@
  ************************************************************************/
 
 /*
-** File   :	cfe_psp_eeprom.c
-**
-** Author :	Ezra Yeheskeli
-**
-** Purpose:
-**		   This file  contains some of the OS APIs abstraction layer.
-**         It contains the processor architecture specific calls.
-**
-**  16-Nov-2003 Ezra Yeheskeli
-**          - First Creation.
-**
-*/
-
-/*
 ** Include section
 */
 #include <stdio.h>
@@ -80,9 +66,9 @@ int32 CFE_PSP_EepromWrite32(cpuaddr MemoryAddress, uint32 uint32Value)
  *-----------------------------------------------------------------*/
 int32 CFE_PSP_EepromWrite16(cpuaddr MemoryAddress, uint16 uint16Value)
 {
-    uint32 write32;
-    uint32 temp32;
-    uint32 aligned_address;
+    uint32  write32;
+    uint32  temp32;
+    cpuaddr aligned_address;
 
     /*
     ** check 16 bit alignment  , check the 1st lsb
@@ -160,8 +146,8 @@ int32 CFE_PSP_EepromWrite16(cpuaddr MemoryAddress, uint16 uint16Value)
  *-----------------------------------------------------------------*/
 int32 CFE_PSP_EepromWrite8(cpuaddr MemoryAddress, uint8 ByteValue)
 {
-    uint32 aligned_address;
-    uint16 write16, temp16;
+    cpuaddr aligned_address;
+    uint16  write16, temp16;
 
     temp16 = ByteValue;
 

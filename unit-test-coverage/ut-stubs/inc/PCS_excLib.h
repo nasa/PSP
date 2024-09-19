@@ -30,11 +30,12 @@
 /* ----------------------------------------- */
 /* types normally defined in excLib.h */
 /* ----------------------------------------- */
+typedef void (*PCS_Hook_t)(PCS_TASK_ID, int, void *);
 
 /* ----------------------------------------- */
 /* prototypes normally declared in excLib.h */
 /* ----------------------------------------- */
 
-extern void PCS_excHookAdd(void (*Hook)(PCS_TASK_ID, int, void *));
+extern void PCS_excHookAdd(PCS_Hook_t Hook);
 
 #endif

@@ -81,7 +81,7 @@ void Test_OS_Application_Startup(void)
 
     /* Install a hook function to grab the start type parameters from the system main call */
     UT_SetHookFunction(UT_KEY(PCS_SystemMain), Test_Hook_ResetSubType, &StartType);
-    UT_Setup_ReservedMem_BootRec();
+    UT_BootRecAdaptor_InitDefault();
 
     /* nominal */
     UT_SetDataBuffer(UT_KEY(PCS_sysMemTop), UT_ReservedMemBuffer, sizeof(UT_ReservedMemBuffer), false);
@@ -136,13 +136,13 @@ void Test_OS_Application_Startup(void)
     UtAssert_INT32_EQ(StartType.StartSubtype, CFE_PSP_RST_SUBTYPE_RESET_COMMAND);
 
     *PCS_SYS_REG_BLRR = PCS_SYS_REG_BLRR_SWHRST;
-    UT_Set_ReservedMem_BootType(CFE_PSP_RST_TYPE_POWERON);
+    UT_BootRecAdaptor_Set_BootType(CFE_PSP_RST_TYPE_POWERON);
     UT_OS_Application_Startup();
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(PCS_SystemMain)), 8);
     UtAssert_INT32_EQ(StartType.StartType, CFE_PSP_RST_TYPE_POWERON);
     UtAssert_INT32_EQ(StartType.StartSubtype, CFE_PSP_RST_SUBTYPE_RESET_COMMAND);
 
-    UT_Set_ReservedMem_BootType(CFE_PSP_RST_TYPE_PROCESSOR);
+    UT_BootRecAdaptor_Set_BootType(CFE_PSP_RST_TYPE_PROCESSOR);
     UT_OS_Application_Startup();
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(PCS_SystemMain)), 9);
     UtAssert_INT32_EQ(StartType.StartType, CFE_PSP_RST_TYPE_PROCESSOR);

@@ -79,7 +79,7 @@ typedef struct vxworks_sysmon_cpuload_state
 
     osal_id_t   task_id;
 
-    uint8_t    num_cpus;
+    uint8_t    poll_core_no;
 
     vxworks_sysmon_cpuload_core_t per_core[VXWORKS_SYSMON_MAX_CPUS];
 

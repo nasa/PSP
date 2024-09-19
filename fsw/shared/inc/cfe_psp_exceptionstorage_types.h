@@ -46,8 +46,9 @@ struct CFE_PSP_Exception_LogData
 
 struct CFE_PSP_ExceptionStorage
 {
-    volatile uint32                  NumWritten;
-    volatile uint32                  NumRead;
+    volatile uint32 NumWritten;
+    volatile uint32 NumRead;
+
     struct CFE_PSP_Exception_LogData Entries[CFE_PSP_MAX_EXCEPTION_ENTRIES];
 };
 

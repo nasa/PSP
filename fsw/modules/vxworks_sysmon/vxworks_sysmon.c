@@ -58,11 +58,19 @@ void vxworks_sysmon_Init(uint32_t local_module_id)
 
 int vxworks_sysmon_update_stat(const char *fmt, ...)
 {
-    vxworks_sysmon_cpuload_state_t *state = &vxworks_sysmon_global.cpu_load;
-    vxworks_sysmon_cpuload_core_t *core_p = &state->per_core[state->num_cpus];
-
+    vxworks_sysmon_cpuload_state_t *state;
+    vxworks_sysmon_cpuload_core_t *core_p;
     int curr_load;
     va_list arg;
+
+    state = &vxworks_sysmon_global.cpu_load;
+
+    if (state->poll_core_no >= VXWORKS_SYSMON_MAX_CPUS)
+    {
+        state->poll_core_no = 0;
+    }
+
+    core_p = &state->per_core[state->poll_core_no];
     memset(&core_p->idle_state, 0, sizeof(vxworks_sysmon_va_arg_t));
 
     va_start(arg, fmt);
@@ -71,57 +79,54 @@ int vxworks_sysmon_update_stat(const char *fmt, ...)
     /* only want IDLE string */
     if(strncmp("IDLE", core_p->idle_state.name, 4) == 0)
     {
-        if(state->num_cpus < VXWORKS_SYSMON_MAX_CPUS)
+        /*
+        ** Example format: 
+        ** (* printRtn) (spyFmt2, "IDLE", "", "", "", totalPerCent, spyIdleTicks,
+        **               incPerCent, tmpIdleIncTicks);
+        **
+        ** NAME          ENTRY       TID   PRI  total % (ticks)  delta % (ticks)
+        ** --------     --------    -----  ---  ---------------  ---------------
+        ** IDLE                                  95% (    7990)   95% (    1998)
+        **
+        */
+        core_p->idle_state.placeholder = va_arg(arg, char *);
+        core_p->idle_state.placeholder = va_arg(arg, char *);
+        core_p->idle_state.placeholder = va_arg(arg, char *);
+
+        core_p->idle_state.total_idle_percent = va_arg(arg, int);
+        core_p->idle_state.total_idle_ticks = va_arg(arg, int);
+        core_p->idle_state.idle_percent_since_last_report = va_arg(arg, int);
+        core_p->idle_state.idle_ticks_since_last_report = va_arg(arg, int);
+
+        curr_load = VXWORKS_SYSMON_MAX_SCALE - core_p->idle_state.idle_percent_since_last_report;
+
+        if (curr_load >= 100)
         {
-            /*
-            ** Example format: 
-            ** (* printRtn) (spyFmt2, "IDLE", "", "", "", totalPerCent, spyIdleTicks,
-            **               incPerCent, tmpIdleIncTicks);
-            **
-            ** NAME          ENTRY       TID   PRI  total % (ticks)  delta % (ticks)
-            ** --------     --------    -----  ---  ---------------  ---------------
-            ** IDLE                                  95% (    7990)   95% (    1998)
-            **
-            */
-            core_p->idle_state.placeholder = va_arg(arg, char *);
-            core_p->idle_state.placeholder = va_arg(arg, char *);
-            core_p->idle_state.placeholder = va_arg(arg, char *);
+            core_p->avg_load = 0xFFFFFF; /* max */
+        }
+        else if (curr_load <= 0)
+        {
+            core_p->avg_load = 0;
+        }
+        else
+        {
+            core_p->avg_load = (0x1000 * curr_load) / VXWORKS_SYSMON_MAX_SCALE ;
+            core_p->avg_load |= (core_p->avg_load << 12); /* Expand from 12->24 bit */
+        }
 
-            core_p->idle_state.total_idle_percent = va_arg(arg, int);
-            core_p->idle_state.total_idle_ticks = va_arg(arg, int);
-            core_p->idle_state.idle_percent_since_last_report = va_arg(arg, int);
-            core_p->idle_state.idle_ticks_since_last_report = va_arg(arg, int);
+        VXWORKS_SYSMON_DEBUG("CFE_PSP(vxworks_sysmon): load=%06x\n", (unsigned int)core_p->avg_load);
+        VXWORKS_SYSMON_DEBUG("Name: %s, Total Percent: %d, Total Ticks: %d, Idle Percent: %d, Idle Ticks: %d\n",
+                                core_p->idle_state.name,
+                                core_p->idle_state.total_idle_percent,
+                                core_p->idle_state.total_idle_ticks,
+                                core_p->idle_state.idle_percent_since_last_report,
+                                core_p->idle_state.idle_ticks_since_last_report);
 
-            curr_load = VXWORKS_SYSMON_MAX_SCALE - core_p->idle_state.idle_percent_since_last_report;
-
-            if (curr_load >= 100)
-            {
-                core_p->avg_load = 0xFFFFFF; /* max */
-            }
-            else if (curr_load <= 0)
-            {
-                core_p->avg_load = 0;
-            }
-            else
-            {
-                core_p->avg_load = (0x1000 * curr_load) / VXWORKS_SYSMON_MAX_SCALE ;
-                core_p->avg_load |= (core_p->avg_load << 12); /* Expand from 12->24 bit */
-            }
-
-            VXWORKS_SYSMON_DEBUG("CFE_PSP(vxworks_sysmon): load=%06x\n", (unsigned int)core_p->avg_load);
-            VXWORKS_SYSMON_DEBUG("Name: %s, Total Percent: %d, Total Ticks: %d, Idle Percent: %d, Idle Ticks: %d\n",
-                                 core_p->idle_state.name,
-                                 core_p->idle_state.total_idle_percent,
-                                 core_p->idle_state.total_idle_ticks,
-                                 core_p->idle_state.idle_percent_since_last_report,
-                                 core_p->idle_state.idle_ticks_since_last_report);
-
-            state->num_cpus++;
-
-        } /* end of cpu check */
     } /* end of idle check */
 
     va_end(arg);
+
+    ++state->poll_core_no;
 
     return 0;
 }
@@ -151,7 +156,6 @@ void vxworks_sysmon_Task(void)
     {
         OS_TaskDelay(VXWORKS_SYSMON_SAMPLE_DELAY);
 
-        state->num_cpus = 0;
         spyReportCommon( (FUNCPTR)vxworks_sysmon_update_stat);
     }
 

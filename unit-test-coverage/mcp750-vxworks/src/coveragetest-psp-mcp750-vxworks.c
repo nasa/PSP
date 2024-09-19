@@ -70,9 +70,30 @@ void UtTest_Setup(void)
     ADD_TEST(CFE_PSP_FlushCaches);
     ADD_TEST(CFE_PSP_GetProcessorId);
     ADD_TEST(CFE_PSP_GetSpacecraftId);
+    ADD_TEST(CFE_PSP_GetProcessorName);
 
     ADD_TEST(CFE_PSP_Exception_GetBuffer);
     ADD_TEST(CFE_PSP_Exception_GetNextContextBuffer);
     ADD_TEST(CFE_PSP_Exception_GetSummary);
     ADD_TEST(CFE_PSP_Exception_CopyContext);
+
+    ADD_TEST(CFE_PSP_StatusToString);
+    ADD_TEST(CFE_PSP_GetVersionString);
+    ADD_TEST(CFE_PSP_GetVersionCodeName);
+    ADD_TEST(CFE_PSP_GetVersionNumber);
+    ADD_TEST(CFE_PSP_GetBuildNumber);
+
+    ADD_TEST(CFE_PSP_ModuleInitList);
+    ADD_TEST(CFE_PSP_ModuleInit);
+    ADD_TEST(CFE_PSP_Module_GetAPIEntry);
+    ADD_TEST(CFE_PSP_Module_SearchNameInList);
+    ADD_TEST(CFE_PSP_Module_FindByName);
+
+    ADD_TEST(CFE_PSP_MemCpy);
+    ADD_TEST(CFE_PSP_MemSet);
+
+    ADD_TEST(CFE_PSP_MemValidateRange);
+    ADD_TEST(CFE_PSP_MemRanges);
+    ADD_TEST(CFE_PSP_MemRangeSet);
+    ADD_TEST(CFE_PSP_MemRangeGet);
 }
