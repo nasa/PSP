@@ -51,7 +51,7 @@ void UT_DefaultHandler_CFE_PSP_MemCpy(void *UserObj, UT_EntryKey_t FuncKey, cons
     UT_Stub_GetInt32StatusCode(Context, &Status);
     if (Status >= 0)
     {
-        memcpy(dest, src, size);
+        memcpy(dest, src, n);
     }
 }
 
