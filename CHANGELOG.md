@@ -1,5 +1,9 @@
 # Changelog
 
+## Development Build: equuleus-rc1+dev55
+- rename parameter in CFE_PSP_MemSet handler to align with stub and actual code
+- See <https://github.com/nasa/PSP/pull/441>
+
 ## Development Build: equuleus-rc1+dev49
 - buffer error in the VxWorks sysmon module
 - add coverage tests for PSP modules
