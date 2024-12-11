@@ -164,7 +164,7 @@ void Test_CFE_PSP_MemRead32(void)
     UtAddress2 = (cpuaddr)&UT_RAM_BLOCK.u32[4];
 
     UT_RAM_BLOCK.u32[3] = 0xAABBCCDD;
-    UT_RAM_BLOCK.u32[3] = 0x44556677;
+    UT_RAM_BLOCK.u32[4] = 0x44556677;
 
     UtAssert_INT32_EQ(CFE_PSP_MemRead32(UtAddress1, &Value1), CFE_PSP_SUCCESS);
     UtAssert_INT32_EQ(CFE_PSP_MemRead32(UtAddress2, &Value2), CFE_PSP_SUCCESS);
