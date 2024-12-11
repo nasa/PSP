@@ -376,7 +376,7 @@ void rtems_sysmon_Init(uint32_t local_module_id)
     rtems_sysmon_global.local_module_id = local_module_id;
 }
 
-static bool rtems_cpu_usage_vistor(Thread_Control *the_thread, void *arg)
+static bool rtems_cpu_usage_visitor(Thread_Control *the_thread, void *arg)
 {
     rtems_sysmon_cpuload_state_t *state  = (rtems_sysmon_cpuload_state_t *)arg;
     rtems_sysmon_cpuload_core_t * core_p = &state->per_core[state->num_cpus];
@@ -466,7 +466,7 @@ static bool rtems_cpu_usage_vistor(Thread_Control *the_thread, void *arg)
 void rtems_sysmon_update_stat(rtems_sysmon_cpuload_state_t *state)
 {
     state->num_cpus = 0;
-    rtems_task_iterate(rtems_cpu_usage_vistor, state);
+    rtems_task_iterate(rtems_cpu_usage_visitor, state);
 }
 
 rtems_task rtems_sysmon_Task(rtems_task_argument arg)
