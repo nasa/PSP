@@ -86,6 +86,12 @@ add_library(ut_psp_libc_stubs STATIC EXCLUDE_FROM_ALL
     src/PCS_unistd_stubs.c
     src/PCS_xbdBlkDev_stubs.c
     src/vxworks-mcpx750-stubs.c
+    src/PCS_timestampimpl_stubs.c
+    src/PCS_todimpl_stubs.c
+    src/PCS_threadimpl_stubs.c
+    src/PCS_tasks_stubs.c
+    src/PCS_object_stubs.c
+    src/PCS_cpuuse_stubs.c
 )
 
 target_include_directories(ut_libc_stubs PUBLIC
