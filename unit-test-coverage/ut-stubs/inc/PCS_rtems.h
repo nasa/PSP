@@ -22,8 +22,27 @@
 
 #include "PCS_basetypes.h"
 
-typedef uint32_t PCS_rtems_task_priority;
-typedef uint32_t PCS_rtems_id;
+#define PCS_RTEMS_SELF               0
+#define PCS_RTEMS_DEFAULT_MODES      0x00000000
+#define PCS_RTEMS_DEFAULT_ATTRIBUTES 0x00000000
+
+typedef uint32_t          PCS_rtems_task_priority;
+typedef uint32_t          PCS_rtems_id;
+typedef uint32_t          PCS_rtems_name;
+typedef uintptr_t         PCS_CPU_Uint32ptr;
+typedef int64_t           PCS_Timestamp_Control;
+typedef void              PCS_rtems_task;
+typedef uint32_t          PCS_rtems_mode;
+typedef uint32_t          PCS_rtems_attribute;
+typedef PCS_CPU_Uint32ptr PCS_rtems_task_argument;
+
+typedef struct {
+    /* Fake Thread control  */
+    char * Name;
+} PCS_Thread_Control_S;
+
+typedef PCS_Thread_Control_S PCS_rtems_tcb;
+typedef PCS_rtems_tcb        PCS_Thread_Control;
 
 struct PCS_rtems_bsdnet_ifconfig
 {

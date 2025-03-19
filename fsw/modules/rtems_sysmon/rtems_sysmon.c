@@ -23,7 +23,6 @@
 /************************************************************************
  * Includes
  ************************************************************************/
-
 #include "cfe_psp.h"
 
 #include "iodriver_impl.h"
@@ -33,73 +32,12 @@
 #include <rtems/cpuuse.h>
 #include <rtems/score/threadimpl.h>
 #include <rtems/rtems/tasks.h>
-
-/********************************************************************
- * Local Defines
- ********************************************************************/
-#ifdef OS_MAXIMUM_PROCESSORS
-    #define RTEMS_SYSMON_MAX_CPUS  OS_MAXIMUM_PROCESSORS
-#else
-    #define RTEMS_SYSMON_MAX_CPUS  1
-#endif
-
-#define RTEMS_SYSMON_AGGREGATE_SUBSYS   0
-#define RTEMS_SYSMON_CPULOAD_SUBSYS     1
-#define RTEMS_SYSMON_AGGR_CPULOAD_SUBCH 0
-#define RTEMS_SYSMON_SAMPLE_DELAY       1000
-#define RTEMS_SYSMON_TASK_PRIORITY      100
-#define RTEMS_SYSMON_STACK_SIZE         4096
-#define RTEMS_SYSMON_MAX_SCALE          100000
-
-#ifdef DEBUG_BUILD
-#define RTEMS_SYSMON_DEBUG(...) OS_printf(__VA_ARGS__)
-#else
-#define RTEMS_SYSMON_DEBUG(...)
-#endif
-
-/********************************************************************
- * Local Type Definitions
- ********************************************************************/
-typedef struct rtems_sysmon_cpuload_core
-{
-    CFE_PSP_IODriver_AdcCode_t avg_load;
-    Timestamp_Control last_run_time;
-    Timestamp_Control idle_last_uptime;
-
-} rtems_sysmon_cpuload_core_t;
-
-typedef struct rtems_sysmon_cpuload_state
-{
-    volatile bool is_running;
-    volatile bool should_run;
-
-    rtems_id   task_id;
-    rtems_name task_name;
-
-    uint8_t    num_cpus;
-    rtems_sysmon_cpuload_core_t per_core[RTEMS_SYSMON_MAX_CPUS];
-
-} rtems_sysmon_cpuload_state_t;
-
-typedef struct rtems_sysmon_state
-{
-    uint32_t                     local_module_id;
-    rtems_sysmon_cpuload_state_t cpu_load;
-} rtems_sysmon_state_t;
+#include "rtems_sysmon.h"
 
 /********************************************************************
  * Local Function Prototypes
  ********************************************************************/
 static void    rtems_sysmon_Init(uint32_t local_module_id);
-static int32_t rtems_sysmon_Start(rtems_sysmon_cpuload_state_t *state);
-static int32_t rtems_sysmon_Stop(rtems_sysmon_cpuload_state_t *state);
-
-int32_t rtems_sysmon_aggregate_dispatch(uint32_t CommandCode, uint16_t Subchannel, CFE_PSP_IODriver_Arg_t Arg);
-int32_t rtems_sysmon_calc_aggregate_cpu(rtems_sysmon_cpuload_state_t *state, CFE_PSP_IODriver_AdcCode_t *Val);
-
-/* Function that starts up rtems_sysmon driver. */
-static int32_t rtems_sysmon_DevCmd(uint32_t CommandCode, uint16_t SubsystemId, uint16_t SubchannelId,
-                                   CFE_PSP_IODriver_Arg_t Arg);
 
 /********************************************************************
  * Global Data
@@ -112,7 +50,7 @@ CFE_PSP_IODriver_API_t rtems_sysmon_DevApi = {.DeviceCommand = rtems_sysmon_DevC
 
 CFE_PSP_MODULE_DECLARE_IODEVICEDRIVER(rtems_sysmon);
 
-static rtems_sysmon_state_t rtems_sysmon_global;
+rtems_sysmon_state_t rtems_sysmon_global;
 
 static const char *rtems_sysmon_subsystem_names[]  = {"aggregate", "per-cpu", NULL};
 static const char *rtems_sysmon_subchannel_names[] = {"cpu-load", NULL};
@@ -127,7 +65,7 @@ void rtems_sysmon_Init(uint32_t local_module_id)
     rtems_sysmon_global.local_module_id = local_module_id;
 }
 
-static bool rtems_cpu_usage_vistor(Thread_Control *the_thread, void *arg)
+bool rtems_cpu_usage_visitor(Thread_Control *the_thread, void *arg)
 {
     rtems_sysmon_cpuload_state_t *state = (rtems_sysmon_cpuload_state_t *)arg;
     rtems_sysmon_cpuload_core_t* core_p = &state->per_core[state->num_cpus];
@@ -213,7 +151,7 @@ static bool rtems_cpu_usage_vistor(Thread_Control *the_thread, void *arg)
 void rtems_sysmon_update_stat(rtems_sysmon_cpuload_state_t *state)
 {
     state->num_cpus = 0;
-    rtems_task_iterate( rtems_cpu_usage_vistor, state);
+    rtems_task_iterate( rtems_cpu_usage_visitor, state);
 }
 
 rtems_task rtems_sysmon_Task(rtems_task_argument arg)
@@ -246,7 +184,7 @@ rtems_task rtems_sysmon_Task(rtems_task_argument arg)
  *  Starts the cpu load watcher function
  *
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-static int32_t rtems_sysmon_Start(rtems_sysmon_cpuload_state_t *state)
+int32_t rtems_sysmon_Start(rtems_sysmon_cpuload_state_t *state)
 {
     int32_t StatusCode;
     rtems_status_code status;
@@ -453,6 +391,12 @@ int32_t rtems_sysmon_cpu_load_dispatch(uint32_t CommandCode, uint16_t Subchannel
                 {
                     RdWr->Samples[ch] = state->per_core[ch].avg_load;
                 }
+
+                StatusCode = CFE_PSP_SUCCESS;
+            }
+            else
+            {
+                StatusCode = CFE_PSP_ERROR;
             }
 
             break;

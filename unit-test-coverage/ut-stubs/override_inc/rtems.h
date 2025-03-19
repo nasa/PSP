@@ -22,11 +22,29 @@
 
 #include "PCS_rtems.h"
 
-#define rtems_task_priority PCS_rtems_task_priority
-#define rtems_id            PCS_rtems_id
+#include "rtems/score/todimpl.h"
+#include "rtems/score/timestampimpl.h"
+#include "rtems/rtems/object.h"
 
-#define rtems_status_code PCS_rtems_status_code
-#define RTEMS_SUCCESSFUL  PCS_RTEMS_SUCCESSFUL
+#define rtems_task_priority  PCS_rtems_task_priority
+#define rtems_id             PCS_rtems_id
+#define rtems_name           PCS_rtems_name
+#define CPU_Uint32ptr        PCS_CPU_Uint32ptr
+#define rtems_task           PCS_rtems_task
+#define rtems_task_argument  PCS_rtems_task_argument
+#define Timestamp_Control    PCS_Timestamp_Control
+#define Thread_Control       PCS_Thread_Control
+#define _Thread_Control      PCS_Thread_Control_S
+#define rtems_task_visitor   PCS_rtems_task_visitor
+#define rtems_mode           PCS_rtems_mode
+#define rtems_attribute      PCS_rtems_attribute
+#define rtems_task_entry     PCS_rtems_task_entry
+
+#define rtems_status_code        PCS_rtems_status_code
+#define RTEMS_SUCCESSFUL         PCS_RTEMS_SUCCESSFUL
+#define RTEMS_SELF               PCS_RTEMS_SELF
+#define RTEMS_DEFAULT_MODES      PCS_RTEMS_DEFAULT_MODES
+#define RTEMS_DEFAULT_ATTRIBUTES PCS_RTEMS_DEFAULT_ATTRIBUTES
 
 #define rtems_bsdnet_ifconfig PCS_rtems_bsdnet_ifconfig
 #define rtems_bsdnet_config   PCS_rtems_bsdnet_config
