@@ -39,10 +39,6 @@
 #include "utstubs.h"
 #include "uttest.h"
 
-#include "cfe_psp.h"
-#include "cfe_psp_config.h"
-#include "cfe_psp_module.h"
-
 #include "coveragetest-rtems_sysmon.h"
 #include "coveragetest-rtems_sysmon_utils.h"
 
