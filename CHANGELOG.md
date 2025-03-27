@@ -1,5 +1,10 @@
 # Changelog
 
+## Development Build: equuleus-rc1:dev61
+- update PCS_malloc stub PoolSize overflow
+- Add rtems_sysmon unit test
+- See <https://github.com/nasa/PSP/pull/450> and <https://github.com/nasa/PSP/pull/448>
+
 ## Development Build: equuleus-rc1+dev55
 - rename parameter in CFE_PSP_MemSet handler to align with stub and actual code
 - See <https://github.com/nasa/PSP/pull/441>

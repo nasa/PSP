@@ -71,6 +71,7 @@ endfunction()
 # a list of modules for which there is a coverage test implemented
 add_subdirectory(timebase_vxworks)
 add_subdirectory(vxworks_sysmon)
+add_subdirectory(rtems_sysmon)
 add_subdirectory(ram_notimpl)
 add_subdirectory(ram_direct)
 add_subdirectory(port_notimpl)
