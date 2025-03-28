@@ -68,7 +68,7 @@ typedef struct rtems_sysmon_cpuload_state
     rtems_id   task_id;
     rtems_name task_name;
 
-    uint8_t    num_cpus;
+    uint8_t    poll_core_no;
     rtems_sysmon_cpuload_core_t per_core[RTEMS_SYSMON_MAX_CPUS];
 
 } rtems_sysmon_cpuload_state_t;
