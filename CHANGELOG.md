@@ -1,5 +1,10 @@
 # Changelog
 
+## Development Build: equuleus-rc1+dev67
+- 'Fix #452, rtems sysmom overflow buffer'
+- See: <https://github.com/nasa/psp/pull/453>
+
+
 ## Development Build: equuleus-rc1:dev61
 - update PCS_malloc stub PoolSize overflow
 - Add rtems_sysmon unit test
