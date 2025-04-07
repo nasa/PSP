@@ -68,10 +68,10 @@ void rtems_sysmon_Init(uint32_t local_module_id)
 bool rtems_cpu_usage_visitor(Thread_Control *the_thread, void *arg)
 {
     rtems_sysmon_cpuload_state_t *state = (rtems_sysmon_cpuload_state_t *)arg;
-    rtems_sysmon_cpuload_core_t* core_p = &state->per_core[state->num_cpus];
+    rtems_sysmon_cpuload_core_t* core_p;
 
-    Timestamp_Control uptime_at_last_calc = core_p->last_run_time;
-    Timestamp_Control idle_uptime_at_last_calc = core_p->idle_last_uptime;
+    Timestamp_Control uptime_at_last_calc;
+    Timestamp_Control idle_uptime_at_last_calc;
     Timestamp_Control current_uptime;
     Timestamp_Control idle_task_uptime;
     Timestamp_Control idle_uptime_elapsed;
@@ -82,8 +82,19 @@ bool rtems_cpu_usage_visitor(Thread_Control *the_thread, void *arg)
     uint32_t fval; 
     bool status = false;
 
+    if(state->poll_core_no >= RTEMS_SYSMON_MAX_CPUS)
+    {
+        /* Set true to stop iterating. All idle task has been found. */
+        status = true; 
+        state->poll_core_no = 0;
+    }
+
+    core_p = &state->per_core[state->poll_core_no];
+    uptime_at_last_calc = core_p->last_run_time;
+    idle_uptime_at_last_calc = core_p->idle_last_uptime;
+
     _Thread_Get_name(the_thread, name, sizeof(name));
-    if(strncmp("IDLE", name, 4) == 0)
+    if(strncmp("IDLE", name, 4) == 0 && status == false)
     {
         #if __RTEMS_MAJOR__ == 5
         _Thread_Get_CPU_time_used( the_thread, &idle_task_uptime );
@@ -122,26 +133,7 @@ bool rtems_cpu_usage_visitor(Thread_Control *the_thread, void *arg)
             core_p->avg_load |= (core_p->avg_load << 12);
         }
 
-        #ifdef DEBUG_BUILD
-        rtems_cpu_usage_report();
-        
-        uint32_t microsec = _Timestamp_Get_nanoseconds( &idle_uptime_elapsed ) / TOD_NANOSECONDS_PER_MICROSECOND;
-        uint32_t sec = _Timestamp_Get_seconds( &idle_uptime_elapsed );
-        RTEMS_SYSMON_DEBUG("\nCFE_PSP(rtems_sysmon): IDLE cpu time elapsed = %7u.%06u, IDLE percentages =%4u.%03u\n",
-                           sec, microsec, ival, fval);
-
-        microsec = _Timestamp_Get_nanoseconds( &total_elapsed ) / TOD_NANOSECONDS_PER_MICROSECOND;
-        sec = _Timestamp_Get_seconds( &total_elapsed );
-        RTEMS_SYSMON_DEBUG("CFE_PSP(rtems_sysmon): Total elapsed CPU time = %7u.%06u, CPU Load =%08X\n",
-                           sec, microsec, core_p->avg_load);
-        #endif
-
-        state->num_cpus++;
-        if(state->num_cpus >= RTEMS_SYSMON_MAX_CPUS)
-        {
-            /* stop checking when all idle tasks has been found */
-            status = true;
-        }
+        state->poll_core_no++;
     }
     
     /* return true to exit iterating tasks */
@@ -150,7 +142,7 @@ bool rtems_cpu_usage_visitor(Thread_Control *the_thread, void *arg)
 
 void rtems_sysmon_update_stat(rtems_sysmon_cpuload_state_t *state)
 {
-    state->num_cpus = 0;
+    state->poll_core_no = 0;
     rtems_task_iterate( rtems_cpu_usage_visitor, state);
 }
 
