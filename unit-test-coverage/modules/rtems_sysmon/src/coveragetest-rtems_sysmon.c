@@ -300,7 +300,7 @@ void Test_Cpu_Visitor_Nominal(void)
     UT_TimeDivideData.IntValue = 100;
     UT_TimeDivideData.FraValue = 0;
 
-    UtAssert_BOOL_TRUE(rtems_cpu_usage_visitor(&Thread, &Arg));
+    UtAssert_BOOL_FALSE(rtems_cpu_usage_visitor(&Thread, &Arg));
     UtAssert_True(Arg.per_core[0].avg_load == 0xFFFFFF, "Nominal Case: 100 percents cpu utilization");
 
     /* Nominal Case Idle Task */
@@ -317,7 +317,7 @@ void Test_Cpu_Visitor_Nominal(void)
     UT_TimeDivideData.TotalElapsed = 10;
     UT_TimeDivideData.IdleUptimeElapsed = 5;
 
-    UtAssert_BOOL_TRUE(rtems_cpu_usage_visitor(&Thread, &Arg)); 
+    UtAssert_BOOL_FALSE(rtems_cpu_usage_visitor(&Thread, &Arg)); 
 
     AverageLoadCalc = 0x1000 * UT_TimeDivideData.IntValue / 100;
     AverageLoadCalc |= (AverageLoadCalc << 12);
@@ -337,7 +337,7 @@ void Test_Cpu_Visitor_Nominal(void)
     UT_TimeDivideData.TotalElapsed = 10; /* placeholder */
     UT_TimeDivideData.IdleUptimeElapsed = 5; /* placeholder*/
 
-    UtAssert_BOOL_TRUE(rtems_cpu_usage_visitor(&Thread, &Arg)); 
+    UtAssert_BOOL_FALSE(rtems_cpu_usage_visitor(&Thread, &Arg)); 
 
     /* convert int and fra part of percentages into integer. 
     ** Then convert into an percentages and normalizes out of 0x1000 
@@ -361,18 +361,18 @@ void Test_Cpu_Visitor_Nominal(void)
     UT_TimeDivideData.TotalElapsed = 0;
     UT_TimeDivideData.IdleUptimeElapsed = 0;
 
-    UtAssert_BOOL_TRUE(rtems_cpu_usage_visitor(&Thread, &Arg)); 
+    UtAssert_BOOL_FALSE(rtems_cpu_usage_visitor(&Thread, &Arg)); 
     UtAssert_True(Arg.per_core[0].avg_load == 0, "Nominal Case: 0 percents cpu utilization");
 
-    /* Nominal Case: Max Cpu not reach */
+    /* Nominal Case: polling cpu reaches RTEMS_SYSMON_MAX_CPUS */
     memset(UT_ThreadGetNameData.Name, 0, sizeof(UT_ThreadGetNameData.Name));
     memset(&Arg, 0, sizeof(Arg));
     memset(&UT_TimeDivideData, 0, sizeof(UT_TimeDivideData));
 
     strncpy(UT_ThreadGetNameData.Name, "IDLE", 4);
-    Arg.num_cpus = -1;
-    UtAssert_BOOL_FALSE(rtems_cpu_usage_visitor(&Thread, &Arg)); 
-    UtAssert_True(Arg.num_cpus == 0, "Nominal Case: CPU Number increment");
+    Arg.poll_core_no = RTEMS_SYSMON_MAX_CPUS;
+    UtAssert_BOOL_TRUE(rtems_cpu_usage_visitor(&Thread, &Arg)); 
+    UtAssert_True(Arg.poll_core_no == 0, "Nominal Case: cpu number reseted");
 
 }
 
