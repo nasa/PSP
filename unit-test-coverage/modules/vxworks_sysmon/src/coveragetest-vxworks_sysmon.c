@@ -98,10 +98,10 @@ void Test_Aggregate_Nominal(void)
 {
     int32 StatusCode;
     int32 IsRunningStatus;
-    ;
+
     CFE_PSP_IODriver_AdcCode_t    Sample;
     CFE_PSP_IODriver_AnalogRdWr_t RdWr = {.NumChannels = 1, .Samples = &Sample};
-    ;
+
     CFE_PSP_IODriver_Direction_t QueryDirArg;
     CFE_PSP_IODriver_API_t *     EntryAPI = TgtAPI->ExtendedApi;
 
@@ -181,7 +181,7 @@ void Test_Aggregate_Error(void)
     int32                         IsRunningStatus;
     CFE_PSP_IODriver_AdcCode_t    Sample;
     CFE_PSP_IODriver_AnalogRdWr_t RdWr = {.NumChannels = 1, .Samples = &Sample};
-    ;
+
 
     /* Error Case: Look Up Subsystem Not Found */
     StatusCode = EntryAPI->DeviceCommand(CFE_PSP_IODriver_LOOKUP_SUBSYSTEM, 0, 0, CFE_PSP_IODriver_CONST_STR("Empty"));
