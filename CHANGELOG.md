@@ -1,5 +1,10 @@
 # Changelog
 
+## Development Build: equuleus-rc1+dev73
+- 'Fix #443, Correct minor bugs + typos in the VxWorks layer'
+- See: <https://github.com/nasa/psp/pull/444>
+
+
 ## Development Build: equuleus-rc1+dev67
 - 'Fix #452, rtems sysmom overflow buffer'
 - See: <https://github.com/nasa/psp/pull/453>
