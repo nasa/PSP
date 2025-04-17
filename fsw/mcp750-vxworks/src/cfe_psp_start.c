@@ -169,8 +169,8 @@ void OS_Application_Startup(void)
     else if (reset_register & SYS_REG_BLRR_FBTN)
     {
         OS_printf("CFE_PSP: POWERON Reset: Front Panel Push Button Reset.\n");
-        reset_type    = CFE_PSP_RST_SUBTYPE_PUSH_BUTTON;
-        reset_subtype = 3;
+        reset_type    = CFE_PSP_RST_TYPE_POWERON;
+        reset_subtype = CFE_PSP_RST_SUBTYPE_PUSH_BUTTON;
     }
     else if (reset_register & SYS_REG_BLRR_WDT2)
     {

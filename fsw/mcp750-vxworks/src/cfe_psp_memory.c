@@ -186,7 +186,7 @@ int32 CFE_PSP_ReadFromCDS(void *PtrToDataToRead, uint32 CDSOffset, uint32 NumByt
             return_code = CFE_PSP_ERROR;
         }
 
-    } /* end if PtrToDataToWrite == NULL */
+    } /* end if PtrToDataToRead == NULL */
 
     return return_code;
 }
@@ -319,9 +319,7 @@ int32 CFE_PSP_GetVolatileDiskMem(cpuaddr *PtrToVolDisk, uint32 *SizeOfVolDisk)
 */
 int32 CFE_PSP_InitProcessorReservedMemory(uint32 RestartType)
 {
-    int32 return_code;
-
-    if (RestartType != CFE_PSP_RST_TYPE_PROCESSOR)
+    if (RestartType == CFE_PSP_RST_TYPE_POWERON)
     {
         OS_printf("CFE_PSP: Clearing Processor Reserved Memory.\n");
         memset(MCP750_ReservedMemBlock.BlockPtr, 0, MCP750_ReservedMemBlock.BlockSize);
@@ -331,8 +329,8 @@ int32 CFE_PSP_InitProcessorReservedMemory(uint32 RestartType)
         */
         CFE_PSP_ReservedMemoryMap.BootPtr->bsp_reset_type = CFE_PSP_RST_TYPE_PROCESSOR;
     }
-    return_code = CFE_PSP_SUCCESS;
-    return return_code;
+
+    return CFE_PSP_SUCCESS;
 }
 
 /******************************************************************************
@@ -478,7 +476,7 @@ int32 CFE_PSP_GetCFETextSegmentInfo(cpuaddr *PtrToCFESegment, uint32 *SizeOfCFES
     MODULE_ID   cFEModuleId;
     MODULE_INFO cFEModuleInfo;
     cpuaddr     GetModuleIdAddr;
-    MODULE_ID (*GetModuldIdFunc)(void);
+    MODULE_ID (*GetModuleIdFunc)(void);
 
     if (PtrToCFESegment == NULL || SizeOfCFESegment == NULL)
     {
@@ -503,8 +501,8 @@ int32 CFE_PSP_GetCFETextSegmentInfo(cpuaddr *PtrToCFESegment, uint32 *SizeOfCFES
         return_code     = OS_SymbolLookup(&GetModuleIdAddr, "GetCfeCoreModuleID");
         if (return_code == OS_SUCCESS && GetModuleIdAddr != 0)
         {
-            GetModuldIdFunc = (MODULE_ID(*)(void))GetModuleIdAddr;
-            cFEModuleId     = GetModuldIdFunc();
+            GetModuleIdFunc = (MODULE_ID(*)(void))GetModuleIdAddr;
+            cFEModuleId     = GetModuleIdFunc();
         }
 
         /*
