@@ -120,8 +120,8 @@ void Test_OS_Application_Startup(void)
     *PCS_SYS_REG_BLRR = PCS_SYS_REG_BLRR_FBTN;
     UT_OS_Application_Startup();
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(PCS_SystemMain)), 5);
-    UtAssert_INT32_EQ(StartType.StartType, CFE_PSP_RST_SUBTYPE_PUSH_BUTTON);
-    UtAssert_INT32_EQ(StartType.StartSubtype, 3);
+    UtAssert_INT32_EQ(StartType.StartType, CFE_PSP_RST_TYPE_POWERON);
+    UtAssert_INT32_EQ(StartType.StartSubtype, CFE_PSP_RST_SUBTYPE_PUSH_BUTTON);
 
     *PCS_SYS_REG_BLRR = PCS_SYS_REG_BLRR_WDT2;
     UT_OS_Application_Startup();

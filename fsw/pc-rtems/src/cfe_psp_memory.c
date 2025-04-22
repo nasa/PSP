@@ -182,7 +182,7 @@ int32 CFE_PSP_ReadFromCDS(void *PtrToDataToRead, uint32 CDSOffset, uint32 NumByt
             return_code = OS_ERROR;
         }
 
-    } /* end if PtrToDataToWrite == NULL */
+    } /* end if PtrToDataToRead == NULL */
 
     return return_code;
 }
