@@ -99,7 +99,7 @@ void UT_DefaultHandler_PCS_read(void *UserObj, UT_EntryKey_t FuncKey, const UT_S
             memset(buf, 'r', Status);
             retval = Status;
         }
-        else if (UT_GetStubCount(FuncKey < 4))
+        else if (UT_GetStubCount(FuncKey) < 4)
         {
             memset(buf, 'r', nbytes);
             retval = nbytes;
