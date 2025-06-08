@@ -530,7 +530,7 @@ int32 CFE_PSP_GetCFETextSegmentInfo(cpuaddr *PtrToCFESegment, uint32 *SizeOfCFES
             }
             else
             {
-                return_code = CFE_PSP_SUCCESS;
+                return_code = CFE_PSP_ERROR;
             }
         }
     }
