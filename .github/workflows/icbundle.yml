@@ -59,13 +59,13 @@ jobs:
           done
           changelog_entry="${changelog_entry}\n${see_entry}\n"
           sed -ir "s|# Changelog|$changelog_entry|" CHANGELOG.md
-          
+
           buildnumber_entry=$'#define CFE_PSP_IMPL_BUILD_NUMBER   '${rev_num}
           sed -ir "s|#define CFE_PSP_IMPL_BUILD_NUMBER.*|$buildnumber_entry|" fsw/mcp750-vxworks/inc/psp_version.h
-          
+
           buildnumber_entry=$'#define CFE_PSP_IMPL_BUILD_NUMBER   '${rev_num}
           sed -ir "s|#define CFE_PSP_IMPL_BUILD_NUMBER.*|$buildnumber_entry|" fsw/pc-linux/inc/psp_version.h
-          
+
           buildnumber_entry=$'#define CFE_PSP_IMPL_BUILD_NUMBER   '${rev_num}
           sed -ir "s|#define CFE_PSP_IMPL_BUILD_NUMBER.*|$buildnumber_entry|" fsw/pc-rtems/inc/psp_version.h
       - name: Commit and Push Updates to IC Branch
