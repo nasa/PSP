@@ -71,28 +71,12 @@ void Test_eeprom_mmap_file_Init(void)
     UT_SetDeferredRetcode(UT_KEY(PCS_mmap), 1, -1);
     UtAssert_VOIDCALL(eeprom_mmap_file_Init(1));
 
-    /* fail to create new file file */
+    /* fail to open file */
     UT_SetDeferredRetcode(UT_KEY(PCS_open), 1, -1);
     UtAssert_VOIDCALL(eeprom_mmap_file_Init(1));
 
-    /* file exists */
-    UT_SetDefaultReturnValue(UT_KEY(PCS_stat), -1);
-    UtAssert_VOIDCALL(eeprom_mmap_file_Init(1));
-
-    /* fail to open existing file */
-    UT_SetDeferredRetcode(UT_KEY(PCS_open), 1, -1);
-    UtAssert_VOIDCALL(eeprom_mmap_file_Init(1));
-
-    /* fail to seek in existing file */
-    UT_SetDeferredRetcode(UT_KEY(PCS_lseek), 1, -1);
-    UtAssert_VOIDCALL(eeprom_mmap_file_Init(1));
-
-    /* write success in existing file */
-    UT_SetDeferredRetcode(UT_KEY(PCS_write), 1, 1);
-    UtAssert_VOIDCALL(eeprom_mmap_file_Init(1));
-
-    /* fail to write a byte in existing file */
-    UT_SetDeferredRetcode(UT_KEY(PCS_write), 1, -1);
+    /* fail to resize file */
+    UT_SetDeferredRetcode(UT_KEY(PCS_ftruncate), 1, -1);
     UtAssert_VOIDCALL(eeprom_mmap_file_Init(1));
 }
 
