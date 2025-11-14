@@ -1,5 +1,10 @@
 # Changelog
 
+## Development Build: equuleus-rc1+dev77
+- 'Fix #461, set stdout to unbuffered on pc-linux'
+- See: <https://github.com/nasa/PSP/pull/462>
+
+
 ## Development Build: equuleus-rc1+dev73
 - 'Fix #443, Correct minor bugs + typos in the VxWorks layer'
 - See: <https://github.com/nasa/psp/pull/444>

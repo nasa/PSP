@@ -236,6 +236,24 @@ void OS_Application_Startup(void)
     memset(&(CommandData), 0, sizeof(CFE_PSP_CommandData_t));
 
     /*
+     * Set console output to unbuffered
+     *
+     * This PSP uses "printf()" calls before OSAL is initialized,
+     * then changes to OS_printf().  Lines in OS_printf() are buffered
+     * by OSAL and then directly written to the STDOUT_FILENO.
+     *
+     * This can cause unexpected behavior where the early calls to
+     * printf() are seen after the OS_printf() calls, because they
+     * are being buffered in stdio.  This is especially true if the
+     * output is directed to a log file or pipe, where block buffering
+     * is the default, as opposed to line buffering.
+     *
+     * As the only usage of stdout is in the early log messages,
+     * turning off buffering should not have any real downside.
+     */
+    setbuf(stdout, NULL);
+
+    /*
     ** Process the arguments with getopt_long(), then
     ** start the cFE
     */
