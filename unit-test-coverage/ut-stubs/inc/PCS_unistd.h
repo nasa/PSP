@@ -43,6 +43,7 @@
 /* ----------------------------------------- */
 
 extern int         PCS_close(int fd);
+extern int         PCS_ftruncate(int fd, PCS_off_t len);
 extern PCS_gid_t   PCS_getegid(void);
 extern PCS_uid_t   PCS_geteuid(void);
 extern long int    PCS_gethostid(void);

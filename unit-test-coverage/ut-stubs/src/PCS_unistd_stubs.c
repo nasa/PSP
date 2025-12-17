@@ -47,6 +47,23 @@ int PCS_close(int fd)
 
 /*
  * ----------------------------------------------------
+ * Generated stub function for PCS_ftruncate()
+ * ----------------------------------------------------
+ */
+int PCS_ftruncate(int fd, PCS_off_t len)
+{
+    UT_GenStub_SetupReturnBuffer(PCS_ftruncate, int);
+
+    UT_GenStub_AddParam(PCS_ftruncate, int, fd);
+    UT_GenStub_AddParam(PCS_ftruncate, PCS_off_t, len);
+
+    UT_GenStub_Execute(PCS_ftruncate, Basic, NULL);
+
+    return UT_GenStub_GetReturnValue(PCS_ftruncate, int);
+}
+
+/*
+ * ----------------------------------------------------
  * Generated stub function for PCS_getegid()
  * ----------------------------------------------------
  */
