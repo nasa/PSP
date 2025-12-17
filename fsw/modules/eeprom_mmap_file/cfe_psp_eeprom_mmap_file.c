@@ -28,6 +28,7 @@
 
 #include <unistd.h>
 #include <fcntl.h>
+#include <errno.h>
 #include <sys/mman.h>
 #include <sys/stat.h>
 
@@ -46,81 +47,57 @@ CFE_PSP_MODULE_DECLARE_SIMPLE(eeprom_mmap_file);
 */
 int32 CFE_PSP_SetupEEPROM(uint32 EEPROMSize, cpuaddr *EEPROMAddress)
 {
-    int         FileDescriptor;
-    int         ReturnStatus;
-    char *      DataBuffer;
-    struct stat StatBuf;
+    int   FileDescriptor;
+    int   ReturnStatus;
+    void *DataBuffer;
 
-    /*
-    ** Check to see if the file has been created.
-    ** If not, create it.
-    ** If so, then open it for read/write
-    */
-    ReturnStatus = stat(EEPROM_FILE, &StatBuf);
-    if (ReturnStatus == -1)
+    DataBuffer     = NULL;
+    FileDescriptor = open(EEPROM_FILE, O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
+    if (FileDescriptor < 0)
     {
-        /*
-        ** File does not exist, create it.
-        */
-        FileDescriptor = open(EEPROM_FILE, O_RDWR | O_CREAT, S_IRWXU);
-        if (FileDescriptor == -1)
-        {
-            OS_printf("CFE_PSP: Cannot open EEPROM File: %s\n", EEPROM_FILE);
-            return -1;
-        }
-        else
-        {
-            /*
-            ** Need to seek to the desired EEPROM size
-            */
-            if (lseek(FileDescriptor, EEPROMSize - 1, SEEK_SET) == -1)
-            {
-                OS_printf("CFE_PSP: Cannot Seek to end of EEPROM file.\n");
-                close(FileDescriptor);
-                return -1;
-            }
-
-            /*
-            ** Write a byte at the end of the File
-            */
-            if (write(FileDescriptor, "", 1) != 1)
-            {
-                OS_printf("CFE_PSP: Cannot write to EEPROM file\n");
-                close(FileDescriptor);
-                return -1;
-            }
-        }
+        OS_printf("CFE_PSP: Cannot open EEPROM File: %s\n", EEPROM_FILE);
+        perror("CFE_PSP: open");
+        ReturnStatus = CFE_PSP_ERROR;
+    }
+    else if (ftruncate(FileDescriptor, EEPROMSize) < 0)
+    {
+        OS_printf("CFE_PSP: ftruncate(%s) error: %s\n", EEPROM_FILE, strerror(errno));
+        ReturnStatus = CFE_PSP_ERROR;
     }
     else
     {
-        /*
-        ** File exists
-        */
-        FileDescriptor = open(EEPROM_FILE, O_RDWR);
-        if (FileDescriptor == -1)
+        DataBuffer = mmap(NULL, EEPROMSize, PROT_READ | PROT_WRITE, MAP_SHARED, FileDescriptor, 0);
+        if (DataBuffer == (void *)(-1))
         {
-            OS_printf("CFE_PSP: Cannot open EEPROM File: %s\n", EEPROM_FILE);
-            perror("CFE_PSP: open");
-            return -1;
+            OS_printf("CFE_PSP: mmap to EEPROM File failed: %s\n", strerror(errno));
+            ReturnStatus = CFE_PSP_ERROR;
+        }
+        else
+        {
+            ReturnStatus = CFE_PSP_SUCCESS;
         }
     }
 
-    /*
-    ** Map the file to a memory space
-    */
-    if ((DataBuffer = mmap(NULL, EEPROMSize, PROT_READ | PROT_WRITE, MAP_SHARED, FileDescriptor, 0)) == (void *)(-1))
+    /* POSIX says that a mapped pointer counts as a file ref, so the FD
+     * can be safely closed in all cases, success or failure */
+    if (FileDescriptor >= 0)
     {
-        OS_printf("CFE_PSP: mmap to EEPROM File failed\n");
         close(FileDescriptor);
-        return -1;
     }
 
     /*
     ** Return the address to the caller
     */
-    *EEPROMAddress = (cpuaddr)DataBuffer;
+    if (ReturnStatus == CFE_PSP_SUCCESS)
+    {
+        *EEPROMAddress = (cpuaddr)DataBuffer;
+    }
+    else
+    {
+        *EEPROMAddress = 0;
+    }
 
-    return 0;
+    return ReturnStatus;
 }
 
 /* For read/write - As this is mmap'ed we dereference the pointer directly.

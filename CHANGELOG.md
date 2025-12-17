@@ -1,5 +1,10 @@
 # Changelog
 
+## Development Build: equuleus-rc1+dev85
+- 'Fix #458, Correct minor logic bug in UT_DefaultHandler_PCS_read'
+- See: <https://github.com/nasa/PSP/pull/459>
+
+
 ## Development Build: equuleus-rc1+dev77
 - 'Fix #461, set stdout to unbuffered on pc-linux'
 - See: <https://github.com/nasa/PSP/pull/462>

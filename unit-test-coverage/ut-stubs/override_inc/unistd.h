@@ -34,6 +34,7 @@
 #define STDERR_FILENO PCS_STDERR_FILENO
 
 #define close       PCS_close
+#define ftruncate   PCS_ftruncate
 #define getegid     PCS_getegid
 #define geteuid     PCS_geteuid
 #define gethostid   PCS_gethostid

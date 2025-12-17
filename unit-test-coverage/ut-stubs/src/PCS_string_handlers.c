@@ -165,17 +165,17 @@ void UT_DefaultHandler_PCS_strcat(void *UserObj, UT_EntryKey_t FuncKey, const UT
 
 void UT_DefaultHandler_PCS_strncat(void *UserObj, UT_EntryKey_t FuncKey, const UT_StubContext_t *Context)
 {
-    /* char *PCS_strncat(char *dest, const char *src, size_t size) */
+    /* char *PCS_strncat(char *dest, const char *src, size_t n) */
     void *      dest = UT_Hook_GetArgValueByName(Context, "dest", void *);
     const void *src  = UT_Hook_GetArgValueByName(Context, "src", const void *);
-    size_t      size = UT_Hook_GetArgValueByName(Context, "size", size_t);
+    size_t      n = UT_Hook_GetArgValueByName(Context, "n", size_t);
 
     char *Result;
 
     if (!UT_Stub_GetInt32StatusCode(Context, NULL))
     {
         /* Perform the real operation */
-        Result = strncat(dest, src, size);
+        Result = strncat(dest, src, n);
         UT_Stub_SetReturnValue(FuncKey, Result);
     }
 }
@@ -215,8 +215,8 @@ void UT_DefaultHandler_PCS_strcmp(void *UserObj, UT_EntryKey_t FuncKey, const UT
 
 void UT_DefaultHandler_PCS_strcpy(void *UserObj, UT_EntryKey_t FuncKey, const UT_StubContext_t *Context)
 {
-    /* char *PCS_strcpy(char *dst, const char *src) */
-    char *      dst = UT_Hook_GetArgValueByName(Context, "dst", char *);
+    /* char *PCS_strcpy(char *dest, const char *src) */
+    char *      dest = UT_Hook_GetArgValueByName(Context, "dest", char *);
     const char *src = UT_Hook_GetArgValueByName(Context, "src", const char *);
 
     char *Result;
@@ -224,24 +224,24 @@ void UT_DefaultHandler_PCS_strcpy(void *UserObj, UT_EntryKey_t FuncKey, const UT
     if (!UT_Stub_GetInt32StatusCode(Context, NULL))
     {
         /* Perform the real operation */
-        Result = strcpy(dst, src);
+        Result = strcpy(dest, src);
         UT_Stub_SetReturnValue(FuncKey, Result);
     }
 }
 
 void UT_DefaultHandler_PCS_strncpy(void *UserObj, UT_EntryKey_t FuncKey, const UT_StubContext_t *Context)
 {
-    /* char *PCS_strncpy(char *dst, const char *src, size_t size) */
-    char *      dst  = UT_Hook_GetArgValueByName(Context, "dst", char *);
+    /* char *PCS_strncpy(char *dest, const char *src, size_t n) */
+    char *      dest = UT_Hook_GetArgValueByName(Context, "dest", char *);
     const char *src  = UT_Hook_GetArgValueByName(Context, "src", const char *);
-    size_t      size = UT_Hook_GetArgValueByName(Context, "size", size_t);
+    size_t      n = UT_Hook_GetArgValueByName(Context, "n", size_t);
 
     char *Result;
 
     if (!UT_Stub_GetInt32StatusCode(Context, NULL))
     {
         /* Perform the real operation */
-        Result = strncpy(dst, src, size);
+        Result = strncpy(dest, src, n);
         UT_Stub_SetReturnValue(FuncKey, Result);
     }
 }
