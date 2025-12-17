@@ -17,7 +17,7 @@
  ************************************************************************/
 
 /*
-** File: ut_bsp_stubs.c
+** File: cfe_psp_version_api_handlers.c
 **
 ** Purpose:
 ** Unit test stubs for BSP routines
