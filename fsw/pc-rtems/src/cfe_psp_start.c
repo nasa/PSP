@@ -33,8 +33,9 @@
 #include <errno.h>
 #include <rtems.h>
 #include <rtems/rtems_bsdnet.h>
-#include <rtems/rtems_dhcp_failsafe.h>
-#include <bsp.h>
+/* TODO Only needed for network setup, move? */
+//#include <rtems/rtems_dhcp_failsafe.h>
+//#include <bsp.h>
 
 extern int rtems_fxp_attach(struct rtems_bsdnet_ifconfig *config, int attaching);
 
@@ -63,6 +64,8 @@ extern int rtems_fxp_attach(struct rtems_bsdnet_ifconfig *config, int attaching)
 
 rtems_id RtemsTimerId;
 
+/* TODO in pc but not in generic... might be the only unique stuff? */
+#if 0
 static unsigned char ethernet_address[6] = {0x00, 0x04, 0x9F, 0x00, 0x27, 0x61};
 static char          net_name_str[]      = "fxp1";
 static char          ip_addr_str[]       = "10.0.2.17";
@@ -78,9 +81,72 @@ static struct rtems_bsdnet_ifconfig netdriver_config = {
     /* more options can follow */
 };
 
+
 struct rtems_bsdnet_config rtems_bsdnet_config = {
     .ifconfig = &netdriver_config, .bootp = rtems_bsdnet_do_dhcp_failsafe, /* fill if DHCP is used*/
 };
+#endif
+
+#if RTEMS_INCLUDE_TARFS /* TODO Is there a better networking-related define we can use here? */
+
+#include <grlib/network_interface_add.h>
+
+/* TODO Remove these pragmas and fix warnings generated */
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdiscarded-qualifiers"
+#pragma GCC diagnostic ignored "-Woverflow"
+
+/*
+ * Network configuration
+ */
+/* TODO move to a separate file */
+#include <rtems.h>
+#include <bsp.h>
+
+#include "bsp_rtems_cfg.h"
+
+#include <drvmgr/drvmgr.h>
+
+/* Configure Driver manager */
+#if defined(RTEMS_DRVMGR_STARTUP) && defined(LEON3) /* if --drvmgr was given to configure */
+ /* Add Timer and UART Driver for this example */
+ #ifdef CONFIGURE_APPLICATION_NEEDS_CLOCK_DRIVER
+  #define CONFIGURE_DRIVER_AMBAPP_GAISLER_GPTIMER
+ #endif
+ #ifdef CONFIGURE_APPLICATION_NEEDS_CONSOLE_DRIVER
+  #define CONFIGURE_DRIVER_AMBAPP_GAISLER_APBUART
+ #endif
+#endif
+#define CONFIGURE_DRIVER_AMBAPP_GAISLER_GRETH /* TODO make dependent on OSAL NETWORK config */
+
+#include <drvmgr/drvmgr_confdefs.h>
+
+/* Set default IP and MAC if not defined */
+#ifndef CONFIG_ETH_IP
+#define CONFIG_ETH_IP "192.168.1.67"
+#endif
+#ifndef CONFIG_ETH_MAC
+#define CONFIG_ETH_MAC {0x00, 0x80, 0x7F, 0x22, 0x61, 0x7A}
+#endif
+
+/* Table used by network interfaces that register themselves using the
+ * network_interface_add routine. From this table the IP address, netmask
+ * and Ethernet MAC address of an interface is taken.
+ *
+ * The network_interface_add routine puts the interface into the
+ * rtems_bsnet_config.ifconfig list.
+ *
+ * Set IP Address and Netmask to NULL to select BOOTP.
+ */
+struct ethernet_config interface_configs[] =
+{
+	{ CONFIG_ETH_IP, "255.255.255.0", CONFIG_ETH_MAC}
+};
+#define INTERFACE_CONFIG_CNT (sizeof(interface_configs)/sizeof(struct ethernet_config) - 1)
+
+#pragma GCC diagnostic pop
+
+#endif
 
 /*
 ** 1 HZ Timer "ISR"
@@ -112,6 +178,10 @@ int timer_count = 0;
 */
 int CFE_PSP_Setup(void)
 {
+
+/* Only initialize the network if not using the rki2 */
+#if RTEMS_INCLUDE_TARFS /* TODO Is there a better networking-related define? */
+
     rtems_status_code status;
 
     /*
@@ -123,6 +193,15 @@ int CFE_PSP_Setup(void)
     {
         printf("Network init not successful: %s / %s (continuing)\n", rtems_status_text(status), strerror(errno));
     }
+    else
+    {
+        printf("Network initialized\n\n");
+    }
+    rtems_bsdnet_show_inet_routes();
+    printf("\n");
+    rtems_bsdnet_show_if_stats();
+    printf("\n");
+#endif
 
     return RTEMS_SUCCESSFUL;
 }
@@ -200,7 +279,9 @@ void CFE_PSP_Main(void)
     /*
     ** Set up the virtual FS mapping for the "/cf" directory
     */
-    Status = OS_FileSysAddFixedMap(&fs_id, "/mnt/eeprom", "/cf");
+    /* TODO maybe make this into a config... or just switch to nonvol */
+    // Status = OS_FileSysAddFixedMap(&fs_id, "/mnt/eeprom", "/cf");
+    Status = OS_FileSysAddFixedMap(&fs_id, "/nonvol", "/cf");
     if (Status != OS_SUCCESS)
     {
         /* Print for informational purposes --

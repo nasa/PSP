@@ -54,6 +54,28 @@ int PCS_rtems_bsdnet_initialize_network(void)
 
 /*
  * ----------------------------------------------------
+ * Generated stub function for PCS_rtems_bsdnet_show_if_stats()
+ * ----------------------------------------------------
+ */
+void PCS_rtems_bsdnet_show_if_stats(void)
+{
+
+    UT_GenStub_Execute(PCS_rtems_bsdnet_show_if_stats, Basic, NULL);
+}
+
+/*
+ * ----------------------------------------------------
+ * Generated stub function for PCS_rtems_bsdnet_show_inet_routes()
+ * ----------------------------------------------------
+ */
+void PCS_rtems_bsdnet_show_inet_routes(void)
+{
+
+    UT_GenStub_Execute(PCS_rtems_bsdnet_show_inet_routes, Basic, NULL);
+}
+
+/*
+ * ----------------------------------------------------
  * Generated stub function for PCS_rtems_fxp_attach()
  * ----------------------------------------------------
  */
