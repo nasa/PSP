@@ -1,7 +1,7 @@
 /************************************************************************
- * NASA Docket No. GSC-18,719-1, and identified as “core Flight System: Bootes”
+ * NASA Docket No. GSC-19,200-1, and identified as "cFS Draco"
  *
- * Copyright (c) 2020 United States Government as represented by the
+ * Copyright (c) 2023 United States Government as represented by the
  * Administrator of the National Aeronautics and Space Administration.
  * All Rights Reserved.
  *
@@ -27,22 +27,22 @@
 /*
  * Development Build Macro Definitions
  */
-#define CFE_PSP_IMPL_BUILD_NUMBER   73
-#define CFE_PSP_IMPL_BUILD_BASELINE "equuleus-rc1"
-#define CFE_PSP_BUILD_DEV_CYCLE     "equuleus-rc2" /**< @brief Development: Release name for current development cycle */
-#define CFE_PSP_BUILD_CODENAME      "Equuleus" /**< @brief: Development: Code name for the current build */
+#define CFE_PSP_IMPL_BUILD_NUMBER   0
+#define CFE_PSP_IMPL_BUILD_BASELINE "v7.0.0"
+#define CFE_PSP_BUILD_DEV_CYCLE     "v7.0.0" /**< @brief Development: Release name for current development cycle */
+#define CFE_PSP_BUILD_CODENAME      "Draco" /**< @brief: Development: Code name for the current build */
 
 /*
  * Version Macros, see \ref cfsversions for definitions.
  */
-#define CFE_PSP_IMPL_MAJOR_VERSION 1  /*!< @brief Major version number */
-#define CFE_PSP_IMPL_MINOR_VERSION 4  /*!< @brief Minor version number */
+#define CFE_PSP_IMPL_MAJOR_VERSION 7  /*!< @brief Major version number */
+#define CFE_PSP_IMPL_MINOR_VERSION 0  /*!< @brief Minor version number */
 #define CFE_PSP_IMPL_REVISION      0  /*!< @brief Revision version number. Value of 0 indicates a development version.*/
 
 /**
  * @brief Last official release.
  */
-#define CFE_PSP_LAST_OFFICIAL "v1.4.0"
+#define CFE_PSP_LAST_OFFICIAL "v7.0.0"
 
 /*!
  * @brief Mission revision.
@@ -51,7 +51,7 @@
  * Values 1-254 are reserved for mission use to denote patches/customizations as needed. NOTE: Reserving 0 and 0xFF for
  * cFS open-source development use (pending resolution of nasa/cFS#440)
  */
-#define CFE_PSP_IMPL_MISSION_REV 0xFF
+#define CFE_PSP_IMPL_MISSION_REV 0x0
 
 /*
  * Tools to construct version string

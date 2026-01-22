@@ -1,7 +1,7 @@
 /************************************************************************
- * NASA Docket No. GSC-18,719-1, and identified as “core Flight System: Bootes”
+ * NASA Docket No. GSC-19,200-1, and identified as "cFS Draco"
  *
- * Copyright (c) 2020 United States Government as represented by the
+ * Copyright (c) 2023 United States Government as represented by the
  * Administrator of the National Aeronautics and Space Administration.
  * All Rights Reserved.
  *
@@ -73,8 +73,16 @@ extern CFE_PSP_MemoryBlock_t PcRtems_ReservedMemBlock;
  *-----------------------------------------------------------------*/
 void CFE_PSP_Restart(uint32 resetType)
 {
+
+    CFE_PSP_DeleteProcessorReservedMemory();
+
+    /*
+     * Record the reset type for the next boot.
+     */
+    CFE_PSP_ReservedMemoryMap.BootPtr->NextResetType = resetType;
+    CFE_PSP_ReservedMemoryMap.BootPtr->ValidityFlag  = CFE_PSP_BOOTRECORD_VALID;
+
     CFE_PSP_FlushCaches(1, PcRtems_ReservedMemBlock.BlockPtr, PcRtems_ReservedMemBlock.BlockSize);
-    OS_printf("%s is not implemented on this platform ( yet ! )\n", __func__);
     exit(EXIT_FAILURE);
 }
 

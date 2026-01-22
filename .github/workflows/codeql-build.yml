@@ -2,7 +2,15 @@ name: "CodeQL Analysis"
 
 on:
   push:
+    branches:
+      - dev
+      - main
   pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+  workflow_dispatch:
 
 jobs:
   codeql:

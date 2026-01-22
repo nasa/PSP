@@ -48,6 +48,7 @@ add_library(ut_psp_libc_stubs STATIC EXCLUDE_FROM_ALL
     src/PCS_drv_hdisk_ataDrv_stubs.c
     src/PCS_drv_pci_pciConfigLib_handlers.c
     src/PCS_drv_pci_pciConfigLib_stubs.c
+    src/PCS_endian_stubs.c
     src/PCS_errno_globals.c
     src/PCS_errnoLib_stubs.c
     src/PCS_excLib_stubs.c

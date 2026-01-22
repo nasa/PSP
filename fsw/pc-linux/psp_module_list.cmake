@@ -8,3 +8,4 @@ ram_notimpl
 port_notimpl
 iodriver
 linux_sysmon
+endian_api

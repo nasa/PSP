@@ -1,7 +1,7 @@
 /************************************************************************
- * NASA Docket No. GSC-18,719-1, and identified as “core Flight System: Bootes”
+ * NASA Docket No. GSC-19,200-1, and identified as "cFS Draco"
  *
- * Copyright (c) 2020 United States Government as represented by the
+ * Copyright (c) 2023 United States Government as represented by the
  * Administrator of the National Aeronautics and Space Administration.
  * All Rights Reserved.
  *
@@ -93,8 +93,17 @@ void CFE_PSP_InitUserReservedArea(void);
 /*
 **  External Declarations
 */
+#ifdef __riscv
+extern unsigned int _start;
+extern unsigned int __DATA_BEGIN__;
+#define CODE_START_ADDR ((cpuaddr)&_start)
+#define CODE_END_ADDR ((cpuaddr)&__DATA_BEGIN__)
+#else
 extern unsigned int _init;
 extern unsigned int _fini;
+#define CODE_START_ADDR ((cpuaddr)&_init)
+#define CODE_END_ADDR ((cpuaddr)&_fini)
+#endif
 
 /*
 ** Global variables
@@ -741,8 +750,8 @@ int32 CFE_PSP_GetCFETextSegmentInfo(cpuaddr *PtrToCFESegment, uint32 *SizeOfCFES
     }
     else
     {
-        *PtrToCFESegment  = (cpuaddr)(&_init);
-        *SizeOfCFESegment = (uint32)(((cpuaddr)&_fini) - ((cpuaddr)&_init));
+        *PtrToCFESegment  = CODE_START_ADDR;
+        *SizeOfCFESegment = (uint32)(CODE_END_ADDR - CODE_START_ADDR);
 
         return_code = CFE_PSP_SUCCESS;
     }

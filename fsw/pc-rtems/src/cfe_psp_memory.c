@@ -1,7 +1,7 @@
 /************************************************************************
- * NASA Docket No. GSC-18,719-1, and identified as “core Flight System: Bootes”
+ * NASA Docket No. GSC-19,200-1, and identified as "cFS Draco"
  *
- * Copyright (c) 2020 United States Government as represented by the
+ * Copyright (c) 2023 United States Government as represented by the
  * Administrator of the National Aeronautics and Space Administration.
  * All Rights Reserved.
  *
@@ -398,6 +398,22 @@ int32 CFE_PSP_InitProcessorReservedMemory(uint32 RestartType)
     OS_printf("CFE_PSP: Clearing Processor Reserved Memory.\n");
     memset(PcRtems_ReservedMemBlock.BlockPtr, 0, PcRtems_ReservedMemBlock.BlockSize);
     return CFE_PSP_SUCCESS;
+}
+
+/******************************************************************************
+**
+**  Purpose:
+**    This function frees the top level reserved memory.
+**
+**  Arguments:
+**    (none)
+**
+**  Return:
+**    (none)
+*/
+void CFE_PSP_DeleteProcessorReservedMemory(void)
+{
+    free(PcRtems_ReservedMemBlock.BlockPtr);
 }
 
 /*
