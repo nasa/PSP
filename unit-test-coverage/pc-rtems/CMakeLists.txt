@@ -46,5 +46,5 @@ target_link_libraries(coverage-${CFE_PSP_TARGETNAME}-testrunner PUBLIC
 add_test(coverage-${CFE_PSP_TARGETNAME} coverage-${CFE_PSP_TARGETNAME}-testrunner)
 
 foreach(TGT ${INSTALL_TARGET_LIST})
-    install(TARGETS coverage-${CFE_PSP_TARGETNAME}-testrunner DESTINATION ${TGT}/${UT_INSTALL_SUBDIR})
+    install(TARGETS coverage-${CFE_PSP_TARGETNAME}-testrunner DESTINATION ${TGT})
 endforeach()

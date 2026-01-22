@@ -13,6 +13,34 @@ endif()
 set(CFE_PSP_TARGETNAME "${CFE_SYSTEM_PSPNAME}")
 add_definitions(-D_CFE_PSP_)       # macro to indicate PSP scope
 
+# Read the default compile-time configuration, and update with
+# any mission/project specific options in the PSP_CONFIGURATION_FILE
+include("${CFEPSP_SOURCE_DIR}/default_config.cmake")
+
+# The user-specified file is optional, but in case the value is defined but the
+# file does not exist, this should be treated as an error.
+foreach(CONFIG ${PSP_CONFIGURATION_FILE})
+    include(${CONFIG})
+endforeach(CONFIG PSP_CONFIGURATION_FILE)
+
+# Use the supplied configuration to generate the pspconfig.h file
+# which can be referenced by the code.  This will be stored in the top level
+# "inc" directory of the binary output directory
+file(MAKE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/inc")
+configure_file(
+    "${CFEPSP_SOURCE_DIR}/pspconfig.h.in"
+    "${CMAKE_CURRENT_BINARY_DIR}/pspconfig.gen"
+    @ONLY
+)
+
+# Only copy the pspconfig.h into place if different from the existing file
+# This avoids unnecessarily rebuilding all code in case cmake was re-run
+# and but generated the same file.
+execute_process(COMMAND ${CMAKE_COMMAND} -E copy_if_different
+    "${CMAKE_CURRENT_BINARY_DIR}/pspconfig.gen"
+    "${CMAKE_CURRENT_BINARY_DIR}/inc/pspconfig.h"
+)
+
 # The "psp_module_api" defines the interface between internal PSP components
 add_library(psp_module_api INTERFACE)
 target_compile_definitions(psp_module_api INTERFACE
@@ -23,8 +51,16 @@ target_include_directories(psp_module_api INTERFACE
     fsw/shared/inc  # all PSP shared headers
     fsw/${CFE_PSP_TARGETNAME}/inc # all impl headers
     ${CFE_SOURCE_DIR}/cmake/target/inc    # for sysconfig
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/inc>  # for pspconfig.h
     $<TARGET_PROPERTY:osal,INTERFACE_INCLUDE_DIRECTORIES>  # use headers from OSAL
 )
+
+# Include definition of cfe_psp_backtrace.h referenced by cfe_psp_config.h for QNX PSP
+if (QNX_SDP_VERSION EQUAL 800)
+    target_include_directories(psp_module_api INTERFACE $<TARGET_PROPERTY:backtrace_libunwind,INTERFACE_INCLUDE_DIRECTORIES>)
+elseif (QNX_SDP_VERSION EQUAL 710) 
+    target_include_directories(psp_module_api INTERFACE $<TARGET_PROPERTY:backtrace_qnx,INTERFACE_INCLUDE_DIRECTORIES>)
+endif()
 
 # Translate the CFE_PSP_TARGETNAME to a set of additional modules to build
 file(STRINGS "${CMAKE_CURRENT_LIST_DIR}/fsw/${CFE_PSP_TARGETNAME}/psp_module_list.cmake" PSP_TARGET_MODULE_LIST REGEX "^[a-zA-Z]")
@@ -66,6 +102,7 @@ target_link_libraries(psp-${CFE_PSP_TARGETNAME} PRIVATE
 
 target_include_directories(psp-${CFE_PSP_TARGETNAME} INTERFACE
     fsw/inc
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/inc>  # for pspconfig.h
 )
 
 

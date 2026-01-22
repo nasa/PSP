@@ -7,6 +7,8 @@ add_library(ut_psp_api_stubs
     src/cfe_psp_cds_api_handlers.c
     src/cfe_psp_cds_api_stubs.c
     src/cfe_psp_eepromaccess_api_stubs.c
+    src/cfe_psp_endian_handlers.c
+    src/cfe_psp_endian_stubs.c
     src/cfe_psp_error_stubs.c
     src/cfe_psp_exception_api_handlers.c
     src/cfe_psp_exception_api_stubs.c

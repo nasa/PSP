@@ -1,6 +1,5 @@
 /************************************************************************
- * NASA Docket No. GSC-18,719-1, and identified as “core Flight System: 
- * Draco
+ * NASA Docket No. GSC-19,200-1, and identified as "cFS Draco"
  *
  * Copyright (c) 2023 United States Government as represented by the
  * Administrator of the National Aeronautics and Space Administration.
@@ -15,7 +14,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- **********************************************************************/
+ ************************************************************************/
 
 /*
  *

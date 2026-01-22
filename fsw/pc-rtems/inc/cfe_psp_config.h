@@ -1,7 +1,7 @@
 /************************************************************************
- * NASA Docket No. GSC-18,719-1, and identified as “core Flight System: Bootes”
+ * NASA Docket No. GSC-19,200-1, and identified as "cFS Draco"
  *
- * Copyright (c) 2020 United States Government as represented by the
+ * Copyright (c) 2023 United States Government as represented by the
  * Administrator of the National Aeronautics and Space Administration.
  * All Rights Reserved.
  *
@@ -50,12 +50,20 @@
 #define CFE_PSP_SOFT_TIMEBASE_PERIOD 10000
 
 /*
+ * A random 32-bit value that is used as the "validity flag"
+ * of the PC-Rtems boot record structure.  This is simply
+ * a value that is unlikely to occur unless specifically set.
+ */
+#define CFE_PSP_BOOTRECORD_VALID   ((uint32)0x2aebe984)
+#define CFE_PSP_BOOTRECORD_INVALID (~CFE_PSP_BOOTRECORD_VALID)
+
+/*
 ** Typedef for the layout of the header in the reserved memory block
 */
 typedef struct
 {
-    /* not currently used in PC-RTEMS */
-    uint32 reserved;
+    uint32 ValidityFlag;
+    uint32 NextResetType;
 } CFE_PSP_ReservedMemoryBootRecord_t;
 
 /**

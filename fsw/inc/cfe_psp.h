@@ -1,7 +1,7 @@
 /************************************************************************
- * NASA Docket No. GSC-18,719-1, and identified as “core Flight System: Bootes”
+ * NASA Docket No. GSC-19,200-1, and identified as "cFS Draco"
  *
- * Copyright (c) 2020 United States Government as represented by the
+ * Copyright (c) 2023 United States Government as represented by the
  * Administrator of the National Aeronautics and Space Administration.
  * All Rights Reserved.
  *
@@ -38,6 +38,7 @@
 
 #include "common_types.h"
 #include "osapi.h"
+#include "pspconfig.h"
 
 /*
  * All PSP API sub-components
@@ -60,6 +61,22 @@
 #include "cfe_psp_timertick_api.h"
 #include "cfe_psp_version_api.h"
 #include "cfe_psp_watchdog_api.h"
+
+/*
+ * The "PSP_DEBUG" is a no-op unless PSP_CONFIG_DEBUG_PRINTF is enabled.
+ * When enabled, it is a macro that includes function/line number info.
+ */
+#if defined(PSP_CONFIG_DEBUG_PRINTF)
+extern void PSP_DebugPrintf(uint32 Level, const char *Func, uint32 Line, const char *Format, ...);
+/* Debug printfs are compiled in, but also can be disabled by a run-time flag.
+ * Note that the ##__VA_ARGS__ syntax works on GCC but might need tweaks for other compilers... */
+#define PSP_DEBUG_LEV(l, ...) PSP_DebugPrintf(l, __func__, __LINE__, __VA_ARGS__);
+#define PSP_DEBUG(...)        PSP_DEBUG_LEV(1, __VA_ARGS__)
+#else
+/* Debug printfs are not compiled in at all */
+#define PSP_DEBUG_LEV(l, ...)
+#define PSP_DEBUG(...)
+#endif
 
 /******************************************************************************
  FUNCTION PROTOTYPES

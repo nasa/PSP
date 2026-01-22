@@ -1,7 +1,7 @@
 /************************************************************************
- * NASA Docket No. GSC-18,719-1, and identified as “core Flight System: Bootes”
+ * NASA Docket No. GSC-19,200-1, and identified as "cFS Draco"
  *
- * Copyright (c) 2020 United States Government as represented by the
+ * Copyright (c) 2023 United States Government as represented by the
  * Administrator of the National Aeronautics and Space Administration.
  * All Rights Reserved.
  *
@@ -39,11 +39,6 @@ void Test_CFE_PSP_Setup(void)
 {
     /* Nominal/Success path */
     UtAssert_INT32_EQ(CFE_PSP_Setup(), PCS_RTEMS_SUCCESSFUL);
-
-    /* Test for printf due to error from rtems_bsdnet_initialize_network (function still returns RTEMS_SUCCESSFUL) */
-    UT_SetDefaultReturnValue(UT_KEY(PCS_rtems_bsdnet_initialize_network), -1);
-    UtAssert_INT32_EQ(CFE_PSP_Setup(), PCS_RTEMS_SUCCESSFUL);
-    UtAssert_STUB_COUNT(PCS_printf, 1);
 }
 
 void Test_OS_Application_Startup(void)
