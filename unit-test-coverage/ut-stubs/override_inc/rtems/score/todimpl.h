@@ -17,7 +17,7 @@
  ************************************************************************/
 
 /* PSP coverage stub replacement for todimpl.h */
-#ifndef OVERRIDE_TOOIMPL_H
+#ifndef OVERRIDE_TODIMPL_H
 #define OVERRIDE_TODIMPL_H
 
 #include "PCS_todimpl.h"
