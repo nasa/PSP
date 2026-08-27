@@ -164,7 +164,7 @@ void CFE_PSP_InitCDS(void)
     /*
     ** attach to the segment to get a pointer to it:
     */
-    CFE_PSP_ReservedMemoryMap.CDSMemory.BlockPtr = shmat(CDSShmId, (void *)0, 0);
+    CFE_PSP_ReservedMemoryMap.CDSMemory.BlockPtr = shmat(CDSShmId, NULL, 0);
     if (CFE_PSP_ReservedMemoryMap.CDSMemory.BlockPtr == (void *)(-1))
     {
         perror("CFE_PSP - Cannot shmat to CDS Shared memory Segment");
@@ -356,7 +356,7 @@ void CFE_PSP_InitResetArea(void)
     /*
     ** attach to the segment to get a pointer to it:
     */
-    block_addr = (cpuaddr)shmat(ResetAreaShmId, (void *)0, 0);
+    block_addr = (cpuaddr)shmat(ResetAreaShmId, NULL, 0);
     if (block_addr == (cpuaddr)(-1))
     {
         perror("CFE_PSP - Cannot shmat to Reset Area Shared memory Segment");
@@ -469,7 +469,7 @@ void CFE_PSP_InitUserReservedArea(void)
     /*
     ** attach to the segment to get a pointer to it:
     */
-    CFE_PSP_ReservedMemoryMap.UserReservedMemory.BlockPtr = shmat(UserShmId, (void *)0, 0);
+    CFE_PSP_ReservedMemoryMap.UserReservedMemory.BlockPtr = shmat(UserShmId, NULL, 0);
     if (CFE_PSP_ReservedMemoryMap.UserReservedMemory.BlockPtr == (void *)(-1))
     {
         perror("CFE_PSP - Cannot shmat to User Reserved Area Shared memory Segment");
