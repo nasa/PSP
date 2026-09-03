@@ -44,6 +44,7 @@
 #include <sys/ipc.h>
 #include <sys/shm.h>
 #include <fcntl.h>
+#include <stdbool.h>
 
 /*
 ** cFE includes
@@ -583,16 +584,10 @@ int32 CFE_PSP_GetVolatileDiskMem(cpuaddr *PtrToVolDisk, uint32 *SizeOfVolDisk)
     return return_code;
 }
 
-/*
-*********************************************************************************
-** ES BSP Top Level Reserved memory initialization
-*********************************************************************************
-*/
-
 /******************************************************************************
 **
 **  Purpose:
-**    This function performs the top level reserved memory initialization.
+**    To populate the system memory table by parsing the /proc/self/maps file.
 **
 **  Arguments:
 **    (none)
@@ -600,6 +595,110 @@ int32 CFE_PSP_GetVolatileDiskMem(cpuaddr *PtrToVolDisk, uint32 *SizeOfVolDisk)
 **  Return:
 **    (none)
 */
+void CFE_PSP_InitMemoryTableFromProcMaps(void)
+{
+    FILE *              fp;
+    char                line[512];
+    uint32              range_num = 0;
+    unsigned long       start, end;
+    char                perms[5];
+    uint32              attributes;
+    bool                overflow = false;
+    CFE_PSP_MemTable_t *SysMemPtr;
+
+    /*
+    ** Open /proc/self/maps to identify the mapped regions
+    */
+    fp = fopen("/proc/self/maps", "r");
+    if (fp == NULL)
+    {
+        OS_printf("CFE_PSP: Could not open /proc/self/maps. Falling back to permissive validation.\n");
+        CFE_PSP_MemRangeSet(0, CFE_PSP_MEM_RAM, 0, SIZE_MAX, CFE_PSP_MEM_SIZE_DWORD, CFE_PSP_MEM_ATTR_READWRITE);
+        return;
+    }
+
+    while (fgets(line, sizeof(line), fp) != NULL)
+    {
+        if (sscanf(line, "%lx-%lx %4s", &start, &end, perms) == 3)
+        {
+            attributes = 0;
+            if (perms[0] == 'r') attributes |= CFE_PSP_MEM_ATTR_READ;
+            if (perms[1] == 'w') attributes |= CFE_PSP_MEM_ATTR_WRITE;
+
+            /*
+            ** Skip regions that are neither readable nor writable
+            */
+            if (attributes == 0) continue;
+
+            /*
+            ** Check for merging with the previous range
+            ** Adjacent regions with the same attributes are merged to save table space.
+            */
+            if (range_num > 0)
+            {
+                SysMemPtr = &CFE_PSP_ReservedMemoryMap.SysMemoryTable[range_num - 1];
+                if (SysMemPtr->StartAddr + SysMemPtr->Size == (cpuaddr)start && SysMemPtr->Attributes == attributes)
+                {
+                    SysMemPtr->Size = (cpuaddr)end - SysMemPtr->StartAddr;
+                    continue;
+                }
+            }
+
+            if (range_num < CFE_PSP_MEM_TABLE_SIZE)
+            {
+                /*
+                ** Populate the next entry in the table
+                */
+                SysMemPtr             = &CFE_PSP_ReservedMemoryMap.SysMemoryTable[range_num];
+                SysMemPtr->MemoryType = CFE_PSP_MEM_RAM;
+                SysMemPtr->StartAddr  = (cpuaddr)start;
+                SysMemPtr->Size       = (size_t)(end - start);
+                SysMemPtr->WordSize   = CFE_PSP_MEM_SIZE_DWORD;
+                SysMemPtr->Attributes = attributes;
+                range_num++;
+            }
+            else
+            {
+                overflow = true;
+                break;
+            }
+        }
+    }
+
+    fclose(fp);
+
+    /*
+    ** Fall back to permissive validation on overflow or empty map
+    */
+    if (overflow || range_num == 0)
+    {
+        if (overflow)
+        {
+            OS_printf("CFE_PSP WARNING: /proc/self/maps exceeds CFE_PSP_MEM_TABLE_SIZE (%d). "
+                      "Falling back to permissive validation.\n",
+                      CFE_PSP_MEM_TABLE_SIZE);
+        }
+        else
+        {
+            OS_printf("CFE_PSP WARNING: No valid memory ranges parsed from /proc/self/maps. "
+                      "Falling back to permissive validation.\n");
+        }
+
+        memset(CFE_PSP_ReservedMemoryMap.SysMemoryTable, 0, sizeof(CFE_PSP_ReservedMemoryMap.SysMemoryTable));
+        CFE_PSP_MemRangeSet(0, CFE_PSP_MEM_RAM, 0, SIZE_MAX, CFE_PSP_MEM_SIZE_DWORD, CFE_PSP_MEM_ATTR_READWRITE);
+        return;
+    }
+
+    /*
+    ** Clear any remaining unused entries
+    */
+    if (range_num < CFE_PSP_MEM_TABLE_SIZE)
+    {
+        memset(&CFE_PSP_ReservedMemoryMap.SysMemoryTable[range_num], 0,
+               (CFE_PSP_MEM_TABLE_SIZE - range_num) * sizeof(CFE_PSP_MemTable_t));
+    }
+}
+
 void CFE_PSP_SetupReservedMemoryMap(void)
 {
     int tempFd;
@@ -628,11 +727,11 @@ void CFE_PSP_SetupReservedMemoryMap(void)
     CFE_PSP_InitUserReservedArea();
 
     /*
-     * Set up the "RAM" entry in the memory table.
-     * On Linux this is just encompasses the entire memory space, but an entry needs
-     * to exist so that CFE_PSP_ValidateMemRange() works as intended.
-     */
-    CFE_PSP_MemRangeSet(0, CFE_PSP_MEM_RAM, 0, SIZE_MAX, CFE_PSP_MEM_SIZE_DWORD, CFE_PSP_MEM_ATTR_READWRITE);
+    ** Populate the memory table.
+    ** On Linux each process has its own address space, so use /proc/self/maps
+    ** to identify mapped and accessible address regions.
+    */
+    CFE_PSP_InitMemoryTableFromProcMaps();
 }
 
 int32 CFE_PSP_InitProcessorReservedMemory(uint32 RestartType)

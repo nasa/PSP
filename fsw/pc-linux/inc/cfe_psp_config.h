@@ -29,7 +29,7 @@
 ** This define sets the number of memory ranges that are defined in the memory range definition
 ** table.
 */
-#define CFE_PSP_MEM_TABLE_SIZE 10
+#define CFE_PSP_MEM_TABLE_SIZE 128
 
 /**
  * This define sets the maximum number of exceptions
