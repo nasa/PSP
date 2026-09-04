@@ -55,7 +55,6 @@
 
 #include "cfe_psp.h"
 #include "cfe_psp_memory.h"
-#include "cfe_psp_cpuset.h"
 
 /*
  * The preferred way to obtain the CFE tunable values at runtime is via
@@ -156,11 +155,12 @@ static const struct option longOpts[] = {
 */
 int32 CFE_PSP_OS_EventHandler(OS_Event_t event, osal_id_t object_id, void *data)
 {
-    char             taskname[OS_MAX_API_NAME];
-    CFE_PSP_cpuset_t runmask;
+    char        taskname[OS_MAX_API_NAME];
+    OS_cpuset_t cpuset;
+    osal_id_t   task_id;
 
     /* Intitialize and zero cpuset */
-    CFE_PSP_CpusetZero(&runmask);
+    OS_CPUSET_ZERO(&cpuset);
 
     memset(taskname, 0, sizeof(taskname));
 
@@ -181,20 +181,23 @@ int32 CFE_PSP_OS_EventHandler(OS_Event_t event, osal_id_t object_id, void *data)
             /* Get the name from OSAL and propagate to the pthread/system layer */
             if (OS_GetResourceName(object_id, taskname, sizeof(taskname)) == OS_SUCCESS)
             {
-                /*
-                 * Example mechanism for setting thread affinity
-                 *
-                 * Could assign based on task name, pattern within name (CFE_* on 0,
-                 * *_CN where N is desired core), round robin or whatever the requrements are.
-                 *
-                 * Just assigning all "CFE_*" tasks to core zero and let the rest float.
-                 */
-                if (strncmp(taskname, "CFE_", 4) == 0)
+                /* Get task id by taskname lookup */
+                if (OS_TaskGetIdByName(&task_id, taskname) == OS_SUCCESS)
                 {
-                    /* Set the runmask and inherit mask for each processor that the current
-                     * thread can run on. */
-                    CFE_PSP_CpusetSetCore(&runmask, CFE_PSP_DEFAULT_CORE_AFFINITY);
-                    ThreadCtl(_NTO_TCTL_RUNMASK_GET_AND_SET_INHERIT, &runmask);
+                    /*
+                     * Example mechanism for setting thread affinity
+                     *
+                     * Could assign based on task name, pattern within name (CFE_* on 0,
+                     * *_CN where N is desired core), round robin or whatever the requrements are.
+                     *
+                     * Just assigning all "CFE_*" tasks to core zero and let the rest float.
+                     */
+                    if (strncmp(taskname, "CFE_", 4) == 0)
+                    {
+                        /* Set the task affinity that each thread can run on. */
+                        OS_CPUSET_SET(CFE_PSP_DEFAULT_CORE_AFFINITY, &cpuset);
+                        OS_TaskAffinitySetAffinity(task_id, cpuset);
+                    }
                 }
 
                 /*
