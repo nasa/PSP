@@ -70,7 +70,7 @@ void UT_DefaultHandler_CFE_PSP_WriteToCDS(void *UserObj, UT_EntryKey_t FuncKey, 
 
     UT_Stub_GetInt32StatusCode(Context, &status);
 
-    if (status >= 0)
+    if (status >= 0 && PtrToDataToWrite != NULL)
     {
         UT_GetDataBuffer(UT_KEY(CFE_PSP_WriteToCDS), (void **)&BufPtr, &CdsSize, &Position);
         if (BufPtr != NULL && (CDSOffset + NumBytes) <= CdsSize)
@@ -109,7 +109,7 @@ void UT_DefaultHandler_CFE_PSP_ReadFromCDS(void *UserObj, UT_EntryKey_t FuncKey,
 
     UT_Stub_GetInt32StatusCode(Context, &status);
 
-    if (status >= 0)
+    if (status >= 0 && PtrToDataFromRead != NULL)
     {
         UT_GetDataBuffer(UT_KEY(CFE_PSP_ReadFromCDS), (void **)&BufPtr, &CdsSize, &Position);
         if (BufPtr != NULL && (CDSOffset + NumBytes) <= CdsSize)
@@ -144,7 +144,7 @@ void UT_DefaultHandler_CFE_PSP_GetCDSSize(void *UserObj, UT_EntryKey_t FuncKey, 
 
     UT_Stub_GetInt32StatusCode(Context, &status);
 
-    if (status >= 0)
+    if (status >= 0 && SizeOfCDS != NULL)
     {
         UT_GetDataBuffer(UT_KEY(CFE_PSP_GetCDSSize), NULL, &TempSize, NULL);
         *SizeOfCDS = TempSize;
