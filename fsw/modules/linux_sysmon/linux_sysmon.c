@@ -9,8 +9,8 @@
  ***********************************************************************/
 
 /*
- * NOTE: This relies on the Linux Kernel sched stats via the /proc filesystem.
- * Documented here: https://docs.kernel.org/scheduler/sched-stats.html
+ * NOTE: This relies on the Linux Kernel stats via the /proc filesystem.
+ * Documented here: https://man7.org/linux/man-pages/man5/proc_stat.5.html
  */
 
 /************************************************************************
@@ -24,7 +24,6 @@
 #include <string.h>
 #include <pthread.h>
 #include <stdint.h>
-#include <poll.h>
 
 #include "cfe_psp.h"
 #include "cfe_psp_module.h"
@@ -37,11 +36,9 @@
  * Local Defines
  ********************************************************************/
 
-#define LINUX_SYSMON_AGGREGATE_SUBSYS   0
-#define LINUX_SYSMON_CPULOAD_SUBSYS     1
-#define LINUX_SYSMON_AGGR_CPULOAD_SUBCH 0
-#define LINUX_SYSMON_MAX_CPUS           128
-#define LINUX_SYSMON_SAMPLE_DELAY       30
+#define LINUX_SYSMON_MAX_CPUS  32
+#define LINUX_SYSMON_RING_SIZE 4     /* keep as power of 2 */
+#define LINUX_SYSMON_PERIOD_MS 10000 /* this is the nominal period between samples */
 
 #ifdef DEBUG_BUILD
 #define LINUX_SYSMON_DEBUG(...) OS_printf(__VA_ARGS__)
@@ -53,30 +50,73 @@
  * Local Type Definitions
  ********************************************************************/
 
-typedef struct linux_sysmon_cpuload_core
+/* these are the columns in the /proc/stat info */
+/* there may be more slots than this.  This is only the ones we care about here. */
+enum
 {
-    CFE_PSP_IODriver_AdcCode_t avg_load;
-    unsigned long              last_run_time;
-} linux_sysmon_cpuload_core_t;
+    LINUX_PROC_CPUNUM_SLOT = 0,
+    LINUX_PROC_USER_SLOT   = 1,
+    LINUX_PROC_SYSTEM_SLOT = 3,
+    LINUX_PROC_IDLE_SLOT   = 4,
+    LINUX_PROC_NUM_SLOTS   = 5
+};
 
-typedef struct linux_sysmon_cpuload_state
+enum
 {
-    volatile bool is_running;
-    volatile bool should_run;
+    LINUX_SYSMON_AGGREGATE_SUBSYS,
+    LINUX_SYSMON_CPULOAD_SUBSYS,
+    LINUX_SYSMON_PERCPU_USER_SUBSYS,
+    LINUX_SYSMON_PERCPU_KERNEL_SUBSYS,
+    LINUX_SYSMON_MAX_SUBSYS
+};
+
+enum
+{
+    LINUX_SYSMON_AGGR_CPULOAD_SUBCH,
+    LINUX_SYSMON_AGGR_CPUUSER_SUBCH,
+    LINUX_SYSMON_AGGR_CPUKERNEL_SUBCH,
+    LINUX_SYSMON_AGGR_MAX_SUBCH
+};
+
+typedef struct linux_sysmon_statinfo_ticks
+{
+    unsigned long user_ticks;
+    unsigned long sys_ticks;
+    unsigned long idle_ticks;
+} linux_sysmon_statinfo_ticks_t;
+
+/* a ring buffer to retain the previous samples */
+typedef struct linux_sysmon_statinfo_buffer
+{
+    linux_sysmon_statinfo_ticks_t sample[LINUX_SYSMON_RING_SIZE];
+} linux_sysmon_statinfo_buffer_t;
+
+/* a ring buffer to retain the previous clock snapshots */
+typedef struct linux_sysmon_time_buffer
+{
+    OS_time_t sample[LINUX_SYSMON_RING_SIZE];
+} linux_sysmon_time_buffer_t;
+
+typedef struct linux_sysmon_statinfo_state
+{
+    volatile bool     is_running;
+    volatile bool     should_run;
+    volatile uint32_t num_samples;
 
     uint8_t   num_cpus;
     pthread_t task_id;
-    int       dev_fd;
-    uint32_t  num_samples;
-    uint64_t  last_sample_time;
+    int       stat_fd;
+    long      sys_hz;
 
-    linux_sysmon_cpuload_core_t per_core[LINUX_SYSMON_MAX_CPUS];
-} linux_sysmon_cpuload_state_t;
+    linux_sysmon_time_buffer_t     sample_time;
+    linux_sysmon_statinfo_buffer_t aggregate;
+    linux_sysmon_statinfo_buffer_t per_core[LINUX_SYSMON_MAX_CPUS];
+} linux_sysmon_statinfo_state_t;
 
 typedef struct linux_sysmon_state
 {
-    uint32_t                     local_module_id;
-    linux_sysmon_cpuload_state_t cpu_load;
+    uint32_t                      local_module_id;
+    linux_sysmon_statinfo_state_t statinfo;
 } linux_sysmon_state_t;
 
 /********************************************************************
@@ -84,8 +124,8 @@ typedef struct linux_sysmon_state
  ********************************************************************/
 
 static void   *linux_sysmon_Task(void *arg);
-static int32_t linux_sysmon_Start(linux_sysmon_cpuload_state_t *state);
-static int32_t linux_sysmon_Stop(linux_sysmon_cpuload_state_t *state);
+static int32_t linux_sysmon_Start(linux_sysmon_statinfo_state_t *state);
+static int32_t linux_sysmon_Stop(linux_sysmon_statinfo_state_t *state);
 static void    linux_sysmon_Init(uint32_t local_module_id);
 
 /* Function that starts up linux_sysmon driver. */
@@ -96,96 +136,231 @@ linux_sysmon_DevCmd(uint32_t CommandCode, uint16_t SubsystemId, uint16_t Subchan
  * Global Data
  ********************************************************************/
 
+/* the global state structure (singleton) */
+linux_sysmon_state_t linux_sysmon_global;
+
 /* linux_sysmon device command that is called by iodriver to start up linux_sysmon */
 CFE_PSP_IODriver_API_t linux_sysmon_DevApi = { .DeviceCommand = linux_sysmon_DevCmd };
 
 CFE_PSP_MODULE_DECLARE_IODEVICEDRIVER(linux_sysmon);
 
-static linux_sysmon_state_t linux_sysmon_global;
+static const char *linux_sysmon_subsystem_names[LINUX_SYSMON_MAX_SUBSYS] = {
+    [LINUX_SYSMON_AGGREGATE_SUBSYS]     = "aggregate",
+    [LINUX_SYSMON_CPULOAD_SUBSYS]       = "per-cpu",
+    [LINUX_SYSMON_PERCPU_USER_SUBSYS]   = "per-cpu-user",
+    [LINUX_SYSMON_PERCPU_KERNEL_SUBSYS] = "per-cpu-kernel"
+};
 
-static const char *linux_sysmon_subsystem_names[]  = { "aggregate", "per-cpu", NULL };
-static const char *linux_sysmon_subchannel_names[] = { "cpu-load", NULL };
+static const char *linux_sysmon_aggregate_subchannel_names[LINUX_SYSMON_AGGR_MAX_SUBCH] = {
+    [LINUX_SYSMON_AGGR_CPULOAD_SUBCH]   = "cpu-load",
+    [LINUX_SYSMON_AGGR_CPUUSER_SUBCH]   = "cpu-user",
+    [LINUX_SYSMON_AGGR_CPUKERNEL_SUBCH] = "cpu-kernel"
+};
 
 /***********************************************************************
- * Global Functions
+ * Helper Functions
  ********************************************************************/
 
-void linux_sysmon_Init(uint32_t local_module_id)
+/* -----------------------------------
+ * Get the tick buffer corresponding to a sample number
+ * ----------------------------------- */
+static linux_sysmon_statinfo_ticks_t *linux_sysmon_get_buf(uint32_t sample_count, linux_sysmon_statinfo_buffer_t *buf_p)
 {
-    memset(&linux_sysmon_global, 0, sizeof(linux_sysmon_global));
-
-    linux_sysmon_global.local_module_id = local_module_id;
+    return &buf_p->sample[sample_count & (LINUX_SYSMON_RING_SIZE - 1)];
 }
 
-void linux_sysmon_read_cpuuse_line(const char *line_data, unsigned int *cpu_num, unsigned long *run_time)
+/* -----------------------------------
+ * Get the time buffer corresponding to a sample number
+ * ----------------------------------- */
+static OS_time_t *linux_sysmon_get_time(uint32_t sample_count, linux_sysmon_time_buffer_t *buf_p)
 {
-    unsigned long value;
-    const char   *val_end;
-    int           val_count;
+    return &buf_p->sample[sample_count & (LINUX_SYSMON_RING_SIZE - 1)];
+}
 
-    /* each "cpu" line contains the cpu number followed by 9 values */
-    for (val_count = 0; val_count < 10 && *line_data != 0; ++val_count)
+/* -----------------------------------
+ * Get the idle tick difference between two samples
+ * ----------------------------------- */
+static unsigned long linux_sysmon_get_idle_ticks(linux_sysmon_statinfo_ticks_t *latest_p,
+                                                 linux_sysmon_statinfo_ticks_t *prev_p)
+{
+    return (latest_p->idle_ticks - prev_p->idle_ticks);
+}
+
+/* -----------------------------------
+ * Get the user tick difference between two samples
+ * ----------------------------------- */
+static unsigned long linux_sysmon_get_user_ticks(linux_sysmon_statinfo_ticks_t *latest_p,
+                                                 linux_sysmon_statinfo_ticks_t *prev_p)
+{
+    return (latest_p->user_ticks - prev_p->user_ticks);
+}
+
+/* -----------------------------------
+ * Get the system tick difference between two samples
+ * ----------------------------------- */
+static unsigned long linux_sysmon_get_sys_ticks(linux_sysmon_statinfo_ticks_t *latest_p,
+                                                linux_sysmon_statinfo_ticks_t *prev_p)
+{
+    return (latest_p->sys_ticks - prev_p->sys_ticks);
+}
+
+/* -----------------------------------
+ * Calculate the rate of increase for a tick count over the last sample period
+ * ----------------------------------- */
+static int64_t linux_sysmon_calc_tick_rate(uint32_t                        sample_id,
+                                           linux_sysmon_time_buffer_t     *time_buf,
+                                           linux_sysmon_statinfo_buffer_t *tick_buf,
+                                           unsigned long (*get_ticks_fn)(linux_sysmon_statinfo_ticks_t *,
+                                                                         linux_sysmon_statinfo_ticks_t *))
+{
+    linux_sysmon_statinfo_ticks_t *latest_p;
+    linux_sysmon_statinfo_ticks_t *prev_p;
+    OS_time_t                      latest_tm;
+    OS_time_t                      prev_tm;
+    int64_t                        elapsed_ms;
+    int64_t                        result_rate;
+
+    latest_tm  = *(linux_sysmon_get_time(sample_id, time_buf));
+    prev_tm    = *(linux_sysmon_get_time(sample_id - 1, time_buf));
+    elapsed_ms = OS_TimeGetTotalMilliseconds(OS_TimeSubtract(latest_tm, prev_tm));
+
+    if (elapsed_ms == 0)
     {
-        while (isspace((unsigned char)*line_data))
+        /* invalid sample data - do not divide by 0 */
+        result_rate = 0;
+    }
+    else
+    {
+        latest_p = linux_sysmon_get_buf(sample_id, tick_buf);
+        prev_p   = linux_sysmon_get_buf(sample_id - 1, tick_buf);
+
+        /*
+         * The resulting units for this calculation will be "jiffy increase per
+         * sampling interval" for the respective counter, but normalized/adjusted from
+         * the real/measured time between samples.
+         * This compensates for inconsistencies in the sampling task scheduling.
+         */
+        result_rate  = get_ticks_fn(latest_p, prev_p);
+        result_rate *= LINUX_SYSMON_PERIOD_MS;
+        result_rate /= elapsed_ms;
+    }
+
+    return result_rate;
+}
+
+/* -----------------------------------
+ * Parses a single "cpu" line from /proc/stat
+ * ----------------------------------- */
+static void
+linux_sysmon_read_cpuuse_line(const char *line_data, unsigned long *cpu_num, linux_sysmon_statinfo_ticks_t *output)
+{
+    unsigned long  value;
+    const char    *val_end;
+    int            val_count;
+    unsigned long *output_p;
+
+    unsigned long *const OUTPUT_MAP[LINUX_PROC_NUM_SLOTS] = {
+        [LINUX_PROC_CPUNUM_SLOT] = cpu_num,
+        [LINUX_PROC_USER_SLOT]   = &output->user_ticks,
+        [LINUX_PROC_SYSTEM_SLOT] = &output->sys_ticks,
+        [LINUX_PROC_IDLE_SLOT]   = &output->idle_ticks,
+    };
+
+    *cpu_num = 0;
+    memset(output, 0, sizeof(*output));
+
+    /* the initial line data should point at the cpu number,
+     * or blank for the aggregate statistics (the first line of stat output) */
+    val_count = 0;
+    if (isblank((int)(*line_data)))
+    {
+        /* no CPU number -- means aggregate */
+        ++val_count;
+        ++line_data;
+    }
+
+    /*
+     * each "cpu" line contains the cpu number followed by up to 10 numeric values,
+     * depending on the kernel version and config.  Not all is relevent to cFE.
+     * The important info is in the first few values.
+     */
+    while (val_count < LINUX_PROC_NUM_SLOTS && *line_data != 0)
+    {
+        while (isblank((int)(*line_data)))
         {
             ++line_data;
         }
         value = strtoul(line_data, (char **)&val_end, 10);
         if (val_end == line_data)
         {
-            /* not a number, something went wrong */
+            /* not a number, stop here */
             break;
         }
 
-        line_data = val_end;
-
-        switch (val_count)
+        output_p = OUTPUT_MAP[val_count];
+        if (output_p != NULL)
         {
-            case 0: /* this is the cpu number */
-                *cpu_num = value;
-                break;
-
-            case 7: /* this is the number of nanoseconds spent executing instructions on this CPU */
-                *run_time = value;
-                break;
-
-            default: /* don't care about this one */
-                break;
+            /* make it so real samples are always nonzero, 0 indicates unknown data */
+            /* note for tick counts we always take the diff between two samples, so this +1 cancels out */
+            *output_p = 1 + value;
         }
+
+        line_data = val_end;
+        ++val_count;
     }
 }
 
-void linux_sysmon_update_schedstat(linux_sysmon_cpuload_state_t *state, int elapsed_ms)
+/* -----------------------------------
+ * Read the /proc/stat file and store values to buffer
+ * ----------------------------------- */
+static void linux_sysmon_update_stat(linux_sysmon_statinfo_state_t *state)
 {
-    unsigned int  cpu_time_ms;
-    unsigned int  cpu_num;
-    unsigned int  highest_cpu_num;
-    unsigned long run_time;
-    char          line_data[256];
-    size_t        line_size;
-    ssize_t       line_rdsz;
-    char         *eol_p;
-    off_t         lseek_ret;
+    unsigned long                 highest_cpu_num;
+    unsigned long                 cpu_num;
+    linux_sysmon_statinfo_ticks_t sample_temp;
+    char                          line_data[256];
+    size_t                        line_size;
+    ssize_t                       line_rdsz;
+    char                         *eol_p;
+    off_t                         lseek_ret;
+    uint32_t                      next_count;
+    bool                          at_line_start;
 
-    linux_sysmon_cpuload_core_t *core_p;
+    linux_sysmon_statinfo_ticks_t *core_p;
 
     line_size       = 0;
     highest_cpu_num = 0;
+    at_line_start   = true;
+    next_count      = 1 + state->num_samples;
+
+    /* Sample the clock at the start */
+    /* it does not really matter if its not perfectly correlated */
+    CFE_PSP_GetTime(linux_sysmon_get_time(next_count, &state->sample_time));
 
     /* Reset to beginning of file to re-read it */
-    lseek_ret = lseek(state->dev_fd, 0, SEEK_SET);
+    lseek_ret = lseek(state->stat_fd, 0, SEEK_SET);
 
     if (lseek_ret == -1)
     {
+        /* this should never happen */
         OS_printf("CFE_PSP(linux_sysmon): lseek error: %s\n", strerror(errno));
+        state->should_run = false;
     }
 
-    while (true)
+    while (state->should_run)
     {
-        line_rdsz = read(state->dev_fd, &line_data[line_size], sizeof(line_data) - line_size);
-        if (line_rdsz <= 0)
+        line_rdsz = read(state->stat_fd, &line_data[line_size], sizeof(line_data) - line_size);
+        if (line_rdsz < 0)
         {
-            /* error (not expected) or EOF, stop reading */
+            /* error (not expected), stop reading */
+            break;
+        }
+
+        if (line_rdsz == 0)
+        {
+            /* EOF, stop reading.  This is a "good" result. */
+            state->num_cpus    = highest_cpu_num;
+            state->num_samples = next_count;
             break;
         }
 
@@ -198,51 +373,43 @@ void linux_sysmon_update_schedstat(linux_sysmon_cpuload_state_t *state, int elap
             *eol_p = 0;
             ++eol_p;
 
-            if (strncmp("cpu", line_data, 3) == 0)
+            if (at_line_start && strncmp("cpu", line_data, 3) == 0)
             {
-                cpu_num  = -1;
-                run_time = 0;
-                linux_sysmon_read_cpuuse_line(&line_data[3], &cpu_num, &run_time);
+                /* this should set all outputs to be >= 0 */
+                linux_sysmon_read_cpuuse_line(&line_data[3], &cpu_num, &sample_temp);
 
-                if (cpu_num < LINUX_SYSMON_MAX_CPUS)
+                LINUX_SYSMON_DEBUG("CFE_PSP(linux_sysmon): CPU%ld user=%ld sys=%ld idle=%ld\n",
+                                   cpu_num,
+                                   sample_temp.user_ticks,
+                                   sample_temp.sys_ticks,
+                                   sample_temp.idle_ticks);
+
+                if (cpu_num == 0)
                 {
-                    core_p = &state->per_core[cpu_num];
-                    if (cpu_num > highest_cpu_num)
-                    {
-                        highest_cpu_num = cpu_num;
-                    }
+                    core_p = linux_sysmon_get_buf(next_count, &state->aggregate);
+                }
+                else if (cpu_num <= LINUX_SYSMON_MAX_CPUS)
+                {
+                    core_p = linux_sysmon_get_buf(next_count, &state->per_core[cpu_num - 1]);
                 }
                 else
                 {
                     core_p = NULL;
                 }
 
+                if (cpu_num > highest_cpu_num)
+                {
+                    highest_cpu_num = cpu_num;
+                }
+
                 if (core_p != NULL)
                 {
-                    cpu_time_ms =
-                        OS_TimeGetTotalMilliseconds(OS_TimeFromTotalNanoseconds(run_time - core_p->last_run_time));
-                    core_p->last_run_time = run_time;
-                    if (cpu_time_ms >= elapsed_ms)
-                    {
-                        core_p->avg_load = 0xFFFFFF; /* max */
-                    }
-                    else if (elapsed_ms == 0)
-                    {
-                        core_p->avg_load = 0;
-                    }
-                    else
-                    {
-                        core_p->avg_load  = (0x1000 * cpu_time_ms) / elapsed_ms;
-                        core_p->avg_load |= (core_p->avg_load << 12); /* Expand from 12->24 bit */
-                    }
-                    LINUX_SYSMON_DEBUG("CFE_PSP(linux_sysmon): CPU%u time_ms=%u ms, load=%06x\n",
-                                       cpu_num,
-                                       cpu_time_ms,
-                                       (unsigned int)core_p->avg_load);
+                    *core_p = sample_temp;
                 }
             }
 
-            line_rdsz = eol_p - &line_data[0];
+            at_line_start = true;
+            line_rdsz     = eol_p - &line_data[0];
             if (line_rdsz < line_size)
             {
                 memmove(line_data, eol_p, line_size - line_rdsz);
@@ -258,47 +425,160 @@ void linux_sysmon_update_schedstat(linux_sysmon_cpuload_state_t *state, int elap
 
         if (line_size >= sizeof(line_data))
         {
-            /* not supposed to happen, drop data */
-            OS_printf("CFE_PSP(linux_sysmon): malformed data from /proc/schedstat\n");
-            break;
+            /* This is a long line - drop it (dont care about this stat) */
+            at_line_start = false;
+            line_size     = 0;
         }
     }
-
-    state->num_cpus = 1 + highest_cpu_num;
 }
 
-void *linux_sysmon_Task(void *arg)
+/* -----------------------------------
+ * Helper task to periodically read the /proc/stat file
+ * ----------------------------------- */
+static void *linux_sysmon_Task(void *arg)
 {
-    linux_sysmon_cpuload_state_t *state = arg;
+    linux_sysmon_statinfo_state_t *state = arg;
 
-    OS_time_t     last_sample;
-    OS_time_t     curr_sample;
-    OS_time_t     next_sample;
-    int           msec_diff;
-    struct pollfd pfd;
-
-    CFE_PSP_GetTime(&next_sample);
-    curr_sample = next_sample;
-    memset(&pfd, 0, sizeof(pfd));
-
-    linux_sysmon_update_schedstat(state, 0);
+    /* This first pass is to just prime the data structure with initial info */
+    /* This will cause two samples to be populated right from the start */
+    linux_sysmon_update_stat(state);
+    OS_TaskDelay(2000 / state->sys_hz); /* just to get a nonzero time between samples */
 
     while (state->should_run)
     {
-        next_sample = OS_TimeAdd(next_sample, OS_TimeFromTotalSeconds(LINUX_SYSMON_SAMPLE_DELAY));
-        msec_diff   = OS_TimeGetTotalMilliseconds(OS_TimeSubtract(next_sample, curr_sample));
-        if (msec_diff > 0)
-        {
-            poll(&pfd, 0, msec_diff);
-        }
+        linux_sysmon_update_stat(state);
 
-        last_sample = curr_sample;
-        CFE_PSP_GetTime(&curr_sample);
-        msec_diff = OS_TimeGetTotalMilliseconds(OS_TimeSubtract(curr_sample, last_sample));
-        linux_sysmon_update_schedstat(state, msec_diff);
+        /* this does not need to be scheduled accurately */
+        OS_TaskDelay(LINUX_SYSMON_PERIOD_MS);
     }
 
     return NULL;
+}
+
+/* -----------------------------------
+ * Convert a "jiffies per sampling period" rate into normalized 24-bit fraction
+ * ----------------------------------- */
+static CFE_PSP_IODriver_AdcCode_t linux_sysmon_normalize(int64_t load_units, int64_t total_units)
+{
+    int64_t result;
+
+    /* this should convert to a 24-bit value */
+    if (total_units == 0)
+    {
+        /* do not divide by 0 */
+        result = 0;
+    }
+    else
+    {
+        result = (0xFFFFFF * load_units) / total_units;
+
+        /* cap the output at the ADC code range (24-bit) */
+        if (result < 0)
+        {
+            /* min scale, 0% load */
+            result = 0;
+        }
+        else if (result > 0xFFFFFF)
+        {
+            /* max scale, 100% load */
+            result = 0xFFFFFF;
+        }
+    }
+
+    return (CFE_PSP_IODriver_AdcCode_t)result;
+}
+
+/* -----------------------------------
+ * Get the Per-CPU load (non-idle time) in normalized form
+ * ----------------------------------- */
+static CFE_PSP_IODriver_AdcCode_t linux_sysmon_get_single_core_nonidle_load(linux_sysmon_statinfo_state_t *state,
+                                                                            uint32_t                       core_num)
+{
+    int64_t idle_tick_rate;
+    int64_t max_jiffies;
+
+    idle_tick_rate = linux_sysmon_calc_tick_rate(state->num_samples,
+                                                 &state->sample_time,
+                                                 &state->per_core[core_num],
+                                                 linux_sysmon_get_idle_ticks);
+    max_jiffies    = (LINUX_SYSMON_PERIOD_MS * state->sys_hz) / 1000;
+
+    /* this needs to convert from "idle units" to "load units" (inverse) */
+    return linux_sysmon_normalize(max_jiffies - idle_tick_rate, max_jiffies);
+}
+
+/* -----------------------------------
+ * Get the Per-CPU User load in normalized form
+ * ----------------------------------- */
+static CFE_PSP_IODriver_AdcCode_t linux_sysmon_get_single_core_user_load(linux_sysmon_statinfo_state_t *state,
+                                                                         uint32_t                       core_num)
+{
+    int64_t user_tick_rate;
+    int64_t max_jiffies;
+
+    user_tick_rate = linux_sysmon_calc_tick_rate(state->num_samples,
+                                                 &state->sample_time,
+                                                 &state->per_core[core_num],
+                                                 linux_sysmon_get_user_ticks);
+    max_jiffies    = (LINUX_SYSMON_PERIOD_MS * state->sys_hz) / 1000;
+
+    return linux_sysmon_normalize(user_tick_rate, max_jiffies);
+}
+
+/* -----------------------------------
+ * Get the Per-CPU System/Kernel load in normalized form
+ * ----------------------------------- */
+static CFE_PSP_IODriver_AdcCode_t linux_sysmon_get_single_core_system_load(linux_sysmon_statinfo_state_t *state,
+                                                                           uint32_t                       core_num)
+{
+    int64_t user_tick_rate;
+    int64_t max_jiffies;
+
+    user_tick_rate = linux_sysmon_calc_tick_rate(state->num_samples,
+                                                 &state->sample_time,
+                                                 &state->per_core[core_num],
+                                                 linux_sysmon_get_sys_ticks);
+    max_jiffies    = (LINUX_SYSMON_PERIOD_MS * state->sys_hz) / 1000;
+
+    return linux_sysmon_normalize(user_tick_rate, max_jiffies);
+}
+
+/* -----------------------------------
+ * Get the aggregate/overall CPU load (non-idle time) in normalized form
+ * ----------------------------------- */
+static CFE_PSP_IODriver_AdcCode_t linux_sysmon_get_aggregate_load(linux_sysmon_statinfo_state_t *state)
+{
+    int64_t idle_tick_rate;
+    int64_t max_jiffies;
+
+    idle_tick_rate = linux_sysmon_calc_tick_rate(state->num_samples,
+                                                 &state->sample_time,
+                                                 &state->aggregate,
+                                                 linux_sysmon_get_idle_ticks);
+
+    /* the main diff here is that this is jiffies across all CPUs.  So if the SYS_HZ is 100
+     * and there are 4 CPUs, then there are 400 total jiffies per sec, not 100 */
+    max_jiffies = (LINUX_SYSMON_PERIOD_MS * state->sys_hz * state->num_cpus) / 1000;
+
+    /* this needs to convert from "idle units" to "load units" (inverse) */
+    return linux_sysmon_normalize(max_jiffies - idle_tick_rate, max_jiffies);
+}
+
+/***********************************************************************
+ * Global Functions
+ ********************************************************************/
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * linux_sysmon_Init()
+ * ------------------------------------------------------
+ *  Sets up the initial state
+ *
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+void linux_sysmon_Init(uint32_t local_module_id)
+{
+    memset(&linux_sysmon_global, 0, sizeof(linux_sysmon_global));
+
+    linux_sysmon_global.local_module_id = local_module_id;
 }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -307,7 +587,7 @@ void *linux_sysmon_Task(void *arg)
  *  Starts the cpu load watcher function
  *
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-int32_t linux_sysmon_Start(linux_sysmon_cpuload_state_t *state)
+int32_t linux_sysmon_Start(linux_sysmon_statinfo_state_t *state)
 {
     int32_t StatusCode;
     int32_t DelayCount;
@@ -324,10 +604,12 @@ int32_t linux_sysmon_Start(linux_sysmon_cpuload_state_t *state)
         memset(state, 0, sizeof(*state));
         StatusCode = CFE_PSP_ERROR;
 
-        state->dev_fd = open("/proc/schedstat", O_RDONLY);
-        if (state->dev_fd < 0)
+        /* determine the tick rate -- this is the unit for all counters in /proc/stat */
+        state->sys_hz  = sysconf(_SC_CLK_TCK);
+        state->stat_fd = open("/proc/stat", O_RDONLY);
+        if (state->stat_fd < 0)
         {
-            perror("open(/proc/schedstat)");
+            perror("open(/proc/stat)");
         }
         else
         {
@@ -338,7 +620,7 @@ int32_t linux_sysmon_Start(linux_sysmon_cpuload_state_t *state)
 
                 /* Clean up */
                 state->should_run = false;
-                close(state->dev_fd);
+                close(state->stat_fd);
             }
             else
             {
@@ -358,7 +640,7 @@ int32_t linux_sysmon_Start(linux_sysmon_cpuload_state_t *state)
                     state->should_run = false;
                     pthread_cancel(state->task_id);
                     pthread_join(state->task_id, NULL);
-                    close(state->dev_fd);
+                    close(state->stat_fd);
                 }
                 else
                 {
@@ -375,7 +657,13 @@ int32_t linux_sysmon_Start(linux_sysmon_cpuload_state_t *state)
     return StatusCode;
 }
 
-int32_t linux_sysmon_Stop(linux_sysmon_cpuload_state_t *state)
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * linux_sysmon_Stop()
+ * ------------------------------------------------------
+ *  Stops the cpu load watcher function
+ *
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+int32_t linux_sysmon_Stop(linux_sysmon_statinfo_state_t *state)
 {
     if (state->is_running)
     {
@@ -383,44 +671,25 @@ int32_t linux_sysmon_Stop(linux_sysmon_cpuload_state_t *state)
         state->is_running = false;
         pthread_cancel(state->task_id);
         pthread_join(state->task_id, NULL);
-        close(state->dev_fd);
+        close(state->stat_fd);
     }
 
     return CFE_PSP_SUCCESS;
 }
 
-int32_t linux_sysmon_calc_aggregate_cpu(linux_sysmon_cpuload_state_t *state, CFE_PSP_IODriver_AdcCode_t *Val)
-{
-    uint8_t  cpu;
-    uint32_t sum;
-
-    sum = 0;
-    for (cpu = 0; cpu < state->num_cpus; ++cpu)
-    {
-        sum += state->per_core[cpu].avg_load;
-    }
-
-    if (cpu == 0)
-    {
-        *Val = 0;
-        return CFE_PSP_ERROR;
-    }
-
-    /* average of all cpus */
-    sum /= cpu;
-    LINUX_SYSMON_DEBUG("CFE_PSP(linux_sysmon): Aggregate CPU load=%06x\n", (unsigned int)sum);
-    *Val = sum;
-
-    return CFE_PSP_SUCCESS;
-}
-
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * linux_sysmon_aggregate_dispatch()
+ * ------------------------------------------------------
+ *  Handle a request on the aggregate subsystem (main)
+ *
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 int32_t linux_sysmon_aggregate_dispatch(uint32_t CommandCode, uint16_t Subchannel, CFE_PSP_IODriver_Arg_t Arg)
 {
-    int32_t                       StatusCode;
-    linux_sysmon_cpuload_state_t *state;
+    int32_t                        StatusCode;
+    linux_sysmon_statinfo_state_t *state;
 
     /* There is just one global cpuload object */
-    state      = &linux_sysmon_global.cpu_load;
+    state      = &linux_sysmon_global.statinfo;
     StatusCode = CFE_PSP_ERROR_NOT_IMPLEMENTED;
     switch (CommandCode)
     {
@@ -464,7 +733,7 @@ int32_t linux_sysmon_aggregate_dispatch(uint32_t CommandCode, uint16_t Subchanne
         {
             uint16_t i;
 
-            for (i = 0; linux_sysmon_subsystem_names[i] != NULL; ++i)
+            for (i = 0; i < LINUX_SYSMON_MAX_SUBSYS; ++i)
             {
                 if (strcmp(Arg.ConstStr, linux_sysmon_subsystem_names[i]) == 0)
                 {
@@ -480,9 +749,9 @@ int32_t linux_sysmon_aggregate_dispatch(uint32_t CommandCode, uint16_t Subchanne
         {
             uint16_t i;
 
-            for (i = 0; linux_sysmon_subchannel_names[i] != NULL; ++i)
+            for (i = 0; i < LINUX_SYSMON_AGGR_MAX_SUBCH; ++i)
             {
-                if (strcmp(Arg.ConstStr, linux_sysmon_subchannel_names[i]) == 0)
+                if (strcmp(Arg.ConstStr, linux_sysmon_aggregate_subchannel_names[i]) == 0)
                 {
                     StatusCode = i;
                     break;
@@ -507,7 +776,8 @@ int32_t linux_sysmon_aggregate_dispatch(uint32_t CommandCode, uint16_t Subchanne
 
             if (RdWr->NumChannels == 1 && Subchannel == LINUX_SYSMON_AGGR_CPULOAD_SUBCH)
             {
-                StatusCode = linux_sysmon_calc_aggregate_cpu(state, RdWr->Samples);
+                *RdWr->Samples = linux_sysmon_get_aggregate_load(state);
+                StatusCode     = CFE_PSP_SUCCESS;
             }
             break;
         }
@@ -518,13 +788,23 @@ int32_t linux_sysmon_aggregate_dispatch(uint32_t CommandCode, uint16_t Subchanne
     return StatusCode;
 }
 
-int32_t linux_sysmon_cpu_load_dispatch(uint32_t CommandCode, uint16_t Subchannel, CFE_PSP_IODriver_Arg_t Arg)
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * linux_sysmon_cpu_load_dispatch()
+ * ------------------------------------------------------
+ *  Handle a request on any of the per-cpu subsystems
+ *
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+int32_t linux_sysmon_cpu_load_dispatch(uint32_t               CommandCode,
+                                       uint16_t               Subchannel,
+                                       CFE_PSP_IODriver_Arg_t Arg,
+                                       CFE_PSP_IODriver_AdcCode_t (*load_reader)(linux_sysmon_statinfo_state_t *state,
+                                                                                 uint32_t core_num))
 {
-    int32_t                       StatusCode;
-    linux_sysmon_cpuload_state_t *state;
+    int32_t                        StatusCode;
+    linux_sysmon_statinfo_state_t *state;
 
     /* There is just one global cpuload object */
-    state      = &linux_sysmon_global.cpu_load;
+    state      = &linux_sysmon_global.statinfo;
     StatusCode = CFE_PSP_ERROR_NOT_IMPLEMENTED;
     switch (CommandCode)
     {
@@ -545,9 +825,9 @@ int32_t linux_sysmon_cpu_load_dispatch(uint32_t CommandCode, uint16_t Subchannel
 
             if (Subchannel < state->num_cpus && (Subchannel + RdWr->NumChannels) <= state->num_cpus)
             {
-                for (ch = Subchannel; ch < (Subchannel + RdWr->NumChannels); ++ch)
+                for (ch = 0; ch < RdWr->NumChannels; ++ch)
                 {
-                    RdWr->Samples[ch] = state->per_core[ch].avg_load;
+                    RdWr->Samples[ch] = load_reader(state, ch + Subchannel);
                 }
             }
             break;
@@ -590,7 +870,20 @@ linux_sysmon_DevCmd(uint32_t CommandCode, uint16_t SubsystemId, uint16_t Subchan
             StatusCode = linux_sysmon_aggregate_dispatch(CommandCode, SubchannelId, Arg);
             break;
         case LINUX_SYSMON_CPULOAD_SUBSYS:
-            StatusCode = linux_sysmon_cpu_load_dispatch(CommandCode, SubchannelId, Arg);
+            StatusCode = linux_sysmon_cpu_load_dispatch(CommandCode,
+                                                        SubchannelId,
+                                                        Arg,
+                                                        linux_sysmon_get_single_core_nonidle_load);
+            break;
+        case LINUX_SYSMON_PERCPU_USER_SUBSYS:
+            StatusCode =
+                linux_sysmon_cpu_load_dispatch(CommandCode, SubchannelId, Arg, linux_sysmon_get_single_core_user_load);
+            break;
+        case LINUX_SYSMON_PERCPU_KERNEL_SUBSYS:
+            StatusCode = linux_sysmon_cpu_load_dispatch(CommandCode,
+                                                        SubchannelId,
+                                                        Arg,
+                                                        linux_sysmon_get_single_core_system_load);
             break;
         default:
             /* not implemented */
