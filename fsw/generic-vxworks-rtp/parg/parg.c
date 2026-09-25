@@ -30,7 +30,7 @@
 /*
  * Check if state is at end of argv.
  */
-static int is_argv_end(const struct parg_state *ps, int argc, char *const argv[])
+static int is_argv_end(const struct parg_state *ps, int argc, const char *const argv[])
 {
     return ps->optind >= argc || argv[ps->optind] == NULL;
 }
@@ -38,7 +38,7 @@ static int is_argv_end(const struct parg_state *ps, int argc, char *const argv[]
 /*
  * Match nextchar against optstring.
  */
-static int match_short(struct parg_state *ps, int argc, char *const argv[], const char *optstring)
+static int match_short(struct parg_state *ps, int argc, const char *const argv[], const char *optstring)
 {
     const char *p = strchr(optstring, *ps->nextchar);
 
@@ -85,7 +85,7 @@ static int match_short(struct parg_state *ps, int argc, char *const argv[], cons
  */
 static int match_long(struct parg_state        *ps,
                       int                       argc,
-                      char *const               argv[],
+                      const char *const         argv[],
                       const char               *optstring,
                       const struct parg_option *longopts,
                       int                      *longindex)
@@ -173,14 +173,14 @@ void parg_init(struct parg_state *ps)
     ps->nextchar = NULL;
 }
 
-int parg_getopt(struct parg_state *ps, int argc, char *const argv[], const char *optstring)
+int parg_getopt(struct parg_state *ps, int argc, const char *const argv[], const char *optstring)
 {
     return parg_getopt_long(ps, argc, argv, optstring, NULL, NULL);
 }
 
 int parg_getopt_long(struct parg_state        *ps,
                      int                       argc,
-                     char *const               argv[],
+                     const char *const         argv[],
                      const char               *optstring,
                      const struct parg_option *longopts,
                      int                      *longindex)
@@ -241,13 +241,13 @@ int parg_getopt_long(struct parg_state        *ps,
 /*
  * Reverse elements of `v` from `i` to `j`.
  */
-static void reverse(char *v[], int i, int j)
+static void reverse(const char *v[], int i, int j)
 {
     while (j - i > 1)
     {
-        char *tmp = v[i];
-        v[i]      = v[j - 1];
-        v[j - 1]  = tmp;
+        const char *tmp = v[i];
+        v[i]            = v[j - 1];
+        v[j - 1]        = tmp;
         ++i;
         --j;
     }
@@ -262,7 +262,7 @@ static void reverse(char *v[], int i, int j)
  * The algorithm is described here:
  * http://hardtoc.com/2016/11/07/reordering-arguments.html
  */
-static int parg_reorder_simple(int argc, char *argv[], const char *optstring, const struct parg_option *longopts)
+static int parg_reorder_simple(int argc, const char *argv[], const char *optstring, const struct parg_option *longopts)
 {
     struct parg_state ps;
     int               change;
@@ -351,7 +351,7 @@ static int parg_reorder_simple(int argc, char *argv[], const char *optstring, co
     return l + (r - m);
 }
 
-int parg_reorder(int argc, char *argv[], const char *optstring, const struct parg_option *longopts)
+int parg_reorder(int argc, const char *argv[], const char *optstring, const struct parg_option *longopts)
 {
     struct parg_state ps;
     int               lastind;

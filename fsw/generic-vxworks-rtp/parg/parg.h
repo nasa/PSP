@@ -126,7 +126,7 @@ extern "C"
      * arguments, '`?`' on unmatched option, '`?`' or '`:`' on option argument
      * error
      */
-    int parg_getopt(struct parg_state *ps, int argc, char *const argv[], const char *optstring);
+    int parg_getopt(struct parg_state *ps, int argc, const char *const argv[], const char *optstring);
 
     /**
      * Parse next long or short option in `argv`.
@@ -176,7 +176,7 @@ extern "C"
      */
     int parg_getopt_long(struct parg_state        *ps,
                          int                       argc,
-                         char *const               argv[],
+                         const char *const         argv[],
                          const char               *optstring,
                          const struct parg_option *longopts,
                          int                      *longindex);
@@ -195,7 +195,7 @@ extern "C"
      * @param longopts array of `parg_option` structures
      * @return index of first nonoption in `argv` on success, `-1` on error
      */
-    int parg_reorder(int argc, char *argv[], const char *optstring, const struct parg_option *longopts);
+    int parg_reorder(int argc, const char *argv[], const char *optstring, const struct parg_option *longopts);
 
 #ifdef __cplusplus
 } /* extern "C" */
