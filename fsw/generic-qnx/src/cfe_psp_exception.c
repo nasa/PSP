@@ -55,7 +55,7 @@ S
 /*
  * A set of asynchronous signals which will be masked during other signal processing
  */
-sigset_t CFE_PSP_AsyncMask;
+static sigset_t CFE_PSP_AsyncMask;
 
 /***************************************************************************
  **                        FUNCTIONS DEFINITIONS
