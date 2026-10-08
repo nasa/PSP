@@ -822,13 +822,27 @@ int32_t linux_sysmon_cpu_load_dispatch(uint32_t               CommandCode,
         {
             CFE_PSP_IODriver_AnalogRdWr_t *RdWr = Arg.Vptr;
             uint32_t                       ch;
+            uint32_t                       cpu_num;
 
-            if (Subchannel < state->num_cpus && (Subchannel + RdWr->NumChannels) <= state->num_cpus)
+            ch = 0;
+            while (true)
             {
-                for (ch = 0; ch < RdWr->NumChannels; ++ch)
+                if (ch >= RdWr->NumChannels)
                 {
-                    RdWr->Samples[ch] = load_reader(state, ch + Subchannel);
+                    /* completed successfully */
+                    StatusCode = CFE_PSP_SUCCESS;
+                    break;
                 }
+
+                cpu_num = ch + Subchannel;
+                if (cpu_num >= LINUX_SYSMON_MAX_CPUS || cpu_num >= state->num_cpus)
+                {
+                    /* CPU number beyond configured limit, no data available. */
+                    break;
+                }
+
+                RdWr->Samples[ch] = load_reader(state, cpu_num);
+                ++ch;
             }
             break;
         }
