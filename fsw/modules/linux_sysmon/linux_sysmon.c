@@ -272,7 +272,7 @@ linux_sysmon_read_cpuuse_line(const char *line_data, unsigned long *cpu_num, lin
     /* the initial line data should point at the cpu number,
      * or blank for the aggregate statistics (the first line of stat output) */
     val_count = 0;
-    if (isblank((int)(*line_data)))
+    if (isblank((unsigned char)(*line_data)))
     {
         /* no CPU number -- means aggregate */
         ++val_count;
@@ -286,7 +286,7 @@ linux_sysmon_read_cpuuse_line(const char *line_data, unsigned long *cpu_num, lin
      */
     while (val_count < LINUX_PROC_NUM_SLOTS && *line_data != 0)
     {
-        while (isblank((int)(*line_data)))
+        while (isblank((unsigned char)(*line_data)))
         {
             ++line_data;
         }
