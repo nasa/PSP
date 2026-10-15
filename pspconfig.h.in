@@ -78,5 +78,15 @@
 #define CFE_PSP_CF_PHY_DEV_VIRTUAL_MAPPING     "@PSP_CONFIG_CF_PHY_DEV_VIRTUAL_MAPPING@"
 
 
+ /**
+  * \brief The default path for simulated EEPROM.DAT file
+  *
+  * Based on the PSP_CONFIG_SIMULATED_EEPROM_FILE_PATH configuration option
+  *
+  * \note This value must not end with the '/' character and include a terminating NUL character
+  */
+#define CFE_PSP_SIMULATED_EEPROM_FILE_PATH     "@PSP_CONFIG_SIMULATED_EEPROM_FILE_PATH@"
+
+
 #endif      /* PSPCONFIG_H */
 

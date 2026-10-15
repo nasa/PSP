@@ -55,8 +55,14 @@ void UT_DefaultHandler_CFE_PSP_GetResetArea(void *UserObj, UT_EntryKey_t FuncKey
     {
         UT_GetDataBuffer(UT_KEY(CFE_PSP_GetResetArea), &TempAddr, &TempSize, NULL);
 
-        *PtrToResetArea  = (cpuaddr)TempAddr;
-        *SizeOfResetArea = TempSize;
+        if (PtrToResetArea)
+        {
+            *PtrToResetArea = (cpuaddr)TempAddr;
+        }
+        if (SizeOfResetArea)
+        {
+            *SizeOfResetArea = TempSize;
+        }
     }
 }
 
@@ -76,8 +82,14 @@ void UT_DefaultHandler_CFE_PSP_GetVolatileDiskMem(void *UserObj, UT_EntryKey_t F
     {
         UT_GetDataBuffer(UT_KEY(CFE_PSP_GetVolatileDiskMem), &TempAddr, &TempSize, NULL);
 
-        *PtrToVolDisk  = (cpuaddr)TempAddr;
-        *SizeOfVolDisk = TempSize;
+        if (PtrToVolDisk != NULL)
+        {
+            *PtrToVolDisk = (cpuaddr)TempAddr;
+        }
+        if (SizeOfVolDisk != NULL)
+        {
+            *SizeOfVolDisk = TempSize;
+        }
     }
 }
 
@@ -102,12 +114,16 @@ void UT_DefaultHandler_CFE_PSP_GetCFETextSegmentInfo(void                   *Use
         if (TempAddr == NULL)
         {
             /* Backup -- Set the pointer and size to anything */
-            *PtrToCFESegment  = (cpuaddr)&LocalTextSegment;
-            *SizeOfCFESegment = sizeof(LocalTextSegment);
+            TempAddr = &LocalTextSegment;
+            TempSize = sizeof(LocalTextSegment);
         }
-        else
+
+        if (PtrToCFESegment)
         {
-            *PtrToCFESegment  = (cpuaddr)TempAddr;
+            *PtrToCFESegment = (cpuaddr)TempAddr;
+        }
+        if (SizeOfCFESegment)
+        {
             *SizeOfCFESegment = TempSize;
         }
     }
@@ -117,7 +133,6 @@ void UT_DefaultHandler_CFE_PSP_GetKernelTextSegmentInfo(void                   *
                                                         UT_EntryKey_t           FuncKey,
                                                         const UT_StubContext_t *Context)
 {
-    /* int32 CFE_PSP_GetKernelTextSegmentInfo(cpuaddr *PtrToKernelSegment, uint32 *SizeOfKernelSegment) */
     cpuaddr *PtrToKernelSegment  = UT_Hook_GetArgValueByName(Context, "PtrToKernelSegment", cpuaddr *);
     uint32  *SizeOfKernelSegment = UT_Hook_GetArgValueByName(Context, "SizeOfKernelSegment", uint32 *);
 
@@ -134,12 +149,16 @@ void UT_DefaultHandler_CFE_PSP_GetKernelTextSegmentInfo(void                   *
         if (TempAddr == NULL)
         {
             /* Backup -- Set the pointer and size to anything */
-            *PtrToKernelSegment  = (cpuaddr)&LocalTextSegment;
-            *SizeOfKernelSegment = sizeof(LocalTextSegment);
+            TempAddr = &LocalTextSegment;
+            TempSize = sizeof(LocalTextSegment);
         }
-        else
+
+        if (PtrToKernelSegment)
         {
-            *PtrToKernelSegment  = (cpuaddr)TempAddr;
+            *PtrToKernelSegment = (cpuaddr)TempAddr;
+        }
+        if (SizeOfKernelSegment)
+        {
             *SizeOfKernelSegment = TempSize;
         }
     }

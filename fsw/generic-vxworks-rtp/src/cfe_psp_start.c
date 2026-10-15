@@ -231,16 +231,6 @@ int32 CFE_PSP_OS_EventHandler(OS_Event_t event, osal_id_t object_id, void *data)
                 **    pthread_setaffinity_np(pthread_self(), sizeof(cpuset), &cpuset);
                 ** }
                 */
-                /*
-                 * glibc/kernel has an internal limit for this name.
-                 * If the OSAL name is longer, just truncate it.
-                 * Otherwise the name isn't set at all - this assumes the first
-                 * chars of the name is better for debug than none of it.
-                 */
-                if (strlen(taskname) >= CFE_PSP_KERNEL_NAME_LENGTH_MAX)
-                {
-                    taskname[CFE_PSP_KERNEL_NAME_LENGTH_MAX - 1] = 0;
-                }
                 /* pthread_setname_np is not in the VxWorks SR650 SDK */
                 /* SR0650 supports pthread_attr_setname, but that would require an OSAL modification */
                 /* pthread_setname_np(pthread_self(), taskname);  */

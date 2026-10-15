@@ -184,6 +184,34 @@ uint64 CFE_PSP_HtoLE64(uint64 host_64bits)
 
 /*
  * ----------------------------------------------------
+ * Generated stub function for CFE_PSP_IsBigEndian()
+ * ----------------------------------------------------
+ */
+bool CFE_PSP_IsBigEndian(void)
+{
+    UT_GenStub_SetupReturnBuffer(CFE_PSP_IsBigEndian, bool);
+
+    UT_GenStub_Execute(CFE_PSP_IsBigEndian, Basic, NULL);
+
+    return UT_GenStub_GetReturnValue(CFE_PSP_IsBigEndian, bool);
+}
+
+/*
+ * ----------------------------------------------------
+ * Generated stub function for CFE_PSP_IsLittleEndian()
+ * ----------------------------------------------------
+ */
+bool CFE_PSP_IsLittleEndian(void)
+{
+    UT_GenStub_SetupReturnBuffer(CFE_PSP_IsLittleEndian, bool);
+
+    UT_GenStub_Execute(CFE_PSP_IsLittleEndian, Basic, NULL);
+
+    return UT_GenStub_GetReturnValue(CFE_PSP_IsLittleEndian, bool);
+}
+
+/*
+ * ----------------------------------------------------
  * Generated stub function for CFE_PSP_LE16toH()
  * ----------------------------------------------------
  */

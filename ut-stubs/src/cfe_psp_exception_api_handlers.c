@@ -85,11 +85,13 @@ void UT_DefaultHandler_CFE_PSP_Exception_CopyContext(void                   *Use
 
     UT_Stub_GetInt32StatusCode(Context, &status);
 
-    if (status >= 0 && ContextBuf != NULL && ContextSize != 0)
+    if (status == 0 && ContextBuf != NULL && ContextSize != 0)
     {
-        if (UT_Stub_CopyToLocal(UT_KEY(CFE_PSP_Exception_CopyContext), ContextBuf, ContextSize) < ContextSize)
+        status = UT_Stub_CopyToLocal(UT_KEY(CFE_PSP_Exception_CopyContext), ContextBuf, ContextSize);
+        if (status == 0)
         {
             memset(ContextBuf, 0, ContextSize);
         }
+        UT_Stub_SetReturnValue(FuncKey, status);
     }
 }

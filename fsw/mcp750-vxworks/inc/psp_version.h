@@ -27,7 +27,7 @@
 /*
  * Development Build Macro Definitions
  */
-#define CFE_PSP_IMPL_BUILD_NUMBER   0
+#define CFE_PSP_IMPL_BUILD_NUMBER   1
 #define CFE_PSP_IMPL_BUILD_BASELINE "v7.0.1"
 #define CFE_PSP_BUILD_DEV_CYCLE     "v7.0.1" /**< @brief Development: Release name for current development cycle */
 #define CFE_PSP_BUILD_CODENAME      "Draco"  /**< @brief: Development: Code name for the current build */
@@ -51,7 +51,7 @@
  * Values 1-254 are reserved for mission use to denote patches/customizations as needed. NOTE: Reserving 0 and 0xFF for
  * cFS open-source development use (pending resolution of nasa/cFS#440)
  */
-#define CFE_PSP_IMPL_MISSION_REV 0x0
+#define CFE_PSP_IMPL_MISSION_REV 0xFF
 
 /*
  * Tools to construct version string

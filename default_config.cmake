@@ -112,4 +112,9 @@ set(PSP_CONFIG_CF_PHY_DEV_VIRTUAL_MAPPING      "CF:0"
     CACHE STRING "Default virtual FS mapping for the physical device /cf directory"
 )
 
+# The default path for simulated EEPROM.DAT file
+set(PSP_CONFIG_SIMULATED_EEPROM_FILE_PATH      "./cf"
+    CACHE STRING "Default path for simulated EEPROM.DAT file"
+)
+
 

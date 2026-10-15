@@ -32,7 +32,7 @@
  * \file
  * \ingroup  modules
  *
- * Coverage test for VxWorks timebase module implementation
+ * Coverage test for EEPROM MMAP File module implementation
  */
 
 #include "utassert.h"
@@ -63,8 +63,17 @@ void Test_eeprom_mmap_file_Init(void)
     /*
     void eeprom_mmap_file_Init(uint32 PspModuleId)
     */
+    char LocalBuffer[OS_MAX_PATH_LEN];
+
+    /* Set up buffers for emulated calls to OS_TranslatePath */
+    UT_SetDataBuffer(UT_KEY(snprintf), LocalBuffer, sizeof(LocalBuffer), false);
+    UT_SetDataBuffer(UT_KEY(snprintf), LocalBuffer, sizeof(LocalBuffer), false);
+    UT_SetDataBuffer(UT_KEY(snprintf), LocalBuffer, sizeof(LocalBuffer), false);
+    UT_SetDataBuffer(UT_KEY(snprintf), LocalBuffer, sizeof(LocalBuffer), false);
+    UT_SetDataBuffer(UT_KEY(snprintf), LocalBuffer, sizeof(LocalBuffer), false);
 
     /* nominal */
+    UT_SetDefaultReturnValue(UT_KEY(snprintf), 1);
     UtAssert_VOIDCALL(eeprom_mmap_file_Init(1));
 
     /* fail to mmap file */
@@ -77,6 +86,10 @@ void Test_eeprom_mmap_file_Init(void)
 
     /* fail to resize file */
     UT_SetDeferredRetcode(UT_KEY(PCS_ftruncate), 1, -1);
+    UtAssert_VOIDCALL(eeprom_mmap_file_Init(1));
+
+    /* fail to translate file path */
+    UT_SetDefaultReturnValue(UT_KEY(snprintf), -1);
     UtAssert_VOIDCALL(eeprom_mmap_file_Init(1));
 }
 

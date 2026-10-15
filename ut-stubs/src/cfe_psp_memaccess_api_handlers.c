@@ -84,15 +84,15 @@ void UT_DefaultHandler_CFE_PSP_MemSet(void *UserObj, UT_EntryKey_t FuncKey, cons
 void UT_DefaultHandler_CFE_PSP_MemRead8(void *UserObj, UT_EntryKey_t FuncKey, const UT_StubContext_t *Context)
 {
     /* int32 CFE_PSP_MemRead8(cpuaddr MemoryAddress, uint8 *ByteValue) */
-    uint8 *outptr = UT_Hook_GetArgValueByName(Context, "ByteValue", uint8 *);
+    uint8 *ByteValue = UT_Hook_GetArgValueByName(Context, "ByteValue", uint8 *);
     int32  Status;
 
     UT_Stub_GetInt32StatusCode(Context, &Status);
-    if (Status == CFE_PSP_SUCCESS && outptr != NULL)
+    if (Status == CFE_PSP_SUCCESS && ByteValue != NULL)
     {
-        if (UT_Stub_CopyToLocal(FuncKey, outptr, sizeof(*outptr)) != sizeof(*outptr))
+        if (UT_Stub_CopyToLocal(FuncKey, ByteValue, sizeof(*ByteValue)) < sizeof(*ByteValue))
         {
-            *outptr = 1;
+            *ByteValue = 1;
         }
     }
 }

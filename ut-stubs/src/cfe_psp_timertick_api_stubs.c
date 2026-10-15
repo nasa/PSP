@@ -28,6 +28,7 @@
 void UT_DefaultHandler_CFE_PSP_GetTime(void *, UT_EntryKey_t, const UT_StubContext_t *);
 void UT_DefaultHandler_CFE_PSP_GetTimerLow32Rollover(void *, UT_EntryKey_t, const UT_StubContext_t *);
 void UT_DefaultHandler_CFE_PSP_GetTimerTicksPerSecond(void *, UT_EntryKey_t, const UT_StubContext_t *);
+void UT_DefaultHandler_CFE_PSP_Get_Timebase(void *, UT_EntryKey_t, const UT_StubContext_t *);
 
 /*
  * ----------------------------------------------------
@@ -79,5 +80,5 @@ void CFE_PSP_Get_Timebase(uint32 *Tbu, uint32 *Tbl)
     UT_GenStub_AddParam(CFE_PSP_Get_Timebase, uint32 *, Tbu);
     UT_GenStub_AddParam(CFE_PSP_Get_Timebase, uint32 *, Tbl);
 
-    UT_GenStub_Execute(CFE_PSP_Get_Timebase, Basic, NULL);
+    UT_GenStub_Execute(CFE_PSP_Get_Timebase, Basic, UT_DefaultHandler_CFE_PSP_Get_Timebase);
 }

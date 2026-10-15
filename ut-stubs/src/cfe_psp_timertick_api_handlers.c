@@ -47,7 +47,7 @@ void UT_DefaultHandler_CFE_PSP_GetTime(void *UserObj, UT_EntryKey_t FuncKey, con
 
     UT_Stub_GetInt32StatusCode(Context, &status);
 
-    if (status >= 0)
+    if (status >= 0 && LocalTime != NULL)
     {
         if (UT_Stub_CopyToLocal(UT_KEY(CFE_PSP_GetTime), (uint8 *)LocalTime, sizeof(*LocalTime)) < sizeof(*LocalTime))
         {
@@ -80,5 +80,23 @@ void UT_DefaultHandler_CFE_PSP_GetTimerLow32Rollover(void                   *Use
     {
         retval = 100000;
         UT_Stub_SetReturnValue(FuncKey, retval);
+    }
+}
+
+void UT_DefaultHandler_CFE_PSP_Get_Timebase(void *UserObj, UT_EntryKey_t FuncKey, const UT_StubContext_t *Context)
+{
+    uint32 *Tbu = UT_Hook_GetArgValueByName(Context, "Tbu", uint32 *);
+    uint32 *Tbl = UT_Hook_GetArgValueByName(Context, "Tbl", uint32 *);
+
+    if (!UT_Stub_GetInt32StatusCode(Context, NULL))
+    {
+        if (Tbu)
+        {
+            *Tbu = 0;
+        }
+        if (Tbl)
+        {
+            *Tbl = 0;
+        }
     }
 }
