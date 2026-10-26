@@ -226,7 +226,7 @@ void OS_Application_Startup(void)
     uint32       reset_type;
     uint32       reset_subtype;
     osal_id_t    fs_id;
-    int          opt       = 0;
+    int          opt;
     int          longIndex = 0;
     int32        Status;
     char *const *argv;

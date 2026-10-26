@@ -269,7 +269,7 @@ void CFE_PSP_SetDefaultExceptionEnvironment(void)
 
 int32 CFE_PSP_ExceptionGetSummary_Impl(const CFE_PSP_Exception_LogData_t *Buffer, char *ReasonBuf, uint32 ReasonSize)
 {
-    const char *ComputedReason = "unknown";
+    const char *ComputedReason;
 
     /* check the "code" within the siginfo structure, which reveals more info about the FP exception */
     if (Buffer->context_info.si.si_signo == SIGFPE)
