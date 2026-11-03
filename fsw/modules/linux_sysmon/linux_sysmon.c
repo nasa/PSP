@@ -591,6 +591,7 @@ int32_t linux_sysmon_Start(linux_sysmon_statinfo_state_t *state)
 {
     int32_t StatusCode;
     int32_t DelayCount;
+    int     PthreadStatus;
 
     DelayCount = 0;
     if (state->is_running)
@@ -614,9 +615,10 @@ int32_t linux_sysmon_Start(linux_sysmon_statinfo_state_t *state)
         else
         {
             state->should_run = true;
-            if (pthread_create(&state->task_id, NULL, linux_sysmon_Task, state) < 0)
+            PthreadStatus = pthread_create(&state->task_id, NULL, linux_sysmon_Task, state);
+            if (PthreadStatus != 0)
             {
-                perror("pthread_create()");
+                OS_printf("CFE_PSP(Linux_SysMon): pthread_create failed: %s (%d)\n", strerror(PthreadStatus), PthreadStatus);
 
                 /* Clean up */
                 state->should_run = false;
