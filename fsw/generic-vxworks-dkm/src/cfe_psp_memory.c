@@ -171,12 +171,12 @@ int32 CFE_PSP_WriteToCDS(const void *PtrToDataToWrite, uint32 CDSOffset, uint32 
  * See description in header file for argument/return detail
  *
  *-----------------------------------------------------------------*/
-int32 CFE_PSP_ReadFromCDS(void *PtrToDataToRead, uint32 CDSOffset, uint32 NumBytes)
+int32 CFE_PSP_ReadFromCDS(void *PtrToDataFromRead, uint32 CDSOffset, uint32 NumBytes)
 {
     uint8 *CopyPtr;
     int32  return_code;
 
-    if (PtrToDataToRead == NULL)
+    if (PtrToDataFromRead == NULL)
     {
         return_code = OS_ERROR;
     }
@@ -187,7 +187,7 @@ int32 CFE_PSP_ReadFromCDS(void *PtrToDataToRead, uint32 CDSOffset, uint32 NumByt
         {
             CopyPtr  = CFE_PSP_ReservedMemoryMap.CDSMemory.BlockPtr;
             CopyPtr += CDSOffset;
-            memcpy((char *)PtrToDataToRead, (char *)CopyPtr, NumBytes);
+            memcpy((char *)PtrToDataFromRead, (char *)CopyPtr, NumBytes);
 
             return_code = OS_SUCCESS;
         }
