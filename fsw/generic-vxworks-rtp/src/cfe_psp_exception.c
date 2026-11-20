@@ -345,6 +345,7 @@ int32 CFE_PSP_ExceptionGetSummary_Impl(const CFE_PSP_Exception_LogData_t *Buffer
                 break;
             default:
                 ComputedReason = "Unknown SIGFPE";
+                break;
         }
         (void)snprintf(ReasonBuf,
                        ReasonSize,
